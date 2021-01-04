@@ -12,137 +12,122 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
     @font-face {
-            font-family: 'Wemakeprice-Bold';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Wemakeprice-Bold.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
+        src : url("./BMJUA_ttf.ttf");
+        font-family: "jua";
+        font-weight: normal;
+        font-style: normal;
+    }
+    body{
+        font-family: "jua";
+    }
+    .admin-wrap {
+        margin: 0 auto;
+        width: 1500px;
+        height: 1000px;
+        border-radius: 20px;
+        background-color: #9f807d;
+    }
+    
+    .admin-menu {
+        width: 200px;
+        text-align: center;
+        margin-top: 30px;
+        height: 900px;
+        background-color: #9f807d;
+        display: inline-block;
+        float: left;
+    }
 
-        @font-face {
-            font-family: 'GmarketSansMedium';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
+    .div1 {
+        height: 20%;
+    }
 
-        @font-face {
-            font-family: 'GmarketSansBold';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
+    .menuBox {
+        height: 600px;
+        margin: 0 auto;
+        padding: 0;
+    }
 
-        .admin-wrap {
-            margin: 0 auto;
-            width: 1500px;
-            height: 1000px;
-            border-radius: 20px;
-            background-color: #9f807d;
-        }
+    .menu {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        font-weight: bold;
+    }
 
-        .admin-menu {
-            width: 200px;
-            text-align: center;
-            margin-top: 30px;
-            height: 900px;
-            background-color: #9f807d;
-            display: inline-block;
-            float: left;
-        }
+    .profile-title {        
+        font-size: 20pt;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #56373c;
+    }
 
-        .div1 {
-            height: 20%;
-        }
+    .icon {
+        width: 30px;
+        float: left;
+    }
 
-        .menuBox {
-            height: 600px;
-            margin: 0 auto;
-            padding: 0;
-        }
+    .menu li>a {        
+        display: block;
+        height: 45px;
+        line-height: 45px;
+        font-size: 10pt;
+        color: #391e22;
+        text-decoration: none;
+    }
 
-        .menu {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            font-weight: bold;
-        }
+    .menu>li {
+        text-align: left;
+        text-indent: 10px;
+        margin-left: 15px;
+        padding-left: 15px;
+        padding-top: 5px;
+    }
 
-        .profile-title {
-            font-family: 'Wemakeprice-Bold';
-            font-size: 20pt;
-            margin-bottom: 20px;
-            font-weight: bold;
-            color: #56373c;
-        }
+    .div2 {
+        height: 10%;
+    }
 
-        .icon {
-            width: 30px;
-            float: left;
-        }
+    .admin-content {
+        width: 1200px;         
+        float: left;
+        display: inline-block;
+        height: 950px;
+        border-radius: 10px;
+        margin: 20px;
+        background-color: white;
+        text-align: center;
+    }
 
-        .menu li>a {
-            font-family: 'GmarketSansMedium';
-            display: block;
-            height: 45px;
-            line-height: 45px;
-            font-size: 10pt;
-            color: #391e22;
-            text-decoration: none;
-        }
+    .real-content {
+        display: inline-block;
+    }
 
-        .menu>li {
-            text-align: left;
-            text-indent: 10px;
-            margin-left: 15px;
-            padding-left: 15px;
-            padding-top: 5px;
-        }
+    .title {
+        text-align: left;
+        font-size: 25pt;
+    }
+    .th-short{
+        width: 120px;
+    }
+    .th-long{
+        width: 200px;
+    }
+    .table th{
+        font-size: 11pt;
+    }
+    .table td{
+        font-size: 10pt;
+    }
+    #pageNavi>*{
+        text-align: center;
+        margin: 10px;
+    }
+    .selectPage{
+        color : #5f7880;
+        font-weight: bold;
 
-        .div2 {
-            height: 10%;
-        }
-
-        .admin-content {
-            width: 1200px;         
-            float: left;
-            display: inline-block;
-            height: 950px;
-            border-radius: 10px;
-            margin: 20px;
-            background-color: white;
-            text-align: center;
-        }
-
-        .real-content {
-            display: inline-block;
-        }
-
-        .title {
-            text-align: left;
-            font-family: 'GmarketSansBold';
-            font-size: 25pt;
-        }
-        .th-short{
-            width: 120px;
-        }
-        .th-long{
-            width: 200px;
-        }
-        .table th{
-            font-size: 11pt;
-        }
-        .table td{
-            font-size: 10pt;
-        }
-        #pageNavi>*{
-        	text-align: center;
-        	margin: 10px;
-        }
-        .selectPage{
-        	color : #5f7880;
-        	font-weight: bold;
-        	
-        }
+    }
 </style>
 <script>
         $(function() {
