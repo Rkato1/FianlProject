@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원관리 페이지</title>
+<title>사업자관리 페이지</title>
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean" rel="stylesheet">
@@ -151,20 +152,20 @@
                 <ul class="menu">
                     <li>
                         <a href="/">
-                            <img src="img/icon_Home.svg" class="icon">
-                            회원관리
+                            <img src="img/icon_Home.svg" class="icon">\
+                           	회원관리
                         </a>
                     </li>
                     <li>
                         <a href="/adminMembers?reqPage=1">
                             <img src="img/icon_members.svg" class="icon">
-                            사업자관리
+                                                        사업자관리
                         </a>
                     </li>
                     <li>
                         <a href="/reservationAllSearch?reqPage=1">
                             <img src="img/icon_reservation.svg" class="icon">
-                            예약관리
+                            	예약관리
                         </a>
                     </li>
                     <li>
@@ -194,31 +195,29 @@
             <div class="div2"></div>
             <div class="real-content">
                 <div class="members">
-                    <p class="title"> 전체사용자정보 </p>
+                    <p class="title">전체사업자정보</p>
                    
                     <table class="table table-hover">
                         <tr>
-                            <th class="th-short">회원ID</th>
-                            <th class="th-short">회원이름</th>
-                            <th class="th-long">회원주소</th>
-                            <th class="th-long">회원메일</th>
-                            <th class="th-short">생년월일</th>
-                            <th class="th-short">성별</th>
-                            <th class="th-long">전화번호</th>
+                            <th class="th-short"></th>
+                            <th class="th-short"></th>
+                            <th class="th-long"></th>
+                            <th class="th-long"></th>
+                            <th class="th-short"></th>
+                            <th class="th-short"></th>
+                            <th class="th-long"></th>
                         </tr>
-                        <!--%for(Member m : list){%>
-                        	<tr>
-	                        	<td><%=m.getMemberId() %></td>
-	                        	<td><%=m.getMemberName() %></td>
-	                        	<td><%=m.getAddress() %></td>
-	                        	<td><%=m.getEmail() %></td>
-	                        	<td><%=m.getBirth() %></td>
-	                        	<td><%=m.getBirth() %></td>
-	                        	<td><%=m.getPhone() %></td>
-                        	</tr>
-                        <%} %-->
+						<tr>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                       	</tr>
                     </table>
-                    <div id= "pageNavi"><!--<%=pageNavi %--></div>
+                    <div id= "pageNavi"></div>
                 </div>
             </div>
             <div class="div2"></div>
