@@ -15,35 +15,46 @@
 <meta charset="UTF-8">
 <title>Create A Camp</title>
     <style>
+        * {
+            font-family: 'Russo One';
+        }
+
+        html,
         body {
-            height: 100vh;
-            background-image: url(resources/upload/common/sunset.jpg);
-            background-repeat: no-repeat;
-            background-size: cover;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .main-img {
+            border: 0;
+            padding: 0;
+            background-image: url('resources/upload/common/sunset.jpg');
+            min-height: 100%;
             background-position: center;
+            background-size: cover;
         }
 
         .logo-wrap {
             overflow: hidden;
-            width: 70vw;
+            width: 1200px;
             margin: 0 auto;
-            margin-top: 80px;
-            margin-bottom: 10px;
+            padding-top: 150px;
+            padding-bottom: 15px;
         }
 
         .logo-text {
-            font-family: 'Russo One';
             float: left;
-            font-size: 52px;
-            padding-left: 8px;
-            padding-right: 8px;
-            padding-top: 5px;
+            font-size: 65px;
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-top: 8px;
             color: white;
         }
 
         .logo-img {
-            width: 54px;
-            height: 54px;
+            width: 70px;
+            height: 70px;
             float: left;
         }
 
@@ -55,20 +66,18 @@
         .logo-link {
             float: left;
             color: white;
-            padding-top: 10px;
-            font-size: 40px;
-
+            padding-top: 30px;
+            font-size: 45px;
         }
 
         /*--------------------------------------------*/
 
         .search-wrap {
             background-color: rgba(0, 0, 0, 0.5);
-            width: 70vw;
-            max-width: 1040px;
-            min-width: 552px;
+            width: 1200px;
             margin: 0 auto;
             padding: 25px;
+            padding-bottom: 30px;
             color: #f49b00;
             overflow: hidden;
         }
@@ -76,16 +85,15 @@
         .search-wrap>div {
             font-family: 'Russo One';
             font-weight: 100;
-            font-size: 1em;
+            font-size: 22px;
             float: left;
             margin-top: 12px;
             margin-right: 30px;
         }
 
         .search-where {
-            width: 25vw;
+            width: 400px;
             margin-left: 25px;
-            min-width: 350px;
         }
 
         .search-where>input {
@@ -93,11 +101,12 @@
             width: 100%;
             height: 25px;
             outline: none;
+            font-size: 15px;
+            font-family: 'Noto Sans KR';
         }
 
         .search-check {
-            width: 12vw;
-            min-width: 120px;
+            width: 230px;
         }
 
         .search-check>input {
@@ -105,17 +114,19 @@
             width: 100%;
             height: 25px;
             outline: none;
+            font-size: 15px;
+            font-family: 'Noto Sans KR';
         }
 
         .search-button {
-            min-width: 9vw;
-            padding-top: 28px; 
+            width: 180px;
+            padding-top: 32px;
         }
 
         .search-button>input {
-            font-family: 'Russo One';
             width: 100%;
             height: 32px;
+            font-size: 15px;
             color: white;
             background-color: #f49b00;
             outline: none;
@@ -127,57 +138,42 @@
     </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-    <div class="logo-wrap">
-        <a href="/login.do">
-            <div class="logo-text">create</div>
-            <div class="logo-img"><img src="resources/upload/common/tentw.png"></div>
-            <div class="logo-text">camp</div>
-            <div class="logo-link"><i class="fas fa-angle-double-right"></i></div>
-        </a>
-    </div>
 
-    <form method="get">
-        <div class="search-wrap">
-            <div class="search-where">
-                <span><span style="color: white">Where</span> Do You <span style="color: white">Want</span> To Go?</span>
-                <input type="text">
-            </div>
-            <div class="search-check">
-                <span><span style="color: white">Check</span> In</span>
-                <input type="text" id="checkIn">
+    <div class="main-img">
 
-            </div>
-            <div class="search-check">
-                <span><span style="color: white">Check</span> Out</span>
-                <input type="text" id="checkOut">
-            </div>
-            <div class="search-button">
-                <input type="submit" value="Search">
-            </div>
+        <div class="logo-wrap">
+            <a href="loginFrm.do">
+                <div class="logo-text">create</div>
+                <div class="logo-img"><img src="resources/upload/common/tentw.png"></div>
+                <div class="logo-text">camp</div>
+                <div class="logo-link">
+                    <i class="fas fa-angle-double-right"></i>
+                </div>
+            </a>
         </div>
-    </form>
-    
-    <script>
-    $(function() {
 
-        var dateToday = new Date(new Date().getTime());
-        var oneDayAhead = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); 
-        
-        $("#checkIn").datepicker({
-                changeMonth: true,
-                minDate: dateToday,
-                dateFormat: 'yy-mm-dd',
-        }); 
-        
-        $("#checkOut").datepicker({
-                changeMonth: true,
-                minDate: oneDayAhead,
-                dateFormat: 'yy-mm-dd',
-        });
+        <form method="get">
+            <div class="search-wrap">
+                <div class="search-where">
+                    <span><span style="color: white">Where</span> Do You <span style="color: white">Want</span> To Go?</span>
+                    <input type="text">
+                </div>
+                <div class="search-check">
+                    <span><span style="color: white">Check</span> In</span>
+                    <input type="date" id="checkIn">
 
-    });
-	</script>
+                </div>
+                <div class="search-check">
+                    <span><span style="color: white">Check</span> Out</span>
+                    <input type="date" id="checkOut">
+                </div>
+                <div class="search-button">
+                    <input type="submit" value="Search">
+                </div>
+            </div>
+        </form>
+
+    </div>
 
 </body>
 </html>
