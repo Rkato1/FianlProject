@@ -127,7 +127,7 @@
     </style>
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="logo-wrap">
         <a href="/login.do">
             <div class="logo-text">create</div>
