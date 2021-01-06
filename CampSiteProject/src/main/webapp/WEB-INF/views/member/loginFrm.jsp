@@ -14,6 +14,8 @@
         .content-wrap {
             width: 300px;
             margin: 0 auto;
+            margin-top: 150px;
+            margin-bottom: 150px;
             text-align: center;
         }
         
@@ -24,12 +26,13 @@
         
         .login-input>form>input {
             width: 270px;
-            height: 38px;
+            height: 40px;
             margin-top: 10px;
             border-radius: 5px;
             outline: none;
             border: 1px solid #cccccc;
             padding-left: 10px;
+            font-size: 16px;
         }
         
         
@@ -44,7 +47,7 @@
         .login-search>a, .login-search>span {
             text-decoration: none;
             color: dimgray;
-            font-size: 13px;   
+            font-size: 14px;   
         }
         
         .login-search>a:hover {
@@ -62,6 +65,7 @@
             background-color: #383a3f;
             color: white;
             cursor: pointer;
+            font-size: 17px;
         }
 
         .joinBtn {
@@ -78,6 +82,8 @@
             text-decoration: none;
             color: #383a3f;
             display: block;
+            font-size: 16px;
+            font-weight: bolder;
         }
     </style>
 
@@ -102,7 +108,7 @@
 
                     <button type="submit" class="loginBtn">로그인</button>
                 </form>
-                <button type="button" class="joinBtn"><a href="/shop/member/join">회원가입</a></button>
+                <button type="button" class="joinBtn"><a href="joinFrm.do">회원가입</a></button>
             </div>
         </div>
     </div>

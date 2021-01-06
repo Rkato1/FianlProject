@@ -6,10 +6,18 @@
 <html lang="kr">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+<!-- jQuery -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <style>
+    	
+    	html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
     
     	.header-all-wrap {
     		margin-bottom: 80px;
@@ -27,6 +35,7 @@
         .header-title>pre {
             font-family: 'Noto Sans KR';
             font-size: 0.9em;
+            margin: 0;
         }
 
         /*---------------------------------------*/
@@ -61,7 +70,7 @@
             text-decoration: none;
             font-family: 'Noto Sans KR';
             font-size: 15px;
-            color: #a4a4a4;
+            color: #848484;
         }
 
         .header-user>ul>li>a:hover {
@@ -139,6 +148,7 @@
             height: 100%;
             text-align: center;
             font-size: 16px;
+            font-weight: bolder;
             color: #1d0e0e;
             box-sizing: border-box;
             font-family: 'Noto Sans KR';
@@ -147,7 +157,7 @@
 
         .header-navi>ul>li>a:hover {
             color: #f49b00;
-            font-weight: bolder
+            font-weight: bolder;
         }
     </style>
 </head>
@@ -161,7 +171,9 @@
                 <ul>
                     <li><a href="#">JOIN</a></li>
                     <li><a href="#">LOGIN</a></li>
-                    <li><a href="#">MYPAGE</a></li>
+                    <li>
+                    	<a href="https://korean.visitkorea.or.kr/notice/news_detail.do?nwsid=a517d805-779b-418c-a347-26e8c5642c8c" target="_blank">COVID19-GUIDE</a>
+                    </li>
                 </ul>
             </div>
             <div class="header-logo">
@@ -176,7 +188,7 @@
                     <li><a href="#">공지사항</a></li>
                     <li><a href="#">캠핑장예약</a></li>
                     <li><a href="#">캠핑후기</a></li>
-                    <li><a href="#">중고거래</a></li>
+                    <li><a href="/usedPage.do">중고거래</a></li>
                 </ul>
             </div>
         </div>
