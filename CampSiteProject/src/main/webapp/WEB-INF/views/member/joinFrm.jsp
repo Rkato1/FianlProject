@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 <!-- jQuery -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <style>
@@ -25,14 +26,15 @@
         }
 
         .join-header {
-            height: 100px;
-            line-height: 100px;
+            height: 90px;
+            line-height: 90px;
         }
 
-        .join-header>h1 {
+        .join-title {
             padding: 0;
             margin: 0;
             text-align: center;
+            font-weight: bolder;
         }
 
         /*--------------------------------*/
@@ -87,16 +89,20 @@
             font-size: 1.2em;
         }
         
+        .checkbox-td>lable {
+        	margin: 0;
+        }
+        
         /*--------------------------------*/
 
         /*라디오, 체크박스 모양 변경*/
         input[type='radio']:after,
         input[type='checkbox']:after {
-            width: 12px;
-            height: 12px;
+            width: 18px;
+            height: 18px;
             border-radius: 5px;
-            top: -2px;
-            left: -1px;
+            top: -3px;
+            left: -2px;
             position: relative;
             background-color: #ffffff;
             content: '';
@@ -107,11 +113,11 @@
 
         input[type='radio']:checked:after,
         input[type='checkbox']:checked:after {
-            width: 12px;
-            height: 12px;
+            width: 18px;
+            height: 18px;
             border-radius: 5px;
-            top: -2px;
-            left: -1px;
+            top: -3px;
+            left: -2px;
             position: relative;
             background-color: #f49b00;
             content: '';
@@ -122,6 +128,11 @@
 
          /*--------------------------------*/
 
+		.btn-td {
+			text-align: center;
+			padding-top: 40px;
+		}
+		
         /*가입하기 버튼*/
         button[type='submit'] {
             width: 280px;
@@ -141,14 +152,14 @@
 	
     <div class="content-wrap">
         <div class="join-header">
-            <h1>회원가입</h1>
+            <h1 class="join-title">회원가입</h1>
         </div>
         <form action="/join" method="post">
             <table class="join-table">
                 <tr>
                     <td colspan="2" style="text-align: center; padding: 35px;">
-                        <input type="radio" name="user" value="1" checked> 캠핑러(회원)&emsp;&emsp;
-                        <input type="radio" name="user" value="2"> 캠핑지기(사업자)
+                        <input type="radio" name="user" value="1" checked>&nbsp;&nbsp;&nbsp;캠핑러(회원)&emsp;&emsp;
+                        <input type="radio" name="user" value="2">&nbsp;&nbsp;&nbsp;캠핑지기(사업자)
                     </td>
                 </tr>
                 <tr>
@@ -208,7 +219,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="text-align: center;">
+                    <td colspan="2" class="btn-td">
                         <button type="submit" id="joinBtn">가입하기</button>
                     </td>
                 </tr>

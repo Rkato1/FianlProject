@@ -142,7 +142,7 @@
     <div class="main-img">
 
         <div class="logo-wrap">
-            <a href="loginFrm.do">
+            <a href="/loginFrm.do">
                 <div class="logo-text">create</div>
                 <div class="logo-img"><img src="resources/upload/common/tentw.png"></div>
                 <div class="logo-text">camp</div>
