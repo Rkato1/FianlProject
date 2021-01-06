@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<!-- null 값이 발생하는 경우 빈칸이 아닌 null로 처리 -->
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+	<!-- 원래는 DB접속정보를 넣었지만 여긴 안넣어도됨 <environments default=""> <environment id=""></environment> 
+		</environments> -->
+	<!-- mappper위치등록도 했었지만 여기서는 안해도됨 -->
+	<typeAliases>
+		<typeAlias type="com.kh.reserve.model.vo.ReserveVO" alias="reserve" />
+	</typeAliases>
+</configuration>

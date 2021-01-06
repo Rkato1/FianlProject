@@ -139,6 +139,8 @@
 </head>
 <body>
 
+	<!-- 태민추가  -->
+	<a href="/reserveList.do">안녕하세요</a>
     <div class="main-img">
 
         <div class="logo-wrap">
@@ -151,6 +153,7 @@
                 </div>
             </a>
         </div>
+
 
         <form method="get">
             <div class="search-wrap">
