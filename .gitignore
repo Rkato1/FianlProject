@@ -20,6 +20,8 @@ Servers/
 # External tool builders
 .externalToolBuilders/
 
+Servers/
+
 # Locally stored "Eclipse launch configurations"
 *.launch
 
