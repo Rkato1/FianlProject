@@ -1,4 +1,4 @@
-package com.kh.camp.member.model.dao;
+package com.kh.member.model.dao;
 
 import org.springframework.stereotype.Repository;
 

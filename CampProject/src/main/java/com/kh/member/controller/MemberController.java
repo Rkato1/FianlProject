@@ -1,4 +1,4 @@
-package com.kh.camp.member.controller;
+package com.kh.member.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kh.camp.member.model.service.MemberService;
-import com.kh.camp.member.model.vo.MemberVO;
+import com.kh.member.model.service.MemberService;
+import com.kh.member.model.vo.MemberVO;
 
 @Controller
 public class MemberController {

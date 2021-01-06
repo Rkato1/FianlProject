@@ -1,10 +1,10 @@
-package com.kh.camp.member.model.service;
+package com.kh.member.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.camp.member.model.dao.MemberDao;
-import com.kh.camp.member.model.vo.MemberVO;
+import com.kh.member.model.dao.MemberDao;
+import com.kh.member.model.vo.MemberVO;
 
 @Service
 public class MemberService {
