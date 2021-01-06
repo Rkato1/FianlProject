@@ -27,6 +27,8 @@
 	<aop:aspectj-autoproxy/>
 	
 	<context:component-scan base-package="com.kh.camp" />
+	<!-- 관리자 스캔 -->
+	<context:component-scan base-package="com.kh.admin" />
 	
 	
 </beans:beans>
