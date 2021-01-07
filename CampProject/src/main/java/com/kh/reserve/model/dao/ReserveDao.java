@@ -16,10 +16,9 @@ public class ReserveDao {
 	
 	
 
-	public ReserveDao() {
-		super();
-		System.out.println("ReserveDao객체생성");
-	}
+	/*
+	 * public ReserveDao() { super(); System.out.println("ReserveDao객체생성"); }
+	 */
 
 
 
