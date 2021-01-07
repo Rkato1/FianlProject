@@ -14,10 +14,10 @@ public class ReserveService {
 	@Autowired
 	private ReserveDao dao;
 
-	public ReserveService() {
-		super();
-		System.out.println("ReserveService객체생성");
-	}
+	/*
+	 * public ReserveService() { super(); System.out.println("ReserveService객체생성");
+	 * }
+	 */
 
 	public ArrayList<ReserveVO> selectReserveList() {
 		

@@ -10,5 +10,6 @@
 	<!-- mappper위치등록도 했었지만 여기서는 안해도됨 -->
 	<typeAliases>
 		<typeAlias type="com.kh.reserve.model.vo.ReserveVO" alias="reserve" />
+		<typeAlias type="com.kh.camp.camp.model.vo.CampVO" alias="camp" />
 	</typeAliases>
 </configuration>
