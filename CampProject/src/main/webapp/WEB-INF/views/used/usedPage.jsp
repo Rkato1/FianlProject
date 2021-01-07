@@ -59,9 +59,7 @@
             color: #1d0202;
             
         }
-        /* .prd-mid{
-            display: flex;
-        } */
+ 
         .prd-item{
             width: 300px;
             height: 360px;
@@ -71,7 +69,6 @@
             transition: background-color 3s;
         }
         .prd-item img{
-            border: 1px solid #e0e0e0;
             object-fit: cover;
             width: 298px;
             height: 300px;
@@ -79,7 +76,8 @@
         }
         .prd-item img:hover{
             border: 2px solid #fa9b00;
-            
+            width: 298px;
+            height: 300px;
         }
     </style>
     
@@ -88,11 +86,11 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <section class="section-size" style="margin-bottom: 20px;">
         <div class="used-one" style="height: 30px;" >
-            <div class="col-md-9 one bootcol">
+            <div class="col-md-9 one bootcol" style="padding: 0;">
                 <p style="font-size: 20px; font-weight: 700;">중고거래</p>
                 <p style="font-size: 14px;"> 정직한 중고거래를 실천합시다</p>
             </div>
-            <ul class="col-md-3 two bootcol" style="font-size: 14px;">
+            <ul class="col-md-3 two bootcol" style="font-size: 14px; padding: 0;">
                 <li style="cursor: pointer; color: #252525;">최근순</li>
                 <li style="color: #6d6c3f;"> | </li>
                 <li style="cursor: pointer; color: #252525;">가격순</li>
@@ -102,15 +100,16 @@
         </div>
         <hr style="border: 2px solid #1d0202; margin-top: 5px; margin-bottom: 5px;">
         <div class="used-two" style="height: 30px; vertical-align: middle;">
-            <div class="col-md-11 bootcol one">
+            <div class="col-md-11 bootcol one" style=" padding: 0;">
             <select name="ware" id="ware-select" style="font-size: 10pt; height: 22px;">
+                <option value="" selected>직접선택</option>
                 <option value="텐트/타프">텐트/타프</option>
             </select>
                 <input type="text" placeholder="검색" style="height: 22px; font-size: 10pt; margin-left: 8px;">
                 <button class="material-icons searchBtn" style="font-size: 16px; height: 22px;">search</button>
             </div>
-            <div class="col-md-1 bootcol one" style="vertical-align: middle;">
-               <a href=""><input type="button" value="물품등록" style="font-size: 16px; height: 22px; font-size: 13px; margin-left: 20px;" class="searchBtn"></a>
+            <div class="col-md-1 bootcol one" style="vertical-align: middle;  padding: 0;">
+               <a href="/usedEnroll.do"><input type="button" value="물품등록" style="font-size: 16px; height: 22px; font-size: 13px; margin-left: 20px;" class="searchBtn"></a>
             </div>
         </div>
     </section>
