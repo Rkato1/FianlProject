@@ -178,7 +178,7 @@
                 	<c:otherwise>
                 		<li><a href="/logout.do">LOGOUT</a></li>
                     	<li>
-                    		<a href="/mypage.do?memberNo=${sessionScope.m.memberNo }&memberId=${sessionScope.m.memberNo }">MYPAGE</a>
+                    		<a href="/mypage.do?memberNo=${sessionScope.m.memberNo }&memberId=${sessionScope.m.memberId }">MYPAGE</a>
                     	</li>
                 	</c:otherwise>
                 </c:choose>   

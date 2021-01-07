@@ -146,18 +146,22 @@
         </div>
 
         <div class="inputBar">
-            <div class="writeBox">
-                <button type="button" class="btn" id="writeBtn">
-                    <a href="/reviewWriteFrm.do">글쓰기</a>
-                </button>
-            </div>
-
+        	<c:if test="${sessionScope.m != null }">
+            	<div class="writeBox">
+                	<button type="button" class="btn" id="writeBtn">
+                    	<a href="/reviewWriteFrm.do">글쓰기</a>
+                	</button>
+            	</div>
+			</c:if>
+	
             <form action="/searchKeyword">
                 <div class="searchBox">
                     <div class="input-group">
                         <input type="text" name="keyword" class="form-control" id="searchInput">
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-secondary" id="searchBtn">캠핑장 검색</button>
+                            <button type="submit" class="btn btn-secondary" id="searchBtn">
+                            	캠핑장 검색
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -180,13 +184,22 @@
             	<tr>
                 	<td>${r.reviewNo }</td>
                 	<td>청량산 나무네 숲 캠핑장</td>
-                	<td><a id="review-a" href="#">${r.reviewTitle }</a></td>
+                	<td>
+                		<a id="review-a" href="/reviewView.do?reviewNo=${r.reviewNo }&campNo=${r.campNo }">
+                			${r.reviewTitle }
+                		</a>
+                	</td>
                 	<td class="score">
-                    	<i class="fas fa-star"></i>
-                    	<i class="fas fa-star"></i>
-                    	<i class="fas fa-star"></i>
-                    	<i class="fas fa-star"></i>
-                    	<i class="fas fa-star"></i>
+                		<c:forEach var="i" begin="0" end="4">
+                			<c:choose>
+                				<c:when test="${r.reviewPoint  > i }">
+                					<i class="fas fa-star"></i>
+                				</c:when>
+                				<c:otherwise>
+                					<i class="far fa-star"></i>
+                				</c:otherwise>
+                			</c:choose>
+                		</c:forEach>
                 	</td>
                 	<td>${r.memberId }</td>
                 	<td>${r.reviewDate }</td>

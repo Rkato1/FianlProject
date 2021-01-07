@@ -68,10 +68,10 @@
             <h2 class="review-title-text">리뷰작성하기</h2>
         </div>
         <div class="review-table">
-            <form name="searchRevFrm">
+            <form name="searchReserve">
                 <input type="hidden" name="memberNo">
             </form>
-            <form action="" method="post">
+            <form action="/insertReview.do" method="post" enctype="multipart/form-data">
                 <table class="table table-bordered">
                     <tr>
                         <td>제목</td>
@@ -79,7 +79,7 @@
                     </tr>
                     <tr>
                         <td>작성자</td>
-                        <td><input type="text" name="memberId" value="happy369" class="form-control" readonly></td>
+                        <td><input type="text" name="memberId" value="${sessionScope.m.memberId }" class="form-control" readonly></td>
                     </tr>
                     <tr>
                         <td>예약번호</td>
@@ -102,6 +102,27 @@
     </div>
     
    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+   
+   <script>
+        //예약번호 검색 팝업창
+        function search() {
+            var url = "/searchReserve.do"; //서블릿 url mapping 값
+            var title = "searchReserve";
+            var status = "left=500px, top=200px, width=400px, height=400px, menubar=no, status=no, scrollbars=yes";
+            //비어있는 창 열어주기
+            var popup = window.open("", title, status);
+
+            //숨겨둔 input의 value속성에 회원번호 대입 
+            $("[name=memberNo]").val(memberNo);
+            var checkFrm = $("[name=searchReserve]");
+
+            //popup창 - form태그 연결
+            //target속성 : a태그에서  _blank로 하면 새창에서 열림
+            checkFrm.attr("target", title);
+            checkFrm.attr("action", url);
+            checkFrm.submit();
+        }
+    </script>
    
 </body>
 </html>

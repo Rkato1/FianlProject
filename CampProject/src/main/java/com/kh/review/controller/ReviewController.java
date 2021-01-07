@@ -22,9 +22,20 @@ public class ReviewController {
 		return "review/reviewList";
 	}
 	
+	@RequestMapping("/reviewView.do")
+	public String reviewView() {
+		return "review/reviewView";
+	}
+	
 	@RequestMapping("/reviewWriteFrm.do")
 	public String reviewWriteFrm() {
 		return "review/reviewWriteFrm";
 	}
+	
+	@RequestMapping("/searchReserve.do.")
+	public String searchReserve() {
+		return "review/searchReserve";
+	}
+	
 
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.MemberVO;
+import com.kh.reserve.model.vo.ReserveVO;
+import com.kh.review.model.vo.ReviewVO;
 
 @Controller
 public class MemberController {
@@ -112,27 +114,20 @@ public class MemberController {
 	@RequestMapping("/mypage.do")
 	public String mypage(int memberNo, String memberId, Model model) {
 		MemberVO member = service.mypageMember(memberNo);
+		//갯수 조회
 		int cntReserve = service.cntReserve(memberNo);
-		//int cntReview = service.cntReview(memberId);
-		//int cntUsedTrade = service.cntUsedTrade(memberId);
+		int cntReview = service.cntReview(memberId);
+		int cntUsedTrade = service.cntUsedTrade(memberId);
+		//데이터 조회
+		//ReserveVO reserve = service.mypageReserve(memberNo);
+		//ReviewVO review = service.mypageReview(memberId);
+		//UsedVO usedTrade = service.mypageUsedTrade(memberId);
+		
 		model.addAttribute("m", member);
 		model.addAttribute("cntReserve", cntReserve);
+		model.addAttribute("cntReview", cntReview);
+		model.addAttribute("cntUsedTrade", cntUsedTrade);
 		return "member/mypage";
-	}
-
-	@RequestMapping("/mypageReserve.do")
-	public String mypageReserve() {
-		return "member/mypageReserve";
-	}
-
-	@RequestMapping("/mypageReview.do")
-	public String mypageReview() {
-		return "member/mypageReview";
-	}
-
-	@RequestMapping("/mypageUsedTrade.do")
-	public String mypageUsedTrade() {
-		return "member/mypageUsedTrade";
 	}
 
 	@RequestMapping("/updateMember.do")

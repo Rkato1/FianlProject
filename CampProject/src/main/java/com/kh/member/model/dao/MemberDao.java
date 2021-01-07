@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.member.model.vo.MemberVO;
+import com.kh.reserve.model.vo.ReserveVO;
+import com.kh.review.model.vo.ReviewVO;
 
 @Repository
 public class MemberDao {
@@ -43,6 +45,14 @@ public class MemberDao {
 	public int cntUsedTrade(String memberId) {
 		return sqlSession.selectOne("member.cntUsedTrade", memberId);
 	}
+	
+	public ReserveVO mypageReserve(int memberNo) {
+		return sqlSession.selectOne("member.mypageReserve", memberNo);
+	}
+	
+	public ReviewVO mypageReview(String memberId) {
+		return sqlSession.selectOne("member.mypageReview", memberId);
+	}
 
 	public int updateMember(MemberVO m) {
 		return sqlSession.update("member.updateMember", m);
@@ -51,5 +61,8 @@ public class MemberDao {
 	public int deleteMember(int memberNo) {
 		return sqlSession.delete("member.deleteMember", memberNo);
 	}
+
+
+
 
 }
