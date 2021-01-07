@@ -12,27 +12,30 @@ import com.kh.camp.member.model.vo.MemberVO;
 public class AdminController {
 	@Autowired
 	AdminService service;
+	boolean isAdmin = false;
 	
-	
-	
-	public AdminController() {
-		super();
-//		MemberVO member = service.selectOneMember(m);
-//		if(member != null) {
-//			session.setAttribute("m", member);
-//			model.addAttribute("msg", "로그인 되었습니다.");
-//			model.addAttribute("loc", "/WEB-INF/views/member/blank.jsp");
-//		} else {
-//			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요.");
-//			model.addAttribute("loc", "/WEB-INF/views/member/blank.jsp");
-//		}
-//		return "common/msg";
+	@RequestMapping("/memberAdmin.do")
+	public String memberAdmin(MemberVO m) {
+		isAdmin = isAdmin(m);
+		if(isAdmin) {
+			return "admin/member";
+		}else {
+			return "common/msg";
+		}
 	}
-
-
-
-	@RequestMapping("/member.do")
-	public String member() {
-		
+	
+	@RequestMapping("/test.do")
+	public String test() {		
+		return "admin/memberAdmin";
+	}
+	
+	//admin이 맞는지 판단하는 함수
+	private boolean isAdmin(MemberVO m) {
+		MemberVO member = service.selectOneMember(m);
+		if(member.getMemberId().equals("admin")) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
