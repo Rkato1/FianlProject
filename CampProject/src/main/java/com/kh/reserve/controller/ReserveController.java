@@ -16,16 +16,16 @@ public class ReserveController {
 	private ReserveService service;
 	
 
-	public ReserveController() {
-		super();
-		System.out.println("ReserveController객체 생성");
-	}
+	/*
+	 * public ReserveController() { super();
+	 * System.out.println("ReserveController객체 생성"); }
+	 */
 
 
 	@RequestMapping("/reserveList.do")
 	public String reserveList(Model model) {
 		ArrayList<ReserveVO> list =service.selectReserveList();
-		System.out.println("listSize = "+list.size());
+		/* System.out.println("listSize = "+list.size()); */
 		model.addAttribute("list", list);
 		return "reserve/reserveList";
 	}
