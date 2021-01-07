@@ -172,12 +172,14 @@
                 <ul>
                 <c:choose>
                 	<c:when test="${sessionScope.m == null }">
-                    <li><a href="/loginFrm.do">LOGIN</a></li>
-                    <li><a href="/joinFrm.do">JOIN</a></li>
+                    	<li><a href="/loginFrm.do">LOGIN</a></li>
+                    	<li><a href="/joinFrm.do">JOIN</a></li>
                 	</c:when>
                 	<c:otherwise>
-                	<li><a href="/logout.do">LOGOUT</a></li>
-                    <li><a href="/mypage.do?memberNo=${sessionScope.m.memberNo }">MYPAGE</a></li>
+                		<li><a href="/logout.do">LOGOUT</a></li>
+                    	<li>
+                    		<a href="/mypage.do?memberNo=${sessionScope.m.memberNo }&memberId=${sessionScope.m.memberNo }">MYPAGE</a>
+                    	</li>
                 	</c:otherwise>
                 </c:choose>   
                     <li>
@@ -194,7 +196,7 @@
                 <ul>
                     <li><a href="#">공지사항</a></li>
                     <li><a href="/campList.do?reqPage=1">캠핑장예약</a></li>
-                    <li><a href="/reviewList.do">캠핑후기</a></li>
+                    <li><a href="/reviewList.do?reqPage=1">캠핑후기</a></li>
                     <li><a href="/usedPage.do">중고거래</a></li>
                 </ul>
             </div>

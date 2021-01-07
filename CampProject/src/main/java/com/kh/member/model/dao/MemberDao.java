@@ -31,6 +31,18 @@ public class MemberDao {
 	public MemberVO mypageMember(int memberNo) {
 		return sqlSession.selectOne("member.mypageMember", memberNo);
 	}
+	
+	public int cntReserve(int memberNo) {
+		return sqlSession.selectOne("member.cntReserve", memberNo);
+	}
+	
+	public int cntReview(String memberId) {
+		return sqlSession.selectOne("member.cntReview", memberId);
+	}
+
+	public int cntUsedTrade(String memberId) {
+		return sqlSession.selectOne("member.cntUsedTrade", memberId);
+	}
 
 	public int updateMember(MemberVO m) {
 		return sqlSession.update("member.updateMember", m);
@@ -40,7 +52,4 @@ public class MemberDao {
 		return sqlSession.delete("member.deleteMember", memberNo);
 	}
 
-
-
-	
 }

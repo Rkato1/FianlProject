@@ -70,6 +70,12 @@
 		from member where member_no=#{_parameter} 
 	</select>
 	
+	<select id="cntReserve" parameterType="_int" resultType="_int">
+		select 
+			(count(*))cnt
+		from reservation where member_no=#{_parameter} 
+	</select>
+	
 	<update id="updateMember" parameterType="member">
 		update member
 		<set>

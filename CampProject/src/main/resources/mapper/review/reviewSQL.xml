@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="review">
+
+	<select id="selectList" parameterType="map" resultType="review">		
+		select
+    		rnum,
+    		reviewNo,
+    		memberId,
+    		reserveNO,
+    		reviewTitle,
+    		reviewContent,
+    		reviewDate,
+    		reviewPoint,
+    		campNo
+			from
+        		(select rownum as rnum, r.*
+		from
+		(select
+			review_no as reviewNo,
+			member_id as memberId,
+			reserve_no as reserveNo,
+			review_title as reviewTitle,
+			review_content as reviewContent,
+			review_date as reviewDate,
+			review_point as reviewPoint,
+			camp_no as campNo
+		from review order by 1 desc)
+		r)
+           where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="totalCount" resultType="_int">
+		select count(*) as cnt from review
+	</select>
+
+</mapper>

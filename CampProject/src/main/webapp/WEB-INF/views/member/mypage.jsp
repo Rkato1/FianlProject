@@ -164,9 +164,8 @@
             </div>
             <div class="menu-text">
                 <span>예약내역</span>
-                <span class="num">(3)</span>
+                <span class="num">(${cntReserve })</span>
             </div>
-
 
             <div class="menu-img">
                 <a href="#" id="menu-img-a"><i class="far fa-thumbs-up icon"></i></a>
@@ -175,7 +174,6 @@
                 <span>후기내역</span>
                 <span class="num">(3)</span>
             </div>
-
 
             <div class="menu-img">
                 <a href="#" id="menu-img-a"><i class="fas fa-user-friends icon"></i></a>

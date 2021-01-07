@@ -110,10 +110,13 @@ public class MemberController {
 	}
 
 	@RequestMapping("/mypage.do")
-	public String mypage(int memberNo, Model model) {
+	public String mypage(int memberNo, String memberId, Model model) {
 		MemberVO member = service.mypageMember(memberNo);
-		// int reserveCnt = service.reserveCnt(memberNo);
+		int cntReserve = service.cntReserve(memberNo);
+		//int cntReview = service.cntReview(memberId);
+		//int cntUsedTrade = service.cntUsedTrade(memberId);
 		model.addAttribute("m", member);
+		model.addAttribute("cntReserve", cntReserve);
 		return "member/mypage";
 	}
 
@@ -149,6 +152,7 @@ public class MemberController {
 	public String deleteMember(int memberNo, HttpSession session, Model model) {
 		int result = service.deleteMember(memberNo);
 		if (result > 0) {
+			session.invalidate();
 			model.addAttribute("msg", "탈퇴되었습니다.");
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");

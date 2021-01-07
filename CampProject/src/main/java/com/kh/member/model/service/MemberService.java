@@ -32,6 +32,18 @@ public class MemberService {
 		return dao.mypageMember(memberNo);
 	}
 	
+	public int cntReserve(int memberNo) {
+		return dao.cntReserve(memberNo);
+	}
+	
+	public int cntReview(String memberId) {
+		return dao.cntReview(memberId);
+	}
+
+	public int cntUsedTrade(String memberId) {
+		return dao.cntUsedTrade(memberId);
+	}
+	
 	public int updateMember(MemberVO m) {
 		return dao.updateMember(m);
 	}
@@ -39,7 +51,5 @@ public class MemberService {
 	public int deleteMember(int memberNo) {
 		return dao.deleteMember(memberNo);
 	}
-
-
 
 }
