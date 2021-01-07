@@ -17,7 +17,13 @@ public class MemberController {
 
 	@Autowired
 	private MemberService service;
-
+	
+	//임시 페이지 이동
+	@RequestMapping("/blank.do")
+	public String blank() {
+		return "member/blank";
+	}
+	
 	@RequestMapping("/loginFrm.do")
 	public String loginFrm() {
 		return "member/loginFrm";
@@ -29,10 +35,10 @@ public class MemberController {
 		if (member != null) {
 			session.setAttribute("m", member);
 			model.addAttribute("msg", "<로그인>되었습니다.");
-			model.addAttribute("loc", "/");
+			model.addAttribute("loc", "/blank.do");
 		} else {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요.");
-			model.addAttribute("loc", "/");
+			model.addAttribute("loc", "/loginFrm.do");
 		}
 		return "common/msg";
 	}
@@ -98,7 +104,7 @@ public class MemberController {
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
 		}
-		model.addAttribute("loc", "/");
+		model.addAttribute("loc", "/blank.do");
 
 		return "common/msg";
 	}
@@ -134,7 +140,7 @@ public class MemberController {
 		} else {
 		model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
 		} 
-		model.addAttribute("loc", "/");
+		model.addAttribute("loc", "/blank.do");
 		 
 		return "common/msg";
 	}
@@ -145,9 +151,9 @@ public class MemberController {
 		if (result > 0) {
 			model.addAttribute("msg", "탈퇴되었습니다.");
 		} else {
-			model.addAttribute("msg", "※죄송합니다※관리자에게 문의해주세요");
+			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
 		}
-		model.addAttribute("loc", "/");
+		model.addAttribute("loc", "/blank.do");
 
 		return "common/msg";
 	}
