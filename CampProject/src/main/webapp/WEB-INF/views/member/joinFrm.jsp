@@ -154,12 +154,12 @@
         <div class="join-header">
             <h1 class="join-title">회원가입</h1>
         </div>
-        <form action="/join" method="post">
+        <form action="/join.do" method="post">
             <table class="join-table">
                 <tr>
                     <td colspan="2" style="text-align: center; padding: 35px;">
-                        <input type="radio" name="user" value="1" checked>&nbsp;&nbsp;&nbsp;캠핑러(회원)&emsp;&emsp;
-                        <input type="radio" name="user" value="2">&nbsp;&nbsp;&nbsp;캠핑지기(사업자)
+                        <input type="radio" name="memberGrade" value="1" checked>&nbsp;&nbsp;&nbsp;캠핑러(회원)&emsp;&emsp;
+                        <input type="radio" name="memberGrade" value="2">&nbsp;&nbsp;&nbsp;캠핑지기(사업자)
                     </td>
                 </tr>
                 <tr>
@@ -186,7 +186,7 @@
                 <tr>
                     <td>이메일</td>
                     <td>
-                        <input type="text" name="memberEmail" id="memberEmail" class="join-input" placeholder="예) createacamp@gmail.com">
+                        <input type="text" name="memberEmail" id="memberEmail" class="join-input" placeholder="예) createacamp@email.com">
                         <span></span>
                     </td>
                 </tr>
@@ -250,14 +250,14 @@
                 }
                 if (check[0]) {
                     $.ajax({
-                        url: "/ajaxCheckId",
+                        url: "/idCheck.do",
                         type: "get",
                         data: {
                             memberId: memberId
                         },
                         success: function(data) {
                             var msg = $("#idchkMsg");
-                            if (data == 1) { //중복 회원 없음
+                            if (data == 0) { //중복 회원 없음
                                 $("#memberId").css('border', '2px solid #1d0e0e');
                             } else { //중복 회원 있음
                                 $("span").eq(0).text("증복된 아이디 입니다.");
@@ -288,6 +288,7 @@
                     $("#memberPw").css('border', '2px solid red');
                 }
             });
+            
             //비밀번호 재입력
             $("#memberPw_re").change(function() {
                 var reg = /^[A-Za-z0-9_-]{6,18}$/;
