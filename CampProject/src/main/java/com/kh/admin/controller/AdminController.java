@@ -26,7 +26,8 @@ public class AdminController {
 	
 	@RequestMapping("/test.do")
 	public String test() {		
-		return "admin/memberAdmin";
+		//return "admin/memberAdmin";
+		return "admin/businessAdmin";
 	}
 	
 	//admin이 맞는지 판단하는 함수
