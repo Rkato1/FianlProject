@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kh.camp.member.model.vo.MemberVO;
 import com.kh.camp.used.service.UsedService;
 import com.kh.camp.used.vo.UsedVO;
 
