@@ -27,7 +27,7 @@ public class CampController {
 	
 	@RequestMapping("/campView.do")
 	public String campView(CampVO c,Model model) {
-		CampVO camp = service.campView(c);
+		CampVO camp = service.campView(c);		
 		model.addAttribute("camp", camp);
 		return "camp/campView";
 	}

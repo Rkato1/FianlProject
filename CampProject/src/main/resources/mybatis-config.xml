@@ -11,7 +11,7 @@
 	<typeAliases>
 		<typeAlias type="com.kh.reserve.model.vo.ReserveVO" alias="reserve" />
 		<typeAlias type="com.kh.camp.camp.model.vo.CampVO" alias="camp" />
-		
+		<typeAlias type="com.kh.camp.camp.model.vo.CampPictureVo" alias="campPicture" />
 		<!-- 보경 추가 -->
 		<typeAlias type="com.kh.member.model.vo.MemberVO" alias="member" />
 		

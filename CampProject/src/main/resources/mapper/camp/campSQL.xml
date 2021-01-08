@@ -66,4 +66,22 @@
 		  	</if>		  	
 		  </trim>
 	</select>
+	<select id="selectPictureList" parameterType="map" resultType="campPicture">
+		select
+			pict_no as pictNo,
+			camp_no as campNo,
+			filename ,
+			filepath ,
+			filegrade
+		from camp_picture
+		<trim prefix="where" prefixOverrides="and|or">
+		  	<if test="campNo != 0">
+				 camp_no=#{campNo}
+		  	</if>
+		  	<if test="filegrade != 0">
+		  		filegrade = #{filegrade}
+		  	</if>		  	
+		  </trim>
+	</select>
+	
 </mapper>
