@@ -178,7 +178,8 @@
         </div>
             </div>
         </section>
-    <footer style="margin-top:200px; text-align: center;"><h1>푸터입니다.</h1></footer>
+        <div style="height: 200px"></div>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     
     <!-- 스트립트부분 -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>

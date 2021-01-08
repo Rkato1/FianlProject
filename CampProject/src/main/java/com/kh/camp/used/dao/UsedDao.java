@@ -1,5 +1,6 @@
 package com.kh.camp.used.dao;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +10,14 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.camp.used.vo.UsedVO;
 
+
 @Repository
 public class UsedDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	public ArrayList<UsedVO> usedPage(int end, int start) {
-		List<UsedVO> list = sqlSession.selectList("used.usedPage");
+	public ArrayList<UsedVO> usedPage() {
+		List<UsedVO> list = sqlSession.selectList("used.selectList");
 		return (ArrayList<UsedVO>)list;
 	}
 	

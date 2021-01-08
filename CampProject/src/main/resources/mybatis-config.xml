@@ -11,8 +11,8 @@
 	<typeAliases>
 		<typeAlias type="com.kh.reserve.model.vo.ReserveVO" alias="reserve" />
 		<typeAlias type="com.kh.camp.camp.model.vo.CampVO" alias="camp" />
-		<typeAlias type="com.kh.camp.camp.model.vo.UsedVO" alias="used" />
-		<typeAlias type="com.kh.camp.camp.model.vo.UsedFileVO" alias="file" />
-		<typeAlias type="com.kh.camp.camp.model.vo.UsedCommentVO" alias="comment" />
+		<typeAlias type="com.kh.camp.used.vo.UsedVO" alias="used" />
+		<typeAlias type="com.kh.camp.used.vo.UsedFileVO" alias="file" />
+		<typeAlias type="com.kh.camp.used.vo.UsedCommentVO" alias="comment" />
 	</typeAliases>
 </configuration>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="used">
-  <select id="usedPage" resultType="used">
+  <select id="selectList" resultType="used">
   	select rownum as rnum, n.*
 		from
 		(select
@@ -12,7 +12,7 @@
 			used_trade_writer as usedWriter,
 			used_trade_content as usedContent,
 			used_trade_date as usedDate
-		from reservation order by 1 desc)
+		from used_trade order by 1 desc)
 		n
   </select>
 </mapper>
