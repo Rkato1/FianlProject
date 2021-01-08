@@ -8,13 +8,15 @@
 }
 .admin-wrap {
     margin: 0 auto;
-    width: 80vw;
+    width: 100vw;
     min-width: 1200px;
     height: 70vh;
     min-height:800px;
     border-radius: 20px;
     background-color: #000000;
     font-family: "jua";
+    display: flex;
+    margin-top: min(10vw,100px);
 }
 
 .admin-menu {
@@ -49,15 +51,9 @@
     color: #56373c;
 }
 
-.icon {
-    width: 30px;
-    float: left;
-}
-
-.menu li>a {        
+.menu li>a {
     display: block;
     height: auto;
-    line-height: 45px;
     font-size: 2em;
     color: #391e22;
     text-decoration: none;
@@ -72,10 +68,10 @@
 }
 
 .admin-content {
-    width: 1200px;         
+    width: 80%;
     float: left;
     display: inline-block;
-    height: 950px;
+    height: 100%;
     border-radius: 10px;
     margin: 20px;
     background-color: white;
@@ -88,7 +84,7 @@
 
 .title {
     text-align: left;
-    font-size: 25pt;
+    font-size: 2.5em;
 }
 .th-short{
     width: 120px;
