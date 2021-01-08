@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CampPictureVo {
-	private int fileNo;
+	private int pictNo;
 	private int campNo;
 	private String filename;
 	private String filepath;

@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.camp.camp.model.vo.CampPictureVo;
 import com.kh.camp.camp.model.vo.CampVO;
 
 @Repository
@@ -27,4 +28,11 @@ public class CampDao {
 	public CampVO campView(CampVO c) {
 		return sqlSession.selectOne("camp.selectOne",c);
 	}
+
+	public ArrayList<CampPictureVo> selectPictureList(HashMap<String, Integer> map) {
+		List<CampPictureVo> pictureList = sqlSession.selectList("camp.selectPictureList",map);
+		return (ArrayList<CampPictureVo>)pictureList;
+	}	
+
+	
 }
