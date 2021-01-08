@@ -10,8 +10,8 @@
 <!--화면 좌측-->
 <div class="admin-menu">
     <div class="div1"></div>
-    <div class="menuBox">
-        <img class="circle profile" src="img/admin.svg" width="100px;">
+    <div class="menuBox">        
+        <img class="circle profile" src="/img/camp.png" width="100px;">
         <div class="profile-title">
             admin
         </div><br><br>
@@ -20,16 +20,16 @@
                 <a href="/">회원관리</a>
             </li>
             <li>
-                <a href="/adminMembers?reqPage=1">사업자관리</a>
+                <a href="/">사업자관리</a>
             </li>
             <li>
-                <a href="/reservationAllSearch?reqPage=1">예약관리</a>
+                <a href="/">예약관리</a>
             </li>
             <li>
-                <a href="/adminQna?reqPage=1">매출관리</a>
+                <a href="/">매출관리</a>
             </li>
             <li>
-                <a href="/adminQna?reqPage=1">우수캠핑장선정</a>
+                <a href="/">우수캠핑장선정</a>
             </li>
             <li>
                 <a href="/adminQna?reqPage=1">고객센터</a>
