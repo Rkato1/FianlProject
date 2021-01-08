@@ -56,12 +56,13 @@
         }
         
         .login-search>a:hover {
+            text-decoration: none;
             color: #f49b00;
         }
     
         /*---------------------------------*/
 
-        .loginBtn {
+        .login-btn {
             width: 280px;
             height: 50px;
             border-radius: 5px;
@@ -73,7 +74,7 @@
             font-size: 17px;
         }
 
-        .joinBtn {
+        .join-btn {
             width: 280px;
             height: 50px;
             border: 2px solid #383a3f;
@@ -83,7 +84,7 @@
             margin-top: 8px;
         }
         
-        .joinBtn>a {
+        #join-btn-a {
             text-decoration: none;
             color: #383a3f;
             display: block;
@@ -106,14 +107,14 @@
                     <input type="password" name="memberPw" size="20" placeholder="비밀번호를 입력해주세요" required>
 
                     <div class="login-search">
-                        <a href="#">아이디 찾기</a>
+                        <a href="/searchIdFrm.do">아이디 찾기</a>
                         <span class="bar">|</span>
-                        <a href="#"> 비밀번호 찾기</a>
+                        <a href="/searchPwFrm.do"> 비밀번호 찾기</a>
                     </div>
 
-                    <button type="submit" class="loginBtn">로그인</button>
+                    <button type="submit" class="login-btn">로그인</button>
                 </form>
-                <button type="button" class="joinBtn"><a href="/joinFrm.do">회원가입</a></button>
+                <button type="button" class="join-btn"><a href="/joinFrm.do" id="join-btn-a">회원가입</a></button>
             </div>
         </div>
     </div>

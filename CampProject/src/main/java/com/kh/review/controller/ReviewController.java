@@ -1,4 +1,4 @@
-package com.kh.camp.review.controller;
+package com.kh.review.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.kh.camp.member.model.vo;
+package com.kh.member.model.vo;
 
 public class MemberVO {
 	
