@@ -58,7 +58,7 @@
 							<a href="/campView.do?campNo=${c.campNo }">
 								<div class="item-top">
 									<div class="item-image">
-										<img src="resources/upload/camp/camp_1.jpg"> 최저
+										<img src="resources/upload/camp/${c.pictureList[0].filepath }"> 최저
 										${c.campFeeOriDay } ~
 									</div>
 								</div>

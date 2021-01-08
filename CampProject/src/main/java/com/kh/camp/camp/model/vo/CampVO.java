@@ -1,5 +1,7 @@
 package com.kh.camp.camp.model.vo;
 
+import java.util.ArrayList;
+
 import lombok.Data;
 
 @Data
@@ -17,5 +19,6 @@ public class CampVO {
 	private int campFeeOriDay; //평상시이용요금(주중)
 	private int campFeeOriEnd;//평상시이용요금(주말)
 	private int campFeePeakDay;//성수기이용요금(주중)
-	private int campFeePeakEnd;//성수기이용요금(주말)	
+	private int campFeePeakEnd;//성수기이용요금(주말)
+	private ArrayList<CampPictureVo> pictureList; //캠프 사진 리스트
 }
