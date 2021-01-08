@@ -1,0 +1,311 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<!-- Google Fonts-->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<!-- Font Awesome-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+    <style>
+        * {
+            font-family: 'Noto Sans KR';
+        }
+
+        .content-wrap {
+            width: 600px;
+            margin: 0 auto;
+            padding-top: 40px;
+            padding-bottom: 80px;
+            background-color: white;
+            box-sizing: border-box;
+        }
+
+        .mypage-header {
+            width: 82%;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .mypage-header>p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .mypage-title {
+            font-size: 30px;
+            font-weight: bolder;
+            color: #f49b00;
+        }
+
+        .mypage-subtitle {
+            color: dimgray;
+        }
+
+        .mypage-subtitle>span {
+            font-weight: bolder;
+            color: black;
+        }
+
+        /*--------------------------------*/
+
+        .mypage-menu {
+            width: 97%;
+            overflow: hidden;
+            margin: 0 auto;
+            margin-top: 10px;
+            margin-bottom: 60px;
+        }
+
+        .menu-img {
+            width: 80px;
+            height: 80px;
+            text-align: center;
+            float: left;
+            margin-left: 33px;
+        }
+
+        #menu-img-a {
+            text-decoration: none;
+            color: black;
+            font-size: 55px;
+        }
+
+        .menu-text {
+            text-align: center;
+            float: left;
+            width: 65px;
+            margin-top: 25px;
+        }
+
+        .num {
+            color: #f49b00;
+        }
+
+        /*--------------------------------*/
+
+        .mypage-table {
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        /*표 첫번째 열*/
+        .mypage-table>tbody>tr>td:first-child {
+            width: 160px;
+            height: 50px;
+        }
+
+        /*표 두번째 열*/
+        .mypage-table>tbody>tr>td:last-child {
+            width: 320px;
+        }
+
+        /*input 태그*/
+        .mypage-input {
+            width: 100%;
+            height: 38px;
+            outline: none;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+        
+        input[name='memberId'], input[name='memberName'], input[name='memberRegDate'] {
+        	background-color: #cccccc;
+        }
+        
+        .update-btn-td {
+        	text-align: center;
+            padding: 50px;
+            padding-bottom: 80px;
+        }
+
+        /*수정하기 버튼*/
+        input[type='submit'] {
+            width: 280px;
+            height: 50px;
+            border-radius: 5px;
+            outline: none;
+            border: none;
+            background-color: #383a3f;
+            color: white;
+            font-size: 1em;
+        }
+
+        .delete>a {
+            text-decoration: none;
+            color: black;
+            font-weight: bolder;
+        }
+
+        .delete>a:hover {
+            text-decoration: none;
+            color: #f49b00;
+            font-weight: bolder;
+        }
+
+    </style>
+</head>
+<body>
+
+	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+	
+    <div class="content-wrap">
+        <div class="mypage-header">
+            <p class="mypage-title">MYPAGE</p>
+            <p class="mypage-subtitle"><span>${m.memberName }</span>님 접속을 환영합니다.</p>
+        </div>
+        <div class="mypage-menu">
+            <div class="menu-img">
+                <a href="/mypageReserve.do" id="menu-img-a"><i class="far fa-calendar-alt icon"></i></a>
+            </div>
+            <div class="menu-text">
+                <span>예약내역</span>
+                <span class="num">(3)</span>
+            </div>
+
+
+            <div class="menu-img">
+                <a href="#" id="menu-img-a"><i class="far fa-thumbs-up icon"></i></a>
+            </div>
+            <div class="menu-text">
+                <span>후기내역</span>
+                <span class="num">(3)</span>
+            </div>
+
+
+            <div class="menu-img">
+                <a href="#" id="menu-img-a"><i class="fas fa-user-friends icon"></i></a>
+            </div>
+            <div class="menu-text">
+                <span>거래내역</span>
+                <span class="num">(3)</span>
+            </div>
+        </div>
+
+        <div class="mypage-table">
+            <form action="/updateMember.do" method="post">
+            <input type="hidden" name="memberNo" id="memberNo" value="${m.memberNo }">
+                <table class="mypage-table">
+                    <tr>
+                        <td>아이디</td>
+                        <td>
+                            <input type="text" name="memberId" id="memberId" class="mypage-input" value="${m.memberId }" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>비밀번호</td>
+                        <td>
+                            <input type="password" name="memberPw" id="memberPw" class="mypage-input" value="" placeholder="비밀번호를 입력해주세요">
+                        	<span id="pwSpan"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>이메일</td>
+                        <td>
+                            <input type="text" name="memberEmail" id="memberEmail" class="mypage-input" value="${m.memberEmail }">
+                        	<span id="emailSpan"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>이름</td>
+                        <td>
+                            <input type="text" name="memberName" id="memberName" class="mypage-input" value="${m.memberName }" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>휴대폰</td>
+                        <td>
+                            <input type="text" name="memberPhone" id="memberPhone" class="mypage-input" value="${m.memberPhone }">
+							<span id="phoneSpan"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>가입일</td>
+                        <td>
+                            <input type="text" name="memberRegDate" id="memberRegDate" class="mypage-input" value="${m.memberRegDate }" readonly>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;" class="update-btn-td">
+                            <input type="submit" id="updateBtn" value="수정하기">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <span class="delete">정말로 탈퇴하시겠어요? <a href="/deleteMember.do?memberNo=${m.memberNo }">회원탈퇴</a></span>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+	
+	    <script>
+        $(function() {
+            //입력양식 확인 check배열 생성
+            var check = [false, false, false];
+            
+            //비밀번호 확인
+            $("#memberPw").change(function() {
+                var reg = /^[A-Za-z0-9_-]{6,18}$/;
+                if (reg.test($(this).val())) {
+                	check[0] = true;
+                    $("#pwSpan").text("");
+                    $("#memberPw").css('border', '2px solid #1d0e0e');
+                } else {
+                	check[0] = false;
+                    $("#pwSpan").text("6~18자리 영어 대소문자/숫자 조합");
+                    $("#pwSpan").css('color', 'red');
+                    $("#memberPw").css('border', '2px solid red');
+                }
+            });
+            
+            //이메일 확인
+            $("#memberEmail").change(function() {
+                var reg = /^[a-z][a-z0-9_-]{3,12}@([a-z\d\.]+)\.([a-z]{2,6})$/;
+                if (reg.test($(this).val())) {
+                    check[1] = true;
+                    $("#emailSpan").text("");
+                    $("#memberEmail").css('border', '2px solid #1d0e0e');
+                } else {
+                    check[1] = false;
+                    $("#emailSpan").text("입력예시) createacamp@email.com");
+                    $("#emailSpan").css('color', 'red');
+                    $("#memberEmail").css('border', '2px solid red');
+                }
+            });
+            
+            //휴대폰 확인
+            $("#memberPhone").change(function() {
+                var reg = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+                if (reg.test($(this).val())) {
+                    check[2] = true;
+                    $("#phoneSpan").text("");
+                    $("#memberPhone").css('border', '2px solid #1d0e0e');
+                } else {
+                    check[2] = false;
+                    $("#phoneSpan").text("입력예시) 010-1234-5678");
+                    $("#phoneSpan").css('color', 'red');
+                    $("#memberPhone").css('border', '2px solid red');
+                }
+            });
+            
+            //Submit 버튼
+            $("#updateBtn").click(function(event) {
+                if (regChk < 3) {
+                    alert("입력한 정보를 확인해주세요.");
+                    event.preventDefault();
+                } 
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="camp">
+	<select id="selectList" parameterType="map" resultType="camp">		
+		select
+    		rnum,
+    		campNo,
+   			campName,
+    		campAddr,
+    		memberNo,
+    		campShow,
+    		campType,
+    		campPh,
+    		campPeriod,
+    		campDay,
+    		campFacility,
+    		campFeeOriDay,
+    		campFeeOriEnd,
+    		campFeePeakDay,
+    		campFeePeakEnd
+			from
+        		(select rownum as rnum, n.*
+		from
+		(select
+			camp_no as campNo,
+			camp_name as campName,
+			camp_addr as campAddr,
+			member_no as memberNo,
+			camp_show as campShow,
+			camp_type as campType,
+			camp_ph as campPh,
+			camp_period as campPeriod,
+			camp_day as campDay,
+			camp_facility as campFacility,
+			camp_fee_ori_day as campFeeOriDay,
+			camp_fee_ori_end as campFeeOriEnd,
+			camp_fee_peak_day as campFeePeakDay,
+			camp_fee_peak_end as campFeePeakEnd
+		from camp order by 1 desc)
+		n)
+           where rnum between #{start} and #{end}
+	</select>
+	<select id="totalCount" resultType="_int">
+		select count(camp_no) as cnt from camp
+	</select>
+	<select id="selectOne" parameterType="camp" resultType="camp">
+		select 
+          	camp_no as campNo,
+			camp_name as campName,
+			camp_addr as campAddr,
+			member_no as memberNo,
+			camp_show as campShow,
+			camp_type as campType,
+			camp_ph as campPh,
+			camp_period as campPeriod,
+			camp_day as campDay,
+			camp_facility as campFacility,
+			camp_fee_ori_day as campFeeOriDay,
+			camp_fee_ori_end as campFeeOriEnd,
+			camp_fee_peak_day as campFeePeakDay,
+			camp_fee_peak_end as campFeePeakEnd
+        from camp 
+        <trim prefix="where" prefixOverrides="and|or">
+		  	<if test="campNo != 0">
+				 camp_no=#{campNo}
+		  	</if>		  	
+		  </trim>
+	</select>
+</mapper>
