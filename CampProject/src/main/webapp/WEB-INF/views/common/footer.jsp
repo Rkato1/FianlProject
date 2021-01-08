@@ -10,80 +10,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <head>
-<head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-    <style>
-    
-    	html,
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        
-        * {
-            font-family: 'Noto Sans KR';
-        }
-
-        .footer-wrap {
-            width: 100%;
-            height: 180px;
-            background-color: #1d0e0e;
-            box-sizing: border-box;
-            overflow: hidden;
-            margin: 0 auto;
-            margin-top: 80px;
-        }
-
-        .footer-info {
-            width: 800px;
-            padding: 20px;
-            float: left;
-        }
-
-        .footer-info>span {
-            color: white;
-            font-weight: lighter;
-            display: block;
-        }
-
-        .footer-info>span:last-child {
-            color: #f49b00;
-        }
-
-        .footer-sns {
-            width: 220px;
-            height: 50%;
-            margin-top: 15px;
-            box-sizing: border-box;
-            float: right;
-        }
-
-        .sns-wrap {
-            overflow: hidden;
-            list-style: none;
-            margin: 0;
-        }
-
-        .sns-item {
-            float: left;
-        }
-
-        .sns-img {
-            width: 50px;
-            height: 40px;
-            padding-left: 10px;
-        }
-
-        .sns-img>img {
-            width: 100%;
-            height: 100%;
-        }
-
-    </style>
 </head>
 <body>
+
+	<!-- CSS -->
+	<link href="../css/common/footer.css" type="text/css" rel="stylesheet">
+	
     <div class="footer-wrap">
         <div class="footer-info">
             <span>상호명 : ㈜Before And After | 사업자등록번호 : 878-65-88452</span>

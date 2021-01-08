@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.admin.service.AdminService;
-import com.kh.camp.member.model.vo.MemberVO;
+import com.kh.member.model.vo.MemberVO;
 
 @RequestMapping("/admin")
 @Controller
