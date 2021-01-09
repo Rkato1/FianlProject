@@ -79,8 +79,8 @@
 				 camp_no=#{campNo}
 		  	</if>
 		  	<if test="filegrade != 0">
-		  		filegrade = #{filegrade}
-		  	</if>		  	
+		  		and filegrade = #{filegrade}
+		  	</if>  	
 		  </trim>
 	</select>
 	

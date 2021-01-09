@@ -25,9 +25,10 @@ public class CampService {
 		map.put("end", end);		
 		ArrayList<CampVO> list = dao.selectList(map);
 		for(CampVO c : list) {
-			map.put("grade", 1);
+			map.put("campNo",c.getCampNo());
+			map.put("filegrade", 1);
 			ArrayList<CampPictureVo> pictureList = dao.selectPictureList(map);
-			c.setPictureList(pictureList);
+			c.setPictureList(pictureList);		
 		}
 		int totalCount = dao.totalCount();
 		int totalPage = totalCount / numPerPage;
@@ -65,6 +66,7 @@ public class CampService {
 		CampVO camp = dao.campView(c);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("campNo", c.getCampNo());
+		map.put("filegrade", 2);
 		ArrayList<CampPictureVo> pictureList = dao.selectPictureList(map);
 		camp.setPictureList(pictureList);
 		return camp;
