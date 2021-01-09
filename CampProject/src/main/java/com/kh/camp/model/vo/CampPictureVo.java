@@ -1,4 +1,4 @@
-package com.kh.camp.camp.model.vo;
+package com.kh.camp.model.vo;
 
 import lombok.Data;
 

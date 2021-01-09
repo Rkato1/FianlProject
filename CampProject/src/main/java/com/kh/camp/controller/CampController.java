@@ -1,4 +1,4 @@
-package com.kh.camp.camp.controller;
+package com.kh.camp.controller;
 
 
 
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kh.camp.camp.model.service.CampService;
-import com.kh.camp.camp.model.vo.CampPageData;
-import com.kh.camp.camp.model.vo.CampVO;
+import com.kh.camp.model.service.CampService;
+import com.kh.camp.model.vo.CampPageData;
+import com.kh.camp.model.vo.CampVO;
 
 
 @Controller

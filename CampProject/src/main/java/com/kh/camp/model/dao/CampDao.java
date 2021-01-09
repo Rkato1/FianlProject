@@ -1,4 +1,4 @@
-package com.kh.camp.camp.model.dao;
+package com.kh.camp.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.camp.camp.model.vo.CampPictureVo;
-import com.kh.camp.camp.model.vo.CampVO;
+import com.kh.camp.model.vo.CampPictureVo;
+import com.kh.camp.model.vo.CampVO;
 
 @Repository
 public class CampDao {
