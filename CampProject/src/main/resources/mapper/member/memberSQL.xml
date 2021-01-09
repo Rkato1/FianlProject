@@ -70,6 +70,37 @@
 		from member where member_no=#{_parameter} 
 	</select>
 	
+	<select id="cntReserve" parameterType="_int" resultType="_int">
+		select 
+			(count(*))cnt
+		from reservation where member_no=#{_parameter} 
+	</select>
+	
+	<select id="cntReview" parameterType="String" resultType="_int">
+		select 
+			(count(*))cnt
+		from review where member_id=#{value}
+	</select>
+	
+	<select id="cntUsedTrade" parameterType="String" resultType="_int">
+		select 
+			(count(*))cnt
+		from used_trade where used_trade_writer=#{value}
+	</select>
+	
+	<select id="mypageReview" parameterType="String" resultType="review">
+		select 
+			review_no as reviewNo,
+			member_id as memberId,
+			reserve_no as reserveNo,
+			review_title as reviewTitle,
+			review_content as reviewContent,
+			review_date as reviewDate,
+			review_point as reviewPoint,
+			camp_no as campNo
+		from review where member_id=#{value} 
+	</select>
+	
 	<update id="updateMember" parameterType="member">
 		update member
 		<set>

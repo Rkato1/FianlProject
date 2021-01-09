@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.MemberVO;
+import com.kh.reserve.model.vo.ReserveVO;
+import com.kh.review.model.vo.ReviewVO;
 
 @Service
 public class MemberService {
@@ -32,6 +34,26 @@ public class MemberService {
 		return dao.mypageMember(memberNo);
 	}
 	
+	public int cntReserve(int memberNo) {
+		return dao.cntReserve(memberNo);
+	}
+	
+	public int cntReview(String memberId) {
+		return dao.cntReview(memberId);
+	}
+
+	public int cntUsedTrade(String memberId) {
+		return dao.cntUsedTrade(memberId);
+	}
+	
+	public ReserveVO mypageReserve(int memberNo) {
+		return dao.mypageReserve(memberNo);
+	}
+	
+	public ReviewVO mypageReview(String memberId) {
+		return dao.mypageReview(memberId);
+	}
+	
 	public int updateMember(MemberVO m) {
 		return dao.updateMember(m);
 	}
@@ -39,7 +61,5 @@ public class MemberService {
 	public int deleteMember(int memberNo) {
 		return dao.deleteMember(memberNo);
 	}
-
-
-
+	
 }

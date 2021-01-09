@@ -146,6 +146,30 @@
             color: #f49b00;
             font-weight: bolder;
         }
+        
+        /*--------------------------------*/
+
+        .data-table {
+            margin: 0 auto;
+            width: 750px;
+            font-size: 14px;
+        }
+
+        .data-table>thead>tr>th {
+            text-align: center;
+        }
+
+        .data-table>tbody>tr>td {
+            text-align: center;
+        }
+
+        .data-table>thead>tr {
+            background-color: #d3d3d3;
+        }
+        
+        #state {
+            color: #f49b00;
+        }
 
     </style>
 </head>
@@ -160,22 +184,20 @@
         </div>
         <div class="mypage-menu">
             <div class="menu-img">
-                <a href="/mypageReserve.do" id="menu-img-a"><i class="far fa-calendar-alt icon"></i></a>
+                <a href="#" id="menu-img-a"><i class="far fa-calendar-alt icon"></i></a>
             </div>
             <div class="menu-text">
                 <span>예약내역</span>
-                <span class="num">(3)</span>
+                <span class="num">(${cntReserve })</span>
             </div>
-
 
             <div class="menu-img">
                 <a href="#" id="menu-img-a"><i class="far fa-thumbs-up icon"></i></a>
             </div>
             <div class="menu-text">
                 <span>후기내역</span>
-                <span class="num">(3)</span>
+                <span class="num">(${cntReview })</span>
             </div>
-
 
             <div class="menu-img">
                 <a href="#" id="menu-img-a"><i class="fas fa-user-friends icon"></i></a>
@@ -186,7 +208,7 @@
             </div>
         </div>
 
-        <div class="mypage-table">
+        <div class="mypage-table" id="">
             <form action="/updateMember.do" method="post">
             <input type="hidden" name="memberNo" id="memberNo" value="${m.memberNo }">
                 <table class="mypage-table">
@@ -242,6 +264,27 @@
                     </tr>
                 </table>
             </form>
+        </div>
+        
+        <div class="mypage-table" id="reserve">
+        	<table class="table table-bordered data-table">
+            	<thead>
+                	<tr>
+                    	<th>예약일자</th>
+                        <th>캠핑장</th>
+                        <th>금액</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<tr>
+                    	<td>2020-12-30</td>
+                        <td>충남 맑은 하늘 캠핑장</td>
+                        <td>200.000원</td>
+                        <td id="state">이용완료</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     

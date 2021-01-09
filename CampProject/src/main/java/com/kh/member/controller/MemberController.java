@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.MemberVO;
+import com.kh.reserve.model.vo.ReserveVO;
+import com.kh.review.model.vo.ReviewVO;
 
 @Controller
 public class MemberController {
@@ -34,8 +36,8 @@ public class MemberController {
 		MemberVO member = service.selectOneMember(m);
 		if (member != null) {
 			session.setAttribute("m", member);
-			model.addAttribute("msg", "<로그인>되었습니다.");
-			model.addAttribute("loc", "/blank.do");
+			model.addAttribute("msg", "[로그인]되었습니다.");
+			model.addAttribute("loc", "/campList.do?reqPage=1");
 		} else {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요.");
 			model.addAttribute("loc", "/loginFrm.do");
@@ -47,7 +49,7 @@ public class MemberController {
 	public String logout(HttpSession session, Model model, @SessionAttribute(required = false) MemberVO m) {
 		if (m != null) {
 			session.invalidate();
-			model.addAttribute("msg", "<로그아웃>되었습니다");
+			model.addAttribute("msg", "[로그아웃]되었습니다");
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
 		}
@@ -84,9 +86,9 @@ public class MemberController {
 	@RequestMapping("/idCheck.do")
 	public String checkId(MemberVO m) {
 		MemberVO member = service.selectOneMember(m);
-		if (member != null) { // 사용불가능 -> 1을 리턴
+		if (member != null) { // 아이디 사용불가능(중복) -> 1을 리턴
 			return "1";
-		} else { // 사용가능할 때 -> 0을 리턴
+		} else { // 아이디 사용가능 -> 0을 리턴
 			return "0";
 		}
 	}
@@ -101,47 +103,42 @@ public class MemberController {
 		int result = service.insertMember(m);
 		if (result > 0) {
 			model.addAttribute("msg", "회원가입 되었습니다.");
+			model.addAttribute("loc", "/loginFrm.do");
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
+			model.addAttribute("loc", "/joinFrm.do");
 		}
-		model.addAttribute("loc", "/blank.do");
-
 		return "common/msg";
 	}
 
 	@RequestMapping("/mypage.do")
-	public String mypage(int memberNo, Model model) {
+	public String mypage(int memberNo, String memberId, Model model) {
 		MemberVO member = service.mypageMember(memberNo);
-		// int reserveCnt = service.reserveCnt(memberNo);
+		//갯수 조회
+		int cntReserve = service.cntReserve(memberNo);
+		int cntReview = service.cntReview(memberId);
+		int cntUsedTrade = service.cntUsedTrade(memberId);
+		//데이터 조회
+		//ReserveVO reserve = service.mypageReserve(memberNo);
+		//ReviewVO review = service.mypageReview(memberId);
+		//UsedVO usedTrade = service.mypageUsedTrade(memberId);
+		
 		model.addAttribute("m", member);
+		model.addAttribute("cntReserve", cntReserve);
+		model.addAttribute("cntReview", cntReview);
+		model.addAttribute("cntUsedTrade", cntUsedTrade);
 		return "member/mypage";
-	}
-
-	@RequestMapping("/mypageReserve.do")
-	public String mypageReserve() {
-		return "member/mypageReserve";
-	}
-
-	@RequestMapping("/mypageReview.do")
-	public String mypageReview() {
-		return "member/mypageReview";
-	}
-
-	@RequestMapping("/mypageUsedTrade.do")
-	public String mypageUsedTrade() {
-		return "member/mypageUsedTrade";
 	}
 
 	@RequestMapping("/updateMember.do")
 	public String updateMember(MemberVO m, Model model) {
 		int result = service.updateMember(m); 
 		if(result>0) {
-		model.addAttribute("msg", "회원정보를 수정했습니다."); 
+			model.addAttribute("msg", "회원정보를 수정했습니다.");
 		} else {
-		model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
+			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
 		} 
-		model.addAttribute("loc", "/blank.do");
-		 
+		model.addAttribute("loc", "/campList.do?reqPage=1");
 		return "common/msg";
 	}
 
@@ -149,11 +146,13 @@ public class MemberController {
 	public String deleteMember(int memberNo, HttpSession session, Model model) {
 		int result = service.deleteMember(memberNo);
 		if (result > 0) {
+			session.invalidate();
 			model.addAttribute("msg", "탈퇴되었습니다.");
+			model.addAttribute("loc", "/");
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
+			model.addAttribute("loc", "/campList.do?reqPage=1");
 		}
-		model.addAttribute("loc", "/blank.do");
 
 		return "common/msg";
 	}

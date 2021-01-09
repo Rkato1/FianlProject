@@ -14,7 +14,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="/css/admin/admin.css">
 <script>
     $(function() {
         $(".menu li>a").hover(function() {
@@ -37,13 +37,20 @@
                    
                     <table class="table table-hover">
                         <tr>
-                            <th class="th-short"></th>
-                            <th class="th-short"></th>
-                            <th class="th-long"></th>
-                            <th class="th-long"></th>
-                            <th class="th-short"></th>
-                            <th class="th-short"></th>
-                            <th class="th-long"></th>
+                            <th class="short">번호</th>
+                            <th class="short">이름</th>
+                            <th class="long">주소</th>
+                            <th class="short">회원번호</th>
+                            <th class="middle">캠핑장소개</th>                            
+                            <th class="middle">캠핑장유형</th>
+                            <th class="long">문의처</th>
+                            <th class="long">운영기간</th>
+                            <th class="long">운영일</th>
+                            <th class="long">이용가능시설</th>
+                            <!-- th class="long">주중요금(일반)</th>                            
+                            <th class="long">주말요금(일반)</th>
+                            <th class="long">주중요금(성수기)</th>
+                            <th class="long">주말요금(성수기)</th-->
                         </tr>
 						<tr>
                         	<td></td>
@@ -53,6 +60,13 @@
                         	<td></td>
                         	<td></td>
                         	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<!-- td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td-->
                        	</tr>
                     </table>
                     <div id= "pageNavi"></div>
