@@ -120,7 +120,7 @@
         color: #f49b00;
     }
 
-    .score>i {
+    .point>i {
         color: #ffd56b;
     }
     
@@ -189,7 +189,7 @@
                 			${r.reviewTitle }
                 		</a>
                 	</td>
-                	<td class="score">
+                	<td class="point">
                 		<c:forEach var="i" begin="0" end="4">
                 			<c:choose>
                 				<c:when test="${r.reviewPoint  > i }">

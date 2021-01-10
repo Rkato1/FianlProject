@@ -1,9 +1,13 @@
 package com.kh.member.model.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.camp.used.vo.UsedVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
 import com.kh.review.model.vo.ReviewVO;
@@ -46,12 +50,19 @@ public class MemberDao {
 		return sqlSession.selectOne("member.cntUsedTrade", memberId);
 	}
 	
-	public ReserveVO mypageReserve(int memberNo) {
-		return sqlSession.selectOne("member.mypageReserve", memberNo);
+	public ArrayList<ReserveVO> mypageReserve(int memberNo) {
+		List<ReserveVO> list = sqlSession.selectList("member.mypageReserve", memberNo);
+		return (ArrayList<ReserveVO>)list;
 	}
 	
-	public ReviewVO mypageReview(String memberId) {
-		return sqlSession.selectOne("member.mypageReview", memberId);
+	public ArrayList<ReviewVO> mypageReview(String memberId) {
+		List<ReviewVO> list = sqlSession.selectList("member.mypageReview", memberId);
+		return (ArrayList<ReviewVO>)list;
+	}
+	
+	public ArrayList<UsedVO> mypageUsedTrade(String memberId) {
+		List<UsedVO> list = sqlSession.selectList("member.mypageUsedTrade", memberId);
+		return (ArrayList<UsedVO>)list;
 	}
 
 	public int updateMember(MemberVO m) {
@@ -61,6 +72,8 @@ public class MemberDao {
 	public int deleteMember(int memberNo) {
 		return sqlSession.delete("member.deleteMember", memberNo);
 	}
+
+
 
 
 

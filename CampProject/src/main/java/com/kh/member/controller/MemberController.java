@@ -1,5 +1,7 @@
 package com.kh.member.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kh.camp.used.vo.UsedVO;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
@@ -115,18 +118,24 @@ public class MemberController {
 	public String mypage(int memberNo, String memberId, Model model) {
 		MemberVO member = service.mypageMember(memberNo);
 		//갯수 조회
-		int cntReserve = service.cntReserve(memberNo);
-		int cntReview = service.cntReview(memberId);
-		int cntUsedTrade = service.cntUsedTrade(memberId);
+		int cntRes = service.cntReserve(memberNo);
+		int cntRev = service.cntReview(memberId);
+		int cntUsed = service.cntUsedTrade(memberId);
 		//데이터 조회
-		//ReserveVO reserve = service.mypageReserve(memberNo);
-		//ReviewVO review = service.mypageReview(memberId);
-		//UsedVO usedTrade = service.mypageUsedTrade(memberId);
+		//ArrayList<ReserveVO> listRes = service.mypageReserve(memberNo);
+		ArrayList<ReviewVO> listRev = service.mypageReview(memberId);
+		//ArrayList<UsedVO> listUsed = service.mypageUsedTrade(memberId);
 		
 		model.addAttribute("m", member);
-		model.addAttribute("cntReserve", cntReserve);
-		model.addAttribute("cntReview", cntReview);
-		model.addAttribute("cntUsedTrade", cntUsedTrade);
+		//갯수 전달
+		model.addAttribute("cntRes", cntRes);
+		model.addAttribute("cntRev", cntRev);
+		model.addAttribute("cntUsed", cntUsed);
+		//데이터 전달
+		//model.addAttribute("listRes", listRes);
+		model.addAttribute("listRev", listRev);
+		//model.addAttribute("listUsed", listUsed);
+		
 		return "member/mypage";
 	}
 
@@ -150,8 +159,9 @@ public class MemberController {
 			model.addAttribute("msg", "탈퇴되었습니다.");
 			model.addAttribute("loc", "/");
 		} else {
+			session.invalidate();
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
-			model.addAttribute("loc", "/campList.do?reqPage=1");
+			model.addAttribute("loc", "/loginFrm.do");
 		}
 
 		return "common/msg";

@@ -1,8 +1,11 @@
 package com.kh.member.model.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.camp.used.vo.UsedVO;
 import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
@@ -46,12 +49,16 @@ public class MemberService {
 		return dao.cntUsedTrade(memberId);
 	}
 	
-	public ReserveVO mypageReserve(int memberNo) {
+	public ArrayList<ReserveVO> mypageReserve(int memberNo) {
 		return dao.mypageReserve(memberNo);
 	}
 	
-	public ReviewVO mypageReview(String memberId) {
+	public ArrayList<ReviewVO> mypageReview(String memberId) {
 		return dao.mypageReview(memberId);
+	}
+	
+	public ArrayList<UsedVO> mypageUsedTrade(String memberId) {
+		return dao.mypageUsedTrade(memberId);
 	}
 	
 	public int updateMember(MemberVO m) {
@@ -61,5 +68,7 @@ public class MemberService {
 	public int deleteMember(int memberNo) {
 		return dao.deleteMember(memberNo);
 	}
+
+
 	
 }

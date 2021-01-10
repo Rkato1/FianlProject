@@ -10,6 +10,7 @@ public class ReviewVO {
 	private String reviewDate;
 	private int reviewPoint;
 	private int campNo;
+	private String campName;
 	
 	public ReviewVO() {
 		super();
@@ -17,7 +18,7 @@ public class ReviewVO {
 	}
 
 	public ReviewVO(int reviewNo, String memberId, int reserveNo, String reviewTitle, String reviewContent,
-			String reviewDate, int reviewPoint, int campNo) {
+			String reviewDate, int reviewPoint, int campNo, String campName) {
 		super();
 		this.reviewNo = reviewNo;
 		this.memberId = memberId;
@@ -27,6 +28,7 @@ public class ReviewVO {
 		this.reviewDate = reviewDate;
 		this.reviewPoint = reviewPoint;
 		this.campNo = campNo;
+		this.campName = campName;
 	}
 
 	public int getReviewNo() {
@@ -91,6 +93,14 @@ public class ReviewVO {
 
 	public void setCampNo(int campNo) {
 		this.campNo = campNo;
+	}
+
+	public String getCampName() {
+		return campName;
+	}
+
+	public void setCampName(String campName) {
+		this.campName = campName;
 	}
 
 }
