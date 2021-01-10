@@ -1,6 +1,6 @@
 package com.kh.review.model.vo;
 
-public class ReviewVO {
+public class ReviewCampVO {
 	
 	private int reviewNo;
 	private String memberId;
@@ -10,14 +10,15 @@ public class ReviewVO {
 	private String reviewDate;
 	private int reviewPoint;
 	private int campNo;
+	private String campName;
 	
-	public ReviewVO() {
+	public ReviewCampVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ReviewVO(int reviewNo, String memberId, int reserveNo, String reviewTitle, String reviewContent,
-			String reviewDate, int reviewPoint, int campNo) {
+	public ReviewCampVO(int reviewNo, String memberId, int reserveNo, String reviewTitle, String reviewContent,
+			String reviewDate, int reviewPoint, int campNo, String campName) {
 		super();
 		this.reviewNo = reviewNo;
 		this.memberId = memberId;
@@ -27,6 +28,7 @@ public class ReviewVO {
 		this.reviewDate = reviewDate;
 		this.reviewPoint = reviewPoint;
 		this.campNo = campNo;
+		this.campName = campName;
 	}
 	
 	public int getReviewNo() {
@@ -77,5 +79,11 @@ public class ReviewVO {
 	public void setCampNo(int campNo) {
 		this.campNo = campNo;
 	}
-
+	public String getCampName() {
+		return campName;
+	}
+	public void setCampName(String campName) {
+		this.campName = campName;
+	}
+	
 }

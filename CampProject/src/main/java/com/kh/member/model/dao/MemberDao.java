@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.camp.used.vo.UsedVO;
 import com.kh.member.model.vo.MemberVO;
-import com.kh.reserve.model.vo.ReserveVO;
-import com.kh.review.model.vo.ReviewVO;
+import com.kh.reserve.model.vo.ReserveCampVO;
+import com.kh.review.model.vo.ReviewCampVO;
 
 @Repository
 public class MemberDao {
@@ -50,14 +50,14 @@ public class MemberDao {
 		return sqlSession.selectOne("member.cntUsedTrade", memberId);
 	}
 	
-	public ArrayList<ReserveVO> mypageReserve(int memberNo) {
-		List<ReserveVO> list = sqlSession.selectList("member.mypageReserve", memberNo);
-		return (ArrayList<ReserveVO>)list;
+	public ArrayList<ReserveCampVO> mypageReserve(int memberNo) {
+		List<ReserveCampVO> list = sqlSession.selectList("member.mypageReserve", memberNo);
+		return (ArrayList<ReserveCampVO>)list;
 	}
 	
-	public ArrayList<ReviewVO> mypageReview(String memberId) {
-		List<ReviewVO> list = sqlSession.selectList("member.mypageReview", memberId);
-		return (ArrayList<ReviewVO>)list;
+	public ArrayList<ReviewCampVO> mypageReview(String memberId) {
+		List<ReviewCampVO> list = sqlSession.selectList("member.mypageReview", memberId);
+		return (ArrayList<ReviewCampVO>)list;
 	}
 	
 	public ArrayList<UsedVO> mypageUsedTrade(String memberId) {

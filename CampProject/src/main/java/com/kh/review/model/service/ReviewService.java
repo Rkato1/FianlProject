@@ -52,7 +52,7 @@ public class ReviewService {
 		
 		//이전 버튼
 		if(pageNo != 1) {
-			pageNavi += "<a class='btn btn-outline-dark btn-sm' href='reviewList.do?reqPage="+(pageNo-1)+"'>이전</a>&nbsp;";
+			pageNavi += "<a class='btn btn-outline-dark' href='reviewList.do?reqPage="+(pageNo-1)+"'>이전</a>&nbsp;";
 		}
 		
 		//숫자 버튼
@@ -60,9 +60,9 @@ public class ReviewService {
 			//현재페이지는 다시 안눌리게하는 조건
 			if(pageNo != reqPage) {
 				//<a href='/noticeList.do?reqPage=1'>1</a>
-				pageNavi += "<a class='btn btn-outline-dark btn-sm' href='reviewList.do?reqPage="+pageNo+"'>"+pageNo+"</a>&nbsp;";
+				pageNavi += "<a class='btn btn-outline-dark' href='reviewList.do?reqPage="+pageNo+"'>"+pageNo+"</a>&nbsp;";
 			} else {
-				pageNavi += "<span class='btn btn-dark btn-sm'>"+pageNo+"</span>&nbsp;";
+				pageNavi += "<span class='btn btn-dark'>"+pageNo+"</span>&nbsp;";
 			}
 			//한개를 출력하고 나면 pageNo를 늘려주기
 			pageNo++;
@@ -76,7 +76,7 @@ public class ReviewService {
 		
 		//다음 버튼
 		if(pageNo <= totalPage) {
-			pageNavi += "<a class='btn btn-outline-dark btn-sm' href='reviewList.do?reqPage="+pageNo+"'>다음</a>";
+			pageNavi += "<a class='btn btn-outline-dark' href='reviewList.do?reqPage="+pageNo+"'>다음</a>";
 		}
 		
 		ReviewPageData rpd = new ReviewPageData(list, pageNavi);

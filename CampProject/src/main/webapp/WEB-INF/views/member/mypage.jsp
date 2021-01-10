@@ -283,19 +283,21 @@
         	<table class="table table-bordered data-table">
             	<thead>
                 	<tr>
-                    	<th>예약일자</th>
-                        <th>캠핑장</th>
+                    	<th>캠핑장</th>
+                        <th>체크인 - 체크아웃</th>
                         <th>금액</th>
                         <th>상태</th>
                     </tr>
                 </thead>
                 <tbody>
+                	<c:forEach items="${listRes }" var="res">
                 	<tr>
-                    	<td>2020-12-30</td>
-                        <td>충남 맑은 하늘 캠핑장</td>
-                        <td>200.000원</td>
-                        <td id="state">이용완료</td>
+                    	<td>${res.campName }</td>
+                        <td>${res.checkInDate } - ${res.checkOutDate }</td>
+                        <td>${res.reservePrice }</td>
+                        <td id="state">${res.reserveStatus }</td>
                     </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -340,18 +342,18 @@
         	<table class="table table-bordered data-table">
             	<thead>
                 	<tr>
-                    	<th>거래일자</th>
-                        <th>캠핑장</th>
-                        <th>거래</th>
-                        <th>거래</th>
+                    	<th>제목(상품명)</th>
+                    	<th>카테고리</th>
+                        <th>상품가격</th>
+                        <th>작성일</th>
                     </tr>
                 </thead>
                 <tbody>
                 	<tr>
-                    	<td>2020-12-30</td>
-                        <td>충남 맑은 하늘 캠핑장</td>
-                        <td>200.000원</td>
-                        <td id="state">이용완료</td>
+                    	<td>~~~</td>
+                        <td>~~~</td>
+                        <td>~~~</td>
+                        <td>~~~</td>
                     </tr>
                 </tbody>
             </table>

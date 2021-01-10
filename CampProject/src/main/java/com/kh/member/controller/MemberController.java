@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.kh.camp.used.vo.UsedVO;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.MemberVO;
-import com.kh.reserve.model.vo.ReserveVO;
-import com.kh.review.model.vo.ReviewVO;
+import com.kh.reserve.model.vo.ReserveCampVO;
+import com.kh.review.model.vo.ReviewCampVO;
 
 @Controller
 public class MemberController {
@@ -122,8 +122,8 @@ public class MemberController {
 		int cntRev = service.cntReview(memberId);
 		int cntUsed = service.cntUsedTrade(memberId);
 		//데이터 조회
-		//ArrayList<ReserveVO> listRes = service.mypageReserve(memberNo);
-		ArrayList<ReviewVO> listRev = service.mypageReview(memberId);
+		ArrayList<ReserveCampVO> listRes = service.mypageReserve(memberNo);
+		ArrayList<ReviewCampVO> listRev = service.mypageReview(memberId);
 		//ArrayList<UsedVO> listUsed = service.mypageUsedTrade(memberId);
 		
 		model.addAttribute("m", member);
@@ -132,7 +132,7 @@ public class MemberController {
 		model.addAttribute("cntRev", cntRev);
 		model.addAttribute("cntUsed", cntUsed);
 		//데이터 전달
-		//model.addAttribute("listRes", listRes);
+		model.addAttribute("listRes", listRes);
 		model.addAttribute("listRev", listRev);
 		//model.addAttribute("listUsed", listUsed);
 		
