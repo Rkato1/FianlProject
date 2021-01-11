@@ -17,6 +17,7 @@ public class UsedService {
 	private UsedDao dao;
 
 	public UsedPageNavi usedPage(int reqPage) {
+		//한 페이지의 게시물 수를 정함
 		int numPerPage = 9;
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
@@ -34,7 +35,7 @@ public class UsedService {
 		if (totalCount % numPerPage != 0) {
 			totalPage++;
 		}
-		int pageNaviSize = 3;
+		int pageNaviSize = 5;
 		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
 		String pageNavi = "";
 		String repeatStr = "<a class='btn btn-outline-primary navi-btn' href='/usedPage.do?reqPage=";
@@ -59,6 +60,17 @@ public class UsedService {
 		cpn.setList(list);
 		cpn.setPageNavi(pageNavi);
 		return cpn;
+	}
+
+	public int usedEnrollOk(UsedVO usedVO) {
+		int result = dao.usedEnrollOk(usedVO);
+		if(result > 0) {
+			int usedNo = usedVO.getUsedNo();
+			for(UsedFileVO ufv : usedVO.getFile()) {
+				result = dao.insertFile(ufv);
+			}
+		}
+		return result;
 	}
 
 	

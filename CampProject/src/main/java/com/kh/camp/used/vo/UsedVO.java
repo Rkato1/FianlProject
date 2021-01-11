@@ -13,5 +13,8 @@ public class UsedVO {
 	private String usedWriter;
 	private String usedContent;
 	private String usedDate;
+	private String usedArea;
+	private String usedState;
+	private String usedChange;
 	private ArrayList<UsedFileVO> file;
 }

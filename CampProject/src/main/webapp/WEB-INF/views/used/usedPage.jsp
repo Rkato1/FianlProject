@@ -18,7 +18,7 @@
         }
         .section-mid-size{
             width: 1100px;
-            height: 1180px;
+            height:800px;
             margin: 0 auto;
         }
         .bootcol{
@@ -46,7 +46,7 @@
             width: 150px;
         }
         .searchBtn{
-            background-color: #1d0202;;
+            background-color: #1d0202;
             color: white;
             border: 0;
             border-radius: 3px;
@@ -67,7 +67,7 @@
             margin-bottom: 30px;
             float: left;
             margin-left: 50px;
-            transition: background-color 3s;
+            transition: background-color .5s;
         }
         .prd-item img{
             object-fit: cover;
@@ -80,6 +80,22 @@
             width: 298px;
             height: 300px;
         }
+        .items-navi {
+        text-align: center;
+        width: 1000px;
+        height: 200px;
+    	}
+    	.btn-outline-primary {
+    	background-color: #1d0202 !important;
+        color: white !important;
+        border-color: white !important;
+        transition: background-color .5s !important;
+		}
+		.btn-outline-primary:hover {
+    	background-color: #fa9b00 !important;
+        color: black !important;
+        border-color: white !important;
+		}
     </style>
     
 </head>
@@ -121,7 +137,7 @@
             </div>
             <div class="col-md-1 bootcol one" style="vertical-align: middle;  padding: 0;">
             	<c:if test="${sessionScope.m != null }">
-               		<a href="/usedEnroll.do?memberId=${SessionScope.m.memberId }"><input type="button" value="물품등록" style="font-size: 16px; height: 22px; font-size: 13px; margin-left: 20px;" class="searchBtn"></a>
+               		<a href="/usedEnroll.do"><input type="button" value="물품등록" style="font-size: 16px; height: 22px; font-size: 13px; margin-left: 20px;" class="searchBtn"></a>
                 </c:if>
             </div>
         </div>
@@ -162,7 +178,7 @@
 			</c:forEach>
       </c:forEach>
     </section>
-    <section style="text-align: center;">
+    <section class="container">
         <div class="items-navi">
 			<div class="btn-group">${pageNavi }</div>
 		</div>

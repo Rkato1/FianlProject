@@ -29,7 +29,15 @@ public class UsedDao {
 	}
 
 	public int totalCount() {
-		return sqlSession.selectOne("camp.totalCount");
+		return sqlSession.selectOne("used.totalCount");
+	}
+
+	public int usedEnrollOk(UsedVO usedVO) {
+		return sqlSession.insert("used.usedInsert", usedVO);
+	}
+
+	public int insertFile(UsedFileVO ufv) {
+		return sqlSession.insert("used.fileInsert", ufv);
 	}
 	
 	
