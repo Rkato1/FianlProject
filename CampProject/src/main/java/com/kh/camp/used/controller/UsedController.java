@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.camp.used.service.UsedService;
+import com.kh.camp.used.vo.UsedPageNavi;
 import com.kh.camp.used.vo.UsedVO;
 
 
@@ -18,9 +19,10 @@ public class UsedController {
 	private UsedService service;
 	
 	@RequestMapping("/usedPage.do")
-	public String usedPage(Model model) {
-		ArrayList<UsedVO> list = service.usedPage();
-		model.addAttribute("list",list);
+	public String usedPage(int reqPage, Model model) {
+		UsedPageNavi cpn = service.usedPage(reqPage);
+		model.addAttribute("list", cpn.getList());
+		model.addAttribute("pageNavi", cpn.getPageNavi());
 		return "used/usedPage";
 	}
 	@RequestMapping("/usedDatail.do")

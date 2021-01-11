@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class UsedPageNavi {
-	private ArrayList<UsedVO> used;
-	private ArrayList<UsedFileVO> usedFile;
+	private ArrayList<UsedVO> list;
 	private String pageNavi;
 }

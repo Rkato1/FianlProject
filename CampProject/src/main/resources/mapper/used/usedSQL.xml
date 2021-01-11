@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="used">
-  <select id="selectList" resultType="used">
-  	select rownum as rnum, n.*
-		from
+  <select id="selectList" resultType="used" parameterType="map">
+  	select
+  		rnum,
+  		usedNo,
+  		usedTitle,
+  		usedPrice,
+  		category,
+  		usedWriter,
+  		usedContent,
+  		usedDate
+  		from 
+  			(select rownum as rnum, n.*
+			from
 		(select
 			used_trade_no as usedNo,
 			used_trade_title as usedTitle,
@@ -13,6 +23,24 @@
 			used_trade_content as usedContent,
 			used_trade_date as usedDate
 		from used_trade order by 1 desc)
-		n
+		n)
+		where rnum between #{start} and #{end}
   </select>
+  <select id="selectFileList" parameterType="map" resultType="file">
+		select
+			used_trade_file_no as fileNo,
+			used_trade_no as usedNo,
+			filename,
+			filepath
+		from used_trade_file
+		where
+	<!-- 	<trim prefix="where" prefixOverrides="and|or">
+		  	<if test="usedNo != 0"> -->
+				 used_trade_no=#{usedNo}
+	<!-- 	  	</if>
+		  </trim> -->
+	</select>
+	<select id="totalCount" resultType="_int">
+		select count(used_trade_no) as cnt from used_trade
+	</select>
 </mapper>
