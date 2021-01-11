@@ -87,17 +87,13 @@ public class ReviewService {
 		return rpd;
 	}
 
-	public ReviewVO selectOneReview(int reviewNo) {
-		return dao.selectOneReview(reviewNo);
-	}
-
 	public CampVO selectOneCamp(int campNo) {
 		return dao.selectOneCamp(campNo);
 	}
 
 	public ReviewViewData reviewView(int reviewNo) {
 		//리뷰를 가져오는 dao
-		ReviewVO r = dao.reviewView(reviewNo); 
+		ReviewVO r = dao.selectOneReview(reviewNo); 
 		
 		//리뷰의 댓글 갯수를 가져오는 dao
 		int cnt = dao.selectCommentCnt(reviewNo);

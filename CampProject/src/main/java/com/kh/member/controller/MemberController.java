@@ -56,7 +56,7 @@ public class MemberController {
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
 		}
-		model.addAttribute("loc", "/");
+		model.addAttribute("loc", "/loginFrm.do");
 
 		return "common/msg";
 	}

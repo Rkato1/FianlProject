@@ -28,15 +28,11 @@ public class ReviewDao {
 		return sqlSession.selectOne("review.totalCount");
 	}
 
-	public ReviewVO selectOneReview(int reviewNo) {
-		return sqlSession.selectOne("review.selectOneReview", reviewNo);
-	}
-
 	public CampVO selectOneCamp(int campNo) {
 		return sqlSession.selectOne("review.selectOneCamp", campNo);
 	}
-
-	public ReviewVO reviewView(int reviewNo) {
+	
+	public ReviewVO selectOneReview(int reviewNo) {
 		return sqlSession.selectOne("review.selectOneReview", reviewNo);
 	}
 

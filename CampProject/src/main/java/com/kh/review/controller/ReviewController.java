@@ -28,13 +28,12 @@ public class ReviewController {
 	
 	@RequestMapping("/reviewView.do")
 	public String reviewView(int reviewNo, int campNo, Model model) {
-		ReviewViewData rvd = service.reviewView(reviewNo);
-		//ReviewVO review = service.selectOneReview(reviewNo);
 		CampVO camp = service.selectOneCamp(campNo);
+		ReviewViewData rvd = service.reviewView(reviewNo);
+		model.addAttribute("camp", camp);
 		model.addAttribute("rev", rvd.getR());
 		model.addAttribute("comCnt", rvd.getCnt());
 		model.addAttribute("comList", rvd.getList());
-		model.addAttribute("camp", camp);
 		return "review/reviewView";
 	}
 	

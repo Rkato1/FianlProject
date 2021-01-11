@@ -67,7 +67,7 @@
       .camp-info {
          border-top: 2px solid #d3d3d3;
          border-bottom: 2px solid #d3d3d3;
-         margin: 60px 10px 60px 10px;
+         margin: 70px 0px 70px 0px;
          /*위 오 아래 왼*/
          padding: 15px;
       }
@@ -173,7 +173,7 @@
 
       .comment-user {
          float: left;
-         width: 230px;
+         width: 200px;
          height: 40px;
          line-height: 50px;
          padding-left: 10px;
@@ -232,6 +232,42 @@
          transform: rotate(180deg);
          float: left;
       }
+      
+      /*대댓글 창 생성*/
+      .comment-re-write {
+      	 background-color: #FAFAFA;
+         margin-top: 20px;
+         padding: 20px 0px 20px 30px;
+         /*위 오 아래 왼*/
+      }
+      
+      .comment-re-write>form>textarea {
+         width: 920px;
+         vertical-align: middle;
+         outline: none;
+         resize: none;
+         border: 1px solid #d3d3d3;
+      }
+
+      #commentWriteBtn {
+         width: 80px;
+         height: 80px;
+         color: white;
+         background-color: #f49b00;
+      }
+      
+      #commentCancelBtn {
+      	 width: 80px;
+         height: 80px;
+         color: white;
+         background-color: #383a3f;
+      }
+      
+      /*답글 달기 댓글창 숨기기*/
+      .re {
+		display: none;
+      }
+
    </style>
 </head>
 <body>
@@ -243,14 +279,16 @@
          <h2>${rev.reviewTitle }</h2>
       </div>
       <div class="review-info">
+      	 <c:if test="${sessionScope.m.memberId.equals(rev.memberId) }"><!-- 로그인 한 회원과 리뷰 작성자가 같을 때 -->
          <div class="review-button">
             <button type="button" class="btn btn-secondary">
-               <a id="updateBtn" href="/reviewUpdate.do">수정</a>
+               <a id="updateBtn" href="/reviewUpdateFrm.do">수정</a>
             </button>
             <button type="button" class="btn btn-secondary">
                <a id="deleteBtn" href="/reviewDelete.do">삭제</a>
             </button>
          </div>
+         </c:if><!-- 로그인 한 회원과 리뷰 작성자가 같을 때 -->
          <div class="review-user">
             <span>${rev.memberId }</span>
             <span>&nbsp;｜&nbsp;</span>
@@ -299,61 +337,118 @@
          <!-- 로그인 안되어있으면, 댓글 등록창 안보이게 -->
          <c:if test="${sessionScope.m != null }">
          <div class="comment-write">
-            <form>
+            <form action="/insertReviewComment.do" method="post">
                <input type="hidden" name="reviewCommnetLevel" value="1">
                <input type="hidden" name="reviewCommnetWriter" value="${sessionScope.m.memberId }">
                <input type="hidden" name="reviewNo" value="${rev.reviewNo }">
                <input type="hidden" name="reviewCommnetRef" value="0">	
-               <textarea rows="3" cols="30" name="reviewContent"></textarea>
+               <textarea rows="3" cols="30" name="reviewContent"></textarea>&nbsp;
                <input type="submit" value="등록" class="btn" id="commentWriteBtn">
             </form>
          </div>
          </c:if>
          
          <div class="comment-list">
-         	<c:forEach items="${comList }" var="rc">
-         		<c:if test="${rc.reviewCommentLevel == 1 }">
-            <div class="comment-one">
-               <div class="comment-info">
-                  <div class="comment-img">
-                     <img src="resources/upload/common/user.png">
-                  </div>
-                  <div class="comment-user">
-                     <span id="comment-id">${rc.reviewCommentWriter }</span>&nbsp;
-                     <span id="comment-date">${rc.reviewCommentDate }</span>
-                  </div>
-                  <div class="comment-link">
-                     <a class="comment-a" href="/revCommentUpdate.do">수정</a>&ensp;
-                     <a class="comment-a" href="/revCommentDelete.do">삭제</a>&ensp;
-                     <a class="comment-re" href="/revCommentDelete.do">답글달기</a>
-                  </div>
-               </div>
-               <div class="commonet-content">${rc.reviewCommentContent }</div>
-            </div>
-            </c:if>
-            </c:forEach>
-            <div class="comment-one">
-               <div class="comment-arrow">
-                  <i class="fas fa-reply"></i>
-               </div>
-               <div class="comment-info">
-                  <div class="comment-img">
-                     <img src="resources/upload/common/user.png">
-                  </div>
-                  <div class="comment-user">
-                     <span id="comment-id">user02</span>&nbsp;
-                     <span id="comment-date">2021-01-02</span>
-                  </div>
-               </div>
-               <div class="commonet-content">
-                  짱 좋아
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+         	<c:forEach items="${comList }" var="rc"><!-- 댓글 -->
+         		<c:if test="${rc.reviewCommentLevel == 1 }"><!-- 원댓글인지 -->
+            		<div class="comment-one">
+               			<div class="comment-info">
+                  			<div class="comment-img">
+                  				<img src="resources/upload/common/user.png">
+                  			</div>
+                  			<div class="comment-user">
+                     			<span id="comment-id">${rc.reviewCommentWriter }</span>&nbsp;
+                     			<span id="comment-date">${rc.reviewCommentDate }</span>
+                  			</div>
+                  			
+                  			<c:if test="${sessionScope.m != null }"><!-- 로그인이 되어있을 때 -->
+                  			<div class="comment-link">
+                  	 			<c:if test="${sessionScope.m.memberId.equals(rc.reviewCommentWriter) }"><!-- 로그인 한 회원과 댓글 작성자가 같을 때 -->
+                     			<a class="comment-a" href="javascript:void(0)" onclick="modifyComment(this,'${rc.reviewCommentNo }','${rev.reviewNo }')">수정</a>&ensp;
+                     			<a class="comment-a" href="javascript:void(0)" onclick="deleteComment(this,'${rc.reviewCommentNo }','${rev.reviewNo }')">삭제</a>&ensp;
+                     			</c:if><!-- 로그인 한 회원과 댓글 작성자가 같을 때 -->
+                     			<a class="comment-re recShow" href="javascript:void(0)" >답글달기</a>
+                  			</div>
+                  			</c:if><!-- 로그인이 되어있을 때 -->
+                  		</div><!-- comment-info -->
+                  		
+                  		<div class="commonet-content"><p>${rc.reviewCommentContentBr }</p></div>
+                  		<div class="commonet-content"><textarea>${rc.reviewCommentContent }</textarea></div>
+                  		
+                  		<div class="comment-re-write re">
+            				<form>
+               					<input type="hidden" name="reviewCommnetLevel" value="2">
+              					<input type="hidden" name="reviewCommnetWriter" value="${sessionScope.m.memberId }">
+               					<input type="hidden" name="reviewNo" value="${rev.reviewNo }">
+               					<input type="hidden" name="reviewCommnetRef" value="${rc.reviewCommentNo }">	
+               					<textarea rows="3" cols="30" name="reviewContent"></textarea>&nbsp;
+               					<input type="submit" value="등록" class="btn" id="commentWriteBtn">
+               					<input type="button" value="취소" class="btn recCancel" id="commentCancelBtn">
+            				</form>
+         		  		</div><!-- comment-write  -->
+                  	</div><!-- comment-one -->
+ 
+                  	<c:forEach items="${comList }" var="rcc"><!-- 댓글에 달린 대댓글 -->
+                  		<c:if test="${rcc.reviewCommentLevel == 2 && rcc.reviewCommentRef == rc.reviewCommentNo }"><!-- 대댓글인지 && 해당하는 댓글번호의 대댓글인지 -->
+                  			<div class="comment-one">
+               					<div class="comment-arrow">
+                  					<i class="fas fa-reply"></i>
+               					</div>
+               					<div class="comment-info">
+                  					<div class="comment-img">
+                     					<img src="resources/upload/common/user.png">
+                  					</div>
+                  					<div class="comment-user">
+                     					<span id="comment-id">${rcc.reviewCommentWriter }</span>&nbsp;
+                     					<span id="comment-date">${rcc.reviewCommentDate }</span>
+                  					</div>
+                  					
+                  					<c:if test="${sessionScope.m != null }"><!-- 로그인이 되어있을 때 -->
+                  						<div class="comment-link">
+                  	 					<c:if test="${sessionScope.m.memberId.equals(rcc.reviewCommentWriter) }"><!-- 로그인 한 회원과 댓글 작성자가 같을 때 -->
+                     						<a class="comment-a" href="javascript:void(0)" onclick="modifyComment(this,'${rcc.reviewCommentNo }','${rev.reviewNo }')">수정</a>&ensp;
+                     						<a class="comment-a" href="javascript:void(0)" onclick="deleteComment(this,'${rcc.reviewCommentNo }','${rev.reviewNo }')">삭제</a>&ensp;
+                     					</c:if><!-- 로그인 한 회원과 댓글 작성자가 같을 때 -->
+                  						</div>
+                  					</c:if><!-- 로그인이 되어있을 때 -->
+               					</div>
+               					<div class="commonet-content">${rcc.reviewCommentContent }</div>
+            				</div>
+                  		</c:if><!-- 대댓글인지 && 해당하는 댓글번호의 대댓글인지 -->
+                  	</c:forEach><!-- 댓글에 달린 대댓글 -->
+                </c:if><!-- 원댓글인지 -->
+            </c:forEach><!-- 댓글 -->
+
+            </div><!-- comment-list  -->
+       </div><!-- commnet-wrap -->
+   </div><!-- content-wrap -->
 	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-
+	
+	<script>
+	
+	//답글달기 클릭했을 때 작성 창 보여주기
+	$(".recShow").click(function() {
+		$(this).hide();
+		var idx = $(".recShow").index(this);
+		$(".recCancel").eq(idx).parents("div").css("display","block");
+	});
+	
+	//답글달기 창에서 취소 버튼 클릭했을 때 작성 창 사라지기
+	$(".recCancel").click(function() {
+		var idx = $(".recCancel").index(this);
+		$(this).parents(".re").css("display","none");
+		$(".recShow").eq(idx).show();
+	});	
+	
+	//댓글 삭제 버튼 클릭 했을 때
+	function deleteComment(obj, commentNo, reviewNo) {
+		if(confirm("댓글을 정말 삭제하시겠습니까?")) {
+			location.href="/reviewCommentDelete?reviewCommentNo="+commentNo+"&reviewNo="+reviewNo;
+		}
+	}
+	
+	</script>
+	
 </body>
 </html>

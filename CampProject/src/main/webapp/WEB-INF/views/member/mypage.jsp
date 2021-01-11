@@ -11,6 +11,7 @@
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 
+
     <style>
         * {
             font-family: 'Noto Sans KR';
@@ -271,7 +272,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;">
-                            <span class="delete">정말로 탈퇴하시겠어요? <a href="/deleteMember.do?memberNo=${m.memberNo }">회원탈퇴</a></span>
+                            <span class="delete">정말로 탈퇴하시겠어요? <a href="javascript:void(0)" onclick="deleteMember(${m.memberNo })">회원탈퇴</a></span>
                         </td>
                     </tr>
                 </table>
@@ -432,6 +433,13 @@
         	$(".select").hide();
         	$(".select").eq(idx).show();
         });
+        
+    	//회원 탈퇴 버튼 클릭 했을 때
+    	function deleteMember(memberNo) {
+    		if(confirm("탈퇴 후에는 회원 정보를 복구할 수 없습니다. 정말 탈퇴하시겠어요?")) {
+    			location.href="/deleteMember.do?memberNo="+memberNo;
+    		}
+    	}
     </script>
 
 </body>
