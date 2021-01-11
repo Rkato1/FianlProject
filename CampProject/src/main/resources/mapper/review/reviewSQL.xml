@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="review">
 
-	<select id="selectList" parameterType="map" resultType="review">		
+	<select id="selectList" parameterType="map" resultType="reviewCamp">		
 		select
     		rnum,
     		reviewNo,
@@ -12,7 +12,8 @@
     		reviewContent,
     		reviewDate,
     		reviewPoint,
-    		campNo
+    		campNo,
+    		campName
 			from
         		(select rownum as rnum, r.*
 		from
@@ -24,8 +25,11 @@
 			review_content as reviewContent,
 			review_date as reviewDate,
 			review_point as reviewPoint,
-			camp_no as campNo
-		from review order by 1 desc)
+			review.camp_no as campNo,
+			camp_name as campName
+		from review 
+		join camp on (review.camp_no = camp.camp_no)
+		order by 1 desc)
 		r)
            where rnum between #{start} and #{end}
 	</select>
@@ -33,5 +37,55 @@
 	<select id="totalCount" resultType="_int">
 		select count(*) as cnt from review
 	</select>
-
+	
+	<select id="selectOneReview" parameterType="_int" resultType="review">
+		select
+			review_no as reviewNo,
+			member_id as memberId,
+			reserve_no as reserveNo,
+			review_title as reviewTitle,
+			review_content as reviewContent,
+			review_date as reviewDate,
+			review_point as reviewPoint,
+			camp_no as campNo
+		from review where review_no = #{_parameter}	
+	</select>
+	
+	<select id="selectOneCamp" parameterType="_int" resultType="camp">
+		select
+			camp_no as campNo,
+			camp_name as campName,
+			camp_addr as campAddr,
+			member_no as memberNo,
+			camp_show as campShow,
+			camp_type as campType,
+			camp_ph as campPh,
+			camp_period as campPeriod,
+			camp_day as campDay,
+			camp_facility as campFacility,
+			camp_fee_ori_day as campFeeOriDay,
+			camp_fee_ori_end as campFeeOriEnd,
+			camp_fee_peak_day as campFeePeakDay,
+			camp_fee_peak_end as campFeePeakEnd
+		from camp where camp_no = #{_parameter}	
+	</select>
+	
+	<select id="selectCntComment" parameterType="_int" resultType="_int">
+		select 
+			(count(*))cnt
+		from review_comment where review_no=#{_parameter}
+	</select>
+	
+	<select id="selectListComment" parameterType="_int" resultType="reviewComment">
+		select
+			review_comment_no as reviewCommentNo,
+			review_comment_level as reviewCommentLevel,
+			review_comment_writer as reviewCommentWriter,
+			review_comment_content as reviewCommentContent,
+			review_no as reviewNo,
+			review_comment_ref as reviewCommentRef,
+			review_comment_date as reviewCommentDate
+		from review_comment	where review_no = #{_parameter}
+	</select>
+	
 </mapper>

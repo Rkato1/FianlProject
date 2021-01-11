@@ -3,15 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <!-- Google Fonts -->
-<html lang="kr">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 <!-- jQuery -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 
-<meta charset="UTF-8">
-<title>Insert title here</title>
     <style>
         * {
             font-family: 'Noto Sans KR';

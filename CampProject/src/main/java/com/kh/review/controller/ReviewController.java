@@ -5,8 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.camp.model.vo.CampVO;
+import com.kh.member.model.vo.MemberVO;
 import com.kh.review.model.service.ReviewService;
 import com.kh.review.model.vo.ReviewPageData;
+import com.kh.review.model.vo.ReviewVO;
+import com.kh.review.model.vo.ReviewViewData;
 
 @Controller
 public class ReviewController {
@@ -23,7 +27,14 @@ public class ReviewController {
 	}
 	
 	@RequestMapping("/reviewView.do")
-	public String reviewView() {
+	public String reviewView(int reviewNo, int campNo, Model model) {
+		ReviewViewData rvd = service.reviewView(reviewNo);
+		//ReviewVO review = service.selectOneReview(reviewNo);
+		CampVO camp = service.selectOneCamp(campNo);
+		model.addAttribute("rev", rvd.getR());
+		model.addAttribute("comCnt", rvd.getCnt());
+		model.addAttribute("comList", rvd.getList());
+		model.addAttribute("camp", camp);
 		return "review/reviewView";
 	}
 	
@@ -35,6 +46,11 @@ public class ReviewController {
 	@RequestMapping("/searchReserve.do.")
 	public String searchReserve() {
 		return "review/searchReserve";
+	}
+	
+	@RequestMapping("/reviewUpdateFrm.do")
+	public String reviewUpdateFrm() {
+		return "review/reviewUpdateFrm";
 	}
 	
 

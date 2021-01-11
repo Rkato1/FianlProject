@@ -3,6 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 <!-- Google Fonts-->
@@ -14,9 +17,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 
 <style>
     * {
@@ -183,7 +183,7 @@
             	<c:forEach items="${list }" var="r">
             	<tr>
                 	<td>${r.reviewNo }</td>
-                	<td>청량산 나무네 숲 캠핑장</td>
+                	<td>${r.campName }</td>
                 	<td>
                 		<a id="review-a" href="/reviewView.do?reviewNo=${r.reviewNo }&campNo=${r.campNo }">
                 			${r.reviewTitle }

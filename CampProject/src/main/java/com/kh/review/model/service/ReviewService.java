@@ -6,9 +6,13 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.camp.model.vo.CampVO;
 import com.kh.review.model.dao.ReviewDao;
+import com.kh.review.model.vo.ReviewCampVO;
+import com.kh.review.model.vo.ReviewCommentVO;
 import com.kh.review.model.vo.ReviewPageData;
 import com.kh.review.model.vo.ReviewVO;
+import com.kh.review.model.vo.ReviewViewData;
 
 @Service
 public class ReviewService {
@@ -28,7 +32,7 @@ public class ReviewService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
-		ArrayList<ReviewVO> list = dao.selectList(map);
+		ArrayList<ReviewCampVO> list = dao.selectList(map);
 		
 		//2. 페이지 네비 만들기
 		//2-1. 총 게시글 수
@@ -81,6 +85,29 @@ public class ReviewService {
 		
 		ReviewPageData rpd = new ReviewPageData(list, pageNavi);
 		return rpd;
+	}
+
+	public ReviewVO selectOneReview(int reviewNo) {
+		return dao.selectOneReview(reviewNo);
+	}
+
+	public CampVO selectOneCamp(int campNo) {
+		return dao.selectOneCamp(campNo);
+	}
+
+	public ReviewViewData reviewView(int reviewNo) {
+		//리뷰를 가져오는 dao
+		ReviewVO r = dao.reviewView(reviewNo); 
+		
+		//리뷰의 댓글 갯수를 가져오는 dao
+		int cnt = dao.selectCommentCnt(reviewNo);
+		
+		//리뷰의 댓글을 가져오는 dao
+		ArrayList<ReviewCommentVO> list = dao.selectReviewComment(reviewNo);
+		
+		//만들어둔 객체를 이용해서 리턴
+		ReviewViewData rvd = new ReviewViewData(r, cnt, list);
+		return rvd;
 	}
 
 }

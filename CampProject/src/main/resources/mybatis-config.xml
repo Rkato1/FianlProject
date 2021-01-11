@@ -21,6 +21,8 @@
 		<typeAlias type="com.kh.review.model.vo.ReviewCampVO" alias="reviewCamp" />
 		<typeAlias type="com.kh.reserve.model.vo.ReserveCampVO" alias="reserveCamp" />
 		
+		<typeAlias type="com.kh.review.model.vo.ReviewCommentVO" alias="reviewComment" />
+		
 		<!-- 진현 추가-->
 		<typeAlias type="com.kh.camp.used.vo.UsedVO" alias="used" />
 		<typeAlias type="com.kh.camp.used.vo.UsedFileVO" alias="file" />
