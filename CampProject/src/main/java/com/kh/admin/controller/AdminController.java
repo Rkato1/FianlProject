@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.service.AdminService;
 import com.kh.member.model.vo.MemberVO;
 
@@ -21,7 +22,7 @@ public class AdminController {
 	private boolean isAdmin(HttpSession session) {
 		//MemberVO member = service.selectOneMember(m);
 		MemberVO member = (MemberVO) session.getAttribute("m");
-		if(member.getMemberId().equals("admin")) {
+		if(member!= null && member.getMemberId().equals("admin")) {
 			return true;
 		} else {
 			return false;
@@ -31,7 +32,7 @@ public class AdminController {
 	@RequestMapping("/mainAdmin.do")
 	public String mainAdmin(HttpSession session, Model model) {
 		isAdmin = isAdmin(session);
-		if(isAdmin) {
+		if(isAdmin) {			
 			return "admin/mainAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
@@ -41,9 +42,12 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/memberAdmin.do")
-	public String memberAdmin(Model model, HttpSession session) {
+	public String memberAdmin(Model model, HttpSession session, int reqPage) {
 		isAdmin = isAdmin(session);
-		if(isAdmin) {
+		if(isAdmin) {			
+			MemberVOPageData mpd = service.selectAllMember(reqPage);
+			model.addAttribute("list",mpd.getList());
+			model.addAttribute("pageNavi",mpd.getPageNavi());
 			return "admin/memberAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");

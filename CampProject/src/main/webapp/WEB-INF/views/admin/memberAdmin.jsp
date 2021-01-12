@@ -19,7 +19,7 @@
         $(".menu li>a").hover(function() {
             $(this).parent().css('background-color', '#d0b0b1');
         }, function() {
-            $(this).parent().css('background-color', '#9f807d');
+            $(this).parent().css('background-color', '#cccccc');
         });
     });
 </script>
@@ -45,6 +45,7 @@
                             <th class="long">등록날짜</th>
                         </tr>
 						<tr>
+						<!--c태그써서 작 성 하 기 -->
                         	<td></td>
                         	<td></td>
                         	<td></td>
