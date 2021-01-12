@@ -16,8 +16,8 @@
 <body>
 	<header>
         <div id="op_navi">
-            <span style="float: left;font-size: 40px;width: 20%;text-align: center;">
-                <a href="/"><b>CAC</b></a>
+            <span style="float: left;font-size: 40px;text-align: center;">
+                <a href="/">CREATE<img src="resources/upload/common/tentw.png">CAMP</a>
             </span>
             <span style="float: right; height: 100%;">
                 <ul id="header_menu">
@@ -38,7 +38,7 @@
         </div>
         <div id="header_img">
             <br><br><br><br>
-            <h1 style="color: white;">사업자 페이지</h1>
+            <h1 style="color: white;"><b>[ 사업자  ] ${m.memberId}님</b></h1>
             <div><i class="fas fa-campground"></i></div>
         </div>
     </header>

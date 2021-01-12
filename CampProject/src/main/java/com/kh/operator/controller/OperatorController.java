@@ -45,6 +45,7 @@ private OperatorService service;
 		MemberVO member = (MemberVO) session.getAttribute("m");
 		if(member!=null) {
 			CampVO camp = service.selectOneCamp(c);
+			model.addAttribute("camp",camp);
 			return "operator/opCampView";
 		}else {
 			model.addAttribute("msg", "로그인 후 이용해 주시기 바랍니다.");
@@ -52,20 +53,20 @@ private OperatorService service;
 			return "common/msg";
 		}
 	}
-//	@RequestMapping("/selectAllCampNotice.do")
-//	private String selectAllCampNotice(int campNo,HttpSession session,Model model) {
-//		MemberVO member = (MemberVO) session.getAttribute("m");
-//		if(member!=null) {
-//			ArrayList<CampVO> list = service.selectAllCampNotice(campNo);
-//			model.addAttribute("campList",list);
-//		}
-//		else {
-//			model.addAttribute("msg", "로그인 후 이용해 주시기 바랍니다.");
-//			model.addAttribute("loc", "/");
-//			return "common/msg";
-//		}
-//	}
-//	
+	@RequestMapping("/selectAllCampNotice.do")
+	private String selectAllCampNotice(int campNo,HttpSession session,Model model) {
+		MemberVO member = (MemberVO) session.getAttribute("m");
+		if(member!=null) {
+			ArrayList<CampVO> list = service.selectAllCampNotice(campNo);
+			model.addAttribute("campList",list);
+		}
+		else {
+			model.addAttribute("msg", "로그인 후 이용해 주시기 바랍니다.");
+			model.addAttribute("loc", "/");
+			return "common/msg";
+		}
+	}
+	
 //	@RequestMapping("/insertCampNotice.do")
 //	private String insertCampNotice(CampNoticeVO cn,Model model) {
 //		int result = service.insertCampNotice(cn);

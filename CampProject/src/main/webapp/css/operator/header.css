@@ -2,12 +2,10 @@
  body {
             margin: 0;
         }
-
-        header a {
-            text-decoration: none;
-            color: #FA9B00;
-        }
-
+	body *{
+		font-family: 'Russo One';
+	}
+        
         #op_navi {
             z-index: 10;
             position: sticky;
@@ -17,17 +15,27 @@
             background-color: #1d0e0e;
             box-sizing: border-box;
         }
-
+        #op_navi a{
+            text-decoration: none;
+            color: white;
+        }
+        
+		 #op_navi a>img{
+		 	height: 40px;
+		 	width: 50px;
+		 }
         #header_img {
             width: 100%;
             height: 300px;
             box-shadow: 5px -5px 30px 10px black inset;
             position: relative;
-            background-image: url(../webapp/img/operator/op_header_img.png);
+            background-image: url('/resources/upload/operator/op_header_img.png');
             background-size: cover;
             text-align: center;
         }
-
+		#header_img h1{
+		font-family: 'Noto Sans KR';
+		}
         #header_img>div {
             width: 100px;
             height: 100px;

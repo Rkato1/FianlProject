@@ -18,16 +18,18 @@
             <c:forEach items="${campList }" var="c">
             <a href="/opCampView.do?campNo=${c.campNo }">
                 <div class="camp_box">
-                	<c:forEach items="${c.pictureList }" var="p">
-                    	<div class="img_wrapper"><img src="../img/camp/${p.filename }"></div>
-                    </c:forEach>
+                	<div class="img_wrapper">
+                    	<img src="resources/upload/camp/${c.pictureList[0].filepath }">
+                    </div>
                     <div>${c.campName }</div>
                 </div>
             </a>
             </c:forEach>
+            	<a href="insertCamp.do">
                 <div class="camp_box add_camp">
                     <div>+</div>
                 </div>
+                </a>
             </div>
         </div>
     </section>
