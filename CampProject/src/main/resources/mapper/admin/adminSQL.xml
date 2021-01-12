@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="admin">
+<!-- 동적쿼리 -->
+  <select id="selectMemberList" parameterType="map" resultType="member">
+  select
+  		rownum as rnum,
+  		member_no as memberNo,
+  		member_name as memberName,
+  		member_phone as memberPhone,
+  		member_id as memberId,
+  		member_pw as memberPw,
+  		member_email as memberEmail,
+  		member_reg_date as memberRegDate,
+  		member_grade as memberGrade
+  from (select rownum as rnum,n.*from(select * from member where member_grade = 1 order by 1 desc)n) where rnum between #{start} and #{end}
+  	<!-- if test="memPw != null"> 
+  	and mem_pw=#{memPw}
+  	</if--> 
+  </select>  
+  
+  <select id="selectAllMemberCount" resultType="_int">
+  	select count(*)
+  	from member where member_grade=1
+  </select>
+  
+  
+  <select id="dmCount" parameterType="string" resultType="_int">
+  	select count(*) from direct_message where dm_receiver = #{_parameter} and check_message='읽지않음'
+  </select>
+</mapper>

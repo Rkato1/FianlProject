@@ -19,17 +19,17 @@
         $(".menu li>a").hover(function() {
             $(this).parent().css('background-color', '#d0b0b1');
         }, function() {
-            $(this).parent().css('background-color', '#9f807d');
+            $(this).parent().css('background-color', '#cccccc');
         });
     });
 </script>
 <body>
-	<p class="title">고객센터</p>
     <div class="admin-wrap">
         <!--화면 좌측-->
         <jsp:include page="sideMenu.jsp"/>
         <!--화면 우측-->
         <div class="admin-content">
+        <p class="title">고객센터</p>
             <div class="div2"></div>
             <div class="real-content">
                 <div class="members">
