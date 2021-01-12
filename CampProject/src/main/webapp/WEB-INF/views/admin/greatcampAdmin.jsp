@@ -34,7 +34,7 @@
                 <div class="members">
                     <p class="title">우수캠핑장선정</p>
                    
-                    <table class="table table-hover">
+                    <!-- table class="table table-hover">
                         <tr>
                             <th class="th-short"></th>
                             <th class="th-short"></th>
@@ -54,7 +54,7 @@
                         	<td></td>
                        	</tr>
                     </table>
-                    <div id= "pageNavi"></div>
+                    <div id= "pageNavi"></div-->
                 </div>
             </div>
             <div class="div2"></div>

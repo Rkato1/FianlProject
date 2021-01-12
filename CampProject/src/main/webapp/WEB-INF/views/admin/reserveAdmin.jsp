@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>예약관리 페이지</title>
+<title>예약관리 페이지</title>
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean" rel="stylesheet">
@@ -36,22 +36,30 @@
                    
                     <table class="table table-hover">
                         <tr>
-                            <th class="th-short"></th>
-                            <th class="th-short"></th>
-                            <th class="th-long"></th>
-                            <th class="th-long"></th>
-                            <th class="th-short"></th>
-                            <th class="th-short"></th>
-                            <th class="th-long"></th>
+                            <th class="short">예약번호</th>
+                            <th class="short">회원번호</th>
+                            <th class="short">캠핑장번호</th>
+                            <th class="long">입실일</th>
+                            <th class="long">퇴실일</th>                            
+                            <th class="middle">예약상태</th>
+                            <th class="long">예약주소</th>
+                            <th class="middle">예약가격</th>
+                            <th class="short">비밀번호</th>
+                            <th class="short">차번호</th>
+                            <th class="middle">예약메모</th>
                         </tr>
 						<tr>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>							
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
                        	</tr>
                     </table>
                     <div id= "pageNavi"></div>
