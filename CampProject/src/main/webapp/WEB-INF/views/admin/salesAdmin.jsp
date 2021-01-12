@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객센터 페이지</title>
+<title>매출관리 페이지</title>
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean" rel="stylesheet">
@@ -24,25 +24,25 @@
     });
 </script>
 <body>
-	<p class="title">고객센터</p>
     <div class="admin-wrap">
         <!--화면 좌측-->
-        <jsp:include page="sideMenu.jsp"/>
+        <jsp:include page="sideMenu.jsp"/>        
         <!--화면 우측-->
         <div class="admin-content">
             <div class="div2"></div>
             <div class="real-content">
                 <div class="members">
-                    <p class="title">답변하지 않은 글들</p>                   
-                    <table class="table table-hover">
-                        <tr>
-                            <th class="th-short"></th>
-                            <th class="th-short"></th>
-                            <th class="th-long"></th>
-                            <th class="th-long"></th>
-                            <th class="th-short"></th>
-                            <th class="th-short"></th>
-                            <th class="th-long"></th>
+                    <p class="title">매출관련정보</p>
+                   
+                    <!-- table class="table table-hover">
+                        <tr class="contentsLine">
+                            <th class="short">번호</th>
+                            <th class="short">이름</th>
+                            <th class="long">전화번호</th>
+                            <th class="middle">ID</th>
+                            <th class="short">PW</th>
+                            <th class="long">EMAIL</th>
+                            <th class="long">등록날짜</th>
                         </tr>
 						<tr>
                         	<td></td>
@@ -54,29 +54,7 @@
                         	<td></td>
                        	</tr>
                     </table>
-                    <div id= "pageNavi"></div>
-                    <p class="title">답변한 글들</p>                   
-                    <table class="table table-hover">
-                        <tr>
-                            <th class="th-short"></th>
-                            <th class="th-short"></th>
-                            <th class="th-long"></th>
-                            <th class="th-long"></th>
-                            <th class="th-short"></th>
-                            <th class="th-short"></th>
-                            <th class="th-long"></th>
-                        </tr>
-						<tr>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                       	</tr>
-                    </table>
-                    <div id= "pageNavi"></div>
+                    <div id= "pageNavi"></div-->
                 </div>
             </div>
             <div class="div2"></div>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사업자관리 페이지</title>
+<title>사업자관리 페이지</title>
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean" rel="stylesheet">

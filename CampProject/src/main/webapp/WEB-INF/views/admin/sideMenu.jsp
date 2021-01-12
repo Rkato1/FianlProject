@@ -17,22 +17,22 @@
         </div><br><br>
         <ul class="menu">
             <li>
-                <a href="/">회원관리</a>
+                <a href="/admin/memberAdmin.do">회원관리</a>
             </li>
             <li>
-                <a href="/">사업자관리</a>
+                <a href="/admin/businessAdmin.do">사업자관리</a>
             </li>
             <li>
-                <a href="/">예약관리</a>
+                <a href="/admin/reserveAdmin.do">예약관리</a>
             </li>
             <li>
-                <a href="/">매출관리</a>
+                <a href="/admin/salesAdmin.do">매출관리</a>
             </li>
             <li>
-                <a href="/">우수캠핑장선정</a>
+                <a href="/admin/greatcampAdmin.do">우수캠핑장선정</a>
             </li>
             <li>
-                <a href="/adminQna?reqPage=1">고객센터</a>
+                <a href="/admin/helpAdmin.do?reqPage=1">고객센터</a>
             </li>
         </ul>
     </div>
