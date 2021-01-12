@@ -1,0 +1,36 @@
+@charset "UTF-8";
+section {
+            overflow: hidden;
+        }
+        section>div {
+            width: 75%;
+            margin: 0 auto;
+        }
+        #campList{
+            width:100%;
+            overflow: hidden;
+        }
+        .camp_box{
+            width: 23%;
+            height: 250px;
+            margin: 1%;
+            border: 1px solid lightgray;
+            float: left;
+            border-radius: 4px;
+        }
+        .add_camp{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid lightgray;
+        }
+        .add_camp>div{
+            width:30%;
+            height:30%;
+            background:lightgray;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color:white;
+        }
