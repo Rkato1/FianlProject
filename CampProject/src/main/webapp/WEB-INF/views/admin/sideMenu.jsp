@@ -11,7 +11,7 @@
 <div class="admin-menu">
     <div class="div1"></div>
     <div class="menuBox">        
-        <img class="circle profile" src="/img/camp.png" width="100px;">
+        <img class="circle profile" src="/img/camp.png" width="200px;" href="/admin/mainAdmin.do">
         <div class="profile-title">
             admin
         </div><br><br>

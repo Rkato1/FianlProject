@@ -28,6 +28,18 @@ public class AdminController {
 		}
 	}
 	
+	@RequestMapping("/mainAdmin.do")
+	public String mainAdmin(HttpSession session, Model model) {
+		isAdmin = isAdmin(session);
+		if(isAdmin) {
+			return "admin/mainAdmin";
+		}else {
+			model.addAttribute("msg", "관리자가 아닙니다.");
+			model.addAttribute("loc","/");
+			return "common/msg";
+		}
+	}
+	
 	@RequestMapping("/memberAdmin.do")
 	public String memberAdmin(Model model, HttpSession session) {
 		isAdmin = isAdmin(session);
