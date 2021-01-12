@@ -177,6 +177,7 @@
                 	</c:when>
                 	<c:otherwise>
                 		<li><a href="/logout.do">LOGOUT</a></li>
+                		<li>${sessionScope.m.memberGrade}</li>
                 		<c:choose>
 		                	<c:when test="${sessionScope.m.memberGrade ne 2 }">
 		                    	<li><a href="/mypage.do?memberNo=${sessionScope.m.memberNo }">MYPAGE</a></li>

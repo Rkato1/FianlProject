@@ -12,13 +12,19 @@
 	<jsp:include page="/WEB-INF/views/operator/opHeader.jsp" />
 	 <section>
         <div>
-            <h2>캠핑장 목록</h2>
+            <h2>캠핑장 관리</h2>
             <hr>
             <div id="campList">
+            <c:forEach items="${campList }" var="c">
+            <a href="/opCampView.do?campNo=${c.campNo }">
                 <div class="camp_box">
-                    <div class="img_wrapper"></div>
-                    <div>겨울숲 캠핑장</div>
+                	<c:forEach items="${c.pictureList }" var="p">
+                    	<div class="img_wrapper"><img src="../img/camp/${p.filename }"></div>
+                    </c:forEach>
+                    <div>${c.campName }</div>
                 </div>
+            </a>
+            </c:forEach>
                 <div class="camp_box add_camp">
                     <div>+</div>
                 </div>

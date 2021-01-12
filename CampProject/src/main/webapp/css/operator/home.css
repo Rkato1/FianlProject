@@ -1,6 +1,7 @@
 @charset "UTF-8";
 section {
             overflow: hidden;
+            margin-top:20px;
         }
         section>div {
             width: 75%;

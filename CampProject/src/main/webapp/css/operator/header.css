@@ -23,7 +23,7 @@
             height: 300px;
             box-shadow: 5px -5px 30px 10px black inset;
             position: relative;
-            background-image: url(C01_D710875.png);
+            background-image: url(../webapp/img/operator/op_header_img.png);
             background-size: cover;
             text-align: center;
         }
@@ -58,4 +58,7 @@
 
         #header_menu li:hover {
             border-bottom: 5px solid #FA9B00;
+        }
+        #header_menu li:hover a{
+        	color: #FA9B00;
         }

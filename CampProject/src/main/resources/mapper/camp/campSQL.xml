@@ -83,5 +83,31 @@
 		  	</if>  	
 		  </trim>
 	</select>
-	
+	<select id="selectCamp" parameterType="camp" resultType="camp">
+	select
+    		camp_no as campNo,
+			camp_name as campName,
+			camp_addr as campAddr,
+			member_no as memberNo,
+			camp_show as campShow,
+			camp_type as campType,
+			camp_ph as campPh,
+			camp_period as campPeriod,
+			camp_day as campDay,
+			camp_facility as campFacility,
+			camp_fee_ori_day as campFeeOriDay,
+			camp_fee_ori_end as campFeeOriEnd,
+			camp_fee_peak_day as campFeePeakDay,
+			camp_fee_peak_end as campFeePeakEnd
+			from
+			camp
+			<trim prefix="where" prefixOverrides="and|or">
+			  	<if test="campNo != 0">
+					 camp_no=#{campNo}
+			  	</if>
+			  	<if test="memberNo != 0">
+		  		and member_No = #{memberNo}
+		  		</if> 
+		  	</trim>
+	</select>
 </mapper>

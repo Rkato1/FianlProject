@@ -15,9 +15,11 @@
             <hr>
             <form action="" method="get">
                 <table border=1>
+                	<input type="hidden" value="${ sessionScope.m.memberId}" name="campNoticeWriter">
+                	<input type="hidden" value="${campNo}" name="campNo">
                     <tr>
                         <th>제목</th>
-                        <td style="width: 40%"><input type="text" name="campNoticeTitle" style="height: 100%; width: 95%;"> </td>
+                        <td style="width: 40%"><input type="text" name="campNoticeTitle" maxlength="30" style="height: 100%; width: 95%;"> </td>
                         <th>작성일</th>
                         <td style="width:20%"><span></span></td>
                     </tr>
