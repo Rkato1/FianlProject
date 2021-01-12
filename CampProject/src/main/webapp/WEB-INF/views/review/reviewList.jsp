@@ -159,7 +159,7 @@
                     <div class="input-group">
                         <input type="text" name="keyword" class="form-control" id="searchInput">
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-secondary" id="searchBtn">
+                            <button type="submit" class="btn btn-dark" id="searchBtn">
                             	캠핑장 검색
                             </button>
                         </div>

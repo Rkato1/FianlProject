@@ -47,9 +47,9 @@
                 </ul>
             </div>
             <div class="header-logo">
-                    <div class="logo-text">create</div>
+                    <div class="logo-text-left">create</div>
                     <div class="logo-img"><img src="resources/upload/common/tentb.png"></div>
-                    <div class="logo-text">camp</div>
+                    <div class="logo-text-right">camp</div>
             </div>
             <div class="header-navi">
                 <ul>

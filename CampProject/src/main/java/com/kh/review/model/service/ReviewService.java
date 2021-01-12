@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.camp.model.vo.CampVO;
+import com.kh.reserve.model.vo.ReserveCampVO;
 import com.kh.review.model.dao.ReviewDao;
 import com.kh.review.model.vo.ReviewCampVO;
 import com.kh.review.model.vo.ReviewCommentVO;
@@ -105,5 +106,27 @@ public class ReviewService {
 		ReviewViewData rvd = new ReviewViewData(r, cnt, list);
 		return rvd;
 	}
+
+	public int insertReviewComment(ReviewCommentVO rc) {
+		return dao.insertReviewComment(rc);
+	}
+
+	public int searchCampNo(int reviewNo) {
+		return dao.searchCampNo(reviewNo);
+	}
+
+	public int updateReviewComment(ReviewCommentVO rc) {
+		return dao.updateReviewComment(rc);
+	}
+
+	public int deleteReviewComment(int reviewCommentNo) {
+		return dao.deleteReviewComment(reviewCommentNo);
+	}
+
+	public ArrayList<ReserveCampVO> selectListReserve(int memberNo) {
+		return dao.selectListReserve(memberNo);
+	}
+
+
 
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.camp.model.vo.CampVO;
+import com.kh.reserve.model.vo.ReserveCampVO;
 import com.kh.review.model.vo.ReviewCampVO;
 import com.kh.review.model.vo.ReviewCommentVO;
 import com.kh.review.model.vo.ReviewVO;
@@ -43,6 +44,27 @@ public class ReviewDao {
 	public ArrayList<ReviewCommentVO> selectReviewComment(int reviewNo) {
 		List<ReviewCommentVO> comList= sqlSession.selectList("review.selectListComment", reviewNo);
 		return (ArrayList<ReviewCommentVO>) comList;
+	}
+
+	public int insertReviewComment(ReviewCommentVO rc) {
+		return sqlSession.insert("review.insertReviewComment", rc);
+	}
+
+	public int searchCampNo(int reviewNo) {
+		return sqlSession.selectOne("review.searchCampNo", reviewNo);
+	}
+
+	public int updateReviewComment(ReviewCommentVO rc) {
+		return sqlSession.update("review.updateReviewComment", rc);
+	}
+
+	public int deleteReviewComment(int reviewCommentNo) {
+		return sqlSession.delete("review.deleteReviewComment", reviewCommentNo);
+	}
+
+	public ArrayList<ReserveCampVO> selectListReserve(int memberNo) {
+		List<ReserveCampVO> list = sqlSession.selectList("review.selectListReserve", memberNo);
+		return (ArrayList<ReserveCampVO>)list;
 	}
 
 

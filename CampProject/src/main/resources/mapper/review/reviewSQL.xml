@@ -85,7 +85,55 @@
 			review_no as reviewNo,
 			review_comment_ref as reviewCommentRef,
 			review_comment_date as reviewCommentDate
-		from review_comment	where review_no = #{_parameter}
+		from review_comment	where review_no = #{_parameter} order by 1
 	</select>
+	
+	<insert id="insertReviewComment" parameterType="reviewComment">
+		insert into review_comment values(
+			revc_seq.nextval,
+			#{reviewCommentLevel},
+			#{reviewCommentWriter},
+			#{reviewCommentContent},
+			#{reviewNo},
+			#{reviewCommentRef},
+			to_char(sysdate,'yyyy-mm-dd')
+		)
+	</insert>
+	
+	<select id="searchCampNo" parameterType="_int" resultType="_int">
+		select 
+			camp_no
+		from review where review_no=#{_parameter}
+	</select>
+	
+	<update id="updateReviewComment" parameterType="reviewComment">
+		update review_comment
+		set review_comment_content = #{reviewCommentContent}
+		where review_comment_no = #{reviewCommentNo}	
+	</update>
+	
+	<delete id="deleteReviewComment" parameterType="_int">
+		delete from review_comment where review_comment_no = #{_parameter}
+	</delete>
+	
+	<select id="selectListReserve" parameterType="_int" resultType="reserveCamp">
+		select 
+			reserve_no as reserveNo,
+			reservation.member_no as memberNo,
+			reservation.camp_no as campNo,
+			check_in_date as checkInDate,
+			check_out_date as checkOutDate,
+			reserve_status as reserveStatus,
+			reserve_place as reservePlace,
+			reserve_price as reservePrice,
+			reserve_pw as reservePw,
+			car_number as carNumber,
+			reserve_memo as reserveMeno,
+			camp_name as campName
+		from reservation 
+		join camp on (reservation.camp_no = camp.camp_no)
+		where reservation.member_no=#{_parameter} order by 1 desc
+	</select>
+	
 	
 </mapper>

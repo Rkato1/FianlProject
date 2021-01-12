@@ -68,9 +68,12 @@
             <h2 class="review-title-text">리뷰작성하기</h2>
         </div>
         <div class="review-table">
+            
+            <!-- 예약번호 검색하는 form -->
             <form name="searchReserve">
-                <input type="hidden" name="memberNo">
+                <input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
             </form>
+            
             <form action="/insertReview.do" method="post" enctype="multipart/form-data">
                 <table class="table table-bordered">
                     <tr>
@@ -79,11 +82,16 @@
                     </tr>
                     <tr>
                         <td>작성자</td>
-                        <td><input type="text" name="memberId" value="${sessionScope.m.memberId }" class="form-control" readonly></td>
+                        <td>
+                        	<input type="text" name="memberId" value="${sessionScope.m.memberId }" class="form-control" readonly>
+                        </td>
                     </tr>
                     <tr>
                         <td>예약번호</td>
-                        <td><input type="text" value="" name="reserveNo" class="form-control" readonly><button type="button" class="btn btn-secondary" onclick="search();">검색</button></td>
+                        <td>
+                        	<input type="text" value="" name="reserveNo" id="reserveNo" class="form-control" readonly>
+                        	<button type="button" class="btn btn-secondary" onclick="search();">검색</button>
+                        </td>
                     </tr>
                     <tr>
                         <td>첨부파일</td>
@@ -91,7 +99,7 @@
                     </tr>
                     <tr>
                         <td>내용</td>
-                        <td><textarea rows="20" cols="50" name="content" class="form-control"></textarea></td>
+                        <td><textarea rows="20" cols="50" name="reviewContent" id="reviewContent" class="form-control"></textarea></td>
                     </tr>
                 </table>
                 <div class="review-button">
@@ -108,19 +116,18 @@
         function search() {
             var url = "/searchReserve.do"; //서블릿 url mapping 값
             var title = "searchReserve";
-            var status = "left=500px, top=200px, width=400px, height=400px, menubar=no, status=no, scrollbars=yes";
+            var status = "left=400px, top=400px, width=500px, height=300px, menubar=no, status=no, scrollbars=yes";
             //비어있는 창 열어주기
             var popup = window.open("", title, status);
 
-            //숨겨둔 input의 value속성에 회원번호 대입 
-            $("[name=memberNo]").val(memberNo);
-            var checkFrm = $("[name=searchReserve]");
+         	//숨겨둔 form name으로 가져오기
+            var searchFrm = $("[name=searchReserve]");
 
             //popup창 - form태그 연결
             //target속성 : a태그에서  _blank로 하면 새창에서 열림
-            checkFrm.attr("target", title);
-            checkFrm.attr("action", url);
-            checkFrm.submit();
+            searchFrm.attr("target", title);
+            searchFrm.attr("action", url);
+            searchFrm.submit();  
         }
     </script>
    
