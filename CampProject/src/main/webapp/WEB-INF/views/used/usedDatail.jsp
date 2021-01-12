@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,7 +106,6 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<header style="height: 200px; text-align: center; background-color: orang;"><h1>헤드입니다.</h1></header>
         <!-- 상품아이템 -->
         <main class="section-size hei" style="margin-bottom: 80px;">
             <div>
@@ -113,8 +113,10 @@
                     <!-- Swiper -->
                     <div class="swiper-container" style="width: 500px; height: 500px;">
                         <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img src="/img/camp.png"></div>
-                        <div class="swiper-slide">스크립</div>
+                        <%-- <c:forEach items="${list }" var="l"> --%>
+                        <div class="swiper-slide"><img src="resources/upload/used/${u.file[0].filepath }"></div>
+                        <div class="swiper-slide"><img src="resources/upload/used/${u.file[1].filepath }"></div>
+                        <%-- </c:forEach> --%>
                         </div>
                         <!-- Add Pagination -->
                         <div class="swiper-pagination"></div>
@@ -124,21 +126,21 @@
                     </div>
                 </div>
                 <div class="col-md-6 one bootcol" style="width: 450px; margin-left: 50px;">
-                    <div style="font-weight: bold; font-size: 24px; margin-bottom: 30px;">
-                        <pre>제목들어갈자리입니다.안녕하세요?</pre>
+                    <div style="font-weight: bold; font-size: 24px; margin-bottom: 30px; padding-left:15px;">
+                        <pre>${u.usedTitle }</pre>
                     </div>
                     <div>
                         <div class="col-md-3 one bootcol">
-                            <p>제품상태</p>
+                            <p>제품종류</p>
                             <p>교환여부</p>
-                            <p>배송비</p>
+                            <p>제품상태</p>
                             <p>거래지역</p>
                         </div>
                         <div class="col-md-9 bootcol">
-                            <p>중고</p>
-                            <p>교환불가능</p>
-                            <p>별도</p>
-                            <p>전지역</p>
+                            <p>${u.category }</p>
+                            <p>${u.usedChange }</p>
+                            <p>${u.usedState }</p>
+                            <p>${u.usedArea }</p>
                         </div>
                     </div>
                     <hr>
@@ -147,7 +149,7 @@
                             <p>가격</p>
                         </div>
                         <div class="col-md-9 bootcol" style="font-weight: 800; font-size: 26px;">
-                            <p>500,000원</p>
+                            <p>${u.usedPrice } 원</p>
                         </div>
                     </div>
                     <hr>
@@ -161,7 +163,7 @@
                 <p style="font-size: 20px; font-weight: 700;">상품설명</p>
             </div>
             <hr style="border: 2px solid #1d0202; margin-bottom: 5px;">
-            <span>안녕하세요</span>
+            <span>${u.usedContent }</span>
         </section>
         <!-- 상품문의 댓글-->
         <section class="section-size">
