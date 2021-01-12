@@ -36,8 +36,21 @@ public class UsedDao {
 		return sqlSession.insert("used.usedInsert", usedVO);
 	}
 
-	public int insertFile(UsedFileVO ufv) {
-		return sqlSession.insert("used.fileInsert", ufv);
+	public int insertFile(int usedNo, String filename, String filepath) {
+		UsedFileVO fileVO = new UsedFileVO();
+		fileVO.setUsedNo(usedNo);
+		fileVO.setFilename(filename);
+		fileVO.setFilepath(filepath);
+		return sqlSession.insert("used.fileInsert", fileVO);
+	}
+
+	public int selectNo() {
+		
+		return sqlSession.selectOne("used.selectNo");
+	}
+	//Datail 중고판매 상세정보를 보기위한 dao	
+	public UsedVO selectDatail(UsedVO used) {
+		return sqlSession.selectOne("used.selectOneDatail",used);
 	}
 	
 	

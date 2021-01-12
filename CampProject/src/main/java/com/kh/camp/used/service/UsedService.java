@@ -65,12 +65,17 @@ public class UsedService {
 	public int usedEnrollOk(UsedVO usedVO) {
 		int result = dao.usedEnrollOk(usedVO);
 		if(result > 0) {
-			int usedNo = usedVO.getUsedNo();
+			int usedNo = dao.selectNo();
+			System.out.println(usedNo);
 			for(UsedFileVO ufv : usedVO.getFile()) {
-				result = dao.insertFile(ufv);
+				result = dao.insertFile(usedNo,ufv.getFilename(),ufv.getFilepath());
 			}
 		}
 		return result;
+	}
+	//Datail 중고판매 상세정보를 보기위한 service
+	public UsedVO selectDatail(UsedVO used) {
+		return dao.selectDatail(used);
 	}
 
 	

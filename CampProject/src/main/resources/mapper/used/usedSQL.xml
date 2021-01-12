@@ -61,4 +61,22 @@
 		#{usedState},
 		#{usedChange})
 	</insert>
+	<select id="selectNo" resultType="_int">
+		select max(used_trade_no) from used_trade
+	</select>
+	<select id="selectOneDatail" resultType="used">
+		select
+			used_trade_no as usedNo,
+			used_trade_title as usedTitle,
+			used_trade_price as usedPrice,
+			category,
+			used_trade_writer as usedWriter,
+			used_trade_content as usedContent,
+			used_trade_date as usedDate,
+			used_trade_area as usedArea,
+			used_trade_state as usedState,
+			used_trade_change as usedChange
+		from used_trade
+			where used_trade_no = #{usedNo}
+	</select>
 </mapper>

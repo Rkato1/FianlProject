@@ -114,13 +114,13 @@
     </div>
     <hr style="border: 2px solid #1d0202; margin-top: 5px; margin-bottom: 0px;">
   </section>
-  <form action="/usedEnrollEnd.do" method="post" enctype="multipart/form-data">
   <section class="section-size">         
+  <form action="/usedEnrollEnd.do" method="post" autocomplete="off" enctype="multipart/form-data">
       <table class="table tbl">
         <tbody>
         <tr>
             <td>작성자</td>
-            <td><input class="inpText" type="text" value="${sessionScope.m.memberId }" readonly></td>
+            <td><input class="inpText" type="text" value="${sessionScope.m.memberId }" name="usedWriter" readonly></td>
           </tr>
           <tr>
             <td>상품명</td>
@@ -195,24 +195,22 @@
           <tr>
             <td style="line-height: 100px;">상품설명</td>
             <td>
-              <textarea class="usedContent" name="expl" id="" cols="80" rows="10" style="resize: none;" placeholder="상품에 대한 설명을 적어주세요."></textarea>
+              <textarea class="inpTextrea" name="usedContent" id="" cols="80" rows="10" style="resize: none;" placeholder="상품에 대한 설명을 적어주세요."></textarea>
             </td>
           </tr>
           <tr>
             <td style="line-height: 100px;">사진첨부</td>
             <td>
               <div class="imgUpload-size"></div>
-              <div class="imgUpload-size"></div>
-              <div class="imgUpload-size"></div>
-              <input type="file" name="file">
+              <input type="file" name="files" multiple>
             </td>
           </tr>
         </tbody>
       </table>
       <hr style="border: 2px solid #1d0202; margin-top: 0px; margin-bottom: 0px;">
       <input type="submit" class="enrollBtn" value="등록하기">
-  </section>
 </form>
+  </section>
   <div style="height: 200px"></div>
   <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>

@@ -96,6 +96,11 @@
         color: black !important;
         border-color: white !important;
 		}
+		#prd-item-click{
+			text-decoration: none;
+			color: #1d0202;
+
+		}
     </style>
     
 </head>
@@ -165,11 +170,13 @@
         <c:forEach var="j" begin="1" end="${end2}">
         <c:set var="c" value="${list[idx] }" />
         <div class="prd-item">
-            <div style="height: 300px; width: 300px;">
-                <a href="/usedDatail.do?usedNo=${c.usedNo }"><img src=""></a>
+            <div style="height: 300px; width: 300px; border: 1px solid #e0e0e0;">
+                <a href="/usedDatail.do?usedNo=${c.usedNo }">
+                <img src="resources/upload/used/${c.file[0].filepath }">
+                </a>
             </div>
-            <div style="text-align: center; margin-top: 10px;">${c.usedTitle }</div>
-            <div style="text-align: center; font-weight: 600; font-size: 14px;"><fmt:formatNumber value="${c.usedPrice }" pattern="###,###,###"/>원</div>
+            <div style="text-align: center; margin-top: 10px;"><a href="/usedDatail.do?usedNo=${c.usedNo }" id="prd-item-click">${c.usedTitle }</a></div>
+            <div style="text-align: center; font-weight: 600; font-size: 14px;"><a href="/usedDatail.do?usedNo=${c.usedNo }" id="prd-item-click"><fmt:formatNumber value="${c.usedPrice }" pattern="###,###,###"/>원</a></div>
         </div>
         <c:set var="idx" value="${idx+1 }" />
             </c:forEach>
