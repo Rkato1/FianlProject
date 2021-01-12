@@ -176,8 +176,15 @@
                     <li><a href="/joinFrm.do">JOIN</a></li>
                 	</c:when>
                 	<c:otherwise>
-                	<li><a href="/logout.do">LOGOUT</a></li>
-                    <li><a href="/mypage.do?memberNo=${sessionScope.m.memberNo }">MYPAGE</a></li>
+                		<li><a href="/logout.do">LOGOUT</a></li>
+                		<c:choose>
+		                	<c:when test="${sessionScope.m.memberGrade ne 2 }">
+		                    	<li><a href="/mypage.do?memberNo=${sessionScope.m.memberNo }">MYPAGE</a></li>
+		                    </c:when>
+		                    <c:otherwise>
+		                    	<li><a href="/operatorpage.do">OPERATOR</a></li>
+		                    </c:otherwise>
+	                    </c:choose>
                 	</c:otherwise>
                 </c:choose>   
                     <li>
