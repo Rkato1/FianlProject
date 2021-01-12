@@ -67,5 +67,12 @@ public class ReviewDao {
 		return (ArrayList<ReserveCampVO>)list;
 	}
 
+	public ArrayList<ReviewCampVO> searchKeyword(HashMap<String, Object> map) {
+		List<ReviewCampVO> list = sqlSession.selectList("review.searchKeyword",map);
+		return (ArrayList<ReviewCampVO>)list;
+	}
+
+
+
 
 }

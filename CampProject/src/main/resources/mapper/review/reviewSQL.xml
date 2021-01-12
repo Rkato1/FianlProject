@@ -135,5 +135,37 @@
 		where reservation.member_no=#{_parameter} order by 1 desc
 	</select>
 	
+	<select id="searchKeyword" parameterType="hashMap" resultType="reviewCamp">		
+		select
+    		rnum,
+    		reviewNo,
+    		memberId,
+    		reserveNO,
+    		reviewTitle,
+    		reviewContent,
+    		reviewDate,
+    		reviewPoint,
+    		campNo,
+    		campName
+			from
+        		(select rownum as rnum, r.*
+		from
+		(select
+			review_no as reviewNo,
+			member_id as memberId,
+			reserve_no as reserveNo,
+			review_title as reviewTitle,
+			review_content as reviewContent,
+			review_date as reviewDate,
+			review_point as reviewPoint,
+			review.camp_no as campNo,
+			camp_name as campName
+		from review 
+		join camp on (review.camp_no = camp.camp_no)
+		where camp_name like '%' || #{keyword}|| '%'
+		order by 1 desc)
+		r)
+           where rnum between #{start} and #{end}
+	</select>
 	
 </mapper>

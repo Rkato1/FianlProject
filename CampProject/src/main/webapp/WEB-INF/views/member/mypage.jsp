@@ -127,7 +127,7 @@
 
         /*수정하기 버튼*/
         input[type='submit'] {
-            width: 280px;
+            width: 220px;
             height: 50px;
             border-radius: 5px;
             outline: none;
@@ -416,7 +416,14 @@
             
             //Submit 버튼
             $("#updateBtn").click(function(event) {
-                if (regChk < 3) {
+                var regChk = 0;
+                for (var i = 0; i < check.length; i++) {
+                    if (check[i] == true) {
+                        regChk++;
+                    }
+                }
+                
+            	if (regChk < 3) {
                     alert("입력한 정보를 확인해주세요.");
                     event.preventDefault();
                 } 

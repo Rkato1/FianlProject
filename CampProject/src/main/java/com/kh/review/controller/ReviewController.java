@@ -101,4 +101,12 @@ public class ReviewController {
 		return "common/msg";
 	}
 	
+	@RequestMapping("/searchKeyword.do")
+	public String searchKeyword(int reqPage, String keyword, Model model) {
+		ReviewPageData rpd = service.searchKeyword(reqPage, keyword);
+		model.addAttribute("list", rpd.getList());
+		model.addAttribute("pageNavi", rpd.getPageNavi());
+		return "review/reviewList";
+	}
+	
 }

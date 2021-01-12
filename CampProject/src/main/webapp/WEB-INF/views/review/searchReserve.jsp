@@ -18,6 +18,15 @@
     	
     	.table-wrap {
     		margin: 50px;
+    		text-align: center;
+    	}
+    	
+    	.res-table {
+    		border-collapse: collapse
+    	}
+
+    	.res-table>tbody>tr>td {
+    		border-top: 1px solid #383a3f;
     	}
 
     	.res-table>tbody>tr>td:first-child {
@@ -28,15 +37,16 @@
     	.res-table>tbody>tr>td:last-child {
         	width: 350px;
         	height: 100px;
+        	text-align: left;
     	}
 
     	/*----------------------------------*/
     	
-    	.selectBtn {
+    	.button-box {
     		padding-top: 30px;
     	}
 
-    	.selectBtn>button {
+    	.selectBtn {
         	color: white;
         	background-color: black;
         	border: none;
@@ -82,25 +92,36 @@
 <body>
 
 	<div class="table-wrap">
-    	<table class="table res-table">
-    		<c:forEach items="${listRes }" var="res">
-        	<tr>
-            	<td>
-                	<input type="radio" value="${res.reserveNo }" name="select">
-            	</td>
-            	<td>
-					<b>예약번호</b> &nbsp; ${res.reserveNo }<br>
-					<b>캠핑장</b> &nbsp; ${res.campName }<br>
-                   	<b>방문일자</b> &nbsp; ${res.checkInDate } ~ ${res.checkOutDate }
-            	</td>
-        	</tr>
-        	</c:forEach>
-        	<tr>
-            	<td colspan="2" style="text-align: center;" class="selectBtn" id="selectBtn">
-            		<button type="button" id="btn" onclick="closeWindow();">확인</button>
-            	</td>
-        	</tr>
-    	</table>
+    	<c:choose>
+    	
+    		<c:when test="${empty listRes}">
+    		<p>예약 내역이 존재하지 않습니다.</p><br><br>
+    		<button type="button" class="selectBtn" onclick="closeNone();">확인</button>
+    		</c:when>
+    		
+    		<c:otherwise>
+    			<table class="table res-table">
+    				<c:forEach items="${listRes }" var="res">
+        			<tr>
+            			<td>
+                			<input type="radio" value="${res.reserveNo }" name="select">
+            			</td>
+            			<td>
+							<b>예약번호</b> &nbsp; ${res.reserveNo }<br>
+							<b>캠핑장</b> &nbsp; ${res.campName }<br>
+                   			<b>방문일자</b> &nbsp; ${res.checkInDate } ~ ${res.checkOutDate }
+            			</td>
+        			</tr>
+        			</c:forEach>
+        			<tr>
+            			<td colspan="2" style="text-align: center;" class="button-box">
+            				<button type="button" class="selectBtn" id="btn" onclick="closeWindow();">확인</button>
+            			</td>
+        			</tr>
+    			</table>    		
+    		</c:otherwise>
+    		
+    	</c:choose>
     </div>
 
     <script>
@@ -124,6 +145,10 @@
         		//팝업창 닫기
         		self.close();
             }
+    	}
+    	
+    	function closeNone() {
+    		self.close();    	
     	}
     </script>
 

@@ -74,8 +74,15 @@ public class MemberController {
 	@RequestMapping("/searchId.do")
 	public String searchId(MemberVO m, Model model) {
 		MemberVO member = service.selectOneMemberId(m);
-		model.addAttribute("m", member);
-		return "member/searchId";
+		//아이디 찾기에서 조회되지 않을 때
+		if(member != null) {
+			model.addAttribute("m", member);
+			return "member/searchId";
+		} else {
+			model.addAttribute("msg", "입력하신 정보를 다시 한 번 확인해주세요.");
+			model.addAttribute("loc", "/searchIdFrm.do");
+			return "common/msg";
+		}
 	}
 
 	@RequestMapping("/searchPwFrm.do")
@@ -86,8 +93,15 @@ public class MemberController {
 	@RequestMapping("/searchPw.do")
 	public String searchPw(MemberVO m, Model model) {
 		MemberVO member = service.selectOneMemberPw(m);
-		model.addAttribute("m", member);
-		return "member/searchPw";
+		//비밀번호 찾기에서 조회되지 않을 때
+		if(member != null) {
+			model.addAttribute("m", member);
+			return "member/searchPw";
+		} else {
+			model.addAttribute("msg", "입력하신 정보를 다시 한 번 확인해주세요.");
+			model.addAttribute("loc", "/searchPwFrm.do");
+			return "common/msg";
+		}
 	}
 
 	@ResponseBody

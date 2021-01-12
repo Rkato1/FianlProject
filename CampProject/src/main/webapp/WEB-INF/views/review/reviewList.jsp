@@ -45,7 +45,16 @@
         color: dimgray;
         font-size: 15px;
     }
-
+    
+    
+    .titleBox>p:first-child {
+    	color: dimgray;
+    }
+    
+    .titleBox>p:last-child {
+    	color: #f49b00;
+    }
+    
     /*--------------------------------*/
 
     .inputBar {
@@ -154,18 +163,17 @@
             	</div>
 			</c:if>
 	
-            <form action="/searchKeyword">
-                <div class="searchBox">
-                    <div class="input-group">
+            <div class="searchBox">
+            	<form action="/searchKeyword.do?req" method="post">
+                	<div class="input-group">
+                    	<input type="hidden" name="reqPage" value="1">
                         <input type="text" name="keyword" class="form-control" id="searchInput">
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-dark" id="searchBtn">
-                            	캠핑장 검색
-                            </button>
+                            <input type="submit" class="btn btn-dark" id="searchBtn" value="캠핑장 검색">
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
 
         <table class="table table-striped" style="width: 100%; text-align: center;">
