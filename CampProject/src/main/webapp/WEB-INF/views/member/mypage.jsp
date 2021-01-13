@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <!DOCTYPE html>
 <html>
 <!-- Google Fonts-->
@@ -146,7 +147,42 @@
             color: #f49b00;
             font-weight: bolder;
         }
+        
+        /*--------------------------------*/
 
+        .data-table {
+            margin: 0 auto;
+            width: 750px;
+            font-size: 14px;
+        }
+
+        .data-table>thead>tr>th {
+            text-align: center;
+        }
+
+        .data-table>tbody>tr>td {
+            text-align: center;
+        }
+
+        .data-table>thead>tr {
+            background-color: #d3d3d3;
+        }
+        
+        /*-----------------------------------*/
+        
+        #state {
+            color: #f49b00;
+        }
+        
+        #point>i {
+        	color: #ffd56b;
+    	}
+        
+        /*표 숨기기--------------------------*/
+        .select {
+        	display: none;
+        }
+       
     </style>
 </head>
 <body>
@@ -160,33 +196,31 @@
         </div>
         <div class="mypage-menu">
             <div class="menu-img">
-                <a href="/mypageReserve.do" id="menu-img-a"><i class="far fa-calendar-alt icon"></i></a>
+                <a href="#" class="select-a" id="menu-img-a"><i class="far fa-calendar-alt icon"></i></a>
             </div>
             <div class="menu-text">
                 <span>예약내역</span>
-                <span class="num">(3)</span>
+                <span class="num">(${cntRes })</span>
             </div>
 
-
             <div class="menu-img">
-                <a href="#" id="menu-img-a"><i class="far fa-thumbs-up icon"></i></a>
+                <a href="#" class="select-a" id="menu-img-a"><i class="far fa-thumbs-up icon"></i></a>
             </div>
             <div class="menu-text">
                 <span>후기내역</span>
-                <span class="num">(3)</span>
+                <span class="num">(${cntRev })</span>
             </div>
 
-
             <div class="menu-img">
-                <a href="#" id="menu-img-a"><i class="fas fa-user-friends icon"></i></a>
+                <a href="#" class="select-a" id="menu-img-a"><i class="fas fa-user-friends icon"></i></a>
             </div>
             <div class="menu-text">
                 <span>거래내역</span>
-                <span class="num">(3)</span>
+                <span class="num">(${cntUsed })</span>
             </div>
         </div>
 
-        <div class="mypage-table">
+        <div class="mypage-table" id="info">
             <form action="/updateMember.do" method="post">
             <input type="hidden" name="memberNo" id="memberNo" value="${m.memberNo }">
                 <table class="mypage-table">
@@ -243,11 +277,91 @@
                 </table>
             </form>
         </div>
+        
+        <!-- 예약 내역 테이블 -->
+        <div class="mypage-table select">
+        	<table class="table table-bordered data-table">
+            	<thead>
+                	<tr>
+                    	<th>예약일자</th>
+                        <th>캠핑장</th>
+                        <th>금액</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<tr>
+                    	<td>2020-12-30</td>
+                        <td>충남 맑은 하늘 캠핑장</td>
+                        <td>200.000원</td>
+                        <td id="state">이용완료</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 후기 내역 테이블 -->
+        <div class="mypage-table select">
+        	<table class="table table-bordered data-table">
+            	<thead>
+                	<tr>
+                		<th>캠핑장</th>
+                    	<th>제목</th>
+                        <th>별점</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<c:forEach items="${listRev }" var="rev">
+                	<tr>
+                		<td>${rev.campName }</td>
+                    	<td>${rev.reviewTitle }</td>
+                    	<td id="point">
+                    	<c:forEach var="i" begin="0" end="4">
+                			<c:choose>
+                				<c:when test="${rev.reviewPoint  > i }">
+                					<i class="fas fa-star"></i>
+                				</c:when>
+                				<c:otherwise>
+                					<i class="far fa-star"></i>
+                				</c:otherwise>
+                			</c:choose>
+                		</c:forEach>
+                        </td>
+                        <td>${rev.reviewDate }</td>
+                    </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 거래 내역 테이블 -->
+        <div class="mypage-table select">
+        	<table class="table table-bordered data-table">
+            	<thead>
+                	<tr>
+                    	<th>거래일자</th>
+                        <th>캠핑장</th>
+                        <th>거래</th>
+                        <th>거래</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<tr>
+                    	<td>2020-12-30</td>
+                        <td>충남 맑은 하늘 캠핑장</td>
+                        <td>200.000원</td>
+                        <td id="state">이용완료</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+               
     </div>
-    
+  
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	
-	    <script>
+	<script>
         $(function() {
             //입력양식 확인 check배열 생성
             var check = [false, false, false];
@@ -304,6 +418,17 @@
                     event.preventDefault();
                 } 
             });
+        });
+        
+        //이미지 클릭시 관련 내역 표 생성
+        $(".select-a").click(function() {
+        	//인덱스 생성
+        	var idx = $(".select-a").index(this);
+        	//정보수정 테이블 숨기기
+        	$("#info").hide();
+        	//해당 되는 표 나타내기
+        	$(".select").hide();
+        	$(".select").eq(idx).show();
         });
     </script>
 

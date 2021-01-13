@@ -70,6 +70,68 @@
 		from member where member_no=#{_parameter} 
 	</select>
 	
+	<select id="cntReserve" parameterType="_int" resultType="_int">
+		select 
+			(count(*))cnt
+		from reservation where member_no=#{_parameter} 
+	</select>
+	
+	<select id="cntReview" parameterType="String" resultType="_int">
+		select 
+			(count(*))cnt
+		from review where member_id=#{value}
+	</select>
+	
+	<select id="cntUsedTrade" parameterType="String" resultType="_int">
+		select 
+			(count(*))cnt
+		from used_trade where used_trade_writer=#{value}
+	</select>
+	
+	<select id="mypageReserve" parameterType="_int" resultType="reserve">
+		select 
+			reserve_no as reserveNo,
+			member_no as memberNo,
+			camp_no as campNo,
+			check_in_date as checkInDate,
+			check_out_date as checkOutDate,
+			reserve_status as reserveStatus,
+			reserve_place as reservePlace,
+			reserve_price as reservePrice,
+			reserve_pw as reservePw,
+			car_number as carNumber,
+			reserve_memo as reserveMeno
+		from reservation where member_no=#{_parameter} order by 1 desc
+	</select>
+	
+	<select id="mypageReview" parameterType="String" resultType="review">
+		select 
+			review_no as reviewNo,
+			member_id as memberId,
+			reserve_no as reserveNo,
+			review_title as reviewTitle,
+			review_content as reviewContent,
+			review_date as reviewDate,
+			review_point as reviewPoint,
+			review.camp_no as campNo,
+			camp_name as campName
+		from review	
+		join camp on (review.camp_no = camp.camp_no)
+		where member_id=#{value} order by 1 desc
+	</select>
+	
+	<select id="mypageUsedTrade" parameterType="String" resultType="used">
+		select 
+			used_trade_no as usedNo,
+			used_trade_title as usedTitle,
+			used_trade_price as usedPrice,
+			category as category,
+			used_trade_writer as usedWriter,
+			used_trade_content as usedContent,
+			used_trade_date as usedDate
+		from used_trade where member_id=#{value} order by 1 desc
+	</select>
+	
 	<update id="updateMember" parameterType="member">
 		update member
 		<set>

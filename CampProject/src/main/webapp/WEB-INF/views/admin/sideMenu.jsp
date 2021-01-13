@@ -9,34 +9,34 @@
 <body>
 <!--화면 좌측-->
 <div class="admin-menu">
-    <div class="div1"></div>
+    <!-- div class="div1"></div-->
     <div class="menuBox">        
-        <img class="circle profile" src="/img/camp.png" width="100px;">
+        <a  href="/admin/mainAdmin.do"><img class="circle profile" src="/img/camp.png" width="200px;"></a>
         <div class="profile-title">
-            admin
+            Admin
         </div><br><br>
         <ul class="menu">
             <li>
-                <a href="/">회원관리</a>
+                <a href="/admin/memberAdmin.do?reqPage=1">회원관리</a>
             </li>
             <li>
-                <a href="/">사업자관리</a>
+                <a href="/admin/businessAdmin.do?reqPage=1">사업자관리</a>
             </li>
             <li>
-                <a href="/">예약관리</a>
+                <a href="/admin/reserveAdmin.do?reqPage=1">예약관리</a>
             </li>
             <li>
-                <a href="/">매출관리</a>
+                <a href="/admin/salesAdmin.do">매출관리</a>
             </li>
             <li>
-                <a href="/">우수캠핑장선정</a>
+                <a href="/admin/greatcampAdmin.do">우수캠핑장선정</a>
             </li>
             <li>
-                <a href="/adminQna?reqPage=1">고객센터</a>
+                <a href="/admin/helpAdmin.do?reqPage=1">고객센터</a>
             </li>
         </ul>
     </div>
-    <div class="div1"></div>
+    <!-- div class="div1"></div-->
 </div>
 </body>
 </html>

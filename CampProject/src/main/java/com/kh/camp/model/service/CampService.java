@@ -1,4 +1,4 @@
-package com.kh.camp.camp.model.service;
+package com.kh.camp.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,10 +6,10 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.camp.camp.model.dao.CampDao;
-import com.kh.camp.camp.model.vo.CampPageData;
-import com.kh.camp.camp.model.vo.CampPictureVo;
-import com.kh.camp.camp.model.vo.CampVO;
+import com.kh.camp.model.dao.CampDao;
+import com.kh.camp.model.vo.CampPageData;
+import com.kh.camp.model.vo.CampPictureVo;
+import com.kh.camp.model.vo.CampVO;
 
 @Service
 public class CampService {

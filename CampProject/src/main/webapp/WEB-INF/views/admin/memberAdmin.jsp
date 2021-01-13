@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원관리페이지</title>
+<title>회원관리 페이지</title>
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean" rel="stylesheet">
@@ -19,7 +19,7 @@
         $(".menu li>a").hover(function() {
             $(this).parent().css('background-color', '#d0b0b1');
         }, function() {
-            $(this).parent().css('background-color', '#9f807d');
+            $(this).parent().css('background-color', '#cccccc');
         });
     });
 </script>
@@ -45,6 +45,7 @@
                             <th class="long">등록날짜</th>
                         </tr>
 						<tr>
+						<!--c태그써서 작 성 하 기 -->
                         	<td></td>
                         	<td></td>
                         	<td></td>

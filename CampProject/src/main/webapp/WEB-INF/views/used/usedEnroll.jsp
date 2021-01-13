@@ -114,13 +114,17 @@
     </div>
     <hr style="border: 2px solid #1d0202; margin-top: 5px; margin-bottom: 0px;">
   </section>
-  <form action="/usedEnroll.do" method="post">
   <section class="section-size">         
+  <form action="/usedEnrollEnd.do" method="post" autocomplete="off" enctype="multipart/form-data">
       <table class="table tbl">
         <tbody>
+        <tr>
+            <td>작성자</td>
+            <td><input class="inpText" type="text" value="${sessionScope.m.memberId }" name="usedWriter" readonly></td>
+          </tr>
           <tr>
             <td>상품명</td>
-            <td><input class="inpText" type="text" placeholder="상품명 입력"></td>
+            <td><input class="inpText" type="text" placeholder="상품명 입력" name="usedTitle"></td>
           </tr>
           <tr>
             <td>상품종류</td>
@@ -143,12 +147,12 @@
           </tr>
           <tr>
             <td>금액입력</td>
-            <td><input type="text" class="inpText" placeholder="금액을 입력해주세요."></td>
+            <td><input type="text" class="inpText" placeholder="금액을 입력해주세요." name="usedPrice"></td>
           </tr>
           <tr>
             <td>거래지역</td>
             <td>
-              <select name="area" class="inpText">
+              <select name="usedArea" class="inpText"> 
                 <option value="전국" selected>전국</option>
                 <option value="서울">서울</option>
                 <option value="경기">경기</option>
@@ -173,7 +177,7 @@
           <tr>
             <td>제품상태</td>
             <td>
-              <select name="used" class="inpText">
+              <select name="usedState" class="inpText">
                 <option value="중고" selected>중고</option>
                 <option value="새상품" selected>새상품</option>
               </select>
@@ -182,7 +186,7 @@
           <tr>
             <td>교환여부</td>
             <td>
-              <select name="trade" class="inpText">
+              <select name="usedChange" class="inpText">
                 <option value="교환가능" selected>교환가능</option>
                 <option value="교환불가능" selected>교환불가능</option>
               </select>
@@ -191,24 +195,22 @@
           <tr>
             <td style="line-height: 100px;">상품설명</td>
             <td>
-              <textarea class="inpTextrea" name="expl" id="" cols="80" rows="10" style="resize: none;" placeholder="상품에 대한 설명을 적어주세요."></textarea>
+              <textarea class="inpTextrea" name="usedContent" id="" cols="80" rows="10" style="resize: none;" placeholder="상품에 대한 설명을 적어주세요."></textarea>
             </td>
           </tr>
           <tr>
             <td style="line-height: 100px;">사진첨부</td>
             <td>
               <div class="imgUpload-size"></div>
-              <div class="imgUpload-size"></div>
-              <div class="imgUpload-size"></div>
-              <input type="file" name="file" value="" id="">
+              <input type="file" name="files" multiple>
             </td>
           </tr>
         </tbody>
       </table>
       <hr style="border: 2px solid #1d0202; margin-top: 0px; margin-bottom: 0px;">
       <input type="submit" class="enrollBtn" value="등록하기">
-  </section>
 </form>
+  </section>
   <div style="height: 200px"></div>
   <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
