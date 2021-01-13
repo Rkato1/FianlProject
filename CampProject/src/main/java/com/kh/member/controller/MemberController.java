@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.kh.camp.used.vo.UsedVO;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.MemberVO;
-import com.kh.reserve.model.vo.ReserveVO;
-import com.kh.review.model.vo.ReviewVO;
+import com.kh.reserve.model.vo.ReserveCampVO;
+import com.kh.review.model.vo.ReviewCampVO;
 
 @Controller
 public class MemberController {
@@ -61,7 +61,7 @@ public class MemberController {
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
 		}
-		model.addAttribute("loc", "/");
+		model.addAttribute("loc", "/loginFrm.do");
 
 		return "common/msg";
 	}
@@ -74,8 +74,15 @@ public class MemberController {
 	@RequestMapping("/searchId.do")
 	public String searchId(MemberVO m, Model model) {
 		MemberVO member = service.selectOneMemberId(m);
-		model.addAttribute("m", member);
-		return "member/searchId";
+		//아이디 찾기에서 조회되지 않을 때
+		if(member != null) {
+			model.addAttribute("m", member);
+			return "member/searchId";
+		} else {
+			model.addAttribute("msg", "입력하신 정보를 다시 한 번 확인해주세요.");
+			model.addAttribute("loc", "/searchIdFrm.do");
+			return "common/msg";
+		}
 	}
 
 	@RequestMapping("/searchPwFrm.do")
@@ -86,8 +93,15 @@ public class MemberController {
 	@RequestMapping("/searchPw.do")
 	public String searchPw(MemberVO m, Model model) {
 		MemberVO member = service.selectOneMemberPw(m);
-		model.addAttribute("m", member);
-		return "member/searchPw";
+		//비밀번호 찾기에서 조회되지 않을 때
+		if(member != null) {
+			model.addAttribute("m", member);
+			return "member/searchPw";
+		} else {
+			model.addAttribute("msg", "입력하신 정보를 다시 한 번 확인해주세요.");
+			model.addAttribute("loc", "/searchPwFrm.do");
+			return "common/msg";
+		}
 	}
 
 	@ResponseBody
@@ -127,8 +141,8 @@ public class MemberController {
 		int cntRev = service.cntReview(memberId);
 		int cntUsed = service.cntUsedTrade(memberId);
 		//데이터 조회
-		//ArrayList<ReserveVO> listRes = service.mypageReserve(memberNo);
-		ArrayList<ReviewVO> listRev = service.mypageReview(memberId);
+		ArrayList<ReserveCampVO> listRes = service.mypageReserve(memberNo);
+		ArrayList<ReviewCampVO> listRev = service.mypageReview(memberId);
 		//ArrayList<UsedVO> listUsed = service.mypageUsedTrade(memberId);
 		
 		model.addAttribute("m", member);
@@ -137,7 +151,7 @@ public class MemberController {
 		model.addAttribute("cntRev", cntRev);
 		model.addAttribute("cntUsed", cntUsed);
 		//데이터 전달
-		//model.addAttribute("listRes", listRes);
+		model.addAttribute("listRes", listRes);
 		model.addAttribute("listRev", listRev);
 		//model.addAttribute("listUsed", listUsed);
 		
