@@ -32,9 +32,9 @@
             <div class="div2"></div>
             <div class="real-content">
                 <div class="members">
-                    <p class="title">전체사용자정보</p>
+                    <p class="title">관리자메인</p>
                    
-                    <table class="table table-hover">
+                    <!-- table class="table table-hover">
                         <tr class="contentsLine">
                             <th class="short">번호</th>
                             <th class="short">이름</th>
@@ -45,7 +45,6 @@
                             <th class="long">등록날짜</th>
                         </tr>
 						<tr>
-						<!--c태그써서 작 성 하 기 -->
                         	<td></td>
                         	<td></td>
                         	<td></td>
@@ -55,7 +54,7 @@
                         	<td></td>
                        	</tr>
                     </table>
-                    <div id= "pageNavi"></div>
+                    <div id= "pageNavi"></div-->
                 </div>
             </div>
             <div class="div2"></div>

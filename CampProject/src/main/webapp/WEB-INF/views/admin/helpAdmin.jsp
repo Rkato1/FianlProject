@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객센터 페이지</title>
+<title>고객센터 페이지</title>
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean" rel="stylesheet">
@@ -19,7 +19,7 @@
         $(".menu li>a").hover(function() {
             $(this).parent().css('background-color', '#d0b0b1');
         }, function() {
-            $(this).parent().css('background-color', '#9f807d');
+            $(this).parent().css('background-color', '#cccccc');
         });
     });
 </script>
@@ -29,11 +29,33 @@
         <jsp:include page="sideMenu.jsp"/>
         <!--화면 우측-->
         <div class="admin-content">
+        <p class="title">고객센터</p>
             <div class="div2"></div>
             <div class="real-content">
                 <div class="members">
-                    <p class="title">고객센터</p>
-                   
+                    <p class="title">답변하지 않은 글들</p>                   
+                    <table class="table table-hover">
+                        <tr>
+                            <th class="th-short"></th>
+                            <th class="th-short"></th>
+                            <th class="th-long"></th>
+                            <th class="th-long"></th>
+                            <th class="th-short"></th>
+                            <th class="th-short"></th>
+                            <th class="th-long"></th>
+                        </tr>
+						<tr>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                        	<td></td>
+                       	</tr>
+                    </table>
+                    <div id= "pageNavi"></div>
+                    <p class="title">답변한 글들</p>                   
                     <table class="table table-hover">
                         <tr>
                             <th class="th-short"></th>

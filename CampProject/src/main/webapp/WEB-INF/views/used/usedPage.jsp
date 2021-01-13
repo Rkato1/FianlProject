@@ -18,7 +18,7 @@
         }
         .section-mid-size{
             width: 1100px;
-            height: 1180px;
+            height:800px;
             margin: 0 auto;
         }
         .bootcol{
@@ -46,7 +46,7 @@
             width: 150px;
         }
         .searchBtn{
-            background-color: #1d0202;;
+            background-color: #1d0202;
             color: white;
             border: 0;
             border-radius: 3px;
@@ -67,7 +67,7 @@
             margin-bottom: 30px;
             float: left;
             margin-left: 50px;
-            transition: background-color 3s;
+            transition: background-color .5s;
         }
         .prd-item img{
             object-fit: cover;
@@ -80,6 +80,27 @@
             width: 298px;
             height: 300px;
         }
+        .items-navi {
+        text-align: center;
+        width: 1000px;
+        height: 200px;
+    	}
+    	.btn-outline-primary {
+    	background-color: #1d0202 !important;
+        color: white !important;
+        border-color: white !important;
+        transition: background-color .5s !important;
+		}
+		.btn-outline-primary:hover {
+    	background-color: #fa9b00 !important;
+        color: black !important;
+        border-color: white !important;
+		}
+		#prd-item-click{
+			text-decoration: none;
+			color: #1d0202;
+
+		}
     </style>
     
 </head>
@@ -100,7 +121,7 @@
             </ul>
         </div>
         <hr style="border: 2px solid #1d0202; margin-top: 5px; margin-bottom: 5px;">
-        <div class="used-two" style="height: 30px; vertical-align: middle;">
+        <div class="used-two" style="height: 30px;">
             <div class="col-md-11 bootcol one" style=" padding: 0;">
             <select name="ware" id="ware-select" style="font-size: 10pt; height: 22px;">
                 <option value="" selected>직접선택</option>
@@ -120,25 +141,54 @@
                 <button class="material-icons searchBtn" style="font-size: 16px; height: 22px;">search</button>
             </div>
             <div class="col-md-1 bootcol one" style="vertical-align: middle;  padding: 0;">
-            	<c:if test="${SessionScope.m == null }">
-               		<a href="/usedEnroll.do?memberId=${SessionScope.m.memberId }"><input type="button" value="물품등록" style="font-size: 16px; height: 22px; font-size: 13px; margin-left: 20px;" class="searchBtn"></a>
+            	<c:if test="${sessionScope.m != null }">
+               		<a href="/usedEnroll.do"><input type="button" value="물품등록" style="font-size: 16px; height: 22px; font-size: 13px; margin-left: 20px;" class="searchBtn"></a>
                 </c:if>
             </div>
         </div>
     </section>
     <section class="section-mid-size">
-   	 <c:forEach items="${list }" var="u">
+    <!-- 변수 -->
+    <c:set var="size" value="${list.size() }" />
+			<c:set var="end1" value="${size/3 }" />
+			<c:if test="${size % 3 > 0}">
+				<c:set var="end1" value="${end1+1 }" />
+			</c:if>
+			<c:set var="idx" value="0" />
+	
+   	 <c:forEach var="u" begin="1" end="${end1 }">
+   	 			<c:choose>
+					<c:when test="${size > 3}">
+						<c:set var="end2" value="3" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="end2" value="${size }" />
+						<c:set var="end3" value="${3-size }" />
+					</c:otherwise>
+				</c:choose>
+				<c:set var="size" value="${size-3 }" />
+        <c:forEach var="j" begin="1" end="${end2}">
+        <c:set var="c" value="${list[idx] }" />
         <div class="prd-item">
-            <div style="height: 300px; width: 300px;">
-                <a href="/usedDatail.do"><img src="/img/camp.png"></a>
+            <div style="height: 300px; width: 300px; border: 1px solid #e0e0e0;">
+                <a href="/usedDatail.do?usedNo=${c.usedNo }">
+                <img src="resources/upload/used/${c.file[0].filepath }">
+                </a>
             </div>
-            <div style="text-align: center; margin-top: 10px;">${u.usedTitle }</div>
-            <div style="text-align: center; font-weight: 600; font-size: 14px;"><fmt:formatNumber value="${u.usedPrice }" pattern="###,###,###"/>원</div>
+            <div style="text-align: center; margin-top: 10px;"><a href="/usedDatail.do?usedNo=${c.usedNo }" id="prd-item-click">${c.usedTitle }</a></div>
+            <div style="text-align: center; font-weight: 600; font-size: 14px;"><a href="/usedDatail.do?usedNo=${c.usedNo }" id="prd-item-click"><fmt:formatNumber value="${c.usedPrice }" pattern="###,###,###"/>원</a></div>
         </div>
+        <c:set var="idx" value="${idx+1 }" />
+            </c:forEach>
+            <c:forEach var="j" begin="1" end="${end3}">
+				<div class="item"></div>
+			</c:forEach>
       </c:forEach>
     </section>
-    <section style="text-align: center;">
-        12345
+    <section class="container">
+        <div class="items-navi">
+			<div class="btn-group">${pageNavi }</div>
+		</div>
     </section>
     <div style="height: 200px"></div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

@@ -39,8 +39,13 @@ public class MemberController {
 		MemberVO member = service.selectOneMember(m);
 		if (member != null) {
 			session.setAttribute("m", member);
-			model.addAttribute("msg", "[로그인]되었습니다.");
-			model.addAttribute("loc", "/campList.do?reqPage=1");
+			if(m.getMemberId().equals("admin")) {
+				model.addAttribute("msg", "관리자 로그인되었습니다.");
+				model.addAttribute("loc", "/admin/mainAdmin.do");
+			}else {
+				model.addAttribute("msg", "[로그인]되었습니다.");
+				model.addAttribute("loc", "/campList.do?reqPage=1");
+			}
 		} else {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요.");
 			model.addAttribute("loc", "/loginFrm.do");

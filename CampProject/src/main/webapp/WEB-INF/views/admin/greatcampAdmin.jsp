@@ -19,7 +19,7 @@
         $(".menu li>a").hover(function() {
             $(this).parent().css('background-color', '#d0b0b1');
         }, function() {
-            $(this).parent().css('background-color', '#9f807d');
+            $(this).parent().css('background-color', '#cccccc');
         });
     });
 </script>
@@ -34,7 +34,7 @@
                 <div class="members">
                     <p class="title">우수캠핑장선정</p>
                    
-                    <table class="table table-hover">
+                    <!-- table class="table table-hover">
                         <tr>
                             <th class="th-short"></th>
                             <th class="th-short"></th>
@@ -54,7 +54,7 @@
                         	<td></td>
                        	</tr>
                     </table>
-                    <div id= "pageNavi"></div>
+                    <div id= "pageNavi"></div-->
                 </div>
             </div>
             <div class="div2"></div>
