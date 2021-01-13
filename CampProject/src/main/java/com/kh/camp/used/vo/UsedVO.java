@@ -1,5 +1,7 @@
 package com.kh.camp.used.vo;
 
+import java.util.ArrayList;
+
 import lombok.Data;
 
 @Data
@@ -11,4 +13,8 @@ public class UsedVO {
 	private String usedWriter;
 	private String usedContent;
 	private String usedDate;
+	private String usedArea;
+	private String usedState;
+	private String usedChange;
+	private ArrayList<UsedFileVO> file;
 }

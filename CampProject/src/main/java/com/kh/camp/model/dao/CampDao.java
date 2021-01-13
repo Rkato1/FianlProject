@@ -22,7 +22,7 @@ public class CampDao {
 		return (ArrayList<CampVO>)list;
 	}
 
-	public int totalCount() {	
+	public int totalCount() {
 		return sqlSession.selectOne("camp.totalCount");
 	}
 

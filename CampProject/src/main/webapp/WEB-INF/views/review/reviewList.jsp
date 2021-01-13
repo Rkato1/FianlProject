@@ -3,6 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 <!-- Google Fonts-->
@@ -14,9 +17,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 
 <style>
     * {
@@ -45,7 +45,16 @@
         color: dimgray;
         font-size: 15px;
     }
-
+    
+    
+    .titleBox>p:first-child {
+    	color: dimgray;
+    }
+    
+    .titleBox>p:last-child {
+    	color: #f49b00;
+    }
+    
     /*--------------------------------*/
 
     .inputBar {
@@ -120,7 +129,7 @@
         color: #f49b00;
     }
 
-    .score>i {
+    .point>i {
         color: #ffd56b;
     }
     
@@ -129,6 +138,12 @@
     	padding-top: 30px;
     	padding-bottom: 50px;
     	text-align: center;
+    }
+    
+    .form-control:focus {
+		border-color: #ced4da !important;
+        outline: 0 none !important;
+        box-shadow: none !important;
     }
 
 </style>
@@ -154,18 +169,17 @@
             	</div>
 			</c:if>
 	
-            <form action="/searchKeyword">
-                <div class="searchBox">
-                    <div class="input-group">
+            <div class="searchBox">
+            	<form action="/searchKeyword.do?req" method="post">
+                	<div class="input-group">
+                    	<input type="hidden" name="reqPage" value="1">
                         <input type="text" name="keyword" class="form-control" id="searchInput">
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-secondary" id="searchBtn">
-                            	캠핑장 검색
-                            </button>
+                            <input type="submit" class="btn btn-dark" id="searchBtn" value="캠핑장 검색">
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
 
         <table class="table table-striped" style="width: 100%; text-align: center;">
@@ -180,16 +194,23 @@
             	</tr>
             </thead>
             <tbody>
+            	<c:if test="${empty list }">
+            	<tr>
+            		<td colspan="6" style="text-align:center;">
+            			검색하신 캠핑장에 대한 조회 결과가 존재하지 않습니다.
+            		</td>
+            	</tr>	
+            	</c:if>
             	<c:forEach items="${list }" var="r">
             	<tr>
                 	<td>${r.reviewNo }</td>
-                	<td>청량산 나무네 숲 캠핑장</td>
+                	<td>${r.campName }</td>
                 	<td>
                 		<a id="review-a" href="/reviewView.do?reviewNo=${r.reviewNo }&campNo=${r.campNo }">
                 			${r.reviewTitle }
                 		</a>
                 	</td>
-                	<td class="score">
+                	<td class="point">
                 		<c:forEach var="i" begin="0" end="4">
                 			<c:choose>
                 				<c:when test="${r.reviewPoint  > i }">

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="review">
 
-	<select id="selectList" parameterType="map" resultType="review">		
+	<select id="selectList" parameterType="map" resultType="reviewCamp">		
 		select
     		rnum,
     		reviewNo,
@@ -12,7 +12,8 @@
     		reviewContent,
     		reviewDate,
     		reviewPoint,
-    		campNo
+    		campNo,
+    		campName
 			from
         		(select rownum as rnum, r.*
 		from
@@ -24,8 +25,11 @@
 			review_content as reviewContent,
 			review_date as reviewDate,
 			review_point as reviewPoint,
-			camp_no as campNo
-		from review order by 1 desc)
+			review.camp_no as campNo,
+			camp_name as campName
+		from review 
+		join camp on (review.camp_no = camp.camp_no)
+		order by 1 desc)
 		r)
            where rnum between #{start} and #{end}
 	</select>
@@ -33,5 +37,201 @@
 	<select id="totalCount" resultType="_int">
 		select count(*) as cnt from review
 	</select>
-
+	
+	<select id="selectOneReview" parameterType="_int" resultType="review">
+		select
+			review_no as reviewNo,
+			member_id as memberId,
+			reserve_no as reserveNo,
+			review_title as reviewTitle,
+			review_content as reviewContent,
+			review_date as reviewDate,
+			review_point as reviewPoint,
+			camp_no as campNo
+		from review where review_no = #{_parameter}	
+	</select>
+	
+	<select id="selectOneCamp" parameterType="_int" resultType="camp">
+		select
+			camp_no as campNo,
+			camp_name as campName,
+			camp_addr as campAddr,
+			member_no as memberNo,
+			camp_show as campShow,
+			camp_type as campType,
+			camp_ph as campPh,
+			camp_period as campPeriod,
+			camp_day as campDay,
+			camp_facility as campFacility,
+			camp_fee_ori_day as campFeeOriDay,
+			camp_fee_ori_end as campFeeOriEnd,
+			camp_fee_peak_day as campFeePeakDay,
+			camp_fee_peak_end as campFeePeakEnd
+		from camp where camp_no = #{_parameter}	
+	</select>
+	
+	<select id="selectCntComment" parameterType="_int" resultType="_int">
+		select 
+			(count(*))cnt
+		from review_comment where review_no=#{_parameter}
+	</select>
+	
+	<select id="selectListComment" parameterType="_int" resultType="reviewComment">
+		select
+			review_comment_no as reviewCommentNo,
+			review_comment_level as reviewCommentLevel,
+			review_comment_writer as reviewCommentWriter,
+			review_comment_content as reviewCommentContent,
+			review_no as reviewNo,
+			review_comment_ref as reviewCommentRef,
+			review_comment_date as reviewCommentDate
+		from review_comment	where review_no = #{_parameter} order by 1
+	</select>
+	
+	<insert id="insertReviewComment" parameterType="reviewComment">
+		insert into review_comment values(
+			revc_seq.nextval,
+			#{reviewCommentLevel},
+			#{reviewCommentWriter},
+			#{reviewCommentContent},
+			#{reviewNo},
+			#{reviewCommentRef},
+			to_char(sysdate,'yyyy-mm-dd')
+		)
+	</insert>
+	
+	<select id="searchCampNo" parameterType="_int" resultType="_int">
+		select 
+			camp_no
+		from review where review_no=#{_parameter}
+	</select>
+	
+	<update id="updateReviewComment" parameterType="reviewComment">
+		update review_comment
+		set review_comment_content = #{reviewCommentContent}
+		where review_comment_no = #{reviewCommentNo}	
+	</update>
+	
+	<delete id="deleteReviewComment" parameterType="_int">
+		delete from review_comment where review_comment_no = #{_parameter}
+	</delete>
+	
+	<select id="selectListReserve" parameterType="_int" resultType="reserveCamp">
+		select 
+			reserve_no as reserveNo,
+			reservation.member_no as memberNo,
+			reservation.camp_no as campNo,
+			check_in_date as checkInDate,
+			check_out_date as checkOutDate,
+			reserve_status as reserveStatus,
+			reserve_place as reservePlace,
+			reserve_price as reservePrice,
+			reserve_pw as reservePw,
+			car_number as carNumber,
+			reserve_memo as reserveMeno,
+			camp_name as campName
+		from reservation 
+		join camp on (reservation.camp_no = camp.camp_no)
+		where reservation.member_no=#{_parameter} order by 1 desc
+	</select>
+	
+	<select id="searchKeyword" parameterType="hashMap" resultType="reviewCamp">		
+		select
+    		rnum,
+    		reviewNo,
+    		memberId,
+    		reserveNO,
+    		reviewTitle,
+    		reviewContent,
+    		reviewDate,
+    		reviewPoint,
+    		campNo,
+    		campName
+			from
+        (select rownum as rnum, r.*
+		from
+		(select
+			review_no as reviewNo,
+			member_id as memberId,
+			reserve_no as reserveNo,
+			review_title as reviewTitle,
+			review_content as reviewContent,
+			review_date as reviewDate,
+			review_point as reviewPoint,
+			review.camp_no as campNo,
+			camp_name as campName
+		from review 
+		join camp on (review.camp_no = camp.camp_no)
+		where camp_name like '%' || #{keyword}|| '%'
+		order by 1 desc)
+		r)
+           where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="totalCountKeyword" parameterType="String" resultType="_int">
+		select count(*) as cnt
+		from
+    		(select
+				review_no as reviewNo,
+				member_id as memberId,
+				reserve_no as reserveNo,
+				review_title as reviewTitle,
+				review_content as reviewContent,
+				review_date as reviewDate,
+				review_point as reviewPoint,
+				review.camp_no as campNo,
+				camp_name as campName
+    		from review 
+    		join camp on (review.camp_no = camp.camp_no)
+    		where camp_name like '%' || #{value}|| '%'
+    		order by 1 desc)
+	</select>
+	
+	<delete id="deleteReview" parameterType="_int">
+		delete from review where review_no = #{_parameter}
+	</delete>
+	
+	<select id="selectCampNo" parameterType="_int" resultType="_int">
+		select camp_no
+		from reservation
+		where reserve_no = #{_parameter}
+	</select>
+	
+	<insert id="insertReview" parameterType="review">
+		insert into review values(
+			rev_seq.nextval,
+			#{memberId},
+			#{reserveNo},
+			#{reviewTitle},
+			#{reviewContent},
+			to_char(sysdate,'yyyy-mm-dd'),
+			#{reviewPoint},
+			#{campNo}
+		)
+	</insert>
+	
+	<select id="selectReviewNo" parameterType="String" resultType="_int">
+		select max(review_no) from review
+	</select>
+	
+	<insert id="insertReviewFile" parameterType="reviewFile">
+		insert into review_file values(
+			revf_seq.nextval,
+			#{reviewNo},
+			#{filename},
+			#{filepath}
+		)
+	</insert>
+	
+	<select id="selectFileList" parameterType="_int" resultType="reviewFile">
+		select 
+			 review_file_no as reviewFileNo,
+			 review_no as reviewNo,
+			 filename,
+			 filepath 
+		from review_file
+		where review_no = #{_parameter}
+	</select>
+	
+	
 </mapper>

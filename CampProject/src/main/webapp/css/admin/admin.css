@@ -13,6 +13,7 @@
     max-width: 1920px;
     height: 70vh;
     min-height:800px;
+    max-height:1080px;
     border-radius: 20px;
     background-color: transparent;
     font-family: "jua";
@@ -29,14 +30,11 @@
     float: left;
 }
 
-.div1 {
-    height: 15%;
-}
-
 .menuBox {
-    height: 70%;
+	width:100%;
+    height: 60%;
     margin: 0 auto;
-    padding: 0;
+    margin-top: 20%;
 }
 
 .menu {
@@ -64,10 +62,6 @@
     text-align: center;
 }
 
-.div2 {
-    height: 10%;
-}
-
 .admin-content {
     width: 80%;
     float: left;
@@ -76,10 +70,11 @@
     border-radius: 10px;
     background-color: white;
     text-align: center;
+    margin-top: min(10%, 100px);
 }
 
 .real-content {
-    display: inline-block;        
+    display: inline-block;
     width: 90%;
     margin-left:min(5%,100px);
 }
@@ -88,30 +83,20 @@
     text-align: left;
     font-size: 2.5em;
 }
-.contentsLine{
-	text-align: center;
-}
-.short{
-	width: calc(100/15)%;
+
+.table th{
+    font-size: 1em;
+    text-align: center;
     min-width: 80px;
 }
-.middle{
-	width: calc(100/13)%;
-	min-width: 100px;
-}
-.long{
-    width: 10%;	
-    min-width: 120px;
-}
-.table th{
-    font-size: .8em;
-}
 .table td{
-    font-size: 1em;
+    font-size: 1.2em;
+    text-align: center;
 }
 #pageNavi>*{
     text-align: center;
-    margin: 10px;
+    margin: max(20px,1%);
+    font-size: 2em;
 }
 .selectPage{
     color : #5f7880;

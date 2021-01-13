@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <!-- Google Fonts-->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
 
     <style>
         * {
@@ -125,7 +127,7 @@
 
         /*수정하기 버튼*/
         input[type='submit'] {
-            width: 280px;
+            width: 220px;
             height: 50px;
             border-radius: 5px;
             outline: none;
@@ -167,10 +169,21 @@
             background-color: #d3d3d3;
         }
         
+        /*-----------------------------------*/
+        
         #state {
             color: #f49b00;
         }
-
+        
+        #point>i {
+        	color: #ffd56b;
+    	}
+        
+        /*표 숨기기--------------------------*/
+        .select {
+        	display: none;
+        }
+       
     </style>
 </head>
 <body>
@@ -184,31 +197,31 @@
         </div>
         <div class="mypage-menu">
             <div class="menu-img">
-                <a href="#" id="menu-img-a"><i class="far fa-calendar-alt icon"></i></a>
+                <a href="#" class="select-a" id="menu-img-a"><i class="far fa-calendar-alt icon"></i></a>
             </div>
             <div class="menu-text">
                 <span>예약내역</span>
-                <span class="num">(${cntReserve })</span>
+                <span class="num">(${cntRes })</span>
             </div>
 
             <div class="menu-img">
-                <a href="#" id="menu-img-a"><i class="far fa-thumbs-up icon"></i></a>
+                <a href="#" class="select-a" id="menu-img-a"><i class="far fa-thumbs-up icon"></i></a>
             </div>
             <div class="menu-text">
                 <span>후기내역</span>
-                <span class="num">(${cntReview })</span>
+                <span class="num">(${cntRev })</span>
             </div>
 
             <div class="menu-img">
-                <a href="#" id="menu-img-a"><i class="fas fa-user-friends icon"></i></a>
+                <a href="#" class="select-a" id="menu-img-a"><i class="fas fa-user-friends icon"></i></a>
             </div>
             <div class="menu-text">
                 <span>거래내역</span>
-                <span class="num">(3)</span>
+                <span class="num">(${cntUsed })</span>
             </div>
         </div>
 
-        <div class="mypage-table" id="">
+        <div class="mypage-table" id="info">
             <form action="/updateMember.do" method="post">
             <input type="hidden" name="memberNo" id="memberNo" value="${m.memberNo }">
                 <table class="mypage-table">
@@ -259,38 +272,99 @@
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;">
-                            <span class="delete">정말로 탈퇴하시겠어요? <a href="/deleteMember.do?memberNo=${m.memberNo }">회원탈퇴</a></span>
+                            <span class="delete">정말로 탈퇴하시겠어요? <a href="javascript:void(0)" onclick="deleteMember(${m.memberNo })">회원탈퇴</a></span>
                         </td>
                     </tr>
                 </table>
             </form>
         </div>
         
-        <div class="mypage-table" id="reserve">
+        <!-- 예약 내역 테이블 -->
+        <div class="mypage-table select">
         	<table class="table table-bordered data-table">
             	<thead>
                 	<tr>
-                    	<th>예약일자</th>
-                        <th>캠핑장</th>
+                    	<th>캠핑장</th>
+                        <th>체크인 - 체크아웃</th>
                         <th>금액</th>
                         <th>상태</th>
                     </tr>
                 </thead>
                 <tbody>
+                	<c:forEach items="${listRes }" var="res">
                 	<tr>
-                    	<td>2020-12-30</td>
-                        <td>충남 맑은 하늘 캠핑장</td>
-                        <td>200.000원</td>
-                        <td id="state">이용완료</td>
+                    	<td>${res.campName }</td>
+                        <td>${res.checkInDate } - ${res.checkOutDate }</td>
+                        <td>${res.reservePrice }</td>
+                        <td id="state">${res.reserveStatus }</td>
+                    </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 후기 내역 테이블 -->
+        <div class="mypage-table select">
+        	<table class="table table-bordered data-table">
+            	<thead>
+                	<tr>
+                		<th>캠핑장</th>
+                    	<th>제목</th>
+                        <th>별점</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<c:forEach items="${listRev }" var="rev">
+                	<tr>
+                		<td>${rev.campName }</td>
+                    	<td>${rev.reviewTitle }</td>
+                    	<td id="point">
+                    	<c:forEach var="i" begin="0" end="4">
+                			<c:choose>
+                				<c:when test="${rev.reviewPoint  > i }">
+                					<i class="fas fa-star"></i>
+                				</c:when>
+                				<c:otherwise>
+                					<i class="far fa-star"></i>
+                				</c:otherwise>
+                			</c:choose>
+                		</c:forEach>
+                        </td>
+                        <td>${rev.reviewDate }</td>
+                    </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 거래 내역 테이블 -->
+        <div class="mypage-table select">
+        	<table class="table table-bordered data-table">
+            	<thead>
+                	<tr>
+                    	<th>제목(상품명)</th>
+                    	<th>카테고리</th>
+                        <th>상품가격</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<tr>
+                    	<td>~~~</td>
+                        <td>~~~</td>
+                        <td>~~~</td>
+                        <td>~~~</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+               
     </div>
-    
+  
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	
-	    <script>
+	<script>
         $(function() {
             //입력양식 확인 check배열 생성
             var check = [false, false, false];
@@ -342,12 +416,37 @@
             
             //Submit 버튼
             $("#updateBtn").click(function(event) {
-                if (regChk < 3) {
+                var regChk = 0;
+                for (var i = 0; i < check.length; i++) {
+                    if (check[i] == true) {
+                        regChk++;
+                    }
+                }
+                
+            	if (regChk < 3) {
                     alert("입력한 정보를 확인해주세요.");
                     event.preventDefault();
                 } 
             });
         });
+        
+        //이미지 클릭시 관련 내역 표 생성
+        $(".select-a").click(function() {
+        	//인덱스 생성
+        	var idx = $(".select-a").index(this);
+        	//정보수정 테이블 숨기기
+        	$("#info").hide();
+        	//해당 되는 표 나타내기
+        	$(".select").hide();
+        	$(".select").eq(idx).show();
+        });
+        
+    	//회원 탈퇴 버튼 클릭 했을 때
+    	function deleteMember(memberNo) {
+    		if(confirm("탈퇴 후에는 회원 정보를 복구할 수 없습니다. 정말 탈퇴하시겠어요?")) {
+    			location.href="/deleteMember.do?memberNo="+memberNo;
+    		}
+    	}
     </script>
 
 </body>

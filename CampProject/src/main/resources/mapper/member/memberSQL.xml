@@ -88,7 +88,26 @@
 		from used_trade where used_trade_writer=#{value}
 	</select>
 	
-	<select id="mypageReview" parameterType="String" resultType="review">
+	<select id="mypageReserve" parameterType="_int" resultType="reserveCamp">
+		select 
+			reserve_no as reserveNo,
+			reservation.member_no as memberNo,
+			reservation.camp_no as campNo,
+			check_in_date as checkInDate,
+			check_out_date as checkOutDate,
+			reserve_status as reserveStatus,
+			reserve_place as reservePlace,
+			reserve_price as reservePrice,
+			reserve_pw as reservePw,
+			car_number as carNumber,
+			reserve_memo as reserveMeno,
+			camp_name as campName
+		from reservation 
+		join camp on (reservation.camp_no = camp.camp_no)
+		where reservation.member_no=#{_parameter} order by 1 desc
+	</select>
+	
+	<select id="mypageReview" parameterType="String" resultType="reviewCamp">
 		select 
 			review_no as reviewNo,
 			member_id as memberId,
@@ -97,8 +116,23 @@
 			review_content as reviewContent,
 			review_date as reviewDate,
 			review_point as reviewPoint,
-			camp_no as campNo
-		from review where member_id=#{value} 
+			review.camp_no as campNo,
+			camp_name as campName
+		from review	
+		join camp on (review.camp_no = camp.camp_no)
+		where member_id=#{value} order by 1 desc
+	</select>
+	
+	<select id="mypageUsedTrade" parameterType="String" resultType="used">
+		select 
+			used_trade_no as usedNo,
+			used_trade_title as usedTitle,
+			used_trade_price as usedPrice,
+			category as category,
+			used_trade_writer as usedWriter,
+			used_trade_content as usedContent,
+			used_trade_date as usedDate
+		from used_trade where member_id=#{value} order by 1 desc
 	</select>
 	
 	<update id="updateMember" parameterType="member">
