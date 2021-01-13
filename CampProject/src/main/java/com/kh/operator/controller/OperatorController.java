@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kh.camp.camp.model.vo.CampVO;
+import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.operator.model.service.OperatorService;
 import com.kh.operator.model.vo.CampNoticeVO;
@@ -47,6 +47,21 @@ private OperatorService service;
 			CampVO camp = service.selectOneCamp(c);
 			model.addAttribute("camp",camp);
 			return "operator/opCampView";
+		}else {
+			model.addAttribute("msg", "로그인 후 이용해 주시기 바랍니다.");
+			model.addAttribute("loc", "/");
+			return "common/msg";
+		}
+	}
+	@RequestMapping("/opNoticeList.do")
+	public String selectCampNoticeList(CampVO c,Model model,HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("m");
+		if(member!=null) {
+			CampVO camp = service.selectOneCamp(c);
+			if(camp!=null) {
+				model.addAttribute("camp",camp);
+			}
+			return "operator/opNoticeList";
 		}else {
 			model.addAttribute("msg", "로그인 후 이용해 주시기 바랍니다.");
 			model.addAttribute("loc", "/");

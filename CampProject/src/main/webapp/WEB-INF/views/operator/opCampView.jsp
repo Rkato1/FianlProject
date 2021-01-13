@@ -14,69 +14,86 @@
 	<section>
         <div>
             <div>
-                <h2>AAAA캠핑장</h2>
+                <h2>${camp.campName }</h2>
             </div>
             <hr>
             <div id="menu">
                 <ul>
-                    <a href="#"><li>캠핑장정보</li></a>
+                    <li style="border-bottom: 4px solid rgb(250,220,0);">캠핑장정보</li>
                     <ul>
-                        <a href=""><li style="border-bottom: 4px solid rgb(250,220,0);">캠핑장소개</li></a>
-                        <a href=""><li>이용 안내</li></a>
+                        <a href="/opCampView.do?campNo=${camp.campNo}"><li style="border-bottom: 4px solid rgb(250,220,0);">캠핑장소개</li></a>
+                        <a href="/opCampSite"><li>구역 안내</li></a>
                     </ul>
-                    <a href="#"><li>예약현황</li></a>
-                    <a href="#"><li>공지사항</li></a>
-                    <a href="#"><li>리뷰관리</li></a>
+                    <a href="/opReservation.do"><li>예약현황</li></a>
+                    <a href="/opNoticeList.do?campNo=${camp.campNo}"><li>공지사항</li></a>
+                    <a href="/opReview.do"><li>리뷰관리</li></a>
                 </ul>
             </div>
             <div class="content">
+             <h4>캠핑장 기본정보</h4>
             	<div id="main_img" class="img-wrapper">
-
+	            	<div class="img-wrapper">
+						<c:forEach items="${camp.pictureList }" var="p">
+		                	<c:if test="${p.fileGrade==1 }">
+		                		<img src="/resources/upload/camp/${p.filepath} "/>
+		                	</c:if>
+	                	</c:forEach>
+	                </div>
                 </div>
                 <div>
-                    <span class="title">캠핑장 이름</span>
-                    <span>${camp.campName }</span><br>
-                    <span class="title">캠핑장 주소</span>
-                    <span>${camp.campAddr }</span><br>
-                    <span class="title">캠핑장 유형</span>
-                    <span>${camp.campType }</span><br>
-                    <span class="title">문의처</span>
-                    <span>${camp.campPh }</span><br>
-                    <span class="title">운영기간</span>
-                    <span>${camp.campPeriod }</span><br>
-                    <span class="title">운영일</span>
-                    <span>${camp.campDay }</span><br>
-                    <span class="title">이용 가능시설</span>
-                    <span>${camp.campFacility }</span><br>
-                    <span class="title">이용 요금</span>
-                    <table border=1 style="width: 51%;">
-                        <tr>
-                            <th></th>
-                            <th>평상시</th>
-                            <th>성수기</th>
-                        </tr>
-                        <tr>
-                            <th>주중</th>
-                            <td><span>${camp.campFeeOriDay~ }</span>원</td>
-                            <td><span>${camp.campFeePeakDay~ }</span>원</td>
-                        </tr>
-                        <tr>
-                            <th>주말</th>
-                            <td><span>${camp.campFeeOriEnd~ }</span>원</td>
-                            <td><span>${camp.campFeePeakEnd~ }</span>원</td>
-                        </tr>
+                	<table class="camp_info">
+	                     <tr>
+	                    	<th><span class="title">캠핑장 주소</span></th>
+	                    	<td><span>${camp.campAddr }</span></td>
+	                    </tr>
+	                     <tr>
+	                    	<th><span class="title">캠핑장 유형</span></th>
+	                    	<td><span>${camp.campType }</span></td>
+	                    </tr>
+	                     <tr>
+	                    	<th><span class="title">문의처</span></th>
+	                    	<td><span>${camp.campPh }</span></td>
+	                    </tr>
+	                     <tr>
+	                    	<th><span class="title">운영기간</span></th>
+	                    	<td><span>${camp.campPeriod }</span></td>
+	                    </tr>
+	                     <tr>
+	                    	<th><span class="title">운영일</span></th>
+	                    	<td><span>${camp.campDay }</span></td>
+	                    </tr>
+	                    <tr>
+	                    	<th><span class="title">이용 가능시설</span></th>
+	                    	<td><span>${camp.campFacility }</span></td>
+	                    </tr>
                     </table>
                 </div>
+                <br>
                 <h4>소개 이미지</h4>
-                <c:forEach items="${camp.pictureList }" var="p">
-                	<div class="img-wrapper"><img src="/resources/upload/camp/${p.filepath} "></div>
-                </c:forEach>
-                <h4>캠핑장 소개글</h4>
+                <div class="info_imgs">
+	                <c:forEach items="${camp.pictureList }" var="p">
+	                	<c:if test="${p.fileGrade==2 }">
+	                		<div class="img-wrapper"><img src="/resources/upload/camp/${p.filepath} "></div>
+	                	</c:if>
+	                </c:forEach>
+                </div>
+                <h4>캠핑장 소개</h4>
                 <div id="campShow">${camp.campShow }</div>
-            </div>
+                <br>
+                <br>
+                <br>
+                <div style="text-align: center;">
+                	<button class="updateBtn">수정하기</button>
+                </div>
             </div>
         </div>
      </section>
      <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+     <script>
+     	$('#menu>ul>li').click(function(){
+     		$(this).next().slideToggle();
+     	})
+     
+     </script>
 </body>
 </html>

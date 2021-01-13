@@ -21,7 +21,7 @@
             </span>
             <span style="float: right; height: 100%;">
                 <ul id="header_menu">
-                    <a href="/">
+                    <a href="campList.do?reqPage=1">
                         <li>MAINPAGE</li>
                     </a>
                     <a href="/operatorpage.do">
@@ -35,7 +35,7 @@
         </div>
         <div id="header_img">
             <br><br><br><br>
-            <h1 style="color: white;"><b>[ 사업자  ] ${m.memberId}님</b></h1>
+            <h1 style="color: white;"><b></b></h1>
             <div><i class="fas fa-campground"></i></div>
         </div>
     </header>
