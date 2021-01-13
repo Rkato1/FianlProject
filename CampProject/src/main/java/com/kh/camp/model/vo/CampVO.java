@@ -21,4 +21,5 @@ public class CampVO {
 	private int campFeePeakDay;//성수기이용요금(주중)
 	private int campFeePeakEnd;//성수기이용요금(주말)
 	private ArrayList<CampPictureVo> pictureList; //캠프 사진 리스트
+	private ArrayList<SiteVO> siteList; //캠핑장소 리스트
 }

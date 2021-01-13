@@ -15,7 +15,7 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<link href="../css/camp/campList.css" type="text/css" rel="stylesheet">
+	<link href="../css/camp/campList.css" type="text/css" rel="stylesheet">	
 	<div class="container">
 		<div class="items-height">
 			<div class="camp_search">

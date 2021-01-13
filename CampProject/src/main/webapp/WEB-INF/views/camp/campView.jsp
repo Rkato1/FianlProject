@@ -4,58 +4,34 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- calendar CSS파일 호출 -->
+<link href="../css/calendar/fullcalendar.min.css" type="text/css"
+	rel="stylesheet">
+<link href="../css/calendar/main.css" type="text/css" rel="stylesheet">
+
+<!-- campView CSS파일 호출 -->
+<link href="../css/camp/campView.css" type="text/css" rel="stylesheet" />
+<!-- jQuery 호출 -->
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+
 <meta charset="UTF-8">
 <title>camp 상세보기</title>
+<style>
+.fc-center {
+	float: right
+}
+
+.fc-right {
+	display: none
+}
+
+.fc-left button:first-child {
+	display: none
+}
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<link href="../css/camp/campView.css" type="text/css" rel="stylesheet">
-	<%-- <h1>camp 상세보기</h1>
-	<hr>
-	<table border="1">
-		<tr>
-		 	<th>캠핑장번호</th><td>${camp.campNo }</td>
-		</tr>
-		<tr>
-		 	<th>캠핑장이름</th><td>${camp.campName }</td>
-		</tr>
-		<tr>
-		 	<th>캠핑장주소</th><td>${camp.campAddr }</td>
-		</tr>
-		<tr>
-		 	<th>회원번호(사업자)</th><td>${camp.memberNo }</td>
-		</tr>		
-		<tr>
-		 	<th>캠핑장소개글</th><td>${camp.campShow }</td>
-		</tr>
-		<tr>
-		 	<th>캠핑장유형</th><td>${camp.campType }</td>
-		</tr>
-		<tr>
-		 	<th>문의처</th><td>${camp.campPh }</td>
-		</tr>
-		<tr>
-		 	<th>운영기간</th><td>${camp.campPeriod }</td>
-		</tr>
-		<tr>
-		 	<th>운영일</th><td>${camp.campDay }</td>
-		</tr>
-		<tr>
-		 	<th>이용가능시설</th><td>${camp.campFacility }</td>
-		</tr>
-		<tr>
-		 	<th>평상시이용요금(주중)</th><td>${camp.campFeeOriDay }</td>
-		</tr>
-		<tr>
-		 	<th>평상시이용요금(주말)</th><td>${camp.campFeeOriEnd }</td>
-		</tr>
-		<tr>
-		 	<th>성수기이용요금(주중)</th><td>${camp.campFeePeakDay }</td>
-		</tr>
-		<tr>
-		 	<th>성수기이용요금(주말)</th><td>${camp.campFeePeakEnd }</td>
-		</tr>
-	</table> --%>
 	<div class="container">
 		<div class="items">
 			<div class="item">
@@ -69,13 +45,16 @@
 					</ul>
 					<div class="carousel-inner">
 						<div class="carousel-item active">
-							<img src="resources/upload/camp/camping_1.jpg" style="height: 400px;">
+							<img src="resources/upload/camp/camping_1.jpg"
+								style="height: 400px;">
 						</div>
 						<div class="carousel-item">
-							<img src="resources/upload/camp/camping_2.jpg" style="height: 400px;">
+							<img src="resources/upload/camp/camping_2.jpg"
+								style="height: 400px;">
 						</div>
 						<div class="carousel-item">
-							<img src="resources/upload/camp/camping_3.jpg" style="height: 400px;">
+							<img src="resources/upload/camp/camping_3.jpg"
+								style="height: 400px;">
 						</div>
 					</div>
 					<a class="carousel-control-prev" href="#demo" data-slide="prev">
@@ -93,7 +72,7 @@
 			<div class="item">
 				<h4>달력 이미지</h4>
 				<hr>
-				<img src="resources/upload/camp/calender_01.jpg" style="width: 100%; height: 400px;">
+				<div id="calendar" style="width: 100%;"></div>
 			</div>
 		</div>
 	</div>
@@ -102,7 +81,8 @@
 			<div class="item">
 				<h4>캠핑장 배치도</h4>
 				<hr>
-				<img src="resources/upload/camp/layout_01.jpg" style="width: 100%; height: 400px;">
+				<img src="resources/upload/camp/layout_01.jpg"
+					style="width: 100%; height: 400px;">
 			</div>
 		</div>
 	</div>
@@ -164,14 +144,97 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		$(function() {
-			$(".nav-chevron").next().hide();
-		});
-		$('.nav-chevron').click(function() {
-			$(this).next().toggle(400);
-			$(this).toggleClass('transform');
-		})
+	<!-- calendar js파일 호출 -->
+	<script src="../js/calendar/jquery.min.js"></script>
+	<script src="../js/calendar/moment.min.js"></script>
+	<script src="../js/calendar/fullcalendar.min.js"></script>
+	<script src="../js/calendar/ko.js"></script>
+
+	<script>	
+	var draggedEventIsAllDay;
+	var activeInactiveWeekends = true;
+	var calendar = $('#calendar').fullCalendar({
+	  events: [${events}],
+	  eventRender: function(event, eventElement) {
+	    if (event.color == "green") {
+	      eventElement.addClass('able');
+	    }
+	  },
+	 /** ******************
+	   *  OPTIONS
+	   * *******************/
+	  locale                    : 'ko',    
+	  timezone                  : "local", 
+	  nextDayThreshold          : "09:00:00",
+	  allDaySlot                : true,
+	  displayEventTime          : true,
+	  displayEventEnd           : true,
+	  firstDay                  : 1, //월요일이 먼저 오게 하려면 1
+	  weekNumbers               : false,
+	  selectable                : true,
+	  weekNumberCalculation     : "ISO",
+	  eventLimit                : true,
+	  views                     : { 
+	                                month : { eventLimit : 12 } // 한 날짜에 최대 이벤트 12개, 나머지는 + 처리됨
+	                              },
+	  eventLimitClick           : 'week', //popover
+	  navLinks                  : true,
+	  defaultDate               : moment('2021-01'), //실제 사용시 현재 날짜로 수정
+	  timeFormat                : 'HH:mm',
+	  defaultTimedEventDuration : '01:00:00',
+	  editable                  : false,
+	  minTime                   : '00:00:00',
+	  maxTime                   : '24:00:00',
+	  slotLabelFormat           : 'HH:mm',
+	  weekends                  : true,
+	  nowIndicator              : true,
+	  dayPopoverFormat          : 'MM/DD dddd',
+	  longPressDelay            : 0,
+	  eventLongPressDelay       : 0,
+	  selectLongPressDelay      : 0,  
+	  header                    : {
+	                                left   : 'today, prevYear, nextYear, viewWeekends',
+	                                center : 'prev, title, next',
+	                                right  : 'month, agendaWeek, agendaDay, listWeek'
+	                              },
+	  views                     : {
+	                                month : {
+	                                  columnFormat : 'dddd'
+	                                },
+	                                agendaWeek : {
+	                                  columnFormat : 'M/D ddd',
+	                                  titleFormat  : 'YYYY년 M월 D일',
+	                                  eventLimit   : false
+	                                },
+	                                agendaDay : {
+	                                  columnFormat : 'dddd',
+	                                  eventLimit   : false
+	                                },
+	                                listWeek : {
+	                                  columnFormat : ''
+	                                }
+	                              },
+	  customButtons             : { //주말 숨기기 & 보이기 버튼
+	                                viewWeekends : {
+	                                  text  : '주말',
+	                                  click : function () {
+	                                    activeInactiveWeekends ? activeInactiveWeekends = false : activeInactiveWeekends = true;
+	                                    $('#calendar').fullCalendar('option', { 
+	                                      weekends: activeInactiveWeekends
+	                                    });
+	                                  }
+	                                }
+	                               },
+	});	
+	$(function() {
+		$(".nav-chevron").next().hide();
+		$('.able').attr('href','/reserveWriteFrm.do?campNo='+${camp.campNo});
+	});
+	
+	$('.nav-chevron').click(function() {
+		$(this).next().toggle(400);
+		$(this).toggleClass('transform');
+	})
 	</script>
 </body>
 </html>

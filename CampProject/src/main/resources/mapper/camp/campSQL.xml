@@ -84,4 +84,29 @@
 		  </trim>
 	</select>
 	
+	
+	<select id="selectSiteList" parameterType="site" resultType="site">
+		select
+			*
+		from site
+		<trim prefix="where" prefixOverrides="and|or">
+		  	<if test="campNo != 0">
+				 camp_no=#{campNo}
+		  	</if>
+		  	<if test="reserveDate != null">
+		  		and reserve_date = #{reserveDate}
+		  	</if>  	
+		  </trim>
+	</select>
+	<select id="reserveTotalCount" parameterType="site" resultType="_int">
+		select 
+			count(distinct site_name) 
+		from site
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="campNo != 0">
+				 camp_no=#{campNo}
+		  	</if>
+		</trim>
+	</select>
+	
 </mapper>
