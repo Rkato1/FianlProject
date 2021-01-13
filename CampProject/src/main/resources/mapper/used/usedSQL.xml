@@ -1,18 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="used">
-  <select id="selectList" resultType="used">
-  	select rownum as rnum, n.*
-		from
+  <select id="selectList" resultType="used" parameterType="map">
+  	select
+  		rnum,
+  		usedNo,
+  		usedTitle,
+  		usedPrice,
+  		category,
+  		usedWriter,
+  		usedContent,
+  		usedDate,
+  		usedArea,
+  		usedState,
+  		usedChange
+  		from 
+  			(select rownum as rnum, n.*
+			from
 		(select
 			used_trade_no as usedNo,
 			used_trade_title as usedTitle,
 			used_trade_price as usedPrice,
-			category as category,
+			category,
 			used_trade_writer as usedWriter,
 			used_trade_content as usedContent,
-			used_trade_date as usedDate
+			used_trade_date as usedDate,
+			used_trade_area as usedArea,
+			used_trade_state as usedState,
+			used_trade_change as usedChange
 		from used_trade order by 1 desc)
-		n
+		n)
+		where rnum between #{start} and #{end}
   </select>
+  <select id="selectFileList" parameterType="map" resultType="file">
+		select
+			used_trade_file_no as fileNo,
+			used_trade_no as usedNo,
+			filename,
+			filepath
+		from used_trade_file
+		where
+			used_trade_no=#{usedNo}
+	</select>
+	<select id="totalCount" resultType="_int">
+		select count(used_trade_no) as cnt from used_trade
+	</select>
+	<insert id="fileInsert" parameterType="file">
+		insert into used_trade_file values (file_seq.nextval,#{usedNo},#{filename},#{filepath})
+	</insert>
+	<insert id="usedInsert" parameterType="used">
+		insert into used_trade values 
+		(used_seq.nextval,
+		#{usedTitle},
+		#{usedPrice},
+		#{category},
+		#{usedWriter},
+		#{usedContent},
+		to_char(sysdate,'yyyy-mm-dd'),
+		#{usedArea},
+		#{usedState},
+		#{usedChange})
+	</insert>
+	<select id="selectNo" resultType="_int">
+		select max(used_trade_no) from used_trade
+	</select>
+	<select id="selectOneDatail" resultType="used">
+		select
+			used_trade_no as usedNo,
+			used_trade_title as usedTitle,
+			used_trade_price as usedPrice,
+			category,
+			used_trade_writer as usedWriter,
+			used_trade_content as usedContent,
+			used_trade_date as usedDate,
+			used_trade_area as usedArea,
+			used_trade_state as usedState,
+			used_trade_change as usedChange
+		from used_trade
+			where used_trade_no = #{usedNo}
+	</select>
 </mapper>

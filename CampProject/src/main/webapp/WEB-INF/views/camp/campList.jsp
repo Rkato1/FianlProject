@@ -38,8 +38,8 @@
 			<c:if test="${size % 5 > 0}">
 				<c:set var="end1" value="${end1+1 }" />
 			</c:if>
-
 			<c:set var="idx" value="0" />
+			
 			<c:forEach var="i" begin="1" end="${end1}">
 				<c:choose>
 					<c:when test="${size > 5}">
