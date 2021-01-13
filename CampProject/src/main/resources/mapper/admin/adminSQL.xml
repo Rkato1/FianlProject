@@ -24,8 +24,50 @@
   	from member where member_grade=1
   </select>
   
+  <select id="selectBusinessList" parameterType="map" resultType="camp">
+  select
+  		rownum as rnum,
+  		camp_no as campNo,
+  		camp_name as campName,
+  		camp_addr as campAddr,
+  		member_no as memberNo,
+  		camp_show as campShow,
+  		camp_type as campType,
+  		camp_ph as campPh,
+  		camp_period as campPeriod,
+  		camp_day as campDay,
+  		camp_facility as campFacility,
+  		camp_fee_ori_day as campFeeOriDay,
+  		camp_fee_ori_end as campFeeOriEnd,
+  		camp_fee_peak_day as campFeePeakDay,
+  		camp_fee_peak_end as campFeePeakEnd
+  from (select rownum as rnum,n.*from(select * from camp order by 1 desc)n) where rnum between #{start} and #{end}  	 
+  </select>
   
-  <select id="dmCount" parameterType="string" resultType="_int">
-  	select count(*) from direct_message where dm_receiver = #{_parameter} and check_message='읽지않음'
+  <select id="selectAllBusinessCount" resultType="_int">
+  	select count(*)
+  	from camp
+  </select>
+  
+  <select id="selectReserveList" parameterType="map" resultType="reserve">
+  select
+  		rownum as rnum,
+  		reserve_no as reserveNo,
+  		member_no as memberNo,
+  		camp_no as campNo,
+  		check_in_date as checkInDate,
+  		check_out_date as checkOutDate,
+  		reserve_status as reserveStatus,
+  		reserve_place as reservePlace,
+  		reserve_price as reservePrice,
+  		reserve_pw as reservePw,
+  		car_number as carNumber,
+  		reserve_memo as reserveMeno
+  from (select rownum as rnum,n.*from(select * from reservation order by 1 desc)n) where rnum between #{start} and #{end}  	 
+  </select>
+  
+  <select id="selectAllReserveCount" resultType="_int">
+  	select count(*)
+  	from reservation
   </select>
 </mapper>

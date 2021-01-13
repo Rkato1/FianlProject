@@ -22,8 +22,6 @@
 		<typeAlias type="com.kh.camp.used.vo.UsedVO" alias="used" />
 		<typeAlias type="com.kh.camp.used.vo.UsedFileVO" alias="file" />
 		<typeAlias type="com.kh.camp.used.vo.UsedCommentVO" alias="comment" />
-		
-		<!-- 현식 추가 -->
-		<typeAlias type="com.kh.admin.model.vo.MemberVOPageData" alias="mpd"/>
+				
 	</typeAliases>
 </configuration>
