@@ -109,6 +109,10 @@
       .review-content {
          padding: 15px;
       }
+      
+      .review-content-text {
+      	margin-top: 30px;
+      }
 
       .commnet-wrap {
          border-top: 2px solid #383a3f;
@@ -307,23 +311,16 @@
          <div class="camp-link"><a href="campView.do?campNo=${camp.campNo}">캠핑장 바로가기</a></div>
       </div>
       <div class="review-content">
-         	충청남도 예산에 위치한 애견전용캠핑장에 다녀왔습니다.<br>
-         	예약<br>
-         	12월~3월은 장박 사이트 운영으로 인하여 문자 접수<br>
-         	(피플앤독 네이버 카페 참고)<br>
-         	사이트, 주차<br>
-         	모든 사이트에 개별 울타리가 설치되어 있으며 사이트 크기에 따라 금액이 상이<br>
-         	주차장에 주차 후 캠핑장에 비치되어 있는 리어카를 통해서 짐을 옮겨야 함<br>
-         	짐을 끌고 캠핑장으로 들어가는 입구에 약간의 경사가 있음<br>
-         	배전판<br>
-        	 평균 두 사이트에 한 개씩 배전판 이용 가능<br>
-         	부대시설<br>
-         	샤워실 따뜻한 물 잘 나옴, 드라이기 비치<br>
-        	 무인 매점 운영<br>
-        	 와이파이 가능<br>
-         	(여름) 애견 수영장 운영<br>
-        	 규정이 많은 캠핑장이지만 그만큼 관리가 잘 되는 캠핑장이여서 좋은 곳입니다.<br>
-        	 개별 울타리와 넓은 잔디(공용운동장)는 강아지를 키우는 애견 캠퍼라면 누구나 만족할만한 캠핑장이 아닐까 싶어요.<br>
+      	<c:if test="${!empty rev.fileList }">
+      	<div class="review-content-img">
+      		<c:forEach items="${rev.fileList }" var="f">
+      			<img src = "resources/upload/review/${f.filepath }" width="700px">   	
+      		</c:forEach>
+		</div>
+		</c:if>
+		<div class="review-content-text">
+			${rev.reviewContentBr }
+		</div>
       </div>
       <div class="commnet-wrap">
          <span class="comment-cnt">댓글 <span>${comCnt }</span>개</span>
@@ -434,7 +431,7 @@
 	//리뷰 삭제 버튼 클릭 했을 때
 	function deleteReview(reviewNo) {
 		if(confirm("삭제한 글은 복구되지 않습니다. 삭제하시겠습니까?")) {
-			location.href="/reviewDelete.do?reviewNo="+reviewNo;
+			location.href="/deleteReview.do?reviewNo="+reviewNo;
 		}
 	}
 	

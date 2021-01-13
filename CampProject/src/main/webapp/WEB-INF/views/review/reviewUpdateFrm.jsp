@@ -10,8 +10,6 @@
 
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	
-	업데이트 페이지
-	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
 </body>

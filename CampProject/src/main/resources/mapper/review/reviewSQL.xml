@@ -187,4 +187,51 @@
     		order by 1 desc)
 	</select>
 	
+	<delete id="deleteReview" parameterType="_int">
+		delete from review where review_no = #{_parameter}
+	</delete>
+	
+	<select id="selectCampNo" parameterType="_int" resultType="_int">
+		select camp_no
+		from reservation
+		where reserve_no = #{_parameter}
+	</select>
+	
+	<insert id="insertReview" parameterType="review">
+		insert into review values(
+			rev_seq.nextval,
+			#{memberId},
+			#{reserveNo},
+			#{reviewTitle},
+			#{reviewContent},
+			to_char(sysdate,'yyyy-mm-dd'),
+			#{reviewPoint},
+			#{campNo}
+		)
+	</insert>
+	
+	<select id="selectReviewNo" parameterType="String" resultType="_int">
+		select max(review_no) from review
+	</select>
+	
+	<insert id="insertReviewFile" parameterType="reviewFile">
+		insert into review_file values(
+			revf_seq.nextval,
+			#{reviewNo},
+			#{filename},
+			#{filepath}
+		)
+	</insert>
+	
+	<select id="selectFileList" parameterType="_int" resultType="reviewFile">
+		select 
+			 review_file_no as reviewFileNo,
+			 review_no as reviewNo,
+			 filename,
+			 filepath 
+		from review_file
+		where review_no = #{_parameter}
+	</select>
+	
+	
 </mapper>

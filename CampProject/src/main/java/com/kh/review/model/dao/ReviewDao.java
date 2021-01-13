@@ -12,6 +12,7 @@ import com.kh.camp.model.vo.CampVO;
 import com.kh.reserve.model.vo.ReserveCampVO;
 import com.kh.review.model.vo.ReviewCampVO;
 import com.kh.review.model.vo.ReviewCommentVO;
+import com.kh.review.model.vo.ReviewFileVO;
 import com.kh.review.model.vo.ReviewVO;
 
 @Repository
@@ -74,6 +75,31 @@ public class ReviewDao {
 
 	public int totalCountKeyword(String keyword) {
 		return sqlSession.selectOne("review.totalCountKeyword", keyword);
+	}
+
+	public int deleteReview(int reviewNo) {
+		return sqlSession.delete("review.deleteReview", reviewNo);
+	}
+
+	public int insertReview(ReviewVO r) {
+		return sqlSession.insert("review.insertReview", r);
+	}
+
+	public int selectReviewNo() {
+		return sqlSession.selectOne("review.selectReviewNo");
+	}
+
+	public int insertReviewFile(ReviewFileVO rfv) {
+		return sqlSession.insert("review.insertReviewFile", rfv);
+	}
+
+	public int selectCampNo(int reserveNo) {
+		return sqlSession.selectOne("review.selectCampNo", reserveNo);
+	}
+
+	public ArrayList<ReviewFileVO> selectFileList(int reviewNo) {
+		List<ReviewFileVO> list = sqlSession.selectList("review.selectFileList", reviewNo);
+		return (ArrayList<ReviewFileVO>)list;
 	}
 
 }

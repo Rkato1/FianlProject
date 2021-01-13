@@ -11,6 +11,7 @@ import com.kh.reserve.model.vo.ReserveCampVO;
 import com.kh.review.model.dao.ReviewDao;
 import com.kh.review.model.vo.ReviewCampVO;
 import com.kh.review.model.vo.ReviewCommentVO;
+import com.kh.review.model.vo.ReviewFileVO;
 import com.kh.review.model.vo.ReviewPageData;
 import com.kh.review.model.vo.ReviewVO;
 import com.kh.review.model.vo.ReviewViewData;
@@ -87,46 +88,7 @@ public class ReviewService {
 		ReviewPageData rpd = new ReviewPageData(list, pageNavi);
 		return rpd;
 	}
-
-	public CampVO selectOneCamp(int campNo) {
-		return dao.selectOneCamp(campNo);
-	}
-
-	public ReviewViewData reviewView(int reviewNo) {
-		//리뷰를 가져오는 dao
-		ReviewVO r = dao.selectOneReview(reviewNo); 
-		
-		//리뷰의 댓글 갯수를 가져오는 dao
-		int cnt = dao.selectCommentCnt(reviewNo);
-		
-		//리뷰의 댓글을 가져오는 dao
-		ArrayList<ReviewCommentVO> list = dao.selectReviewComment(reviewNo);
-		
-		//만들어둔 객체를 이용해서 리턴
-		ReviewViewData rvd = new ReviewViewData(r, cnt, list);
-		return rvd;
-	}
-
-	public int insertReviewComment(ReviewCommentVO rc) {
-		return dao.insertReviewComment(rc);
-	}
-
-	public int searchCampNo(int reviewNo) {
-		return dao.searchCampNo(reviewNo);
-	}
-
-	public int updateReviewComment(ReviewCommentVO rc) {
-		return dao.updateReviewComment(rc);
-	}
-
-	public int deleteReviewComment(int reviewCommentNo) {
-		return dao.deleteReviewComment(reviewCommentNo);
-	}
-
-	public ArrayList<ReserveCampVO> selectListReserve(int memberNo) {
-		return dao.selectListReserve(memberNo);
-	}
-
+	
 	public ReviewPageData searchKeyword(int reqPage, String keyword) {
 		//1. 게시물 구해오기
 		//1-1. 한 페이지의 게시물 수 : 10개 설정
@@ -199,6 +161,75 @@ public class ReviewService {
 		
 		ReviewPageData rpd = new ReviewPageData(list, pageNavi);
 		return rpd;
+	}
+
+	public ReviewViewData reviewView(int reviewNo) {
+		//리뷰를 가져오는 dao
+		ReviewVO r = dao.selectOneReview(reviewNo); 
+		
+		//리뷰 파일을 가져오는 dao
+		if(r != null) {
+			ArrayList<ReviewFileVO> fileList = dao.selectFileList(reviewNo);
+			r.setFileList(fileList);
+		}
+		
+		//리뷰의 댓글 갯수를 가져오는 dao
+		int cnt = dao.selectCommentCnt(reviewNo);
+		
+		//리뷰의 댓글을 가져오는 dao
+		ArrayList<ReviewCommentVO> list = dao.selectReviewComment(reviewNo);
+		
+		//만들어둔 객체를 이용해서 리턴
+		ReviewViewData rvd = new ReviewViewData(r, cnt, list);
+		return rvd;
+	}
+	
+	public ArrayList<ReserveCampVO> selectListReserve(int memberNo) {
+		return dao.selectListReserve(memberNo);
+	}
+	
+	public int deleteReview(int reviewNo) {
+		return dao.deleteReview(reviewNo);
+	}
+	
+	public CampVO selectOneCamp(int campNo) {
+		return dao.selectOneCamp(campNo);
+	}
+
+	public int searchCampNo(int reviewNo) {
+		return dao.searchCampNo(reviewNo);
+	}
+	
+	public int insertReviewComment(ReviewCommentVO rc) {
+		return dao.insertReviewComment(rc);
+	}
+
+	public int updateReviewComment(ReviewCommentVO rc) {
+		return dao.updateReviewComment(rc);
+	}
+
+	public int deleteReviewComment(int reviewCommentNo) {
+		return dao.deleteReviewComment(reviewCommentNo);
+	}
+
+	public int insertReview(ReviewVO r) {
+		//예약번호로 campNo 조회하기
+		int reserveNo = r.getReserveNo();
+		int campNo = dao.selectCampNo(reserveNo);
+		r.setCampNo(campNo);
+		
+		//review테이블에 작성된 글 삽입
+		int result = dao.insertReview(r);
+		if(result>0) {
+			//글이 삽입된 후 reviewNo를 받아옴
+			int reviewNo = dao.selectReviewNo();
+			//받아온 reviewNo로 file테이블에 삽입 (반복문으로 여러 개 파일 등록)
+			for(ReviewFileVO rfv : r.getFileList()) {
+				rfv.setReviewNo(reviewNo);
+				result = dao.insertReviewFile(rfv);
+			}
+		}
+		return result;
 	}
 
 
