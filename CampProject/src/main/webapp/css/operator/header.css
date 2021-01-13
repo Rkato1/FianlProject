@@ -5,7 +5,9 @@
 	body *{
 		font-family: 'Russo One';
 	}
-        
+        header{
+        	margin-bottom: 30px;
+        }
         #op_navi {
             z-index: 10;
             position: sticky;

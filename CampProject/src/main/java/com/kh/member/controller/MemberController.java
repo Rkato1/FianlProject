@@ -135,12 +135,14 @@ public class MemberController {
 	@RequestMapping("/updateMember.do")
 	public String updateMember(MemberVO m, Model model) {
 		int result = service.updateMember(m); 
+		MemberVO member = service.selectOneMember(m);
 		if(result>0) {
 		model.addAttribute("msg", "회원정보를 수정했습니다."); 
+		
 		} else {
 		model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
 		} 
-		model.addAttribute("loc", "/blank.do");
+			model.addAttribute("loc", "/blank.do");
 		 
 		return "common/msg";
 	}

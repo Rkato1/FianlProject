@@ -177,15 +177,10 @@
                 	</c:when>
                 	<c:otherwise>
                 		<li><a href="/logout.do">LOGOUT</a></li>
-                		<li>${sessionScope.m.memberGrade}</li>
-                		<c:choose>
-		                	<c:when test="${sessionScope.m.memberGrade ne 2 }">
-		                    	<li><a href="/mypage.do?memberNo=${sessionScope.m.memberNo }">MYPAGE</a></li>
-		                    </c:when>
-		                    <c:otherwise>
+		                <li><a href="/mypage.do?memberNo=${sessionScope.m.memberNo }">MYPAGE</a></li>
+		                	<c:if test="${sessionScope.m.memberGrade eq 2 }">
 		                    	<li><a href="/operatorpage.do">OPERATOR</a></li>
-		                    </c:otherwise>
-	                    </c:choose>
+		                    </c:if>
                 	</c:otherwise>
                 </c:choose>   
                     <li>

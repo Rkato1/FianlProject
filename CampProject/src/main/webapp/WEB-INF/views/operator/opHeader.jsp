@@ -21,17 +21,14 @@
             </span>
             <span style="float: right; height: 100%;">
                 <ul id="header_menu">
-                    <a href="">
-                        <li>HOME</li>
+                    <a href="/">
+                        <li>MAINPAGE</li>
                     </a>
-                    <a href="">
-                        <li>메뉴2</li>
+                    <a href="/operatorpage.do">
+                        <li>OPERATOR</li>
                     </a>
-                    <a href="">
-                        <li>메뉴3</li>
-                    </a>
-                    <a href="">
-                        <li>메인페이지</li>
+                    <a href="/logout.do">
+                        <li>LOGOUT</li>
                     </a>
                 </ul>
             </span>
