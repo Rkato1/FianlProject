@@ -145,13 +145,13 @@ public class ReviewService {
 		
 		//2. 페이지 네비 만들기
 		//2-1. 총 게시글 수
-		int totalCount = dao.totalCount();
+		int totalCount = dao.totalCountKeyword(keyword);
 		
 		//2-2. 총 페이지 수
 		int totalPage = 0;
-		if(totalCount%numPerPage == 0) {
+		if(totalCount%numPerPage == 0) { //총 게시글 수가  10개 단위일 때
 			totalPage = totalCount/numPerPage;
-		} else {
+		} else { //총 게시글 수가  10개 단위가 아니면 페이지 하나 더 추가
 			totalPage = totalCount/numPerPage+1;
 		}
 		
@@ -190,6 +190,11 @@ public class ReviewService {
 		//다음 버튼
 		if(pageNo <= totalPage) {
 			pageNavi += "<a class='btn btn-outline-dark' href='reviewList.do?reqPage="+pageNo+"'>다음</a>";
+		}
+		
+		//검색 후에 조회된 결과가 없으면 페이지 네비 없애기
+		if(totalCount == 0) {
+			pageNavi = "";
 		}
 		
 		ReviewPageData rpd = new ReviewPageData(list, pageNavi);

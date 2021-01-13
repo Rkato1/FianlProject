@@ -72,7 +72,8 @@ public class ReviewDao {
 		return (ArrayList<ReviewCampVO>)list;
 	}
 
-
-
+	public int totalCountKeyword(String keyword) {
+		return sqlSession.selectOne("review.totalCountKeyword", keyword);
+	}
 
 }

@@ -148,7 +148,7 @@
     		campNo,
     		campName
 			from
-        		(select rownum as rnum, r.*
+        (select rownum as rnum, r.*
 		from
 		(select
 			review_no as reviewNo,
@@ -166,6 +166,25 @@
 		order by 1 desc)
 		r)
            where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="totalCountKeyword" parameterType="String" resultType="_int">
+		select count(*) as cnt
+		from
+    		(select
+				review_no as reviewNo,
+				member_id as memberId,
+				reserve_no as reserveNo,
+				review_title as reviewTitle,
+				review_content as reviewContent,
+				review_date as reviewDate,
+				review_point as reviewPoint,
+				review.camp_no as campNo,
+				camp_name as campName
+    		from review 
+    		join camp on (review.camp_no = camp.camp_no)
+    		where camp_name like '%' || #{value}|| '%'
+    		order by 1 desc)
 	</select>
 	
 </mapper>

@@ -188,6 +188,13 @@
             	</tr>
             </thead>
             <tbody>
+            	<c:if test="${empty list }">
+            	<tr>
+            		<td colspan="6" style="text-align:center;">
+            			검색하신 캠핑장에 대한 조회 결과가 존재하지 않습니다.
+            		</td>
+            	</tr>	
+            	</c:if>
             	<c:forEach items="${list }" var="r">
             	<tr>
                 	<td>${r.reviewNo }</td>
