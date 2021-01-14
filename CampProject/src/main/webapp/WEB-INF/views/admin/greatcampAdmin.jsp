@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>우수캠핑장선정 페이지</title>
+<title>우수캠핑장선정 페이지</title>
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean" rel="stylesheet">
@@ -23,16 +23,17 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	theme: "light2", //"light1", "dark1", "dark2"
 	animationEnabled: true,
 	title: {
-		text: "Iron Ore Production in India"
+		text: "제목적는곳"
 	},
 	axisX: {
 		valueFormatString: "YYYY"
 	},
 	axisY: {
-		title: "Production (in million tonnes)",
+		title: "세로단위 적는곳(별점)",
 		maximum: 250
 	},
 	data: [{
+		//hover시 뜨는거
 		type: "column",
 		xValueType: "dateTime",
 		xValueFormatString: "YYYY",
