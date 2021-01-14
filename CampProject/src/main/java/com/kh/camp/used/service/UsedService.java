@@ -78,5 +78,10 @@ public class UsedService {
 		return dao.selectDatail(used);
 	}
 
+//	public UsedVO keyword(String searchKeyword) {
+//		ArrayList<UsedVO> list = dao.keyword(searchKeyword);
+//		return list;
+//	}
+
 	
 }

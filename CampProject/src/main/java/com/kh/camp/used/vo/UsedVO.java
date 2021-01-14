@@ -8,7 +8,7 @@ import lombok.Data;
 public class UsedVO {
 	private int usedNo;
 	private String usedTitle;
-	private int usedPrice;
+	private String usedPrice;
 	private String category;
 	private String usedWriter;
 	private String usedContent;
