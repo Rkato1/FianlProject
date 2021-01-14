@@ -153,21 +153,38 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/changePw.do")
-	public String changePw(MemberVO m, Model model) {
+	public String changePw(int memberNo, Model model) {
+		model.addAttribute("memberNo", memberNo);
 		return "member/changePw";
 	}
 	
 	@ResponseBody
 	@RequestMapping("/pwCheck.do")
-	public String pwCheck(MemberVO m) {
-		MemberVO member = service.selectOneMember(m);
-		if (member != null) { // 비밀번호 일치하지 않음 -> 1을 리턴
-			return "1";
-		} else { // 비밀번호 일치함 -> 0을 리턴
+	public String pwCheck(int memberNo, String memberPw) {
+		//회원번호로 비밀번호 조회
+		String memberPw_check = service.selectChangePw(memberNo);
+		
+		if (memberPw.equals(memberPw_check)) { //비밀번호 일치함 -> 0을 리턴
 			return "0";
+		} else { //비밀번호 일치하지않음 -> 1을 리턴
+			return "1";
 		}
 	}
-
+	
+	@ResponseBody
+	@RequestMapping("/updateMemberPw.do")
+	public String updateMemberPw(int memberNo, String memberPw) {
+		MemberVO m = new MemberVO();
+		m.setMemberNo(memberNo);
+		m.setMemberPw(memberPw);
+		int result = service.updateMemberPw(m);
+		if(result>0) { //새 비밀번호 변경 성공 -> 0을 리턴
+			return "0";
+		} else { //새 비밀번호 변경 실패 -> 1을 리턴
+			return "1";
+		} 
+	}	
+	
 	@RequestMapping("/updateMember.do")
 	public String updateMember(MemberVO m, Model model) {
 		int result = service.updateMember(m); 

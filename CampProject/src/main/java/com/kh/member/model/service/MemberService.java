@@ -71,6 +71,14 @@ public class MemberService {
 		return dao.deleteMember(memberNo);
 	}
 
+	public String selectChangePw(int memberNo) {
+		return dao.selectChangePw(memberNo);
+	}
+
+	public int updateMemberPw(MemberVO m) {
+		return dao.updateMemberPw(m);
+	}
+
 
 	
 }

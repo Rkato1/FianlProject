@@ -435,23 +435,6 @@
             //입력양식 확인 check배열 생성
             var check = [true, true];
             
-            /*
-            //비밀번호 확인
-            $("#memberPw").change(function() {
-                var reg = /^[A-Za-z0-9_-]{6,18}$/;
-                if (reg.test($(this).val())) {
-                	check[0] = true;
-                    $("#pwSpan").text("");
-                    $("#memberPw").css('border', '2px solid #1d0e0e');
-                } else {
-                	check[0] = false;
-                    $("#pwSpan").text("6~18자리 영어 대소문자/숫자 조합");
-                    $("#pwSpan").css('color', 'red');
-                    $("#memberPw").css('border', '2px solid red');
-                }
-            });
-            */
-            
             //이메일 확인
             $("#memberEmail").change(function() {
                 var reg = /^[a-z][a-z0-9_-]{3,12}@([a-z\d\.]+)\.([a-z]{2,6})$/;

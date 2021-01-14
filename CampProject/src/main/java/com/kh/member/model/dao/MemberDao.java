@@ -73,9 +73,12 @@ public class MemberDao {
 		return sqlSession.delete("member.deleteMember", memberNo);
 	}
 
+	public String selectChangePw(int memberNo) {
+		return sqlSession.selectOne("member.selectChangePw", memberNo);
+	}
 
-
-
-
+	public int updateMemberPw(MemberVO m) {
+		return sqlSession.update("member.updateMemberPw", m);
+	}
 
 }

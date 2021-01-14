@@ -137,18 +137,25 @@
 	
 	<update id="updateMember" parameterType="member">
 		update member
-		<set>
-		<if test="!memberPw.equals('')">
-			member_pw = #{memberPw},
-		</if>
-			member_email = #{memberEmail},
+		set member_email = #{memberEmail},
 			member_phone = #{memberPhone}
-		</set>
 		where member_no = #{memberNo}	
 	</update>
 	
 	<delete id="deleteMember" parameterType="_int">
 		delete from member where member_no = #{_parameter}
 	</delete>
+	
+	<select id="selectChangePw" parameterType="_int" resultType="String">
+		select 
+			member_pw
+		from member where member_no = #{_parameter}
+	</select>
+	
+	<update id="updateMemberPw" parameterType="member">
+		update member
+		set member_pw = #{memberPw}
+		where member_no = #{memberNo}	
+	</update>
 
 </mapper>
