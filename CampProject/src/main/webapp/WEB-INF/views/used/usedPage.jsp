@@ -82,8 +82,7 @@
         }
         .items-navi {
         text-align: center;
-        width: 1000px;
-        height: 200px;
+        height: 250px;
     	}
     	.btn-outline-primary {
     	background-color: #1d0202 !important;
@@ -137,8 +136,10 @@
                 <option value="캠핑소품">캠핑소품</option>
                 <option value="캠프차량용품">캠프차량용품</option>
             </select>
-                <input type="text" placeholder="검색" style="height: 22px; font-size: 10pt; margin-left: 8px;">
-                <button class="material-icons searchBtn" style="font-size: 16px; height: 22px;">search</button>
+            <form action="/searchKeyword.do" method="get" style="display: inline;">
+                <input type="text" name="searchKeyword" placeholder="검색" style="height: 22px; font-size: 10pt; margin-left: 8px; padding: 0;">
+                <input type="submit" class="material-icons searchBtn" value="search" style="font-size: 16px; height: 22px; margin-top: 3px;">
+            </form>
             </div>
             <div class="col-md-1 bootcol one" style="vertical-align: middle;  padding: 0;">
             	<c:if test="${sessionScope.m != null }">
@@ -176,7 +177,7 @@
                 </a>
             </div>
             <div style="text-align: center; margin-top: 10px;"><a href="/usedDatail.do?usedNo=${c.usedNo }" id="prd-item-click">${c.usedTitle }</a></div>
-            <div style="text-align: center; font-weight: 600; font-size: 14px;"><a href="/usedDatail.do?usedNo=${c.usedNo }" id="prd-item-click"><fmt:formatNumber value="${c.usedPrice }" pattern="###,###,###"/>원</a></div>
+            <div style="text-align: center; font-weight: 600; font-size: 14px;"><a href="/usedDatail.do?usedNo=${c.usedNo }" id="prd-item-click">${c.usedPrice } 원</a></div>
         </div>
         <c:set var="idx" value="${idx+1 }" />
             </c:forEach>
@@ -192,5 +193,19 @@
     </section>
     <div style="height: 200px"></div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+    
+    <%-- <fmt:formatNumber value="${c.usedPrice }" pattern="###,###,###"/> --%>
+   	<script>
+   		/* $("#ware-select").change(function(){
+   			var ware = $("#ware-select").val();
+   			console.log(ware);
+   			$.ajax({
+   				type:"GET", //전송 방법
+   				url : "/selectSearch.do",
+   				data : {ware : ware},
+   				datatype : 
+   			})
+   		}) */
+   	</script>
 </body>
 </html>
