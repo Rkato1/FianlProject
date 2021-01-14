@@ -52,6 +52,12 @@ public class UsedDao {
 	public UsedVO selectDatail(UsedVO used) {
 		return sqlSession.selectOne("used.selectOneDatail",used);
 	}
+
+//	public ArrayList<UsedVO> keyword(String searchKeyword) {
+//		UsedVO used = new UsedVO();
+//		used.setCategory(searchKeyword);
+//		return sqlSession.select("used.selectKeyword", used);
+//	}
 	
 	
 }

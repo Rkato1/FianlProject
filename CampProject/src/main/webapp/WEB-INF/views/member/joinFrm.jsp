@@ -233,7 +233,7 @@
         $(function() {
             //입력양식 확인 check배열 생성
             var check = [false, false, false, false, false];
-
+			
             //아이디 확인 및 중복체크
             $("#memberId").change(function() {
                 var memberId = $(this).val();
