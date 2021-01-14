@@ -175,12 +175,5 @@
     
    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
    
-   <script>
-   	//작성완료 버튼 눌렀을 때 입력값 확인
-   
-   
-   
-   </script>
-   
 </body>
 </html>

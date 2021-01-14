@@ -10,7 +10,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-
+<!-- jQuery -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 
     <style>
         * {
@@ -93,7 +94,23 @@
             margin: 0 auto;
             box-sizing: border-box;
         }
-
+        
+        .mypage-table>p {
+            text-align: center;            
+            padding-top: 50px;	
+        }
+        
+        .mypage-table>p>a {
+            text-decoration: none;
+            color: #f49b00;
+        }
+        
+        .mypage-table>p>a {
+            text-decoration: none;
+            color: #f49b00;
+            font-weight: bolder;
+        }
+        
         /*표 첫번째 열*/
         .mypage-table>tbody>tr>td:first-child {
             width: 160px;
@@ -115,8 +132,26 @@
             padding-left: 10px;
         }
         
-        input[name='memberId'], input[name='memberName'], input[name='memberRegDate'] {
-        	background-color: #cccccc;
+        input[name='memberId'], input[name='memberPw'], input[name='memberName'], input[name='memberRegDate'] {
+        	background-color: #d3d3d3;
+        }
+        
+        /*비밀번호 입력창 크기 변경*/
+        input[name='memberPw'] {
+        	width: 180px;
+        }
+        
+        /*비밀번호 변경 버튼*/
+        
+        #changePw {
+        	width: 125px;
+            height: 38px;
+            margin-left: 8px;
+            border-radius: 5px;
+            outline: none;
+            border: none;
+            background-color: #383a3f;
+            color: white;
         }
         
         .update-btn-td {
@@ -222,6 +257,11 @@
         </div>
 
         <div class="mypage-table" id="info">
+            <!-- 예약번호 검색하는 form -->
+            <form name="changePw">
+                <input type="hidden" name="memberNo" value="${m.memberNo }">
+            </form>
+            
             <form action="/updateMember.do" method="post">
             <input type="hidden" name="memberNo" id="memberNo" value="${m.memberNo }">
                 <table class="mypage-table">
@@ -234,8 +274,8 @@
                     <tr>
                         <td>비밀번호</td>
                         <td>
-                            <input type="password" name="memberPw" id="memberPw" class="mypage-input" value="" placeholder="비밀번호를 입력해주세요">
-                        	<span id="pwSpan"></span>
+                            <input type="password" name="memberPw" id="memberPw" class="mypage-input" value="" readonly>
+                        	<button type="button" id="changePw" onclick="change();">비밀번호 변경</button>
                         </td>
                     </tr>
                     <tr>
@@ -272,7 +312,9 @@
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;">
-                            <span class="delete">정말로 탈퇴하시겠어요? <a href="javascript:void(0)" onclick="deleteMember(${m.memberNo })">회원탈퇴</a></span>
+                            <span class="delete">정말로 탈퇴하시겠어요? 
+                            	<a href="javascript:void(0)" onclick="deleteMember(${m.memberNo })">회원탈퇴</a>
+                            </span>
                         </td>
                     </tr>
                 </table>
@@ -281,65 +323,87 @@
         
         <!-- 예약 내역 테이블 -->
         <div class="mypage-table select">
-        	<table class="table table-bordered data-table">
-            	<thead>
-                	<tr>
-                    	<th>캠핑장</th>
-                        <th>체크인 - 체크아웃</th>
-                        <th>금액</th>
-                        <th>상태</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	<c:forEach items="${listRes }" var="res">
-                	<tr>
-                    	<td>${res.campName }</td>
-                        <td>${res.checkInDate } - ${res.checkOutDate }</td>
-                        <td>${res.reservePrice }</td>
-                        <td id="state">${res.reserveStatus }</td>
-                    </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+        <c:choose>
+        	<c:when test="${empty listRes }"><!-- 예약내역이 없을 때 -->
+        		<p>예약하신 내역이 없습니다.&nbsp;&nbsp;<a href="/campList.do?reqPage=1">지금 예약하러갈까요?</a></p>
+        	</c:when>
+        	       	           	    
+        	<c:otherwise><!-- 예약내역이 있을 때 -->
+        		<table class="table table-bordered data-table">
+            		<thead>
+                		<tr>
+                    		<th>캠핑장</th>
+                        	<th>체크인 - 체크아웃</th>
+                        	<th>금액</th>
+                        	<th>상태</th>
+                    	</tr>
+                	</thead>
+                	<tbody>
+                		<c:forEach items="${listRes }" var="res">
+                		<tr>
+                    		<td><a href="/campView.do?campNo=${res.campNo}">${res.campName }</a></td>
+                        	<td>${res.checkInDate } - ${res.checkOutDate }</td>
+                        	<td>${res.reservePrice }</td>
+                        	<td id="state">${res.reserveStatus }</td>
+                    	</tr>
+                    	</c:forEach>
+                	</tbody>
+            	</table>
+        	</c:otherwise>
+        </c:choose>
         </div>
         
         <!-- 후기 내역 테이블 -->
         <div class="mypage-table select">
-        	<table class="table table-bordered data-table">
-            	<thead>
-                	<tr>
-                		<th>캠핑장</th>
-                    	<th>제목</th>
-                        <th>별점</th>
-                        <th>작성일</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	<c:forEach items="${listRev }" var="rev">
-                	<tr>
-                		<td>${rev.campName }</td>
-                    	<td>${rev.reviewTitle }</td>
-                    	<td id="point">
-                    	<c:forEach var="i" begin="0" end="4">
-                			<c:choose>
-                				<c:when test="${rev.reviewPoint  > i }">
-                					<i class="fas fa-star"></i>
-                				</c:when>
-                				<c:otherwise>
-                					<i class="far fa-star"></i>
-                				</c:otherwise>
-                			</c:choose>
-                		</c:forEach>
-                        </td>
-                        <td>${rev.reviewDate }</td>
-                    </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+        <c:choose>
+        	<c:when test="${empty listRev }"><!-- 후기내역이 없을 때 -->
+        		<p>작성하신 후기글이 없습니다.&nbsp;&nbsp;<a href="/reviewList.do?reqPage=1">지금 작성하러 갈까요?</a></p>
+        	</c:when>
+        		
+        	<c:otherwise><!-- 후기내역이 있을 때 -->    
+        		<table class="table table-bordered data-table">
+            		<thead>
+                		<tr>
+                			<th>캠핑장</th>
+                    		<th>제목</th>
+                        	<th>별점</th>
+                        	<th>작성일</th>
+                    	</tr>
+                	</thead>
+                	<tbody>
+                		<c:forEach items="${listRev }" var="rev">
+                		<tr>
+                			<td>${rev.campName }</td>
+                    		<td>${rev.reviewTitle }</td>
+                    		<td id="point">
+                    		<c:forEach var="i" begin="0" end="4">
+                				<c:choose>
+                					<c:when test="${rev.reviewPoint  > i }">
+                						<i class="fas fa-star"></i>
+                					</c:when>
+                					<c:otherwise>
+                						<i class="far fa-star"></i>
+                					</c:otherwise>
+                				</c:choose>
+                			</c:forEach>
+                        	</td>
+                        	<td>${rev.reviewDate }</td>
+                    	</tr>
+                    	</c:forEach>
+                	</tbody>
+            	</table>        	
+        	</c:otherwise>
+        </c:choose>
         </div>
         
         <!-- 거래 내역 테이블 -->
         <div class="mypage-table select">
+        <c:choose>
+        	<c:when test=""><!-- 거래내역이 없을 때 -->
+        		<p>거래하신 내역이 없습니다.&nbsp;&nbsp;<a href="/usedPage.do?reqPage=1">지금 확인하러 갈까요?</a></p>
+        	</c:when>
+        	
+        	<c:otherwise><!-- 거래내역이 있을 때 --> 
         	<table class="table table-bordered data-table">
             	<thead>
                 	<tr>
@@ -358,6 +422,8 @@
                     </tr>
                 </tbody>
             </table>
+            </c:otherwise>
+        </c:choose>    
         </div>
                
     </div>
@@ -367,8 +433,9 @@
 	<script>
         $(function() {
             //입력양식 확인 check배열 생성
-            var check = [false, false, false];
+            var check = [true, true];
             
+            /*
             //비밀번호 확인
             $("#memberPw").change(function() {
                 var reg = /^[A-Za-z0-9_-]{6,18}$/;
@@ -383,16 +450,17 @@
                     $("#memberPw").css('border', '2px solid red');
                 }
             });
+            */
             
             //이메일 확인
             $("#memberEmail").change(function() {
                 var reg = /^[a-z][a-z0-9_-]{3,12}@([a-z\d\.]+)\.([a-z]{2,6})$/;
                 if (reg.test($(this).val())) {
-                    check[1] = true;
+                    check[0] = true;
                     $("#emailSpan").text("");
                     $("#memberEmail").css('border', '2px solid #1d0e0e');
                 } else {
-                    check[1] = false;
+                    check[0] = false;
                     $("#emailSpan").text("입력예시) createacamp@email.com");
                     $("#emailSpan").css('color', 'red');
                     $("#memberEmail").css('border', '2px solid red');
@@ -403,11 +471,11 @@
             $("#memberPhone").change(function() {
                 var reg = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
                 if (reg.test($(this).val())) {
-                    check[2] = true;
+                    check[1] = true;
                     $("#phoneSpan").text("");
                     $("#memberPhone").css('border', '2px solid #1d0e0e');
                 } else {
-                    check[2] = false;
+                    check[1] = false;
                     $("#phoneSpan").text("입력예시) 010-1234-5678");
                     $("#phoneSpan").css('color', 'red');
                     $("#memberPhone").css('border', '2px solid red');
@@ -423,7 +491,7 @@
                     }
                 }
                 
-            	if (regChk < 3) {
+            	if (regChk < 2) {
                     alert("입력한 정보를 확인해주세요.");
                     event.preventDefault();
                 } 
@@ -447,7 +515,25 @@
     			location.href="/deleteMember.do?memberNo="+memberNo;
     		}
     	}
-    </script>
+    	
+        //비밀번호 변경 팝업창
+        function change() {
+            var url = "/changePw.do"; //서블릿 url mapping 값
+            var title = "changePw";
+            var status = "left=400px, top=400px, width=500px, height=300px, menubar=no, status=no, scrollbars=yes";
+            //비어있는 창 열어주기
+            var popup = window.open("", title, status);
+
+         	//숨겨둔 form name으로 가져오기
+            var changePw = $("[name=changePw]");
+
+            //popup창 - form태그 연결
+            //target속성 : a태그에서  _blank로 하면 새창에서 열림
+            changePw.attr("target", title);
+            changePw.attr("action", url);
+            changePw.submit();
+        }
+    </script>	
 
 </body>
 </html>

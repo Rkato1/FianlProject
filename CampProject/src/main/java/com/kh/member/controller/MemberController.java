@@ -23,12 +23,6 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
-	//임시 페이지 이동
-	@RequestMapping("/blank.do")
-	public String blank() {
-		return "member/blank";
-	}
-	
 	@RequestMapping("/loginFrm.do")
 	public String loginFrm() {
 		return "member/loginFrm";
@@ -156,6 +150,22 @@ public class MemberController {
 		//model.addAttribute("listUsed", listUsed);
 		
 		return "member/mypage";
+	}
+	
+	@RequestMapping("/changePw.do")
+	public String changePw(MemberVO m, Model model) {
+		return "member/changePw";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/pwCheck.do")
+	public String pwCheck(MemberVO m) {
+		MemberVO member = service.selectOneMember(m);
+		if (member != null) { // 비밀번호 일치하지 않음 -> 1을 리턴
+			return "1";
+		} else { // 비밀번호 일치함 -> 0을 리턴
+			return "0";
+		}
 	}
 
 	@RequestMapping("/updateMember.do")
