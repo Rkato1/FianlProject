@@ -60,7 +60,7 @@ window.onload = function() {
 			dps[parseInt("${loop.index}")].push({
 				label : label,
 				y : yValue
-			});		
+			});
 		</c:forEach>	
 	</c:forEach> 
 	 
