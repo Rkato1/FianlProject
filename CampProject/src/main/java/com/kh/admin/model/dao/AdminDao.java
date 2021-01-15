@@ -45,11 +45,24 @@ public class AdminDao {
 		return sqlSession.selectOne("selectAllReserveCount");
 	}
 
-	public List<List<Map<Object, Object>>> getCanvasjsChartData() {		
+	public List<List<Map<Object, Object>>> getCanvasjsChartData() {
 		return CanvasjsChartData.getCanvasjsDataList();
 	}
 
 	public List<List<Map<Object, Object>>> getCanvasjsStickChartData() {
 		return CanvasjsStickChartData.getCanvasjsDataList();
+	}
+	public ArrayList<Integer> getNumList() {
+		List<Integer> numList = sqlSession.selectList("selectSalesListNum");
+		return (ArrayList<Integer>)numList;
+	}
+
+	public ArrayList<String> getNameList(ArrayList<Integer> numList) {
+		ArrayList<String> nameList = new ArrayList<String>();
+		for(int i : numList) {
+			String str = sqlSession.selectOne("selectSalesListName", i);
+			nameList.add(str);			
+		}
+		return nameList;
 	}
 }

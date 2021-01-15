@@ -86,6 +86,11 @@ chart.render();
         <div class="admin-content">
             <div class="real-content">
                 <div class="members">
+                	<select>
+                		<c:forEach items="${nameList }" var="name">
+                		<option>${name}</option>
+                		</c:forEach>
+                	</select>
                     <p class="title">매출관련정보</p>
                     <div id="chartContainer" style="height: 65%; width: 100%;"></div>
 					<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> 

@@ -1,5 +1,6 @@
 package com.kh.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -96,7 +97,11 @@ public class AdminController {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
 			List<List<Map<Object, Object>>> list = service.getCanvasjsChartData();
+			ArrayList<Integer> numList = service.getNumList();
+			ArrayList<String> nameList = service.nameList(numList);
 			model.addAttribute("dataPointsList", list);
+			model.addAttribute("numList", numList);
+			model.addAttribute("nameList", nameList);
 			return "admin/salesAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");

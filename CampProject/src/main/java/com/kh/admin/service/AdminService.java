@@ -185,4 +185,12 @@ public class AdminService{
 	public List<List<Map<Object, Object>>> getCanvasjsStickChartData() {
 		return dao.getCanvasjsStickChartData();
 	}
+	
+	public ArrayList<Integer> getNumList() {
+		return dao.getNumList();
+	}
+
+	public ArrayList<String> nameList(ArrayList<Integer> numList) {
+		return dao.getNameList(numList);
+	}
 }

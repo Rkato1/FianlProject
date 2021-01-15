@@ -70,4 +70,14 @@
   	select count(*)
   	from reservation
   </select>
+  
+  <select id="selectSalesListName" resultType="String">
+  	select camp_name
+  	from camp where camp_no=#{_parameter}
+  </select>
+  
+  <select id="selectSalesListNum" resultType="_int">
+  	select DISTINCT camp_no
+  	from reservation
+  </select>
 </mapper>
