@@ -1,5 +1,8 @@
 package com.kh.admin.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.admin.model.vo.CampVOPageData;
 import com.kh.admin.model.vo.MemberVOPageData;
+import com.kh.admin.model.vo.ReserveVOPageData;
 import com.kh.admin.service.AdminService;
 import com.kh.member.model.vo.MemberVO;
 
@@ -57,9 +62,12 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/businessAdmin.do")
-	public String businessAdmin(Model model, HttpSession session) {
+	public String businessAdmin(Model model, HttpSession session, int reqPage) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
+			CampVOPageData cpd = service.selectAllBusiness(reqPage);
+			model.addAttribute("list",cpd.getList());
+			model.addAttribute("pageNavi",cpd.getPageNavi());
 			return "admin/businessAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
@@ -69,9 +77,12 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/reserveAdmin.do")
-	public String reserveAdmin(Model model, HttpSession session) {
+	public String reserveAdmin(Model model, HttpSession session, int reqPage) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
+			ReserveVOPageData rpd = service.selectAllReserve(reqPage);
+			model.addAttribute("list",rpd.getList());
+			model.addAttribute("pageNavi",rpd.getPageNavi());
 			return "admin/reserveAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
@@ -84,6 +95,8 @@ public class AdminController {
 	public String salesAdmin(Model model, HttpSession session) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
+			List<List<Map<Object, Object>>> list = service.getCanvasjsChartData();
+			model.addAttribute("dataPointsList", list);
 			return "admin/salesAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
@@ -96,6 +109,8 @@ public class AdminController {
 	public String greatcampAdmin(Model model, HttpSession session) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
+			List<List<Map<Object, Object>>> list = service.getCanvasjsStickChartData();
+			model.addAttribute("dataPointsList", list);
 			return "admin/greatcampAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");

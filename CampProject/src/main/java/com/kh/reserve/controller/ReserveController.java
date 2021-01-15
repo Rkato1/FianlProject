@@ -29,4 +29,9 @@ public class ReserveController {
 		model.addAttribute("list", list);
 		return "reserve/reserveList";
 	}
+	
+	@RequestMapping("/reserveWriteFrm.do")
+	public String reserveWriteFrm() {
+		return "reserve/reserveWriteFrm";
+	}
 }

@@ -13,7 +13,8 @@
 		<typeAlias type="com.kh.reserve.model.vo.ReserveVO" alias="reserve" />
 		<typeAlias type="com.kh.camp.model.vo.CampVO" alias="camp" />
 		<typeAlias type="com.kh.camp.model.vo.CampPictureVo" alias="campPicture" />
-
+		<typeAlias type="com.kh.camp.model.vo.SiteVO" alias="site" />
+		
 		<!-- 보경 추가 -->
 		<typeAlias type="com.kh.member.model.vo.MemberVO" alias="member" />
 		<typeAlias type="com.kh.review.model.vo.ReviewVO" alias="review" />
@@ -28,8 +29,6 @@
 		<typeAlias type="com.kh.camp.used.vo.UsedVO" alias="used" />
 		<typeAlias type="com.kh.camp.used.vo.UsedFileVO" alias="file" />
 		<typeAlias type="com.kh.camp.used.vo.UsedCommentVO" alias="comment" />
-		
-		<!-- 현식 추가 -->
-		<typeAlias type="com.kh.admin.model.vo.MemberVOPageData" alias="mpd"/>
+				
 	</typeAliases>
 </configuration>

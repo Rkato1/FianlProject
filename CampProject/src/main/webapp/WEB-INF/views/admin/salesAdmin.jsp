@@ -14,14 +14,59 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/css/admin/admin.css">
-<script>
-    $(function() {
-        $(".menu li>a").hover(function() {
-            $(this).parent().css('background-color', '#d0b0b1');
-        }, function() {
-            $(this).parent().css('background-color', '#cccccc');
-        });
-    });
+<script src="/js/admin/admin.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+ 
+var dps = [[]];
+var chart = new CanvasJS.Chart("chartContainer", {
+	theme: "dark1", // "light1", "dark1", "dark2"
+	animationEnabled: true,
+	title: {
+		text: "차트 제목 적는곳"
+	},
+	axisX: {
+		//글자 포맷
+		//valueFormatString: "MMM"
+		//valueFormatString: "string"
+		valueFormatString: "# 월"
+	},
+	axisY: {
+		title: "y축 제목",
+		includeZero: true,
+		suffix: " 단위"
+	},
+	data: [{
+		//차트의 종류
+		type: "line",
+		//x축 값의 형식
+		//xValueType: "dateTime",
+		//x축 값의 글자 포맷(hover시 보여주기)
+		//xValueFormatString: "MMM",
+		xValueFormatString: "#,##0 월",
+		//y축 값의 글자 포맷(hover시 보여주기)
+		yValueFormatString: "#,##0 단위",
+		dataPoints: dps[0]
+	}]
+});
+ 
+var xValue;
+var yValue;
+ 
+<c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">	
+	<c:forEach items="${dataPoints}" var="dataPoint">
+		xValue = parseInt("${dataPoint.x}");
+		yValue = parseFloat("${dataPoint.y}");
+		dps[parseInt("${loop.index}")].push({
+			x : xValue,
+			y : yValue
+		});		
+	</c:forEach>	
+</c:forEach> 
+ 
+chart.render();
+ 
+}
 </script>
 <body>
     <div class="admin-wrap">
@@ -29,35 +74,13 @@
         <jsp:include page="sideMenu.jsp"/>        
         <!--화면 우측-->
         <div class="admin-content">
-            <div class="div2"></div>
             <div class="real-content">
                 <div class="members">
                     <p class="title">매출관련정보</p>
-                   
-                    <!-- table class="table table-hover">
-                        <tr class="contentsLine">
-                            <th class="short">번호</th>
-                            <th class="short">이름</th>
-                            <th class="long">전화번호</th>
-                            <th class="middle">ID</th>
-                            <th class="short">PW</th>
-                            <th class="long">EMAIL</th>
-                            <th class="long">등록날짜</th>
-                        </tr>
-						<tr>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                       	</tr>
-                    </table>
-                    <div id= "pageNavi"></div-->
+                    <div id="chartContainer" style="height: 60%; width: 100%;"></div>
+					<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> 
                 </div>
             </div>
-            <div class="div2"></div>
         </div>
 
     </div> 
