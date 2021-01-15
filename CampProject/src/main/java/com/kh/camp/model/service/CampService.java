@@ -78,7 +78,7 @@ public class CampService {
 		CampVO camp = dao.campView(c);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("campNo", c.getCampNo());
-		map.put("filegrade", 1);
+		map.put("filegrade", 2);
 		ArrayList<CampPictureVo> pictureList = dao.selectPictureList(map);
 		camp.setPictureList(pictureList);
 
@@ -92,7 +92,6 @@ public class CampService {
 		String endDate = sdf.format(cal.getTime()); //종료 날짜 저장
 		cal = Calendar.getInstance(); // end날짜 설정후 한번더 초기화
 		int idx = 0;
-		boolean  bool = false;
 		//시작날짜부터 끝나는 날짜까지 반복
 		while (!startDate.equals(endDate)) {// 다르면 반복,같으면 종료
 			//날짜기준 campNo로 memberNo가 0인지 아닌지 구분하여 예약가능 개수파악
@@ -111,17 +110,15 @@ public class CampService {
 			//System.out.println("reserveTotalCount = "+reserveTotalCount);
 			if(reserveTotalCount != reserveUnableCnt) {
 				//예약가능
-				events += "{id: '"+(++idx)+"', title: '예약가능("+(reserveTotalCount-reserveUnableCnt)+"/"+reserveTotalCount+")', start: '"+startDate+"', color : 'green', url:'#' },";
-				bool = true;
+				events += "{id: '"+(++idx)+"', title: '예약가능("+(reserveTotalCount-reserveUnableCnt)+"/"+reserveTotalCount+")', start: '"+startDate+"', color : 'green', url:'/reserveWriteFrm.do?campNo="+c.getCampNo()+"&date="+startDate+"' },";
 			}else {
 				//예약 불가능
 				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red'},";	
-				bool = true;
 			}			
 			cal.add(Calendar.DATE, 1); // 1일 더해준다
 			startDate = sdf.format(cal.getTime());
 		}
-		if(bool) {
+		if(idx != 0) {
 			events = events.substring(0, events.length()-1); //{}를 만들었다면 마지막 ',' 지우기
 		}
 		CampEventData ced = new CampEventData();

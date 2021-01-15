@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.camp.model.vo.CampVO;
+import com.kh.camp.model.vo.SiteVO;
 import com.kh.reserve.model.service.ReserveService;
 import com.kh.reserve.model.vo.ReserveVO;
 
@@ -31,7 +33,13 @@ public class ReserveController {
 	}
 	
 	@RequestMapping("/reserveWriteFrm.do")
-	public String reserveWriteFrm() {
+	public String reserveWriteFrm(Model model,CampVO camp,String date) {
+		//campNo로 모든 사이트 정보 구하기
+		ArrayList<SiteVO> sitePriceList = service.selectSitePriceList(camp);
+		ArrayList<SiteVO> siteReserveList = service.selectSiteReserveList(camp,date);
+		model.addAttribute("sitePriceList", sitePriceList);
+		model.addAttribute("siteReserveList", siteReserveList);
+		model.addAttribute("date", date);
 		return "reserve/reserveWriteFrm";
 	}
 }

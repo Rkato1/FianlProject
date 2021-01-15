@@ -155,11 +155,11 @@
 	var activeInactiveWeekends = true;
 	var calendar = $('#calendar').fullCalendar({
 	  events: [${events}],
-	  eventRender: function(event, eventElement) {
+	  /* eventRender: function(event, eventElement) {
 	    if (event.color == "green") {
 	      eventElement.addClass('able');
 	    }
-	  },
+	  }, */
 	 /** ******************
 	   *  OPTIONS
 	   * *******************/
@@ -169,7 +169,7 @@
 	  allDaySlot                : true,
 	  displayEventTime          : true,
 	  displayEventEnd           : true,
-	  firstDay                  : 1, //월요일이 먼저 오게 하려면 1
+	  firstDay                  : 0, //월요일이 먼저 오게 하려면 1
 	  weekNumbers               : false,
 	  selectable                : true,
 	  weekNumberCalculation     : "ISO",
@@ -228,7 +228,7 @@
 	});	
 	$(function() {
 		$(".nav-chevron").next().hide();
-		$('.able').attr('href','/reserveWriteFrm.do?campNo='+${camp.campNo});
+		/* $('.able').attr('href','/reserveWriteFrm.do?campNo='+${camp.campNo}); */
 	});
 	
 	$('.nav-chevron').click(function() {
