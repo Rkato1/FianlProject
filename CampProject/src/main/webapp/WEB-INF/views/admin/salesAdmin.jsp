@@ -17,25 +17,35 @@
 <script src="/js/admin/admin.js"></script>
 <script type="text/javascript">
 window.onload = function() {
- 
+var f = new FontFace('jua', 'url(/css/admin/BMJUA_ttf.ttf)'); 
 var dps = [[]];
 var chart = new CanvasJS.Chart("chartContainer", {
 	theme: "dark1", // "light1", "dark1", "dark2"
 	animationEnabled: true,
 	title: {
+		fontFamily: "jua",
 		text: "차트 제목 적는곳"
 	},
 	axisX: {
 		//글자 포맷
 		//valueFormatString: "MMM"
-		//valueFormatString: "string"
+		//valueFormatString: "string"		
+		labelFontFamily: "jua",
+		titleFontFamily: "jua",
 		valueFormatString: "# 월"
 	},
 	axisY: {
+		labelFontFamily: "jua",
+		titleFontFamily: "jua",
 		title: "y축 제목",
 		includeZero: true,
 		suffix: " 단위"
 	},
+	toolTip: {
+		fontFamily: "jua",
+		content: "{x} : {y}"
+	},
+	//legend항목 넣어서 어떤색이 뭔지 표시할수도있음
 	data: [{
 		//차트의 종류
 		type: "line",
@@ -49,7 +59,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		dataPoints: dps[0]
 	}]
 });
- 
+
 var xValue;
 var yValue;
  
@@ -60,12 +70,12 @@ var yValue;
 		dps[parseInt("${loop.index}")].push({
 			x : xValue,
 			y : yValue
-		});		
+		});
 	</c:forEach>	
 </c:forEach> 
- 
+
 chart.render();
- 
+
 }
 </script>
 <body>
@@ -77,7 +87,7 @@ chart.render();
             <div class="real-content">
                 <div class="members">
                     <p class="title">매출관련정보</p>
-                    <div id="chartContainer" style="height: 60%; width: 100%;"></div>
+                    <div id="chartContainer" style="height: 65%; width: 100%;"></div>
 					<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> 
                 </div>
             </div>

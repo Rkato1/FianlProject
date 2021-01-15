@@ -17,50 +17,56 @@
 <script type="text/javascript" src="/js/admin/admin.js"></script>
 <script type="text/javascript">
 window.onload = function() {
- 
-var dps = [[]];
-var chart = new CanvasJS.Chart("chartContainer", {
-	theme: "light2", //"light1", "dark1", "dark2"
-	animationEnabled: true,
-	title: {
-		text: "제목적는곳"
-	},
-	axisX: {
-		valueFormatString: "YYYY"
-	},
-	axisY: {
-		title: "세로단위 적는곳(별점)",
-		maximum: 250
-	},
-	data: [{
-		//hover시 뜨는거
-		type: "column",
-		xValueType: "dateTime",
-		xValueFormatString: "YYYY",
-		yValueFormatString: "#,##0mn tonnes",
-		dataPoints: dps[0]
-	}]
-});
- 
-var xValue;
-var yValue;
- 
-<c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">	
-	<c:forEach items="${dataPoints}" var="dataPoint">
-		xValue = parseInt("${dataPoint.x}");
-		yValue = parseFloat("${dataPoint.y}");
-		label = "${dataPoint.label}";
-		indexLabel = "${dataPoint.indexLabel}";
-		dps[parseInt("${loop.index}")].push({
-			x : xValue,
-			y : yValue
-		});		
-	</c:forEach>	
-</c:forEach> 
- 
-chart.render();
- 
-}
+	var f = new FontFace('jua', 'url(/css/admin/BMJUA_ttf.ttf)');	 
+	var dps = [[]];
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "dark2", // "light1", "light2", "dark1"
+		animationEnabled: true,
+		title: {
+			fontFamily: "jua",
+			text: "별점"
+		},
+		axisX: {
+			labelFontFamily: "jua",
+			titleFontFamily: "jua"
+		},
+		axisY: {
+			labelFontFamily: "jua",
+			titleFontFamily: "jua",
+			title: "평점 (평균)",
+			includeZero: true,
+			maximum:5,
+			suffix: "점"
+		},
+		toolTip: {
+			fontFamily: "jua",
+			content: "{label} : {y}"
+		},
+		data: [{
+			type: "column",
+			yValueFormatString: "#.# 점",
+			indexLabel: "{y}",
+			dataPoints: dps[0]
+		}]
+	});
+	 
+	var yValue;
+	var label;
+	 
+	<c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">	
+		<c:forEach items="${dataPoints}" var="dataPoint">
+			yValue = parseFloat("${dataPoint.y}");
+			label = "${dataPoint.label}";
+			dps[parseInt("${loop.index}")].push({
+				label : label,
+				y : yValue
+			});		
+		</c:forEach>	
+	</c:forEach> 
+	 
+	chart.render();
+	 
+	}
 </script>
 <body>
     <div class="admin-wrap">
@@ -71,7 +77,7 @@ chart.render();
             <div class="real-content">
                 <div class="members">
                    	<p class="title">우수캠핑장선정</p>
-                   	<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                   	<div id="chartContainer" style="height: 65%; width: 100%;"></div>
 					<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
                 </div>
             </div>
