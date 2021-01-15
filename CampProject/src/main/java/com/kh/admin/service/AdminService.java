@@ -178,8 +178,8 @@ public class AdminService{
 		return rpd;
 	}
 	
-	public List<List<Map<Object, Object>>> getCanvasjsChartData() {
-		return dao.getCanvasjsChartData();
+	public List<List<Map<Object, Object>>> getCanvasjsChartData(int campNo, int year) {
+		return dao.getCanvasjsChartData(campNo,year);
 	}
 
 	public List<List<Map<Object, Object>>> getCanvasjsStickChartData() {

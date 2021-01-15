@@ -9,6 +9,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.admin.model.vo.CanvasjsChartData;
+import com.kh.admin.model.vo.ChartVOData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
@@ -45,8 +47,42 @@ public class AdminDao {
 		return sqlSession.selectOne("selectAllReserveCount");
 	}
 
-	public List<List<Map<Object, Object>>> getCanvasjsChartData() {
-		return CanvasjsChartData.getCanvasjsDataList();
+	public List<List<Map<Object, Object>>> getCanvasjsChartData(int campNo, int year) {
+		ArrayList<String> monthArray = new ArrayList<String>();
+		monthArray.add("01");
+		monthArray.add("02");
+		monthArray.add("03");
+		monthArray.add("04");
+		monthArray.add("05");
+		monthArray.add("06");
+		monthArray.add("07");
+		monthArray.add("08");
+		monthArray.add("09");
+		monthArray.add("10");
+		monthArray.add("11");
+		monthArray.add("12");
+		ArrayList<Integer> monthSales = new ArrayList<Integer>(monthArray.size());
+		for(int i=0; i<monthArray.size(); i++) {
+			HashMap<String, Object> tempMap = new HashMap<String, Object>();
+			tempMap.put("month", monthArray.get(i));
+			tempMap.put("campNo", campNo);
+			tempMap.put("year", year);
+			List<ReserveVO> saleList = sqlSession.selectList("selectMonthSale",tempMap);
+			if(saleList.size()!=0) {
+				int monthSale=0;
+				for(ReserveVO r : saleList) {
+					if(r.getReserveStatus().equals("예약중")) {
+						monthSale+=r.getReservePrice();
+					}
+				}
+				monthSales.add(monthSale);
+			}else {
+				monthSales.add(0);
+			}
+		}
+		//기존
+		//return CanvasjsChartData.getCanvasjsDataList();
+		return CanvasjsChartData.getCanvasjsDataList(monthArray, monthSales);
 	}
 
 	public List<List<Map<Object, Object>>> getCanvasjsStickChartData() {
@@ -61,7 +97,7 @@ public class AdminDao {
 		ArrayList<String> nameList = new ArrayList<String>();
 		for(int i : numList) {
 			String str = sqlSession.selectOne("selectSalesListName", i);
-			nameList.add(str);			
+			nameList.add(str);
 		}
 		return nameList;
 	}

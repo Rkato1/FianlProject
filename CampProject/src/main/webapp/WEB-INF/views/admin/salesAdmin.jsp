@@ -68,6 +68,7 @@ var yValue;
 		xValue = parseInt("${dataPoint.x}");
 		yValue = parseFloat("${dataPoint.y}");
 		dps[parseInt("${loop.index}")].push({
+		//dps[parseInt(0)].push({
 			x : xValue,
 			y : yValue
 		});

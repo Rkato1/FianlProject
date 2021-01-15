@@ -93,12 +93,19 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/salesAdmin.do")
-	public String salesAdmin(Model model, HttpSession session) {
+	public String salesAdmin(Model model, HttpSession session, int campNo, int year) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
-			List<List<Map<Object, Object>>> list = service.getCanvasjsChartData();
 			ArrayList<Integer> numList = service.getNumList();
+			if(campNo==0) {
+				campNo = numList.get(0);
+			}
+			if(year==0) {
+				//원래는 달력기준 올해로 설정해야함
+				year = 2021;
+			}
 			ArrayList<String> nameList = service.nameList(numList);
+			List<List<Map<Object, Object>>> list = service.getCanvasjsChartData(campNo, year);
 			model.addAttribute("dataPointsList", list);
 			model.addAttribute("numList", numList);
 			model.addAttribute("nameList", nameList);

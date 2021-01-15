@@ -54,7 +54,7 @@ public class ChartVOData {
 	
 	private static void getDataPoints(){
         String sql = "select * from datapoints";
-        //이부분을 값을 넣어주는 식으로 변경
+        
         try {
         	dataPoints1 = jdbcTemplate.query(sql, new RowMapper<DataPointModel>() {
  

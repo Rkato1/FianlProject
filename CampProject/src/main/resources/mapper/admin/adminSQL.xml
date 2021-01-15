@@ -80,4 +80,14 @@
   	select DISTINCT camp_no
   	from reservation
   </select>
+  
+  <select id="selectMonthSale" parameterType="map" resultType="reserve">
+  	select
+  		RESERVE_PRICE as reservePrice,
+  		reserve_status as reserveStatus
+  	from reservation where
+  		substr(check_in_date,6,2)=#{month} and
+  		substr(check_in_date,1,4)=#{year} and
+  		camp_no=#{campNo}
+  </select>
 </mapper>
