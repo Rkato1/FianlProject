@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="campNotice">	
+	<select id="selectCampNoticeList" parameterType="map" resultType="cNotice">		
+		select
+    		rnum,
+    		campNoticeNo,
+			campNo,
+			campNoticeTitle,
+			campNoticeWriter,
+			campNoticeContent,
+			campNoticeDate
+			from
+        		(select rownum as rnum, n.*
+					from
+					(select
+						camp_notice_no as campNoticeNo,
+						camp_no as campNo,
+						camp_notice_title as campNoticeTitle,
+						camp_notice_writer as campNoticeWriter,
+						camp_notice_content as campNoticeContent,
+						camp_notice_date as campNoticeDate
+					from camp_notice where camp_no=#{campNo} order by 1 desc)
+				n)
+        where rnum between #{start} and #{end}
+	</select>
+	<select id="cNoticetotalCount" resultType="_int">
+		select count(camp_notice_no) as cnt from camp_notice
+	</select>
+	<select id="selectCampNotice" parameterType="cNotice" resultType="cNotice">
+		select 
+			camp_notice_no as campNoticeNo,
+			camp_no as campNo,
+			camp_notice_title as campNoticeTitle,
+			camp_notice_writer as campNoticeWriter,
+			camp_notice_content as campNoticeContent,
+			camp_notice_date as campNoticeDate
+		from camp_notice
+			<trim prefix="where" prefixOverrides="and|or">
+			  	<if test="campNo != 0">
+					 camp_no=#{campNo}
+			  	</if>
+			  	<if test="campNoticeNo != 0">
+		  		and camp_notice_no = #{campNoticeNo}
+		  		</if> 
+		  	</trim>
+	</select>
+</mapper>

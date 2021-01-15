@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.camp.model.vo.CampPictureVo;
 import com.kh.camp.model.vo.CampVO;
+import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.review.model.vo.ReviewVO;
 
 @Repository
 public class OperatorDao {
@@ -25,6 +27,19 @@ public class OperatorDao {
 	public ArrayList<CampPictureVo> selectPictureList(HashMap<String, Integer> map) {
 		List<CampPictureVo> list = sqlSession.selectList("camp.selectPictureList",map);
 		return (ArrayList<CampPictureVo>)list;
+	}
+	public ArrayList<CampNoticeVO> selectCampNoticeList(HashMap<String, Integer> map) {
+		List<CampNoticeVO> list = sqlSession.selectList("campNotice.selectCampNoticeList",map);
+		return (ArrayList<CampNoticeVO>)list;
+	}
+	public int totalCount() {
+		return sqlSession.selectOne("campNotice.cNoticetotalCount");
+	}
+	public CampNoticeVO selectCampNotice(CampNoticeVO cn) {
+		return sqlSession.selectOne("campNotice.selectCampNotice",cn);
+	}
+	public int insertCampNotice(CampNoticeVO cn) {
+		return sqlSession.insert("campNotice.insertCampNotice", cn);
 	}
 
 }

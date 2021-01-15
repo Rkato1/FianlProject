@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 	
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,15 +55,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${list }" var="n" varStatus="status">
+						<c:forEach items="${cnList }" var="n">
 							<tr>
-								<td>${status.index }</td>
-								<td><a
-									href="/noticeView.do?noticeNo=${n.campNoticeNo }&campNo=${n.campNo }">
-										${n.campNoticeTitle } </a></td>
+								<td></td>
+								<td>
+									<a href="/campNoticeView.do?noticeNo=${n.campNoticeNo }&campNo=${n.campNo }">
+										${n.campNoticeTitle } </a>
+								</td>
 								<td>${n.campNoticeDate }</td>
-								<td><a
-									href="/deleteCampNotice.do?campNoticeNo=${campNoticeNo }">삭제<a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

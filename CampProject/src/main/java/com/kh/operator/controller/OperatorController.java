@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.operator.model.service.OperatorService;
+import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
 
 @Controller
@@ -54,12 +55,19 @@ private OperatorService service;
 		}
 	}
 	@RequestMapping("/opNoticeList.do")
-	public String selectCampNoticeList(CampVO c,Model model,HttpSession session) {
+	public String selectCampNoticeList(CampVO c,Model model,HttpSession session,int reqPage) {
 		MemberVO member = (MemberVO) session.getAttribute("m");
 		if(member!=null) {
 			CampVO camp = service.selectOneCamp(c);
 			if(camp!=null) {
+				CampNoticePageData cnpd = service.selectCampNoticeList(c,reqPage);
 				model.addAttribute("camp",camp);
+				model.addAttribute("cnList", cnpd.getList());
+				for(CampNoticeVO cn: cnpd.getList()) {
+					System.out.println(cn.getCampNoticeTitle());
+				}
+				System.out.println();
+				model.addAttribute("pageNavi", cnpd.getPageNavi());
 			}
 			return "operator/opNoticeList";
 		}else {
@@ -68,29 +76,29 @@ private OperatorService service;
 			return "common/msg";
 		}
 	}
-//	@RequestMapping("/selectAllCampNotice.do")
-//	private String selectAllCampNotice(int campNo,HttpSession session,Model model) {
-//		MemberVO member = (MemberVO) session.getAttribute("m");
-//		if(member!=null) {
-//			ArrayList<CampVO> list = service.selectAllCampNotice(campNo);
-//			model.addAttribute("campList",list);
-//		}
-//		else {
-//			model.addAttribute("msg", "로그인 후 이용해 주시기 바랍니다.");
-//			model.addAttribute("loc", "/");
-//			return "common/msg";
-//		}
-//	}
-	
-//	@RequestMapping("/insertCampNotice.do")
-//	private String insertCampNotice(CampNoticeVO cn,Model model) {
-//		int result = service.insertCampNotice(cn);
-//		if(result>0) {
-//			model.addAttribute("msg", "등록되었습니다.");
-//			model.addAttribute("loc", "/");
-//		}
-//		return "common/msg";
-//	}
+	@RequestMapping("/campNoticeView.do")
+	public String campNoticeView(CampNoticeVO cn,Model model) {
+		CampNoticeVO cNotice = service.selectCampNotice(cn);
+		model.addAttribute("cNotice",cNotice);
+		return "operator/opNoticeView";
+	}
+	@RequestMapping("/opNoticeForm.do")
+	public String opNoticeForm() {
+		return "operator/opNoticeForm";
+	}
+	@RequestMapping("/insertCampNotice.do")
+	private String insertCampNotice(CampNoticeVO cn,Model model) {
+		int result = service.insertCampNotice(cn);
+		if(result>0) {
+			model.addAttribute("msg", "등록되었습니다.");
+			model.addAttribute("loc", "/");
+		}
+		return "common/msg";
+	}
+	@RequestMapping("/opNoticeUpdate")
+	public String opNoticeUpdate() {
+		return "operator/opNoticeUpdate";
+	}
 //	
 //	@RequestMapping("/deleteCampNotice.do")
 //	private String deleteCampNotice(CampNoticeVO cn,Model model) {

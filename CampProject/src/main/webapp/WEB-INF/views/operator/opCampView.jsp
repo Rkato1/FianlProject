@@ -25,7 +25,7 @@
                         <a href="/opCampSite"><li>구역 안내</li></a>
                     </ul>
                     <a href="/opReservation.do"><li>예약현황</li></a>
-                    <a href="/opNoticeList.do?campNo=${camp.campNo}"><li>공지사항</li></a>
+                    <a href="/opNoticeList.do?campNo=${camp.campNo}&reqPage=1"><li>공지사항</li></a>
                     <a href="/opReview.do"><li>리뷰관리</li></a>
                 </ul>
             </div>
