@@ -151,4 +151,16 @@
 		delete from member where member_no = #{_parameter}
 	</delete>
 
+	<select id="selectChangePw" parameterType="_int" resultType="String">
+		select 
+			member_pw
+		from member where member_no = #{_parameter}
+	</select>
+
+	<update id="updateMemberPw" parameterType="member">
+		update member
+		set member_pw = #{memberPw}
+		where member_no = #{memberNo}	
+	</update>
+	
 </mapper>

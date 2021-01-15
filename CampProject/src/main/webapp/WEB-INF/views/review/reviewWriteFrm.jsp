@@ -15,7 +15,6 @@
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 
-
     <style>
         * {
             font-family: 'Noto Sans KR';
@@ -63,18 +62,55 @@
         #star {
         	color: #ffd56b;
         }
+        
+        /*------------------------------*/
             
-		.form-control:focus {
+        
+        #required {
+        	color: #f49b00;
+        }
+        
+        #point-value {
+        	color: dimgray;
+        	font-size: 13px;
+        }
+        
+        /*-------------------------------*/
+        
+        .form-control:focus {
 			border-color: #ced4da !important;
         	outline: 0 none !important;
         	box-shadow: none !important;
         }
+        
+        .btn:focus {
+        	outline: 0 none !important;
+        	box-shadow: none !important;
+        }
+        
 	</style>
 	
 </head>
 <body>
 
    <script>
+   
+		$(function() {
+	        //Submit 버튼
+	        $("#writeBtn").click(function(event) {
+
+	        	var reviewTitle = $("#reviewTitle").val();
+	        	var reserveNo = $("#reserveNo").val();
+	        	var reviewPoint = $("#reviewPoint").val();
+	        	var reviewContent = $("#reviewContent").val();
+	        	
+	        	if(reviewTitle == "" || reserveNo == "" || reviewPoint == "" || reviewContent == "") {
+	                alert("*는 필수 입력 항목입니다.");
+	                event.preventDefault();
+	        	}
+	        });
+		 });
+		
         //예약번호 검색 팝업창
         function search() {
             var url = "/searchReserve.do"; //서블릿 url mapping 값
@@ -112,6 +148,7 @@
 			$(".point").val((idx + 1));
 			console.log($(".point").val());
 		});
+	
     </script>
 
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
@@ -130,8 +167,8 @@
             <form action="/insertReview.do" method="post" enctype="multipart/form-data">
                 <table class="table table-bordered">
                     <tr>
-                        <td>제목</td>
-                        <td><input type="text" name="reviewTitle" value="" class="form-control"></td>
+                        <td>제목<span id="required">*</span></td>
+                        <td><input type="text" name="reviewTitle" id="reviewTitle" value="" class="form-control"></td>
                     </tr>
                     <tr>
                         <td>작성자</td>
@@ -140,21 +177,22 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>예약번호</td>
+                        <td>예약번호<span id="required">*</span></td>
                         <td>
                         	<input type="text" value="" name="reserveNo" id="reserveNo" class="form-control" readonly>
                         	<button type="button" class="btn btn-secondary" onclick="search();">검색</button>
                         </td>
                     </tr>
                     <tr>
-                        <td>별점</td>
+                        <td>별점<span id="required">*</span></td>
                         <td>
-                        	<input type="hidden" value="" name="reviewPoint" class="point">
+                        	<input type="hidden" value="" name="reviewPoint" id="reviewPoint" class="point">
                         	<i class="far fa-star point-mark" id="star"></i> 
                         	<i class="far fa-star point-mark" id="star"></i> 
                         	<i class="far fa-star point-mark" id="star"></i> 
                         	<i class="far fa-star point-mark" id="star"></i> 
                         	<i class="far fa-star point-mark" id="star"></i> 
+                        	<span id="point-value">&ensp;별점을 선택하여 평가해주세요</span>
                         </td>
                     </tr>
                     <tr>
@@ -162,25 +200,18 @@
                         <td><input type="file" name="files" multiple></td>
                     </tr>
                     <tr>
-                        <td>내용</td>
+                        <td>내용<span id="required">*</span></td>
                         <td><textarea rows="20" cols="50" name="reviewContent" id="reviewContent" class="form-control"></textarea></td>
                     </tr>
                 </table>
                 <div class="review-button">
-                    <input type="submit" value="작성완료" class="btn" id="writeBtn">
+                    <button type="submit" class="btn" id="writeBtn">작성완료</button>
                 </div>
             </form>
         </div>
     </div>
     
    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-   
-   <script>
-   	//작성완료 버튼 눌렀을 때 입력값 확인
-   
-   
-   
-   </script>
    
 </body>
 </html>

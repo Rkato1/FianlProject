@@ -8,7 +8,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- Google Fonts -->
-<html lang="kr">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 <!-- BOOTETRAP -->
@@ -19,8 +18,8 @@
 </head>
 <body>
 
-	<!-- CSS -->
-	<link href="../css/common/header.css" type="text/css" rel="stylesheet">
+	<!-- CSS 처음에/가 webapp-->
+	<link href="/css/common/header.css" type="text/css" rel="stylesheet">
 	
     <div class="header-all-wrap">
         <div class="header-title">

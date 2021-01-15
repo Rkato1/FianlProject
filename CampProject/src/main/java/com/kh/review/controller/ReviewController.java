@@ -130,14 +130,27 @@ public class ReviewController {
 	
 	//캠핑 후기 - 글 수정하기 (페이지 이동)
 	@RequestMapping("/reviewUpdateFrm.do")
-	public String reviewUpdateFrm() {
+	public String reviewUpdateFrm(int reviewNo, Model model) {
+		ReviewVO rev = service.selectOneReview(reviewNo);
+		model.addAttribute("rev", rev);
 		return "review/reviewUpdateFrm";
 	}
 	
 	//캠핑 후기 - 글 수정하기
 	@RequestMapping("/updateReview.do")
-	public String updateReview() {
-		return "review/reviewList";
+	public String updateReview(ReviewVO r, String delFileList, Model model) {
+		//배열로 넘어온 거 int로 변경
+		//System.out.println(delFileList);
+		int reviewNo = r.getReviewNo();
+		int campNo = service.searchCampNo(reviewNo);
+		int result = service.updateReview(r); 
+		if(result>0) {
+			model.addAttribute("msg", "후기 글이 수정되었습니다.");
+		} else {
+			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
+		} 
+		model.addAttribute("loc", "/reviewView.do?reviewNo="+reviewNo+"&campNo="+campNo);
+		return "common/msg";		
 	}
 	
 	//캠핑 후기 - 글 삭제하기

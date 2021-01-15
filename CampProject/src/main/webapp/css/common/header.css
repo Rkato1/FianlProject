@@ -8,6 +8,9 @@
     
     	.header-all-wrap {
     		margin-bottom: 80px;
+    		position: sticky;
+    		top: 0;
+    		z-index: 9999;
     	}
 
         .header-title {
@@ -23,7 +26,6 @@
             font-size: 0.9em;
             margin: 0;
             color: #f49b00;
-            
         }
 
         /*---------------------------------------*/
@@ -31,7 +33,8 @@
         .header-wrap {
             /*border-bottom: 2px solid #f49b00;*/
             /*background-color: #fafafa;*/
-            box-shadow: 0px 5px 20px 0px #f2f2f2;
+            background-color: #ffffff;
+            box-shadow: 0px 10px 20px 0px rgba(242,242,242,0.3);
             /*가로 세로 흐릿 퍼짐 색깔*/
         }
         
@@ -71,10 +74,10 @@
 
         .header-logo {
             overflow: hidden;
-            width: 680px;
             margin: 0 auto;
-            margin-top: 40px;
-            margin-bottom: 30px;
+            width: 685px;
+            margin-top: 25px;
+            margin-bottom: 10px;
         }
 
         .logo-text-left {

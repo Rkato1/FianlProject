@@ -23,12 +23,6 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
-	//임시 페이지 이동
-	@RequestMapping("/blank.do")
-	public String blank() {
-		return "member/blank";
-	}
-	
 	@RequestMapping("/loginFrm.do")
 	public String loginFrm() {
 		return "member/loginFrm";
@@ -66,11 +60,13 @@ public class MemberController {
 		return "common/msg";
 	}
 
+	//아이디 찾기 (페이지 이동)
 	@RequestMapping("/searchIdFrm.do")
 	public String searchIdFrm() {
 		return "member/searchIdFrm";
 	}
 
+	//아이디 찾기
 	@RequestMapping("/searchId.do")
 	public String searchId(MemberVO m, Model model) {
 		MemberVO member = service.selectOneMemberId(m);
@@ -85,11 +81,13 @@ public class MemberController {
 		}
 	}
 
+	//비밀번호 찾기 (페이지 이동)
 	@RequestMapping("/searchPwFrm.do")
 	public String searchPwFrm() {
 		return "member/searchPwFrm";
 	}
 
+	//비밀번호 찾기
 	@RequestMapping("/searchPw.do")
 	public String searchPw(MemberVO m, Model model) {
 		MemberVO member = service.selectOneMemberPw(m);
@@ -104,22 +102,13 @@ public class MemberController {
 		}
 	}
 
-	@ResponseBody
-	@RequestMapping("/idCheck.do")
-	public String checkId(MemberVO m) {
-		MemberVO member = service.selectOneMember(m);
-		if (member != null) { // 아이디 사용불가능(중복) -> 1을 리턴
-			return "1";
-		} else { // 아이디 사용가능 -> 0을 리턴
-			return "0";
-		}
-	}
-
+	//회원가입 (페이지 이동)
 	@RequestMapping("/joinFrm.do")
 	public String joinFrm() {
 		return "member/joinFrm";
 	}
 
+	//회원가입
 	@RequestMapping("/join.do")
 	public String join(MemberVO m, Model model) {
 		int result = service.insertMember(m);
@@ -132,7 +121,20 @@ public class MemberController {
 		}
 		return "common/msg";
 	}
-
+	
+	//회원가입 아이디 중복 체크
+	@ResponseBody
+	@RequestMapping("/idCheck.do")
+	public String checkId(MemberVO m) {
+		MemberVO member = service.selectOneMember(m);
+		if (member != null) { // 아이디 사용불가능(중복) -> 1을 리턴
+			return "1";
+		} else { // 아이디 사용가능 -> 0을 리턴
+			return "0";
+		}
+	}
+	
+	//마이페이지
 	@RequestMapping("/mypage.do")
 	public String mypage(int memberNo, String memberId, Model model) {
 		MemberVO member = service.mypageMember(memberNo);
@@ -157,7 +159,43 @@ public class MemberController {
 		
 		return "member/mypage";
 	}
-
+	
+	//비밀번호 변경 (팝업창 이동)
+	@RequestMapping("/changePw.do")
+	public String changePw(int memberNo, Model model) {	
+		model.addAttribute("memberNo", memberNo);	
+		return "member/changePw";
+	}
+	
+	//기존 비밀번호 확인
+	@ResponseBody
+	@RequestMapping("/pwCheck.do")
+	public String pwCheck(int memberNo, String memberPw) {	
+		//회원번호로 비밀번호 조회	
+		String memberPw_check = service.selectChangePw(memberNo);
+		if (memberPw.equals(memberPw_check)) { //비밀	번호 일치함 -> 0을 리턴	
+			return "0";	
+		} else { //비밀번호 일치하지않음 -> 1을 리턴	
+			return "1";			
+		}
+	}
+	
+	//비밀번호 변경
+	@ResponseBody
+	@RequestMapping("/updateMemberPw.do")
+	public String updateMemberPw(int memberNo, String memberPw) {
+		MemberVO m = new MemberVO();
+		m.setMemberNo(memberNo);
+		m.setMemberPw(memberPw);
+		int result = service.updateMemberPw(m);
+		if(result>0) { //새 비밀번호 변경 성공 -> 0을 리턴
+			return "0";
+		} else { //새 비밀번호 변경 실패 -> 1을 리턴
+			return "1";
+		} 
+	}
+	
+	//회원정보 수정
 	@RequestMapping("/updateMember.do")
 	public String updateMember(MemberVO m, Model model) {
 		int result = service.updateMember(m); 
@@ -170,6 +208,7 @@ public class MemberController {
 		return "common/msg";
 	}
 
+	//회원탈퇴
 	@RequestMapping("/deleteMember.do")
 	public String deleteMember(int memberNo, HttpSession session, Model model) {
 		int result = service.deleteMember(memberNo);
@@ -182,7 +221,6 @@ public class MemberController {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
 			model.addAttribute("loc", "/loginFrm.do");
 		}
-
 		return "common/msg";
 	}
 

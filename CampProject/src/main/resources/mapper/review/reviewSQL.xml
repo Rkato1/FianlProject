@@ -233,5 +233,11 @@
 		where review_no = #{_parameter}
 	</select>
 	
+	<update id="updateReview" parameterType="review">
+		update review
+		set review_title = #{reviewTitle},
+			review_content = #{reviewContent}
+		where review_no = #{reviewNo}	
+	</update>
 	
 </mapper>

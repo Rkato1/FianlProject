@@ -102,4 +102,8 @@ public class ReviewDao {
 		return (ArrayList<ReviewFileVO>)list;
 	}
 
+	public int updateReview(ReviewVO r) {
+		return sqlSession.update("review.updateReview", r);
+	}
+
 }

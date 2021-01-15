@@ -64,6 +64,14 @@ public class MemberDao {
 		List<UsedVO> list = sqlSession.selectList("member.mypageUsedTrade", memberId);
 		return (ArrayList<UsedVO>)list;
 	}
+	
+	public String selectChangePw(int memberNo) {
+		return sqlSession.selectOne("member.selectChangePw", memberNo);
+	}
+
+	public int updateMemberPw(MemberVO m) {
+		return sqlSession.update("member.updateMemberPw", m);
+	}
 
 	public int updateMember(MemberVO m) {
 		return sqlSession.update("member.updateMember", m);
@@ -72,10 +80,5 @@ public class MemberDao {
 	public int deleteMember(int memberNo) {
 		return sqlSession.delete("member.deleteMember", memberNo);
 	}
-
-
-
-
-
 
 }

@@ -232,6 +232,22 @@ public class ReviewService {
 		return result;
 	}
 
+	public ReviewVO selectOneReview(int reviewNo) {
+		//리뷰를 가져오는 dao
+		ReviewVO r = dao.selectOneReview(reviewNo); 
+		
+		//리뷰 파일을 가져오는 dao
+		if(r != null) {
+			ArrayList<ReviewFileVO> fileList = dao.selectFileList(reviewNo);
+			r.setFileList(fileList);
+		}
+		
+		return r;
+	}
+
+	public int updateReview(ReviewVO r) {
+		return dao.updateReview(r);
+	}
 
 
 }
