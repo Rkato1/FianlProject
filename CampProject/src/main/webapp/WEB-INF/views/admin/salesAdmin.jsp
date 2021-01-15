@@ -39,7 +39,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		titleFontFamily: "jua",
 		title: "y축 제목",
 		includeZero: true,
-		suffix: " 단위"
+		suffix: " 원"
 	},
 	toolTip: {
 		fontFamily: "jua",
@@ -53,9 +53,9 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		//xValueType: "dateTime",
 		//x축 값의 글자 포맷(hover시 보여주기)
 		//xValueFormatString: "MMM",
-		xValueFormatString: "#,##0 월",
+		xValueFormatString: "# 월",
 		//y축 값의 글자 포맷(hover시 보여주기)
-		yValueFormatString: "#,##0 단위",
+		yValueFormatString: "#,### 원",
 		dataPoints: dps[0]
 	}]
 });
@@ -63,12 +63,17 @@ var chart = new CanvasJS.Chart("chartContainer", {
 var xValue;
 var yValue;
  
-<c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">	
+<c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">
+//datapoint->map
+//datapoints->dataPoints1
+//dataPointsList->list
 	<c:forEach items="${dataPoints}" var="dataPoint">
 		xValue = parseInt("${dataPoint.x}");
 		yValue = parseFloat("${dataPoint.y}");
 		dps[parseInt("${loop.index}")].push({
+		//dps[parseInt("${loop.begin}")].push({
 		//dps[parseInt(0)].push({
+			//이부분 왜 중복으로 진행되는지 찾기
 			x : xValue,
 			y : yValue
 		});

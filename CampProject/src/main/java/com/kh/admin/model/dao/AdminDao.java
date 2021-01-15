@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.admin.model.vo.CanvasjsChartData;
-import com.kh.admin.model.vo.ChartVOData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
@@ -82,6 +81,8 @@ public class AdminDao {
 		}
 		//기존
 		//return CanvasjsChartData.getCanvasjsDataList();
+		//변경
+		//return CanvasjsChartData.getCanvasjsDataList(monthArray, monthSales);
 		return CanvasjsChartData.getCanvasjsDataList(monthArray, monthSales);
 	}
 
