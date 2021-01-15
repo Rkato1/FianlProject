@@ -16,87 +16,95 @@
 <link rel="stylesheet" href="/css/admin/admin.css">
 <script src="/js/admin/admin.js"></script>
 <script type="text/javascript">
-window.onload = function() {
-var f = new FontFace('jua', 'url(/css/admin/BMJUA_ttf.ttf)'); 
-var dps = [[]];
-var chart = new CanvasJS.Chart("chartContainer", {
-	theme: "dark1", // "light1", "dark1", "dark2"
-	animationEnabled: true,
-	title: {
-		fontFamily: "jua",
-		text: "차트 제목 적는곳"
-	},
-	axisX: {
-		//글자 포맷
-		//valueFormatString: "MMM"
-		//valueFormatString: "string"		
-		labelFontFamily: "jua",
-		titleFontFamily: "jua",
-		valueFormatString: "# 월"
-	},
-	axisY: {
-		labelFontFamily: "jua",
-		titleFontFamily: "jua",
-		title: "y축 제목",
-		includeZero: true,
-		suffix: " 원"
-	},
-	toolTip: {
-		fontFamily: "jua",
-		content: "{x} : {y}"
-	},
-	//legend항목 넣어서 어떤색이 뭔지 표시할수도있음
-	data: [{
-		//차트의 종류
-		type: "line",
-		//x축 값의 형식
-		//xValueType: "dateTime",
-		//x축 값의 글자 포맷(hover시 보여주기)
-		//xValueFormatString: "MMM",
-		xValueFormatString: "# 월",
-		//y축 값의 글자 포맷(hover시 보여주기)
-		yValueFormatString: "#,### 원",
-		dataPoints: dps[0]
-	}]
-});
-
-var xValue;
-var yValue;
- 
-<c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">
-//datapoint->map
-//datapoints->dataPoints1
-//dataPointsList->list
-	<c:forEach items="${dataPoints}" var="dataPoint">
-		xValue = parseInt("${dataPoint.x}");
-		yValue = parseFloat("${dataPoint.y}");
-		dps[parseInt("${loop.index}")].push({
-		//dps[parseInt("${loop.begin}")].push({
-		//dps[parseInt(0)].push({
-			//이부분 왜 중복으로 진행되는지 찾기
-			x : xValue,
-			y : yValue
+	window.onload = function() {
+		var f = new FontFace('jua', 'url(/css/admin/BMJUA_ttf.ttf)'); 
+		var dps = [[]];
+		var chart = new CanvasJS.Chart("chartContainer", {
+			theme: "dark1", // "light1", "dark1", "dark2"
+			animationEnabled: true,
+			title: {
+				fontFamily: "jua",
+				text: "${year}년 ${campName} 매출"
+			},
+			axisX: {
+				//글자 포맷
+				//valueFormatString: "MMM"
+				//valueFormatString: "string"		
+				labelFontFamily: "jua",
+				titleFontFamily: "jua",
+				valueFormatString: "# 월"
+			},
+			axisY: {
+				labelFontFamily: "jua",
+				titleFontFamily: "jua",
+				title: "y축 제목",
+				includeZero: true,
+				suffix: " 원"
+			},
+			toolTip: {
+				fontFamily: "jua",
+				content: "{x} : {y}"
+			},
+			//legend항목 넣어서 어떤색이 뭔지 표시할수도있음
+			data: [{
+				//차트의 종류
+				type: "line",
+				//x축 값의 형식
+				//xValueType: "dateTime",
+				//x축 값의 글자 포맷(hover시 보여주기)
+				//xValueFormatString: "MMM",
+				xValueFormatString: "# 월",
+				//y축 값의 글자 포맷(hover시 보여주기)
+				yValueFormatString: "#,### 원",
+				dataPoints: dps[0]
+			}]
 		});
-	</c:forEach>	
-</c:forEach> 
+		
+		var xValue;
+		var yValue;
+		 
+		<c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">
+		//datapoint->map
+		//datapoints->dataPoints1
+		//dataPointsList->list
+			<c:forEach items="${dataPoints}" var="dataPoint">
+				xValue = parseInt("${dataPoint.x}");
+				yValue = parseFloat("${dataPoint.y}");
+				dps[parseInt("${loop.index}")].push({
+					x : xValue,
+					y : yValue
+				});
+			</c:forEach>
+		</c:forEach>
+		chart.render();
+	}
+			
+	function setValues(){		
+		var campNo = $("#campNoVal option:selected").val();
+		var year = $("#yearVal option:selected").html();
+		location.href="/admin/salesAdmin.do?campNo="+campNo+"&year="+year;		
+	}
 
-chart.render();
-
-}
 </script>
 <body>
     <div class="admin-wrap">
         <!--화면 좌측-->
-        <jsp:include page="sideMenu.jsp"/>        
+        <jsp:include page="sideMenu.jsp"/>
         <!--화면 우측-->
         <div class="admin-content">
             <div class="real-content">
                 <div class="members">
-                	<select>
-                		<c:forEach items="${nameList }" var="name">
-                		<option>${name}</option>
+                	<select id="campNoVal" onchange="">
+                		<c:forEach items="${list }" var="data">
+                			<option value="${data.campNo }">${data.campName}</option>
                 		</c:forEach>
                 	</select>
+                	<!-- 이부분도 조회해서 조회된 년도만 뜨게 만들수 있음 -->
+                	<select id="yearVal" onchange="">
+                		<option>2020</option>
+                		<option>2021</option>                		
+                	</select>
+                	<button id="okBtn" onclick="setValues()">조회</button>
                     <p class="title">매출관련정보</p>
                     <div id="chartContainer" style="height: 65%; width: 100%;"></div>
 					<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> 

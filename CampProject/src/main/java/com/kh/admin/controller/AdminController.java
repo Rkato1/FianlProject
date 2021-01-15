@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.admin.model.vo.CampVOPageData;
+import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
 import com.kh.admin.service.AdminService;
@@ -95,20 +97,34 @@ public class AdminController {
 	@RequestMapping("/salesAdmin.do")
 	public String salesAdmin(Model model, HttpSession session, int campNo, int year) {
 		isAdmin = isAdmin(session);
-		if(isAdmin) {
+		if(isAdmin) {			
 			ArrayList<Integer> numList = service.getNumList();
+			ArrayList<String> nameList = service.nameList(numList);
+			ArrayList<ChartBasicData> dataList = new ArrayList<ChartBasicData>();
+			for(int i=0; i<numList.size(); i++) {
+				dataList.add(new ChartBasicData(numList.get(i), nameList.get(i)));
+			}
+			String campName="";			
 			if(campNo==0) {
-				campNo = numList.get(0);
+				campNo = dataList.get(0).getCampNo();
+				campName = dataList.get(0).getCampName();
+			}else {
+				for(ChartBasicData cbd : dataList) {
+					if(cbd.getCampNo()==campNo) {
+						campName = cbd.getCampName();
+					}
+				}
 			}
 			if(year==0) {
 				//원래는 달력기준 올해로 설정해야함
 				year = 2021;
 			}
-			ArrayList<String> nameList = service.nameList(numList);
+			
 			List<List<Map<Object, Object>>> list = service.getCanvasjsChartData(campNo, year);
 			model.addAttribute("dataPointsList", list);
-			model.addAttribute("numList", numList);
-			model.addAttribute("nameList", nameList);
+			model.addAttribute("list", dataList);			
+			model.addAttribute("campName", campName);
+			model.addAttribute("year", year);
 			return "admin/salesAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");

@@ -90,4 +90,15 @@
   		substr(check_in_date,1,4)=#{year} and
   		camp_no=#{campNo}
   </select>
+  
+  <select id="selectReviewListNum" resultType="_int">
+  	select DISTINCT camp_no
+  	from review
+  </select>
+  
+  <select id="selectReviewPointChart" resultType="_float">
+  	select avg(review_point)
+  	from review where camp_no=#{_parameter}
+  </select>
+  
 </mapper>

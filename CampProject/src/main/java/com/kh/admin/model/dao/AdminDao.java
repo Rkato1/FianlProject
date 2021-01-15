@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.admin.model.vo.CanvasjsChartData;
+import com.kh.admin.model.vo.CanvasjsStickChartData;
+import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
@@ -70,6 +72,7 @@ public class AdminDao {
 			if(saleList.size()!=0) {
 				int monthSale=0;
 				for(ReserveVO r : saleList) {
+					//예약완료로 바뀌게 된다면 꼭 수정해야될 부분
 					if(r.getReserveStatus().equals("예약중")) {
 						monthSale+=r.getReservePrice();
 					}
@@ -79,15 +82,20 @@ public class AdminDao {
 				monthSales.add(0);
 			}
 		}
-		//기존
-		//return CanvasjsChartData.getCanvasjsDataList();
-		//변경
-		//return CanvasjsChartData.getCanvasjsDataList(monthArray, monthSales);
 		return CanvasjsChartData.getCanvasjsDataList(monthArray, monthSales);
 	}
 
 	public List<List<Map<Object, Object>>> getCanvasjsStickChartData() {
-		return CanvasjsStickChartData.getCanvasjsDataList();
+		List<Integer> campNoList = sqlSession.selectList("selectReviewListNum");
+		ArrayList<Float> reviewPointList = new ArrayList<Float>();
+		ArrayList<String> campNameList = new ArrayList<String>();
+		for(int i : campNoList) {
+			Float reviewPoint = sqlSession.selectOne("selectReviewPointChart",i);
+			reviewPointList.add(reviewPoint);
+			String campName = sqlSession.selectOne("selectSalesListName", i);
+			campNameList.add(campName);
+		}
+		return CanvasjsStickChartData.getCanvasjsDataList(campNameList, reviewPointList);
 	}
 	public ArrayList<Integer> getNumList() {
 		List<Integer> numList = sqlSession.selectList("selectSalesListNum");

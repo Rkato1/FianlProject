@@ -24,12 +24,11 @@ public class CanvasjsChartData {
 			map.put("y", monthSales.get(i));
 			//System.out.println("y값 = "+monthSales.get(i));
 			dataPoints1.add(map);
-			System.out.println(i+"번째 반복");
+//			System.out.println(i+"번째 반복");
 		}
 		list.add(dataPoints1);
-		//이부분 중복이 되는데 위에  null값넣던지 처리
-		System.out.println("크기 = "+list.size());
-		System.out.println("배열 = "+list);
+//		System.out.println("크기 = "+list.size());
+//		System.out.println("배열 = "+list);
 		return list;
 	} 
 }

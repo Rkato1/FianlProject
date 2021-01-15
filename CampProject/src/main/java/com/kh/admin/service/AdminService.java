@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.admin.model.dao.AdminDao;
 import com.kh.admin.model.vo.CampVOPageData;
+import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
 import com.kh.camp.model.vo.CampVO;
