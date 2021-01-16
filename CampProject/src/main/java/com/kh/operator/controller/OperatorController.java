@@ -74,13 +74,9 @@ private boolean isOperator = false;
 				CampNoticePageData cnpd = service.selectCampNoticeList(c,reqPage);
 				model.addAttribute("camp",camp);
 				model.addAttribute("cnList", cnpd.getList());
-				for(CampNoticeVO cn: cnpd.getList()) {
-					System.out.println(cn.getCampNoticeTitle());
-				}
-				System.out.println();
 				model.addAttribute("pageNavi", cnpd.getPageNavi());
 			}
-			return "operator/opNoticeList";
+			return "operator/opCampNoticeList";
 		}else {
 			model.addAttribute("msg", "캠핑장 사업자가 아닙니다.");
 			model.addAttribute("loc", "/");
@@ -91,12 +87,17 @@ private boolean isOperator = false;
 	public String campNoticeView(CampNoticeVO cn,Model model) {
 		CampNoticeVO cNotice = service.selectCampNotice(cn);
 		model.addAttribute("cNotice",cNotice);
-		return "operator/opNoticeView";
+		return "operator/opCampNoticeView";
 	}
 	@RequestMapping("/campNoticeForm.do")
 	public String opNoticeForm(Model model,int campNo) {
 		model.addAttribute("campNo",campNo);
-		return "operator/opNoticeForm";
+		return "operator/campNoticeForm";
+	}
+	@RequestMapping("/campNoticeUpdateForm.do")
+	private String campNoticeUpdateForm(CampNoticeVO cn,Model model) {
+		model.addAttribute("cNotice",cn);
+		return "operator/campNoticeUpdateForm";
 	}
 	@RequestMapping("/insertCampNotice.do")
 	private String insertCampNotice(HttpSession session,CampNoticeVO cn,Model model) {
@@ -129,7 +130,7 @@ private boolean isOperator = false;
 		}else {
 			model.addAttribute("msg", "삭제 실패");
 		}
-		model.addAttribute("loc", "/redirect:opNoticeList.do?campNo="+cn.getCampNo()+"&reqPage=1");
+		model.addAttribute("loc", "/opNoticeList.do?campNo="+cn.getCampNo()+"&reqPage=1");
 		return "common/msg";
 	}
 	

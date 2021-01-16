@@ -45,9 +45,16 @@
 		  		</if> 
 		  	</trim>
 	</select>
+	<insert id="insertCampNotice" parameterType="cNotice">
+		insert into camp_notice
+		values(camp_notice_seq.nextval,#{campNo},#{campNoticeTitle},#{campNoticeWriter},#{campNoticeContent},to_char(sysdate,'yyyy-mm-dd'))
+	</insert>
 	<update id="updateCampNotice" parameterType="cNotice">
 		update camp_notice
 		set camp_notice_title=#{campNoticeTitle},camp_notice_content=#{campNoticeContent}
 		where camp_notice_no=#{campNoticeNo}
 	</update>
+	<delete id="deleteCampNotice" parameterType="cNotice">
+		delete from camp_notice where camp_notice_no=#{campNoticeNo}
+	</delete>
 </mapper>

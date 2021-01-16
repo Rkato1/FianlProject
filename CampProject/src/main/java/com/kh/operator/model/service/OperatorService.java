@@ -76,7 +76,7 @@ public class OperatorService {
 				
 				//이전 버튼
 				if(pageNo != 1) {
-					pageNavi += "<a class='btn btn-outline-dark btn-sm' href='opNoticeList.do?reqPage="+(pageNo-1)+"'>이전</a>&nbsp;";
+					pageNavi += "<a class='btn btn-outline-dark btn-sm' href='opNoticeList.do?campNo="+c.getCampNo()+"&reqPage="+(pageNo-1)+"'>이전</a>&nbsp;";
 				}
 				
 				//숫자 버튼
@@ -84,7 +84,7 @@ public class OperatorService {
 					//현재페이지는 다시 안눌리게하는 조건
 					if(pageNo != reqPage) {
 						//<a href='/noticeList.do?reqPage=1'>1</a>
-						pageNavi += "<a class='btn btn-outline-dark btn-sm' href='opNoticeList.do?reqPage="+pageNo+"'>"+pageNo+"</a>&nbsp;";
+						pageNavi += "<a class='btn btn-outline-dark btn-sm' href='opNoticeList.do?campNo="+c.getCampNo()+"&reqPage="+pageNo+"'>"+pageNo+"</a>&nbsp;";
 					} else {
 						pageNavi += "<span class='btn btn-dark btn-sm'>"+pageNo+"</span>&nbsp;";
 					}
@@ -100,7 +100,7 @@ public class OperatorService {
 				
 				//다음 버튼
 				if(pageNo <= totalPage) {
-					pageNavi += "<a class='btn btn-outline-dark btn-sm' href='opNoticeList.do?reqPage="+pageNo+"'>다음</a>";
+					pageNavi += "<a class='btn btn-outline-dark btn-sm' href='opNoticeList.do?campNo="+c.getCampNo()+"&reqPage="+pageNo+"'>다음</a>";
 				}
 				
 				CampNoticePageData cnpd = new CampNoticePageData(list, pageNavi);

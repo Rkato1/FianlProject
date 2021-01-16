@@ -11,7 +11,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/operator/opHeader.jsp" />
 	<section>
-	 <div>
+		<div>
             <h2>공지사항 조회</h2>
             <hr>
             <div><a href="/opNoticeList.do?campNo=${cNotice.campNo}&reqPage=1" style="text-decoration: none;">목록으로</a></div>
@@ -28,15 +28,15 @@
                     <tr>
                     	<th>내용</th>
                     	<td colspan="3">
-                    		<div style="width:100% ;height:200px;">${cNotice.campNoticeContent }</div>
+                    		<div style="width:100% ;height:200px;white-space:pre;">${cNotice.campNoticeContent }</div>
                     	</td>
                     </tr>
                 </table>
              </form>
                 <div class="btn-div">
                 	<c:if test="${sessionScope.m.memberId eq cNotice.campNoticeWriter }">
-	                	<button class="btn-update" href="/updateCampNotice.do?campNoticeNo=${cNotice.campNoticeNo}&campNo=${cNotice.campNo}">수정</button>
-	                	<button class="btn-delete" href="/deleteCampNotice.do?campNoticeNo=${cNotice.campNoticeNo}&campNo=${cNotice.campNo}">삭제</button>
+	                	<button class="btn-update" onclick="location.href='/campNoticeUpdateForm.do?campNoticeNo=${cNotice.campNoticeNo}&campNo=${cNotice.campNo}'">수정</button>
+	                	<button class="btn-delete" onclick="location.href='/deleteCampNotice.do?campNoticeNo=${cNotice.campNoticeNo}&campNo=${cNotice.campNo}'">삭제</button>
                 	</c:if>
                 </div>
         </div>
