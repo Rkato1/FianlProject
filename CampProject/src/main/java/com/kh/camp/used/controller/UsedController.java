@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,7 +47,6 @@ public class UsedController {
 	public String usedEnroll() {
 		return "used/usedEnroll";
 	}
-	
 	@RequestMapping("/usedEnrollEnd.do")
 	public String usedEnrollOk(UsedVO usedVO, Model model, MultipartFile[] files, HttpServletRequest request) {	
 		String root = request.getSession().getServletContext().getRealPath("/");   //MultipartFile 은 input 타입의 네임과 같아야한다.(400뜸)
@@ -93,4 +93,12 @@ public class UsedController {
 		model.addAttribute("loc", "/usedPage.do?reqPage=1");
 		return "common/msg";
 	}
+//	//검색기능을 구현 컨트롤
+//	@RequestMapping("/searchKeyword.do")
+//	public String searchKeyword (String searchKeyword) {
+//		UsedVO keyword = service.keyword(searchKeyword);
+//		
+//		return "used/usedPage.do";
+//	}
+	
 }

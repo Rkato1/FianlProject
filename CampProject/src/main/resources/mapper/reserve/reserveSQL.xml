@@ -5,18 +5,130 @@
 		select rownum as rnum, n.*
 		from
 		(select
-			reserve_no as reserveNo,
-			member_no as memberNo,
-			camp_no as campNo,
-			check_in_date as checkInDate,
-			check_out_date as checkOutDate,
-			reserve_status as reserveStatus,
-			reserve_place as reservePlace,
-			reserve_price as reservePrice,
-			reserve_pw as reservePw,
-			car_number as carNumber,
-			reserve_memo as reserveMeno
+		reserve_no as reserveNo,
+		member_no as memberNo,
+		camp_no as
+		campNo,
+		check_in_date as checkInDate,
+		check_out_date as checkOutDate,
+		reserve_status as reserveStatus,
+		reserve_place as reservePlace,
+		reserve_price as reservePrice,
+		reserve_pw as reservePw,
+		car_number as
+		carNumber,
+		reserve_memo as reserveMeno
 		from reservation order by 1 desc)
 		n
+	</select>
+	<select id="selectSitePriceList" parameterType="camp"
+		resultType="site">
+		select distinct
+		site_title as siteTitle,
+		discount_pay as
+		discountPay,
+		low_day_pay as lowDayPay,
+		low_end_pay as lowEndPay,
+		peak_day_pay as peakDayPay,
+		peak_end_pay as peakEndPay,
+		polar_day_pay as
+		polarDayPay,
+		polar_end_pay as polarEndPay
+		from site where
+		camp_no=#{campNo}
+	</select>
+
+	<select id="selectSiteList" parameterType="map"
+		resultType="site">
+		select
+		site_name as siteName,
+		MAX(member_no) as memberNo
+		FROM site
+		where (camp_no=#{campNo} and reserve_date = #{date}) or (camp_no=#{campNo}
+		and reserve_date = '0000-00-00')
+		GROUP BY site_name
+		order by site_name
+	</select>
+	<select id="selectOneSite" parameterType="site"
+		resultType="site">
+		select
+		site_no as siteNo,
+		camp_no as campNo,
+		site_title as siteTitle,
+		site_name as siteName,
+		min_cnt as minCnt,
+		max_cnt as maxCnt,
+		min_night as minNight,
+		max_night as maxNight,
+		discount_pay as discountPay,
+		add_cnt_pay as addCntPay,
+		add_car_pay as addCarPay,
+		using_cnt as usingCnt,
+		using_pay as usingPay,
+		using_night as usingNight,
+		add_car_day as addCarDay,
+		add_car_cnt as addCarCnt,
+		member_no as memberNo,
+		reserve_pay as reservePay,
+		reserve_date as reserveDate,
+		low_day_pay as lowDayPay,
+		low_end_pay as lowEndPay,
+		peak_day_pay as peakDayPay,
+		peak_end_pay as peakEndPay,
+		polar_day_pay as polarDayPay,
+		polar_end_pay as polarEndPay
+		from site
+		where site_name = #{siteName} and camp_no = #{campNo} and member_no = #{memberNo} and reserve_date = #{reserveDate}			
+	</select>
+
+	<select id="selectSiteReserveList" parameterType="map"
+		resultType="site">
+		select site_name as siteName,
+		siteTitle,
+		minCnt,
+		maxCnt,
+		usingPay,
+		discountPay,
+		addCntPay,
+		minNight,
+		maxNight,
+		usingCnt,
+		memberNo,
+		reserveDate,
+		lowDayPay,
+		lowEndPay,
+		peakDayPay,
+		peakEndPay,
+		polarDayPay,
+		polarEndPay
+		from (select
+		distinct(n.site_name),
+		site_title as siteTitle,
+		min_cnt as minCnt,
+		max_cnt as maxCnt,
+		using_pay as usingPay,
+		discount_pay as discountPay,
+		add_cnt_pay as addCntPay,
+		min_night as minNight,
+		max_night as maxNight,
+		using_cnt as usingCnt,
+		memberNo,
+		reserve_date as reserveDate,
+		low_day_pay as lowDayPay,
+		low_end_pay as lowEndPay,
+		peak_day_pay as peakDayPay,
+		peak_end_pay as peakEndPay,
+		polar_day_pay as polarDayPay,
+		polar_end_pay as polarEndPay
+		from site,
+		(SELECT
+		site_name,
+		MAX(member_no) as memberNo
+		FROM site
+		where camp_no=#{campNo}
+		GROUP BY site_name
+		)n
+		where camp_no=#{campNo} and reserve_date = #{date}
+		order by site_name)
 	</select>
 </mapper>

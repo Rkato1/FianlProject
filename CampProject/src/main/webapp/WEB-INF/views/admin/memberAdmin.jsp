@@ -14,51 +14,42 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/css/admin/admin.css">
-<script>
-    $(function() {
-        $(".menu li>a").hover(function() {
-            $(this).parent().css('background-color', '#d0b0b1');
-        }, function() {
-            $(this).parent().css('background-color', '#cccccc');
-        });
-    });
-</script>
+<script src="/js/admin/admin.js"></script>
 <body>
     <div class="admin-wrap">
         <!--화면 좌측-->
         <jsp:include page="sideMenu.jsp"/>        
         <!--화면 우측-->
         <div class="admin-content">
-            <div class="div2"></div>
             <div class="real-content">
                 <div class="members">
                     <p class="title">전체사용자정보</p>
                    
                     <table class="table table-hover">
                         <tr class="contentsLine">
-                            <th class="short">번호</th>
-                            <th class="short">이름</th>
-                            <th class="long">전화번호</th>
-                            <th class="middle">ID</th>
-                            <th class="short">PW</th>
-                            <th class="long">EMAIL</th>
-                            <th class="long">등록날짜</th>
+                            <th>번호</th>
+                            <th>이름</th>
+                            <th>전화번호</th>
+                            <th>ID</th>
+                            <th>PW</th>
+                            <th>EMAIL</th>
+                            <th>등록날짜</th>
                         </tr>
+						<c:forEach items="${list }" var="m">
 						<tr>
-						<!--c태그써서 작 성 하 기 -->
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
+                        	<td>${m.memberNo }</td>
+                        	<td>${m.memberName }</td>
+                        	<td>${m.memberPhone }</td>
+                        	<td>${m.memberId }</td>
+                        	<td>${m.memberPw }</td>
+                        	<td>${m.memberEmail }</td>
+                        	<td>${m.memberRegDate }</td>
                        	</tr>
+                       	</c:forEach>
                     </table>
-                    <div id= "pageNavi"></div>
+                    <div id= "pageNavi">${pageNavi }</div>
                 </div>
             </div>
-            <div class="div2"></div>
         </div>
 
     </div> 

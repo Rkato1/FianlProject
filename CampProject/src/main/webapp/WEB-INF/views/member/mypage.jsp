@@ -3,13 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <!-- Google Fonts-->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
 
     <style>
         * {
@@ -126,7 +127,7 @@
 
         /*수정하기 버튼*/
         input[type='submit'] {
-            width: 280px;
+            width: 220px;
             height: 50px;
             border-radius: 5px;
             outline: none;
@@ -271,7 +272,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;">
-                            <span class="delete">정말로 탈퇴하시겠어요? <a href="/deleteMember.do?memberNo=${m.memberNo }">회원탈퇴</a></span>
+                            <span class="delete">정말로 탈퇴하시겠어요? <a href="javascript:void(0)" onclick="deleteMember(${m.memberNo })">회원탈퇴</a></span>
                         </td>
                     </tr>
                 </table>
@@ -283,19 +284,21 @@
         	<table class="table table-bordered data-table">
             	<thead>
                 	<tr>
-                    	<th>예약일자</th>
-                        <th>캠핑장</th>
+                    	<th>캠핑장</th>
+                        <th>체크인 - 체크아웃</th>
                         <th>금액</th>
                         <th>상태</th>
                     </tr>
                 </thead>
                 <tbody>
+                	<c:forEach items="${listRes }" var="res">
                 	<tr>
-                    	<td>2020-12-30</td>
-                        <td>충남 맑은 하늘 캠핑장</td>
-                        <td>200.000원</td>
-                        <td id="state">이용완료</td>
+                    	<td>${res.campName }</td>
+                        <td>${res.checkInDate } - ${res.checkOutDate }</td>
+                        <td>${res.reservePrice }</td>
+                        <td id="state">${res.reserveStatus }</td>
                     </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -340,18 +343,18 @@
         	<table class="table table-bordered data-table">
             	<thead>
                 	<tr>
-                    	<th>거래일자</th>
-                        <th>캠핑장</th>
-                        <th>거래</th>
-                        <th>거래</th>
+                    	<th>제목(상품명)</th>
+                    	<th>카테고리</th>
+                        <th>상품가격</th>
+                        <th>작성일</th>
                     </tr>
                 </thead>
                 <tbody>
                 	<tr>
-                    	<td>2020-12-30</td>
-                        <td>충남 맑은 하늘 캠핑장</td>
-                        <td>200.000원</td>
-                        <td id="state">이용완료</td>
+                    	<td>~~~</td>
+                        <td>~~~</td>
+                        <td>~~~</td>
+                        <td>~~~</td>
                     </tr>
                 </tbody>
             </table>
@@ -413,7 +416,14 @@
             
             //Submit 버튼
             $("#updateBtn").click(function(event) {
-                if (regChk < 3) {
+                var regChk = 0;
+                for (var i = 0; i < check.length; i++) {
+                    if (check[i] == true) {
+                        regChk++;
+                    }
+                }
+                
+            	if (regChk < 3) {
                     alert("입력한 정보를 확인해주세요.");
                     event.preventDefault();
                 } 
@@ -430,6 +440,13 @@
         	$(".select").hide();
         	$(".select").eq(idx).show();
         });
+        
+    	//회원 탈퇴 버튼 클릭 했을 때
+    	function deleteMember(memberNo) {
+    		if(confirm("탈퇴 후에는 회원 정보를 복구할 수 없습니다. 정말 탈퇴하시겠어요?")) {
+    			location.href="/deleteMember.do?memberNo="+memberNo;
+    		}
+    	}
     </script>
 
 </body>
