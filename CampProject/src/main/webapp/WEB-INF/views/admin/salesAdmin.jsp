@@ -14,50 +14,102 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/css/admin/admin.css">
-<script>
-    $(function() {
-        $(".menu li>a").hover(function() {
-            $(this).parent().css('background-color', '#d0b0b1');
-        }, function() {
-            $(this).parent().css('background-color', '#cccccc');
-        });
-    });
+<script src="/js/admin/admin.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		var f = new FontFace('jua', 'url(/css/admin/BMJUA_ttf.ttf)'); 
+		var dps = [[]];
+		var chart = new CanvasJS.Chart("chartContainer", {
+			theme: "dark1", // "light1", "dark1", "dark2"
+			animationEnabled: true,
+			title: {
+				fontFamily: "jua",
+				text: "${year}년 ${campName} 매출"
+			},
+			axisX: {
+				//글자 포맷
+				//valueFormatString: "MMM"
+				//valueFormatString: "string"		
+				labelFontFamily: "jua",
+				titleFontFamily: "jua",
+				valueFormatString: "# 월"
+			},
+			axisY: {
+				labelFontFamily: "jua",
+				titleFontFamily: "jua",
+				title: "y축 제목",
+				includeZero: true,
+				suffix: " 원"
+			},
+			toolTip: {
+				fontFamily: "jua",
+				content: "{x} : {y}"
+			},
+			//legend항목 넣어서 어떤색이 뭔지 표시할수도있음
+			data: [{
+				//차트의 종류
+				type: "line",
+				//x축 값의 형식
+				//xValueType: "dateTime",
+				//x축 값의 글자 포맷(hover시 보여주기)
+				//xValueFormatString: "MMM",
+				xValueFormatString: "# 월",
+				//y축 값의 글자 포맷(hover시 보여주기)
+				yValueFormatString: "#,### 원",
+				dataPoints: dps[0]
+			}]
+		});
+		
+		var xValue;
+		var yValue;
+		 
+		<c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">
+		//datapoint->map
+		//datapoints->dataPoints1
+		//dataPointsList->list
+			<c:forEach items="${dataPoints}" var="dataPoint">
+				xValue = parseInt("${dataPoint.x}");
+				yValue = parseFloat("${dataPoint.y}");
+				dps[parseInt("${loop.index}")].push({
+					x : xValue,
+					y : yValue
+				});
+			</c:forEach>
+		</c:forEach>
+		chart.render();
+	}
+			
+	function setValues(){		
+		var campNo = $("#campNoVal option:selected").val();
+		var year = $("#yearVal option:selected").html();
+		location.href="/admin/salesAdmin.do?campNo="+campNo+"&year="+year;		
+	}
+
 </script>
 <body>
     <div class="admin-wrap">
         <!--화면 좌측-->
-        <jsp:include page="sideMenu.jsp"/>        
+        <jsp:include page="sideMenu.jsp"/>
         <!--화면 우측-->
         <div class="admin-content">
-            <div class="div2"></div>
             <div class="real-content">
                 <div class="members">
+                	<select id="campNoVal" onchange="">
+                		<c:forEach items="${list }" var="data">
+                			<option value="${data.campNo }">${data.campName}</option>
+                		</c:forEach>
+                	</select>
+                	<!-- 이부분도 조회해서 조회된 년도만 뜨게 만들수 있음 -->
+                	<select id="yearVal" onchange="">
+                		<option>2020</option>
+                		<option>2021</option>                		
+                	</select>
+                	<button id="okBtn" onclick="setValues()">조회</button>
                     <p class="title">매출관련정보</p>
-                   
-                    <!-- table class="table table-hover">
-                        <tr class="contentsLine">
-                            <th class="short">번호</th>
-                            <th class="short">이름</th>
-                            <th class="long">전화번호</th>
-                            <th class="middle">ID</th>
-                            <th class="short">PW</th>
-                            <th class="long">EMAIL</th>
-                            <th class="long">등록날짜</th>
-                        </tr>
-						<tr>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                        	<td></td>
-                       	</tr>
-                    </table>
-                    <div id= "pageNavi"></div-->
+                    <div id="chartContainer" style="height: 65%; width: 100%;"></div>
+					<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> 
                 </div>
             </div>
-            <div class="div2"></div>
         </div>
 
     </div> 

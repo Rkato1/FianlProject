@@ -1,13 +1,21 @@
 package com.kh.admin.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.admin.model.vo.CampVOPageData;
+import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.admin.model.vo.MemberVOPageData;
+import com.kh.admin.model.vo.ReserveVOPageData;
 import com.kh.admin.service.AdminService;
 import com.kh.member.model.vo.MemberVO;
 
@@ -57,9 +65,12 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/businessAdmin.do")
-	public String businessAdmin(Model model, HttpSession session) {
+	public String businessAdmin(Model model, HttpSession session, int reqPage) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
+			CampVOPageData cpd = service.selectAllBusiness(reqPage);
+			model.addAttribute("list",cpd.getList());
+			model.addAttribute("pageNavi",cpd.getPageNavi());
 			return "admin/businessAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
@@ -69,9 +80,12 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/reserveAdmin.do")
-	public String reserveAdmin(Model model, HttpSession session) {
+	public String reserveAdmin(Model model, HttpSession session, int reqPage) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
+			ReserveVOPageData rpd = service.selectAllReserve(reqPage);
+			model.addAttribute("list",rpd.getList());
+			model.addAttribute("pageNavi",rpd.getPageNavi());
 			return "admin/reserveAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
@@ -81,9 +95,36 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/salesAdmin.do")
-	public String salesAdmin(Model model, HttpSession session) {
+	public String salesAdmin(Model model, HttpSession session, int campNo, int year) {
 		isAdmin = isAdmin(session);
-		if(isAdmin) {
+		if(isAdmin) {			
+			ArrayList<Integer> numList = service.getNumList();
+			ArrayList<String> nameList = service.nameList(numList);
+			ArrayList<ChartBasicData> dataList = new ArrayList<ChartBasicData>();
+			for(int i=0; i<numList.size(); i++) {
+				dataList.add(new ChartBasicData(numList.get(i), nameList.get(i)));
+			}
+			String campName="";			
+			if(campNo==0) {
+				campNo = dataList.get(0).getCampNo();
+				campName = dataList.get(0).getCampName();
+			}else {
+				for(ChartBasicData cbd : dataList) {
+					if(cbd.getCampNo()==campNo) {
+						campName = cbd.getCampName();
+					}
+				}
+			}
+			if(year==0) {
+				//원래는 달력기준 올해로 설정해야함
+				year = 2021;
+			}
+			
+			List<List<Map<Object, Object>>> list = service.getCanvasjsChartData(campNo, year);
+			model.addAttribute("dataPointsList", list);
+			model.addAttribute("list", dataList);			
+			model.addAttribute("campName", campName);
+			model.addAttribute("year", year);
 			return "admin/salesAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
@@ -96,6 +137,8 @@ public class AdminController {
 	public String greatcampAdmin(Model model, HttpSession session) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
+			List<List<Map<Object, Object>>> list = service.getCanvasjsStickChartData();
+			model.addAttribute("dataPointsList", list);
 			return "admin/greatcampAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");

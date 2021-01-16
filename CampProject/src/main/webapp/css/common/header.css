@@ -30,7 +30,9 @@
 
         .header-wrap {
             /*border-bottom: 2px solid #f49b00;*/
-            background-color: #fafafa;
+            /*background-color: #fafafa;*/
+            box-shadow: 0px 5px 20px 0px #f2f2f2;
+            /*가로 세로 흐릿 퍼짐 색깔*/
         }
         
         /*---------------------------------------*/
@@ -75,12 +77,18 @@
             margin-bottom: 30px;
         }
 
-        .logo-text {
+        .logo-text-left {
             font-family: 'Russo One';
             font-size: 85px;
             float: left;
-            padding-left: 15px;
             padding-right: 15px;
+        }
+        
+        .logo-text-right {
+            font-family: 'Russo One';
+            font-size: 85px;
+            float: left;
+            padding-left: 20px;
         }
 
         .logo-img {

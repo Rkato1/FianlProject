@@ -3,15 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <!-- Google Fonts -->
-<html lang="kr">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 <!-- jQuery -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 
-<meta charset="UTF-8">
-<title>Insert title here</title>
     <style>
         * {
             font-family: 'Noto Sans KR';
@@ -233,7 +232,7 @@
         $(function() {
             //입력양식 확인 check배열 생성
             var check = [false, false, false, false, false];
-
+			
             //아이디 확인 및 중복체크
             $("#memberId").change(function() {
                 var memberId = $(this).val();

@@ -14,5 +14,5 @@ public class MemberVOPageData {
 		super();
 		this.list = list;
 		this.pageNavi = pageNavi;
-	}	
+	}
 }
