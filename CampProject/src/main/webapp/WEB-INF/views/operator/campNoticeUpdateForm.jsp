@@ -5,30 +5,39 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="../css/operator/menu_content.css" type="text/css" rel="stylesheet">
+<link href="../css/operator/opNoticeView.css" type="text/css" rel="stylesheet">
+<link href="../css/operator/opNoticeForm.css" type="text/css" rel="stylesheet">
+<link href="../css/operator/btn.css" type="text/css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/operator/opHeader.jsp" />
 	<section>
-	 <div>
-            <h2>공지사항 조회</h2>
+        <div>
+            <h2>공지사항 수정</h2>
             <hr>
-            <div><a href="/opNoticeList.do?campNo=${camp.campNo}&reqPage=1" style="text-decoration: none;">목록으로</a></div>
-            <hr>
-            <form>
-                <table border=1>
+            <form action="/updateCampNotice.do" method="get">
+                <table class="table">
+                	<input type="hidden" value="${ sessionScope.m.memberId}" name="campNoticeWriter">
+                	<input type="hidden" value="${cNotice.campNo}" name="campNo">
+                	<input type="hidden" value="${cNotice.campNoticeNo}" name="campNoticeNo">
                     <tr>
                         <th>제목</th>
-                        <td style="width: 40%">${cNotice.campNoticeTitle } </td>
-                        <th>작성일</th>
-                        <td style="width:20%"><span>${cNotice.campNoticeDate }</span></td>
+                        <td style="width: 100%"><input type="text" name="campNoticeTitle" maxlength="30" style="height: 100%; width: 95%;" value="${cNotice.campNoticeTitle }"></td>
+                    </tr>
+                     <tr>
+                    	<th>내용</th>
+                    	<td colspan="3">
+                    		<div style="width:100% ;height:200px;"><textarea name="campNoticeContent" onKeyUp="javascript:fnChkByte(this,'2100')">${cNotice.campNoticeContent }</textarea></div>
+                    	</td>
                     </tr>
                 </table>
-                <h3>내용</h3>
-                <div style="width:100% ;height:200px;">${cNotice.campNoticeContent }</div>
-                <div style="height: 100px;text-align: center;"><button>수정하기</button></div>
+                 <div div class="btn-div">
+                	<input class="btn-submit" type="submit" value="수정완료">
+                 	<button class="btn-cancel" type="button" onclick="location.href='opNoticeList.do?campNo=${cNotice.campNo}&reqPage=1'">취소</button>
+                 </div>
             </form>
         </div>
-	</section>
-	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    </section>
 </body>
 </html>

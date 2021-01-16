@@ -8,6 +8,7 @@
 <link href="../css/operator/menu_content.css" type="text/css" rel="stylesheet">
 <link href="../css/operator/opNoticeView.css" type="text/css" rel="stylesheet">
 <link href="../css/operator/opNoticeForm.css" type="text/css" rel="stylesheet">
+<link href="../css/operator/btn.css" type="text/css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/operator/opHeader.jsp" />
@@ -33,8 +34,8 @@
                     </tr>
                 </table>
                  <div div class="btn-div">
-                	<input type="submit" value="등록완료">
-                 	<button type="button" onclick="location.href='opNoticeList.do?campNo=${campNo}&reqPage=1'">취소</button>
+                	<input class="btn-submit" type="submit" value="등록완료">
+                 	<button class="btn-cancel" type="button" onclick="location.href='opNoticeList.do?campNo=${campNo}&reqPage=1'">취소</button>
                  </div>
             </form>
         </div>

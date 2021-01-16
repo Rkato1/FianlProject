@@ -1,5 +1,7 @@
 @charset "UTF-8";
-
+* {
+        font-family: 'Noto Sans KR';
+    }
 section {
 	overflow: hidden;
 }
@@ -12,20 +14,6 @@ sectino>div:first-child {
 section>div:last-child {
 	width: 75%;
 	margin: 0 auto;
-}
-.btn-div{
-	width:100%;
-	text-align: center;
-	margin-top: 30px;
-	margin-bottom: 30px;	
-}
-.btn-update,.btn-delete {
-	margin: 20px;
-	width: 100px;
-	height: 40px;
-	border: none;
-	border-radius: 3px;
-	background-color: rgb(250, 220, 0);
 }
 
 form {

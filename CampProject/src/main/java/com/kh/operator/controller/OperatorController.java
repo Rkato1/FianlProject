@@ -96,7 +96,8 @@ private boolean isOperator = false;
 	}
 	@RequestMapping("/campNoticeUpdateForm.do")
 	private String campNoticeUpdateForm(CampNoticeVO cn,Model model) {
-		model.addAttribute("cNotice",cn);
+		CampNoticeVO cNotice = service.selectCampNotice(cn);
+		model.addAttribute("cNotice",cNotice);
 		return "operator/campNoticeUpdateForm";
 	}
 	@RequestMapping("/insertCampNotice.do")

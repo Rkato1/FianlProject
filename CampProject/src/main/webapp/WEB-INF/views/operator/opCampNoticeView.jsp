@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="../css/operator/opNoticeView.css" type="text/css" rel="stylesheet">
+<link href="../css/operator/btn.css" type="text/css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/operator/opHeader.jsp" />
