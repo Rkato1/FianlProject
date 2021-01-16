@@ -45,4 +45,9 @@
 		  		</if> 
 		  	</trim>
 	</select>
+	<update id="updateCampNotice" parameterType="cNotice">
+		update camp_notice
+		set camp_notice_title=#{campNoticeTitle},camp_notice_content=#{campNoticeContent}
+		where camp_notice_no=#{campNoticeNo}
+	</update>
 </mapper>

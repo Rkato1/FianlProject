@@ -42,7 +42,7 @@ public class OperatorService {
 	public CampNoticePageData selectCampNoticeList(CampVO c,int reqPage) {
 		//1. 게시물 구해오기
 				//1-1. 한 페이지의 게시물 수 : 10개 설정
-				int numPerPage = 10;
+				int numPerPage = 5;
 				
 				//1-2. start / end
 				int end = reqPage*numPerPage;
@@ -116,4 +116,15 @@ public class OperatorService {
 		int result = dao.insertCampNotice(cn);
 		return result;
 	}
+
+	public int updateCampNotice(CampNoticeVO cn) {
+		int result =  dao.updateCampNotice(cn);
+		return result;
+	}
+
+	public int deleteCampNotice(CampNoticeVO cn) {
+		int result = dao.deleteCampNotice(cn);
+		return result;
+	}
+	
 }

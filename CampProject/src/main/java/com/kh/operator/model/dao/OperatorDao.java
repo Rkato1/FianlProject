@@ -41,5 +41,11 @@ public class OperatorDao {
 	public int insertCampNotice(CampNoticeVO cn) {
 		return sqlSession.insert("campNotice.insertCampNotice", cn);
 	}
+	public int updateCampNotice(CampNoticeVO cn) {
+		return sqlSession.update("campNotice.updateCampNotice", cn);
+	}
+	public int deleteCampNotice(CampNoticeVO cn) {
+		return sqlSession.delete("campNotice.deleteCampNotice",cn);
+	}
 
 }

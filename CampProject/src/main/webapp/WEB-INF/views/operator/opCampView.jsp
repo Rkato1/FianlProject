@@ -14,7 +14,7 @@
 	<section>
         <div>
             <div>
-                <h2>${camp.campName }</h2>
+                <h2>${camp.campName }<a href="/deleteCamp.do?&campNo=${camp.campNo }"></a></h2>
             </div>
             <hr>
             <div id="menu">

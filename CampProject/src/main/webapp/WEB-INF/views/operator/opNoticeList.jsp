@@ -21,15 +21,15 @@
 			<hr>
 			<div id="menu">
 				<ul>
-					<li style="border-bottom: 4px solid rgb(250, 220, 0);">캠핑장정보</li>
+					<li>캠핑장정보</li>
 					<ul>
 						<a href="/opCampView.do?campNo=${camp.campNo}">
-							<li style="border-bottom: 4px solid rgb(250, 220, 0);">캠핑장소개</li>
+							<li>캠핑장소개</li>
 						</a>
 						<a href="/opCampSite"><li>구역 안내</li></a>
 					</ul>
 					<a href="/opReservation.do"><li>예약현황</li></a>
-					<a href="opNoticeList.do?campNo=${camp.campNo}"><li>공지사항</li></a>
+					<a href="opNoticeList.do?campNo=${camp.campNo}&reqPage=1" style="border-bottom: 4px solid rgb(250, 220, 0);"><li>공지사항</li></a>
 					<a href="/opReview.do"><li>리뷰관리</li></a>
 				</ul>
 			</div>
@@ -37,29 +37,28 @@
 				<h4>공지사항</h4>
 				<div class="inputBar">
 					<c:if test="${sessionScope.m.memberNo == camp.memberNo }">
-						<div class="writeBox">
-							<button type="button" class="btn" id="writeBtn">
-								<a href="/opNoticeForm.do">글쓰기</a>
+						<div class="writeBox" style="margin:0 auto;width: 90%;text-align: right;">
+							<button type="button" class="btn" id="writeBtn" >
+								<a href="/campNoticeForm.do?campNo=${camp.campNo }">글쓰기</a>
 							</button>
 						</div>
 					</c:if>
 				</div>
 
-				<table style="width: 100%; text-align: center;">
+				<table  class="table table-striped" style="width: 90%; text-align: center;margin:0 auto;">
 					<thead>
 						<tr>
 							<th>번호</th>
 							<th>제목</th>
 							<th>작성일</th>
-							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${cnList }" var="n">
+						<c:forEach items="${cnList }" var="n" varStatus="status">
 							<tr>
-								<td></td>
+								<td>${status.count }</td>
 								<td>
-									<a href="/campNoticeView.do?noticeNo=${n.campNoticeNo }&campNo=${n.campNo }">
+									<a href="/campNoticeView.do?campNoticeNo=${n.campNoticeNo }&campNo=${n.campNo }">
 										${n.campNoticeTitle } </a>
 								</td>
 								<td>${n.campNoticeDate }</td>
@@ -76,5 +75,10 @@
 		</div>
 	</section>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+	<script>
+		$('#menu>ul>li').click(function(){
+	 		$(this).next().slideToggle();
+	 	});
+	</script>
 </body>
 </html>

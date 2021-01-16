@@ -19,7 +19,18 @@ import com.kh.operator.model.vo.CampNoticeVO;
 public class OperatorController {
 @Autowired
 private OperatorService service;
+private boolean isOperator = false;
+	
+	public boolean isOperator(HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("m");
+		if(member!=null&&member.getMemberGrade()==2) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
+	
 	@RequestMapping("/operatorpage.do")
 	public String operatorPage(HttpSession session,Model model) { //세션을 가져와 멤버등급이 2가아닌경우 메인페이지로 돌려보냄.
 		MemberVO member = (MemberVO) session.getAttribute("m");
@@ -37,27 +48,27 @@ private OperatorService service;
 			}
 		}else {
 			model.addAttribute("msg", "로그인 후 이용해 주시기 바랍니다.");
-			model.addAttribute("loc", "/");
+			model.addAttribute("loc", "/loginFrm.do");
 			return "common/msg";
 		}
 	}
 	@RequestMapping("/opCampView.do")
 	public String selectOneCamp(CampVO c,HttpSession session,Model model) {
-		MemberVO member = (MemberVO) session.getAttribute("m");
-		if(member!=null) {
+		isOperator = isOperator(session);
+		if(isOperator) {
 			CampVO camp = service.selectOneCamp(c);
 			model.addAttribute("camp",camp);
 			return "operator/opCampView";
 		}else {
-			model.addAttribute("msg", "로그인 후 이용해 주시기 바랍니다.");
+			model.addAttribute("msg", "캠핑장 사업자가 아닙니다.");
 			model.addAttribute("loc", "/");
 			return "common/msg";
 		}
 	}
 	@RequestMapping("/opNoticeList.do")
 	public String selectCampNoticeList(CampVO c,Model model,HttpSession session,int reqPage) {
-		MemberVO member = (MemberVO) session.getAttribute("m");
-		if(member!=null) {
+		isOperator = isOperator(session);
+		if(isOperator) {
 			CampVO camp = service.selectOneCamp(c);
 			if(camp!=null) {
 				CampNoticePageData cnpd = service.selectCampNoticeList(c,reqPage);
@@ -71,7 +82,7 @@ private OperatorService service;
 			}
 			return "operator/opNoticeList";
 		}else {
-			model.addAttribute("msg", "로그인 후 이용해 주시기 바랍니다.");
+			model.addAttribute("msg", "캠핑장 사업자가 아닙니다.");
 			model.addAttribute("loc", "/");
 			return "common/msg";
 		}
@@ -82,28 +93,44 @@ private OperatorService service;
 		model.addAttribute("cNotice",cNotice);
 		return "operator/opNoticeView";
 	}
-	@RequestMapping("/opNoticeForm.do")
-	public String opNoticeForm() {
+	@RequestMapping("/campNoticeForm.do")
+	public String opNoticeForm(Model model,int campNo) {
+		model.addAttribute("campNo",campNo);
 		return "operator/opNoticeForm";
 	}
 	@RequestMapping("/insertCampNotice.do")
-	private String insertCampNotice(CampNoticeVO cn,Model model) {
+	private String insertCampNotice(HttpSession session,CampNoticeVO cn,Model model) {
 		int result = service.insertCampNotice(cn);
 		if(result>0) {
 			model.addAttribute("msg", "등록되었습니다.");
-			model.addAttribute("loc", "/");
+		}else {
+			model.addAttribute("msg", "등록되었습니다.");
 		}
+		model.addAttribute("loc", "/opNoticeList.do?campNo="+cn.getCampNo()+"&reqPage=1");
 		return "common/msg";
 	}
-	@RequestMapping("/opNoticeUpdate")
-	public String opNoticeUpdate() {
-		return "operator/opNoticeUpdate";
+	@RequestMapping("/updateCampNotice.do")
+	public String opNoticeUpdate(CampNoticeVO cn,Model model,HttpSession session) {
+		int result = service.updateCampNotice(cn);
+		if(result>0) {
+			model.addAttribute("msg", "업데이트 성공");
+		}else {
+			model.addAttribute("msg", "업데이트 실패");
+		}
+		model.addAttribute("loc", "/campNoticeView.do?campNoticeNo="+cn.getCampNoticeNo()+"&campNo="+cn.getCampNo());
+		return "common/msg";
 	}
-//	
-//	@RequestMapping("/deleteCampNotice.do")
-//	private String deleteCampNotice(CampNoticeVO cn,Model model) {
-//		
-//		return null;
-//	}
+	
+	@RequestMapping("/deleteCampNotice.do")
+	private String deleteCampNotice(HttpSession session,CampNoticeVO cn,Model model) {
+		int result = service.deleteCampNotice(cn);
+		if(result>0) {
+			model.addAttribute("msg", "삭제 성공");
+		}else {
+			model.addAttribute("msg", "삭제 실패");
+		}
+		model.addAttribute("loc", "/redirect:opNoticeList.do?campNo="+cn.getCampNo()+"&reqPage=1");
+		return "common/msg";
+	}
 	
 }

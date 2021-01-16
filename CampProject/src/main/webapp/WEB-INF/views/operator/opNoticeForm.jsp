@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="../css/operator/menu_content.css" type="text/css" rel="stylesheet">
 <link href="../css/operator/campNoticeForm.css" type="text/css" rel="stylesheet">
 </head>
 <body>
@@ -25,7 +26,9 @@
                 </table>
                 <h3>내용</h3>
                 <textarea name="campNoticeContent"></textarea>
-                 <div style="height: 100px;text-align: center;"><input type="submit" value="등록완료"><button onclick="location.href='/opCampView.do?campNo=${camp.campNo}'">취소</button></div>
+                 <div style="height: 100px;text-align: center;"><input type="submit" value="등록완료">
+                 	<button onclick="location.href='/opCampView.do?campNo=${camp.campNo}'">취소</button>
+                 </div>
             </form>
         </div>
     </section>

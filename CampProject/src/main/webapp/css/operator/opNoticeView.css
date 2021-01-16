@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+section {
+	overflow: hidden;
+}
+
+sectino>div:first-child {
+	width: 25%;
+	border: 1px solid black;
+}
+
+section>div:last-child {
+	width: 75%;
+	margin: 0 auto;
+}
+.btn-div{
+	width:100%;
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 30px;	
+}
+.btn-update,.btn-delete {
+	margin: 20px;
+	width: 100px;
+	height: 40px;
+	border: none;
+	border-radius: 3px;
+	background-color: rgb(250, 220, 0);
+}
+
+form {
+	display: block;
+	margin: 0 auto;
+	width: 80%;
+}
+
+table {
+	height: 40px;
+	width: 100%;
+	margin-top: 50px;
+}
+
+table th {
+	width: 15%;
+}
+
+table td {
+	height: 100%;
+}
+.table{
+	border-bottom: 1px solid #dddddd;	
+}
