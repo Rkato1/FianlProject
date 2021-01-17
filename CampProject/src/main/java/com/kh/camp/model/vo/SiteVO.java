@@ -23,7 +23,6 @@ public class SiteVO { //예약장소
 	private int addCarDay;//add_car_day 추가차량일수
 	private int addCarCnt;//add_car_cnt 추가차량대수
 	private int memberNo;//member_no 회원번호
-	//private MemberVO member;//member_no 회원번호
 	private int reservePay;//reserve_pay 예약금액
 	private String reserveDate;//reserve_date 예약일시
 	private int lowDayPay;//low_day_pay 비수기평일금액

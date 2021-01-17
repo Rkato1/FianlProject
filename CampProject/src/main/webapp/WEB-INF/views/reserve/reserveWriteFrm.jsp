@@ -7,13 +7,52 @@
 <head>
 <!-- jQuery 호출 -->
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- ↓ 결제 모듈 API -->
+<!-- <script type="text/javascript"
+	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script> -->
+<!-- ↓ 모달창 호출 -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
 <title>예약상세보기</title>
+<style>
+#myModal {
+	top: 30%;
+	margin-top: -50px;
+}
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<link href="../css/reserve/reserveWriteFrm.css" type="text/css"
 		rel="stylesheet">
+	<div class="modal fade" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content modal-dialog-centered">
+				<form method="post" action = "/updateReserveFrm.do">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">예약 확인</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<!-- Modal body -->
+				<input type="hidden" id="modalNo"  name="reserveNo">
+				<div class="modal-body">예약 비밀번호 : <input type="text" id="modalPw" name="reservePw" required></div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">확인</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
 	<div class="container">
 		<div class="items">
 			<div class="item">
@@ -23,7 +62,8 @@
 					<li>예약 가능 시간 : 현재일에서 60일까지 가능합니다.</li>
 					<li>예약 장소는 자리지정 방식 입니다.</li>
 					<li>예약시 최대 6박 7일까지 예약 가능하며, 사이트/객실은 최대 2개까지 가능합니다.</li>
-					<li>2021년 성수기 기간은 2월 11일 ~ 13일,3월 6일, 3월13일, 3월20일, 3월28일 ~ 31일 입니다.</li>
+					<li>2021년 성수기 기간은 2월 11일 ~ 13일,3월 6일, 3월13일, 3월20일, 3월28일 ~
+						31일 입니다.</li>
 					<li>2021년 극성수기 기간은 3월 26일 ~ 27일 입니다.</li>
 				</ul>
 				<table style="width: 100%" cellpadding="0" cellspacing="1">
@@ -103,12 +143,8 @@
 						style="width: 100%; height: 400px;">
 				</div>
 				<div class="item">
-					<h4>느티나무구역 자리선택</h4>
-					예약일자 : <input type="date" value="${date }"> 사이트 : <select>
-						<option value="default" selected>--선택--</option>
-						<option value="느티나무구역(1/2)">느티나무구역(1/2)</option>
-						<option value="느티나무구역(2/2)">느티나무구역(2/2)</option>
-					</select><br>
+					<h4>자리선택</h4>
+					예약일자 : ${date }<br>
 					<table width="100%" cellpadding="0" cellspacing="1">
 						<colgroup width></colgroup>
 						<colgroup width="10%"></colgroup>
@@ -118,7 +154,7 @@
 						<colgroup width="15%"></colgroup>
 						<colgroup width="10%"></colgroup>
 						<colgroup width="10%"></colgroup>
-						<colgroup width="10%"></colgroup>
+						<colgroup width="13%"></colgroup>
 						<tbody>
 							<tr>
 								<td colspan="10" class="line3" height="1"></td>
@@ -137,8 +173,9 @@
 							<tr>
 								<td colspan="10" class="line2"></td>
 							</tr>
+							<c:set var="idx" value="0" />
 							<c:set var="sel" value="0" />
-							<c:forEach items="${siteReserveList }" var="s">
+							<c:forEach items="${siteList }" var="s">
 								<c:choose>
 									<c:when test="${sel == 0 }">
 										<tr class="list0 col1 ht center">
@@ -150,55 +187,112 @@
 									</c:otherwise>
 								</c:choose>
 								<td class="ln_r ln_l ln_b">${s.siteName }</td>
-								<td class="ln_r ln_b">
-									<span id="sta_ea[1]">
-										<input type="hidden" name="minCnt" class="minCnt" value="${s.minCnt }">
-										${s.minCnt }
-									</span>명/${s.maxCnt }명&nbsp;
-								</td>
-								
-								<td class="ln_r ln_b">
-								<input type="hidden" name="usingPay" class="usingPay" value="${s.usingPay }">
-								<span>
-									<fmt:formatNumber value="${s.usingPay }" pattern="#,###" />
+								<td class="ln_r ln_b"><span id="sta_ea[1]"> <input
+										type="hidden" name="minCnt" class="minCnt"
+										value="${s.minCnt }"> ${s.minCnt }
+								</span>명/${s.maxCnt }명&nbsp;</td>
+
+								<td class="ln_r ln_b"><input type="hidden" name="usingPay"
+									class="usingPay" value="${s.usingPay }"> <span>
+										<fmt:formatNumber value="${s.usingPay }" pattern="#,###" />
 								</span>원</td>
-								
-								
-								<td class="ln_r ln_b">
-									<span id="dc_price[1]">
-										<input type="hidden" class="discountPay" value="${s.discountPay }">
+
+
+								<td class="ln_r ln_b"><span id="dc_price[1]"> <input
+										type="hidden" class="discountPay" value="${s.discountPay }">
 										<fmt:formatNumber value="${s.discountPay }" pattern="#,###" />
-									</span>원
-								</td>
-								<td class="ln_r ln_b">
-									<span id="add_price">
-										<input type="hidden" class="addCntPay" value="${s.addCntPay }">
+								</span>원</td>
+								<td class="ln_r ln_b"><span id="add_price"> <input
+										type="hidden" class="addCntPay" value="${s.addCntPay }">
 										<fmt:formatNumber value="${s.addCntPay }" pattern="#,###" />
-									</span>원
-								</td>
+								</span>원</td>
 								<td class="ln_r ln_b"><select class="usingNight">
 										<c:forEach var="i" begin="${s.minNight }" end="${s.maxNight}">
 											<option value="${i }">${i }박${i+1}일</option>
 										</c:forEach>
 								</select> / ${s.maxNight }박</td>
-								<td class="ln_r ln_b">
-								<select name="person[1]" class="usingCnt">
+								<td class="ln_r ln_b"><select name="person[1]"
+									class="usingCnt">
 										<c:forEach var="i" begin="${s.minCnt }" end="${s.maxCnt}">
 											<option value="${i }">${i }명</option>
 										</c:forEach>
 								</select></td>
-								<td class="ln_r ln_b price"><span class="sumTr">0</span>원
-								</td>
+								<td class="ln_r ln_b price"><span class="sumTr">0</span>원</td>
 								<td class="ln_r ln_b"><c:choose>
 										<c:when test="${s.memberNo == 0 }">
 											<input type="checkbox" class="siteChkbx" value="1">
+											<input type="hidden" class="modalbtn">
 										</c:when>
 										<c:otherwise>
 											<input type="hidden" class="siteChkbx" value="1">
-											${s.memberNo }
+											${memberList[idx].memberName }
+											<button type="button" class="modalbtn btn btn-primary" value="${reserveList[idx].reserveNo }"
+												data-toggle="modal" data-target="#myModal" style="height:30px;">확인</button>
 										</c:otherwise>
-									</c:choose></td>
+									</c:choose>
+									<c:set var="idx" value="${idx+1 }" />
+									</td>
 								</tr>
+
+								<input type="hidden" class="listSiteNo" name="listSiteNo"
+									value="${s.siteNo}">
+								<input type="hidden" class="listCampNo" name="listCampNo"
+									value="${s.campNo}">
+								<input type="hidden" class="listSiteTitle" name="listSiteTitle"
+									value="${s.siteTitle}">
+								<input type="hidden" class="listSiteName" name="listSiteName"
+									value="${s.siteName}">
+								<input type="hidden" class="listMinCnt" name="listMinCnt"
+									value="${s.minCnt}">
+								<input type="hidden" class="listMaxCnt" name="listMaxCnt"
+									value="${s.maxCnt}">
+								<input type="hidden" class="listMinNight" name="listMinNight"
+									value="${s.minNight}">
+								<input type="hidden" class="listMaxNight" name="listMaxNight"
+									value="${s.maxNight}">
+								<input type="hidden" class="listDiscountPay"
+									name="listDiscountPay" value="${s.discountPay}">
+								<input type="hidden" class="listAddCntPay" name="listAddCntPay"
+									value="${s.addCntPay}">
+								<input type="hidden" class="listAddCarPay" name="listAddCarPay"
+									value="${s.addCarPay}">
+								<input type="hidden" class="listUsingCnt" name="listUsingCnt"
+									value="${s.usingCnt}">
+								<input type="hidden" class="listUsingPay" name="listUsingPay"
+									value="${s.usingPay}">
+								<input type="hidden" class="listUsingNight"
+									name="listUsingNight" value="${s.usingNight}">
+								<input type="hidden" class="listAddCarDay" name="listAddCarDay"
+									value="${s.addCarDay}">
+								<input type="hidden" class="listAddCarCnt" name="listAddCarCnt"
+									value="${s.addCarCnt}">
+								<c:choose>
+									<c:when test="${sessionScope.m != null }">
+										<input type="hidden" class="listMemberNo" name="listMemberNo"
+											value="${sessionScope.m.memberNo}">
+									</c:when>
+									<c:otherwise>
+										<input type="hidden" class="listMemberNo" name="listMemberNo"
+											value="${s.memberNo}">
+									</c:otherwise>
+								</c:choose>
+								<input type="hidden" class="listReservePay"
+									name="listReservePay" value="${s.reservePay}">
+								<input type="hidden" class="listReserveDate"
+									name="listReserveDate" value="${s.reserveDate}">
+								<input type="hidden" class="listLowDayPay" name="listLowDayPay"
+									value="${s.lowDayPay}">
+								<input type="hidden" class="listLowEndPay" name="listLowEndPay"
+									value="${s.lowEndPay}">
+								<input type="hidden" class="listPeakDayPay"
+									name="listPeakDayPay" value="${s.peakDayPay}">
+								<input type="hidden" class="listPeakEndPay"
+									name="listPeakEndPay" value="${s.peakEndPay}">
+								<input type="hidden" class="listPolarDayPay"
+									name="listPolarDayPay" value="${s.polarDayPay}">
+								<input type="hidden" class="listPolarEndPay"
+									name="listPolarEndPay" value="${s.polarEndPay}">
+
 							</c:forEach>
 						</tbody>
 					</table>
@@ -206,9 +300,9 @@
 						<colgroup width="30%"></colgroup>
 						<colgroup width="10%"></colgroup>
 						<colgroup width="20%"></colgroup>
-						<colgroup width="20%"></colgroup>
+						<colgroup width="16%"></colgroup>
 						<colgroup width="10%"></colgroup>
-						<colgroup width="10%"></colgroup>
+						<colgroup width="13%"></colgroup>
 						<tbody>
 							<tr>
 								<td colspan="6" height="25" align="left">▶ <b>추가 주차/방문
@@ -233,28 +327,28 @@
 							<tr class="list0 col1 ht center">
 								<td class="ln_r ln_l ln_b pdLlnb1 bg b center" height="35">추가
 									차량 선택</td>
-								<td class="ln_r ln_b">
-									<span id="car_parking_won">
-										<input type="hidden" value="${siteReserveList[0].addCarPay }" name="addCarPay" class="addCarPay">
-										<fmt:formatNumber value="${siteReserveList[0].addCarPay }" pattern="#,###" />
-									</span>원
-								</td>
-								<td class="ln_r ln_b"><select name="car_parking_day" class="addCarDay">
-										<c:forEach var="i" begin="${siteReserveList[0].minNight }" end="${siteReserveList[0].maxNight}">
-										<option value="${i }">${i }일</option>
+								<td class="ln_r ln_b"><span id="car_parking_won"> <input
+										type="hidden" value="${siteList[0].addCarPay }"
+										name="addCarPay" class="addCarPay"> <fmt:formatNumber
+											value="${siteList[0].addCarPay }" pattern="#,###" />
+								</span>원</td>
+								<td class="ln_r ln_b"><select name="car_parking_day"
+									class="addCarDay">
+										<c:forEach var="i" begin="${siteList[0].minNight }"
+											end="${siteList[0].maxNight}">
+											<option value="${i }">${i }일</option>
 										</c:forEach>
-										
+
 								</select></td>
-								<td class="ln_r ln_b"><select name="car_parking_ea" class="addCarCnt">
+								<td class="ln_r ln_b"><select name="car_parking_ea"
+									class="addCarCnt">
 										<option value="1">1대</option>
 										<option value="2">2대</option>
 										<option value="3">3대</option>
 										<option value="4">4대</option>
 										<option value="5">5대</option>
 								</select></td>
-								<td class="ln_r ln_b price">
-									<span id="carSum">0</span>원
-								</td>
+								<td class="ln_r ln_b price"><span id="carSum">0</span>원</td>
 								<td class="ln_r ln_b"><input type="checkbox"
 									name="car_parking_check" value="1" class="carChkbx"></td>
 							</tr>
@@ -268,9 +362,9 @@
 						<colgroup width="10%"></colgroup>
 						<colgroup width="10%"></colgroup>
 						<colgroup width></colgroup>
+						<colgroup width="7%"></colgroup>
 						<colgroup width="10%"></colgroup>
-						<colgroup width="10%"></colgroup>
-						<colgroup width="10%"></colgroup>
+						<colgroup width="13%"></colgroup>
 						<tbody>
 							<tr height="0">
 								<td height="0"></td>
@@ -309,27 +403,27 @@
 						<tr>
 							<td class="section" height="50">
 								이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</td>
-							<td><input type="text" name="user_name" itemname="이름"
-								required class="text"></td>
+							<td><input type="text" id="inputName" name="inputName"
+								required class="text" value="${sessionScope.m.memberName }"></td>
 							<td class="section">비밀번호</td>
-							<td><input type="text" name="user_pw" itemname="비밀번호"
+							<td><input type="text" name="inputPw" id="inputPw"
 								class="text" required> &nbsp;<br> <font
 								color="#66A2C8">* 8자리 이상, 영문 + 숫자 + 특수문자 조합하여 입력</font></td>
 						</tr>
 						<tr>
 							<td class="section" height="50">핸드폰번호</td>
-							<td><input type="text" name="user_hp" id="user_hp"
-								itemname="핸드폰 번호" class="text" numeric required> &nbsp;
-								<font color="#66A2C8"> '-' 빼고 숫자만 입력.</font></td>
+							<td><input type="text" name="inputPhone" id="inputPhone"
+								value="${sessionScope.m.memberPhone }" class="text" required>
+								&nbsp; <font color="#66A2C8"> '-' 포함 입력.</font></td>
 							<td class="section">차량번호</td>
-							<td><input type="text" name="user_carno" itemname="차량번호"
-								class="text"> &nbsp; <font color="#66A2C8">※ 예)
-									01가 1234 전체 입력.</font></td>
+							<td><input type="text" id="inputCarNumber"
+								name="inputCarNumber" class="text"> &nbsp; <font
+								color="#66A2C8">※ 예) 01가 1234 전체 입력.</font></td>
 						</tr>
 						<tr>
 							<td class="section" height="50">메모/닉네임</td>
-							<td colspan="3"><input type="text" name="user_remark"
-								style="width: 99%;" itemname="메모" class="text"></td>
+							<td colspan="3"><input type="text" id="inputMemo"
+								name="inputMemo" style="width: 99%;" itemname="메모" class="text"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -345,116 +439,327 @@
 				</ul>
 			</div>
 			<div class="item">
-				<p class="button">
-					<input type="button" style="width: 90%; height: 28px;" value="예약하기">
-				</p>
+				<form action="/insertReserve.do" method="post"
+					onsubmit="return checkFrm();">
+					<p class="button">
+						<input type="hidden" id="siteArr" name="siteArr">
+						<c:choose>
+							<c:when test="${sessionScope.m != null }">
+								<input type="hidden" id="memberNo" name="memberNo"
+									value="${sessionScope.m.memberNo }">
+							</c:when>
+							<c:otherwise>
+								<input type="hidden" id="memberNo" name="memberNo" value="9999">
+							</c:otherwise>
+						</c:choose>
+						<input type="hidden" id="memberName" name="memberName">
+						<!-- 비회원용 -->
+						<input type="hidden" id="campNo" name="campNo" value="${camp.campNo }"> 
+						<input type="hidden" id="reservePlace" name="reservePlace" value="${camp.campAddr }">
+						<input type="hidden" id="checkInDate" name="checkInDate" value="${date }"> 
+						<input type="hidden" id="reservePrice" name="reservePrice">
+						<input type="hidden" id="reservePw" name="reservePw"> 
+						<input type="hidden" id="carNumber"	name="carNumber"> 
+						<input type="hidden" id="reserveMemo" name="reserveMemo"> 
+						<input id="reserveBtn" type="submit" style="width: 90%; height: 28px;" value="예약하기"> 
+						<input id="reserveBtn2" type="hidden" style="width: 90%; height: 28px;" value="예약하기2">
+					</p>
+				</form>
 			</div>
 		</div>
 	</div>
-	<script>	
-	var reservePay = 0;
-	var reserveOne = 0;
-	$('.siteChkbx').click(function(){
-		var idx = $('.siteChkbx').index($(this));
-		if($(this).is(':checked')){
-			var total = getSumTr(idx);
-			printSum(idx,total);			
-		}else{
-			var sum = 0;
-			$(".sumTr").eq(idx).html(sum);		
+
+	<!-- js파일 호출 -->
+	<!-- <script src="../js/reserve/reserveWriteFrm.js"></script> -->
+	<script>
+		$(".modalbtn").click(function(){
+			var idx = $(".modalbtn").index($(this));			
+			var reserveNo = $(".listReserveNo").eq(idx).val();
+			$("#modalNo").val(reserveNo);
+		});
+		var bool = new Boolean();
+		$(function() {
+		})
+		$("#inputName").keyup(function() {
+			var val = $(this).val();
+			$("#memberName").val(val);
+		});
+		$("#inputPw").keyup(function() {
+			var val = $(this).val();
+			$("#reservePw").val(val);
+		});
+		$("#inputCarNumber").keyup(function() {
+			var val = $(this).val();
+			$("#carNumber").val(val);
+		});
+		$("#inputMemo").keyup(function() {
+			var val = $(this).val();
+			$("#reserveMemo").val(val);
+		});
+		function checkFrm() {
+			var cnt = 0;
+			$(".siteChkbx").each(function(idx, item) {
+				if ($(this).eq(idx).is(':checked')) {
+					cnt++;
+				}
+			});
+			if (cnt > 0) {
+				bool = true;
+			} else {
+				//site체크박스에 체크가 안되어있다.			
+				bool = false;
+			}
+			//bool이 참이면 submit 해도됨
+			//bool이 false이면 submit작동 하면 안댐
+			if (!bool) {
+				alert("사이트 체크 및 예약자 정보를 확인해주세요");
+			}
+			return bool;
 		}
-		printTotal();
-	});	
-	
-	$('.usingNight').change(function(){		
-		var idx = $('.usingNight').index($(this));
-		if($('.siteChkbx').eq(idx).is(':checked')){
-			var total = getSumTr(idx);
-			printSum(idx,total);
+
+		$('.siteChkbx').click(function() {
+			var idx = $('.siteChkbx').index($(this));
+			if ($(this).is(':checked')) {
+				var total = getSumTr(idx);
+				printSum(idx, total);
+				var usingNight = $(".usingNight").eq(idx).val();
+				$(".listUsingNight").eq(idx).val(usingNight);
+				var usingCnt = $(".usingCnt").eq(idx).val();
+				$(".listUsingCnt").eq(idx).val(usingCnt);
+				var date = '${date }';
+				$(".listReserveDate").eq(idx).val(date);
+				var memberNo = '${sessionScope.m.memberNo}';
+				if (memberNo == '') {
+					memberNo = 9999;
+				}
+				$(".listMemberNo").eq(idx).val(memberNo);
+
+			} else {
+				var zero = 0;
+				$(".sumTr").eq(idx).html(zero);
+				var date = '0000-00-00';
+				$(".listReserveDate").eq(idx).val(date);
+				$(".listMemberNo").eq(idx).val(zero);
+			}
 			printTotal();
-		}
-	});
-	$('.usingCnt').change(function(){		
-		var idx = $('.usingCnt').index($(this));
-		if($('.siteChkbx').eq(idx).is(':checked')){
-			var total = getSumTr(idx);
-			printSum(idx,total);
+		});
+
+		$('.usingNight').change(function() {
+			var idx = $('.usingNight').index($(this));
+			if ($('.siteChkbx').eq(idx).is(':checked')) {
+				var total = getSumTr(idx);
+				printSum(idx, total);
+				printTotal();
+				var usNight = $(".usingNight").eq(idx).val();
+				$(".listUsingNight").eq(idx).val(usNight);
+			}
+		});
+		$('.usingCnt').change(function() {
+			var idx = $('.usingCnt').index($(this));
+			if ($('.siteChkbx').eq(idx).is(':checked')) {
+				var total = getSumTr(idx);
+				printSum(idx, total);
+				printTotal();
+				var usingCnt = $(".usingCnt").eq(idx).val();
+				$(".listUsingCnt").eq(idx).val(usingCnt);
+			}
+		});
+
+		$(".carChkbx").click(function() {
+			if ($(this).is(':checked')) {
+				var total = getSumCar();
+				printSumCar(total);
+				var carday = $(".addCarDay").val();//주차기간
+				var carCnt = $(".addCarCnt").val();//차량수
+				$(".listAddCarDay").val(carday);
+				$(".listAddCarCnt").val(carCnt);
+			} else {
+				var sum = 0;
+				$("#carSum").html(sum);
+				var val = 0;
+				$(".listAddCarDay").val(val);
+				$(".listAddCarCnt").val(val);
+			}
 			printTotal();
+		});
+
+		$('.addCarDay').change(function() {
+			if ($('.carChkbx').is(':checked')) {
+				var total = getSumCar();
+				printSumCar(total);
+				printTotal();
+				var carday = $(".addCarDay").val();//주차기간
+				$(".listAddCarDay").val(carday);
+			}
+		});
+		$('.addCarCnt').change(function() {
+			if ($('.carChkbx').is(':checked')) {
+				var total = getSumCar();
+				printSumCar(total);
+				printTotal();
+				var carCnt = $(".addCarCnt").val();//차량수
+				$(".listAddCarCnt").val(carCnt);
+			}
+		});
+
+		function getSumTr(idx) {
+			var usPay = $(".usingPay").eq(idx).val(); //이용금액
+			var usNight = $(".usingNight").eq(idx).val(); //이용박수
+			var discntPay = $(".discountPay").eq(idx).val(); //연박할인비용
+			var usCnt = $(".usingCnt").eq(idx).val(); //이용인원
+			var minCnt = $(".minCnt").eq(idx).val(); //기준인원
+			var addCntPay = $(".addCntPay").eq(idx).val(); //추가인원비용
+			var sum = (usPay * usNight) - ((usNight - 1) * discntPay)
+					+ (usNight * (usCnt - minCnt) * addCntPay); //합계 = (이용금액 * 이용박수) -((이용박수-1) * 연박할인비용) + (이용박수 * (이용인원-기준인원) * 추가인원비용)
+
+			return sum;
 		}
-	});	
-	
-	$(".carChkbx").click(function(){
-		if($(this).is(':checked')){
-			console.log("car체크박스  체크됨");
-			var total = getSumCar();
-			printSumCar(total);			
-		}else{
-			console.log("car체크박스 체크해제됨");
-			var sum = 0;
-			$("#carSum").html(sum);	
+		function printSum(idx, total) {
+			$(".listReservePay").eq(idx).val(total);
+			var don = String(total);
+			don = don.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$(".sumTr").eq(idx).html(don);
 		}
-		printTotal();
-	});
-	
-	$('.addCarDay').change(function(){		
-		if($('.carChkbx').is(':checked')){
-			var total = getSumCar();
-			printSumCar(total);
-			printTotal();
+		function getSumCar() {
+			var carPay = $(".addCarPay").val();//주차비
+			var carday = $(".addCarDay").val();//주차기간
+			var carCnt = $(".addCarCnt").val();//차량수
+			var sum = (carPay * carday * carCnt);//합계 = (주차비 * 기간 * 차량수)
+
+			return sum;
 		}
-	});
-	$('.addCarCnt').change(function(){		
-		if($('.carChkbx').is(':checked')){
-			var total = getSumCar();
-			printSumCar(total);
-			printTotal();
+		function printSumCar(total) {
+			var don = String(total);
+			don = don.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$("#carSum").html(don);
 		}
-	});	
-	
-	function getSumTr(idx) {
-		var usPay = $(".usingPay").eq(idx).val(); //이용금액
-		var usNight = $(".usingNight").eq(idx).val(); //이용박수
-		var discntPay = $(".discountPay").eq(idx).val(); //연박할인비용
-		var usCnt = $(".usingCnt").eq(idx).val(); //이용인원
-		var minCnt = $(".minCnt").eq(idx).val(); //기준인원
-		var addCntPay = $(".addCntPay").eq(idx).val(); //추가인원비용
-		var sum = (usPay * usNight) -((usNight-1) * discntPay) + (usNight * (usCnt-minCnt) * addCntPay) ;	//합계 = (이용금액 * 이용박수) -((이용박수-1) * 연박할인비용) + (이용박수 * (이용인원-기준인원) * 추가인원비용)
-		
-		return sum;
-	}
-	function printSum(idx,total){
-		var don = String(total);
-		don = don.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		$(".sumTr").eq(idx).html(don);
-	}
-	function getSumCar() {
-		var carPay = $(".addCarPay").val();//주차비
-		var carday= $(".addCarDay").val();//주차기간
-		var carCnt= $(".addCarCnt").val();//차량수
-		var sum = (carPay*carday*carCnt);//합계 = (주차비 * 기간 * 차량수)
-		
-		return sum;
-	}
-	function printSumCar(total){
-		var don = String(total);
-		don = don.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		$("#carSum").html(don);	
-	}
-	function printTotal(){		
-		var total = 0;  //초기화
-		$(".sumTr").each(function(){ //site_name별 합계			
-			var str = $(this).html();
-			str = str.replace(/[^\d]+/g, "");
-			total += Number(str);
-		});	
-		var str2 = $("#carSum").html(); //추가 주차 합계	
-		str2 = str2.replace(/[^\d]+/g, "");
-		total += Number(str2);
-		var don = String(total);
-		don = don.replace(/\B(?=(\d{3})+(?!\d))/g, ",");//그 총계를 천단위 구분기호를 넣는다.
-		$("#total").html(don);//그리고 총계를 화면에 출력한다.
-	}
+		function printTotal() {
+			var total = 0; //초기화
+			$(".sumTr").each(function() { //site_name별 합계			
+				var str = $(this).html();
+				str = str.replace(/[^\d]+/g, "");
+				total += Number(str);
+			});
+			var str2 = $("#carSum").html(); //추가 주차 합계	
+			str2 = str2.replace(/[^\d]+/g, "");
+			total += Number(str2);
+			$("#reservePrice").attr("value", total);
+			var don = String(total);
+			don = don.replace(/\B(?=(\d{3})+(?!\d))/g, ",");//그 총계를 천단위 구분기호를 넣는다.
+			$("#total").html(don);//그리고 총계를 화면에 출력한다.
+		}
+
+		$(function() {
+			var name = '${sessionScope.m.memberName}';
+			$("#memberName").val(name);
+		})
+		$("#inputName").keyup(function() {
+			var val = $(this).val();
+			$("#memberName").val(val);
+		});
+		$("#inputPw").keyup(function() {
+			var val = $(this).val();
+			$("#reservePw").val(val);
+		});
+		$("#inputCarNumber").keyup(function() {
+			var val = $(this).val();
+			$("#carNumber").val(val);
+		});
+		$("#inputMemo").keyup(function() {
+			var val = $(this).val();
+			$("#reserveMemo").val(val);
+		});
+		function checkFrm() {
+			var cnt = 0;
+			$(".siteChkbx").each(function(idx, item) {
+				if ($(this).eq(idx).is(':checked')) {
+					cnt++;
+				}
+			});
+			if (cnt > 0) {
+				bool = true;
+			} else {
+				bool = false;
+			}
+			if (!bool) {
+				alert("사이트 체크 및 예약자 정보를 확인해주세요. cnt = " + cnt);
+			}
+			return bool;
+		}
+		$("#reserveBtn").click(function() {
+			$("#reserveBtn2").click();
+		});
+		$("#reserveBtn2").click(function() {
+			var cnt = 0;
+			var siteArr = new Array();
+			$(".siteChkbx").each(function(idx, item) {
+				//console.log("idx = "+idx);
+				if ($(item).is(':checked')) {
+					cnt++;
+					var site = new Array();
+					var siteNo = $(".listSiteNo").eq(idx).val();
+					var campNo = $(".listCampNo").eq(idx).val();
+					var siteTitle = $(".listSiteTitle").eq(idx).val();
+					var siteName = $(".listSiteName").eq(idx).val();
+					var minCnt = $(".listMinCnt").eq(idx).val();
+					var maxCnt = $(".listMaxCnt").eq(idx).val();
+					var minNight = $(".listMinNight").eq(idx).val();
+					var maxNight = $(".listMaxNight").eq(idx).val();
+					var discountPay = $(".listDiscountPay").eq(idx).val();
+					var addCntPay = $(".listAddCntPay").eq(idx).val();
+					var addCarPay = $(".listAddCarPay").eq(idx).val();
+					var usingCnt = $(".listUsingCnt").eq(idx).val(); //수동입력
+					var usingPay = $(".listUsingPay").eq(idx).val(); //수동입력 성수기or비수기or극성수기 주말/평일 구분해서 이용금액이 바뀐다
+					var usingNight = $(".listUsingNight").eq(idx).val(); //수동입력
+					var addCarDay = $(".listAddCarDay").eq(idx).val(); //수동입력
+					var addCarCnt = $(".listAddCarCnt").eq(idx).val(); //수동입력
+					var memberNo = $(".listMemberNo").eq(idx).val();
+					var reservePay = $(".listReservePay").eq(idx).val();
+					var reserveDate = $(".listReserveDate").eq(idx).val();
+					var lowDayPay = $(".listLowDayPay").eq(idx).val();
+					var lowEndPay = $(".listLowEndPay").eq(idx).val();
+					var peakDayPay = $(".listPeakDayPay").eq(idx).val();
+					var peakEndPay = $(".listPeakEndPay").eq(idx).val();
+					var polarDayPay = $(".listPolarDayPay").eq(idx).val();
+					var polarEndPay = $(".listPolarEndPay").eq(idx).val();
+
+					site.push(siteNo);
+					site.push(campNo);
+					site.push(siteTitle);
+					site.push(siteName);
+					site.push(minCnt);
+					site.push(maxCnt);
+					site.push(minNight);
+					site.push(maxNight);
+					site.push(discountPay);
+					site.push(addCntPay);
+					site.push(addCarPay);
+					site.push(usingCnt);
+					site.push(usingPay);
+					site.push(usingNight);
+					site.push(addCarDay);
+					site.push(addCarCnt);
+					site.push(memberNo);
+					site.push(reservePay);
+					site.push(reserveDate);
+					site.push(lowDayPay);
+					site.push(lowEndPay);
+					site.push(peakDayPay);
+					site.push(peakEndPay);
+					site.push(polarDayPay);
+					site.push(polarEndPay);
+
+					siteArr.push(site);
+
+					console.log("siteNo = " + siteNo);
+					console.log("site = " + site);
+				}
+			});
+
+			console.log("siteArr = " + siteArr);
+			console.log("cnt = " + cnt);
+			$("#siteArr").val(siteArr);
+		});
 	</script>
-	
 </body>
 </html>
