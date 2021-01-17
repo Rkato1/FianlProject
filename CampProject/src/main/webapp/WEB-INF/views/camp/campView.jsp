@@ -135,6 +135,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<!-- kakaoMap js파일 호출 -->
 	<script src="../js/camp/kakaoMapAPI.js"></script>
 	<!-- campView js파일 호출 -->
@@ -222,5 +223,6 @@
 	                               },
 	});	
 	</script>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
 </html>

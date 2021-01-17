@@ -68,7 +68,28 @@ public class ReserveDao {
 		return sqlSession.insert("reserve.insertReserve", reserve);
 	}
 
-	public ReserveVO selectOneReserve(SiteVO site) {
-		return sqlSession.selectOne("reserve.selectOneReserve", site);
+	public ReserveVO selectOneReserve(HashMap<String, Object> map) {
+		return sqlSession.selectOne("reserve.selectOneReserveMap", map);
+	}
+
+	public ReserveVO selectOneReserve(ReserveVO reserve) {		
+		return sqlSession.selectOne("reserve.selectOneReserve", reserve);
+	}
+
+	public SiteVO selectOneSiteReserve(ReserveVO r) {		
+		return sqlSession.selectOne("reserve.selectOneSiteReserve", r);
+	}
+
+	public int updateReserve(ReserveVO reserve) {		
+		return sqlSession.update("reserve.updateReserve", reserve);
+	}
+
+	public int deleteSite(SiteVO site) {		
+		return sqlSession.delete("reserve.deleteSite", site);
+	}
+
+	public int deleteReserve(ReserveVO reserve) {
+		return sqlSession.delete("reserve.deleteReserve", reserve);
+
 	}
 }
