@@ -13,22 +13,8 @@
 <link href="../css/camp/campView.css" type="text/css" rel="stylesheet" />
 <!-- jQuery 호출 -->
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-
 <meta charset="UTF-8">
 <title>camp 상세보기</title>
-<style>
-.fc-center {
-	float: right
-}
-
-.fc-right {
-	display: none
-}
-
-.fc-left button:first-child {
-	display: none
-}
-</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -141,9 +127,18 @@
 			<div class="item">
 				<h4>오시는 길</h4>
 				<hr>
+				<!-- 지도를 표시할 div 입니다 -->
+				<div id="map" style="width: 100%; height: 350px;"></div>
+				<!-- 카카오 지도 API 호출 -->
+				<script type="text/javascript"
+					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ef86e3cd225d33d28097d509c357ae61"></script>
 			</div>
 		</div>
 	</div>
+	<!-- kakaoMap js파일 호출 -->
+	<script src="../js/camp/kakaoMapAPI.js"></script>
+	<!-- campView js파일 호출 -->
+	<script src="../js/camp/campView.js"></script>
 	<!-- calendar js파일 호출 -->
 	<script src="../js/calendar/jquery.min.js"></script>
 	<script src="../js/calendar/moment.min.js"></script>
@@ -226,15 +221,6 @@
 	                                }
 	                               },
 	});	
-	$(function() {
-		$(".nav-chevron").next().hide();
-		/* $('.able').attr('href','/reserveWriteFrm.do?campNo='+${camp.campNo}); */
-	});
-	
-	$('.nav-chevron').click(function() {
-		$(this).next().toggle(400);
-		$(this).toggleClass('transform');
-	})
 	</script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="used">
+   <!-- 초기 리스트 화면 -->
   <select id="selectList" resultType="used" parameterType="map">
   	select
   		rnum,
@@ -45,6 +46,70 @@
 	<select id="totalCount" resultType="_int">
 		select count(used_trade_no) as cnt from used_trade
 	</select>
+	<!-- 제목검색부분 -->
+	 <select id="selectListSearch" resultType="used" parameterType="map">
+  	select
+  		rnum,
+  		usedNo,
+  		usedTitle,
+  		usedPrice,
+  		category,
+  		usedWriter,
+  		usedContent,
+  		usedDate,
+  		usedArea,
+  		usedState,
+  		usedChange
+  		from 
+  			(select rownum as rnum, n.*
+			from
+		(select
+			used_trade_no as usedNo,
+			used_trade_title as usedTitle,
+			used_trade_price as usedPrice,
+			category,
+			used_trade_writer as usedWriter,
+			used_trade_content as usedContent,
+			used_trade_date as usedDate,
+			used_trade_area as usedArea,
+			used_trade_state as usedState,
+			used_trade_change as usedChange
+		from used_trade 
+		where used_trade_title like '%' || #{search}|| '%'
+		order by 1 desc)
+		n)
+		where rnum between #{start} and #{end}
+  </select>
+	 <select id="selectFileListSearch" parameterType="map" resultType="file">
+		select
+			used_trade_file_no as fileNo,
+			used_trade_no as usedNo,
+			filename,
+			filepath
+			from used_trade_file
+		where
+			used_trade_no=#{usedNo}
+	</select>
+	<select id="totalCountSearch" resultType="_int" parameterType="String">
+		select count(*) as cnt
+		from
+    		(select
+			used_trade_no as usedNo,
+			used_trade_title as usedTitle,
+			used_trade_price as usedPrice,
+			category,
+			used_trade_writer as usedWriter,
+			used_trade_content as usedContent,
+			used_trade_date as usedDate,
+			used_trade_area as usedArea,
+			used_trade_state as usedState,
+			used_trade_change as usedChange
+			from used_trade 
+    	where used_trade_title like '%' || #{keyword}|| '%'
+    	order by 1 desc)
+	</select>
+	
+	<!-- 등록부분임 -->
 	<insert id="fileInsert" parameterType="file">
 		insert into used_trade_file values (file_seq.nextval,#{usedNo},#{filename},#{filepath})
 	</insert>

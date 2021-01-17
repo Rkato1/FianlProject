@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+
 import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 import com.kh.member.model.vo.MemberVO;
@@ -51,6 +52,23 @@ public class ReserveDao {
 	}
 
 	public MemberVO selectOneMemberNo(MemberVO m) {
-		return sqlSession.selectOne("member.selectOneMemberNo",m);
+		return sqlSession.selectOne("reserve.selectOneMemberNo",m);
+	}
+
+	public CampVO selectOneCamp(CampVO camp) {		
+		return sqlSession.selectOne("camp.selectOne",camp);
+	}
+	
+
+	public int insertSite(SiteVO s) {		
+		return sqlSession.insert("reserve.insertSite", s);
+	}
+
+	public int insertReserve(ReserveVO reserve) {
+		return sqlSession.insert("reserve.insertReserve", reserve);
+	}
+
+	public ReserveVO selectOneReserve(SiteVO site) {
+		return sqlSession.selectOne("reserve.selectOneReserve", site);
 	}
 }
