@@ -28,6 +28,7 @@ public class CampController {
 		CampEventData ced = service.campView(c);		
 		model.addAttribute("camp", ced.getCamp());
 		model.addAttribute("events", ced.getEvents());
+		//model.addAttribute("list", ced.getNoticeList());
 		return "camp/campView";
 	}
 

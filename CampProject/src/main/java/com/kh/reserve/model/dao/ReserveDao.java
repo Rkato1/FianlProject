@@ -92,4 +92,8 @@ public class ReserveDao {
 		return sqlSession.delete("reserve.deleteReserve", reserve);
 
 	}
+
+	public int flexOneRserve(ReserveVO reserve) {		
+		return sqlSession.update("reserve.flexOneRserve", reserve);
+	}
 }
