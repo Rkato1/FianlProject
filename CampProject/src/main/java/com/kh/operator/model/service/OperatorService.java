@@ -201,5 +201,10 @@ public class OperatorService {
 				return rpd;
 	}
 
+	public int deleteCamp(int campNo) {
+		int result = dao.deleteCamp(campNo);
+		return result;
+	}
+
 	
 }

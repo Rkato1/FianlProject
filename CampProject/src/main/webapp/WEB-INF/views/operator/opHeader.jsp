@@ -22,7 +22,7 @@
 	<header>
         <div id="op_navi">
             <span style="float: left;font-size: 40px;text-align: center;">
-                <a href="/">CREATE<img src="resources/upload/common/tentw.png">CAMP</a>
+                <a href="/campList.do?reqPage=1">CREATE<img src="resources/upload/common/tentw.png">CAMP</a>
             </span>
             <span style="float: right; height: 100%;">
                 <ul id="header_menu">
@@ -33,9 +33,12 @@
                         <li>OPERATOR</li>
                     </a>
                     <c:if test="${sessionScope.m !=null }">
-                    <a href="/logout.do">
-                        <li>LOGOUT</li>
-                    </a>
+                    	<a href="/opMypage.do">
+	                        <li>MYPAGE</li>
+	                    </a>
+	                    <a href="/logout.do">
+	                        <li>LOGOUT</li>
+	                    </a>
                     </c:if>
                 </ul>
             </span>

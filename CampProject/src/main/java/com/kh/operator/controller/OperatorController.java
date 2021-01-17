@@ -49,7 +49,7 @@ private boolean isOperator = false;
 				return "operator/operatorpage";
 			}else {
 				model.addAttribute("msg", "캠핑장 사업자가 아닙니다.");
-				model.addAttribute("loc", "/");
+				model.addAttribute("loc", "/campList.do?reqPage=1");
 				return "common/msg";
 			}
 		}else {
@@ -67,9 +67,25 @@ private boolean isOperator = false;
 			return "operator/opCampView";
 		}else {
 			model.addAttribute("msg", "캠핑장 사업자가 아닙니다.");
-			model.addAttribute("loc", "/");
+			model.addAttribute("loc", "/campList.do?reqPage=1");
 			return "common/msg";
 		}
+	}
+	@RequestMapping("/deleteCamp.do")
+	public String deleteCamp(int campNo,Model model) {
+		int result = service.deleteCamp(campNo);
+		if(result>0) {
+			model.addAttribute("msg", "캠핑목록에서 삭제되었습니다.");
+		}else {
+			model.addAttribute("msg", "캠핑장 삭제 실패");
+		}
+		model.addAttribute("loc", "/operatorpage.do");
+		return "common/msg";
+		
+	}
+	@RequestMapping("/campForm.do")
+	public String CampForm() {
+		return "operator/opCampForm";
 	}
 	@RequestMapping("/opNoticeList.do")
 	public String selectCampNoticeList(CampVO c,Model model,HttpSession session,int reqPage) {
@@ -85,7 +101,7 @@ private boolean isOperator = false;
 			return "operator/opCampNoticeList";
 		}else {
 			model.addAttribute("msg", "캠핑장 사업자가 아닙니다.");
-			model.addAttribute("loc", "/");
+			model.addAttribute("loc", "/campList.do?reqPage=1");
 			return "common/msg";
 		}
 	}
@@ -96,23 +112,37 @@ private boolean isOperator = false;
 		return "operator/opCampNoticeView";
 	}
 	@RequestMapping("/campNoticeForm.do")
-	public String opNoticeForm(Model model,int campNo) {
-		model.addAttribute("campNo",campNo);
-		return "operator/campNoticeForm";
+	public String opNoticeForm(Model model,int campNo,HttpSession session) {
+		isOperator = isOperator(session);
+		if(isOperator) {
+			model.addAttribute("campNo",campNo);
+			return "operator/campNoticeForm";
+		}else {
+			model.addAttribute("msg", "캠핑장 사업자가 아닙니다.");
+			model.addAttribute("loc", "/campList.do?reqPage=1");
+			return "common/msg";
+		}
 	}
 	@RequestMapping("/campNoticeUpdateForm.do")
-	private String campNoticeUpdateForm(CampNoticeVO cn,Model model) {
-		CampNoticeVO cNotice = service.selectCampNotice(cn);
-		model.addAttribute("cNotice",cNotice);
-		return "operator/campNoticeUpdateForm";
+	private String campNoticeUpdateForm(CampNoticeVO cn,Model model,HttpSession session) {
+		isOperator = isOperator(session);
+		if(isOperator) {
+			CampNoticeVO cNotice = service.selectCampNotice(cn);
+			model.addAttribute("cNotice",cNotice);
+			return "operator/campNoticeUpdateForm";
+		}else {
+			model.addAttribute("msg", "캠핑장 사업자가 아닙니다.");
+			model.addAttribute("loc", "/campList.do?reqPage=1");
+			return "common/msg";
+		}
 	}
 	@RequestMapping("/insertCampNotice.do")
 	private String insertCampNotice(HttpSession session,CampNoticeVO cn,Model model) {
 		int result = service.insertCampNotice(cn);
 		if(result>0) {
-			model.addAttribute("msg", "등록되었습니다.");
+			model.addAttribute("msg", "동지사항이 등록되었습니다.");
 		}else {
-			model.addAttribute("msg", "등록되었습니다.");
+			model.addAttribute("msg", "등록 실패");
 		}
 		model.addAttribute("loc", "/opNoticeList.do?campNo="+cn.getCampNo()+"&reqPage=1");
 		return "common/msg";
@@ -121,7 +151,7 @@ private boolean isOperator = false;
 	public String opNoticeUpdate(CampNoticeVO cn,Model model,HttpSession session) {
 		int result = service.updateCampNotice(cn);
 		if(result>0) {
-			model.addAttribute("msg", "업데이트 성공");
+			model.addAttribute("msg", "공지사항이 수정되었습니다.");
 		}else {
 			model.addAttribute("msg", "업데이트 실패");
 		}
@@ -133,7 +163,7 @@ private boolean isOperator = false;
 	private String deleteCampNotice(HttpSession session,CampNoticeVO cn,Model model) {
 		int result = service.deleteCampNotice(cn);
 		if(result>0) {
-			model.addAttribute("msg", "삭제 성공");
+			model.addAttribute("msg", "공지사항이 삭제되었습니다.");
 		}else {
 			model.addAttribute("msg", "삭제 실패");
 		}

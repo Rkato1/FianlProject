@@ -1,51 +1,75 @@
 @charset "UTF-8";
+
 section {
-            overflow: hidden;
-            margin-top:20px;
-        }
-        section>div {
-            width: 75%;
-            margin: 0 auto;
-        }
-        #campList{
-            width:100%;
-            overflow: hidden;
-        }
-        .camp_box{
-            width: 23%;
-            height: 250px;
-            margin: 1%;
-            border: 1px solid lightgray;
-            float: left;
-            border-radius: 4px;
-        }
-        .add_camp{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid lightgray;
-        }
-        .add_camp>div{
-            width:30%;
-            height:30%;
-            background:lightgray;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color:white;
-        }
-        .img_wrapper{
-        	width:100%;
-        	height: 200px;
-        	background-color: gray;
-        }
-        .img_wrapper>img{
-        	width:100%;
-        	height: 100%;
-        }
-        @media (max-width: 1000px) {
-          body {
-            width: 1000px;
-          }
-        }
+	overflow: hidden;
+	margin-top: 20px;
+}
+
+section>div {
+	width: 75%;
+	margin: 0 auto;
+}
+
+#campList {
+	width: 100%;
+	overflow: hidden;
+}
+
+.camp_box {
+	width: 23%;
+	height: 250px;
+	margin: 1%;
+	border: 1px solid lightgray;
+	float: left;
+	border-radius: 4px;
+}
+
+.add_camp {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid lightgray;
+}
+
+.add_camp>div {
+	width: 30%;
+	height: 30%;
+	background: lightgray;
+	border-radius: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+}
+.camp-name{
+	display: flex;
+	align-items: center;
+	height: 50px;
+}
+.img_wrapper {
+	width: 100%;
+	height: 200px;
+	background-color: gray;
+	box-sizing: border-box;
+}
+
+.img_wrapper>img {
+	width: 100%;
+	height: 100%;
+}
+
+.deleteBtn {
+	background: none;
+	border: none;
+	color: rgba(0, 0, 0, 0.5);
+	line-height: 20px;
+	z-index: 150;
+	padding: 2px;
+	float: right;
+}
+
+@media ( max-width : 1000px) {
+	body {
+		width: 1000px;
+	}
+}

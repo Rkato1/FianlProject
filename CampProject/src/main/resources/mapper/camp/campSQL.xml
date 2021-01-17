@@ -135,5 +135,8 @@
 		  	</if>
 		</trim>
 	</select>
-	
+	<delete id="deleteCamp" parameterType="_int">
+		delete from camp where camp_no=#{_parameter}
+	</delete>
+
 </mapper>

@@ -55,5 +55,8 @@ public class OperatorDao {
 	public int reviewTotalCount(int campNo) {
 		return sqlSession.selectOne("review.reviewTotalCount",campNo);
 	}
+	public int deleteCamp(int campNo) {
+		return sqlSession.delete("camp.deleteCamp", campNo);
+	}
 
 }

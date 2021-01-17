@@ -16,16 +16,23 @@
             <hr>
             <div id="campList">
             <c:forEach items="${campList }" var="c">
-            <a href="/opCampView.do?campNo=${c.campNo }">
                 <div class="camp_box">
+            <a href="/opCampView.do?campNo=${c.campNo }">
                 	<div class="img_wrapper">
                     	<img src="resources/upload/camp/${c.pictureList[0].filepath }">
                     </div>
-                    <div>${c.campName }</div>
+               		</a>
+                    <div class="camp-name">
+                    	<span style="padding: 2px;"><i class="fas fa-campground"></i></span>
+                    	<span style="padding: 2px;">${c.campName }</span>
+                    	<button class="deleteBtn" onclick="location.href='/deleteCamp.do?campNo=${c.campNo}'">
+                    		<i class="fas fa-times"></i>
+                    	</button>
+                    </div>
                 </div>
-            </a>
+            
             </c:forEach>
-            	<a href="insertCamp.do">
+            	<a href="/campForm.do">
                 <div class="camp_box add_camp">
                     <div>+</div>
                 </div>
