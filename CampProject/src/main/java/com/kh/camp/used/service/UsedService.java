@@ -136,7 +136,26 @@ public class UsedService {
 	}
 	// Datail 중고판매 상세정보를 보기위한 service
 	public UsedVO selectDatail(UsedVO used) {
-		return dao.selectDatail(used);
+		UsedVO u = dao.selectDatail(used);
+		ArrayList<UsedFileVO> fileList = dao.selectDatailFile(used.getUsedNo());
+		u.setFile(fileList);
+		return u;
+	}
+	//상품 수정select과정
+	public UsedVO updateEnroll(UsedVO used) {
+		return dao.updateEnroll(used);
+	}
+	//업데이트
+	public int updateEnrollEnd(UsedVO used) {
+		return dao.updateEnrollEnd(used);
+	}
+	//삭제
+	public int deleteEnroll(int usedNo) {
+		int result = dao.deleteEnroll(usedNo);
+		if(result > 0) {
+				result = dao.deleteFile(usedNo);
+		}
+		return result;
 	}
 
 }

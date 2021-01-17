@@ -17,9 +17,10 @@
             margin: 0 auto;
         }
         .section-mid-size{
-            width: 1100px;
-            height: 1000px;
-            margin: 0 auto;
+        	width : 1100px;
+           	display: flex;
+   			flex-direction: row;
+    		flex-wrap: wrap;
         }
         .bootcol{
             margin: 0;
@@ -53,6 +54,7 @@
             outline: 0;
             transition: background-color .5s;
             cursor: pointer;
+            letter-spacing: 1px;
         }
         .searchBtn:hover{
             background-color:#fa9b00;
@@ -64,8 +66,8 @@
             width: 300px;
             height: 360px;
             margin-bottom: 30px;
+            margin-right: 50px;
             float: left;
-            margin-left: 50px;
             transition: background-color .5s;
         }
         .prd-item img{
@@ -115,12 +117,12 @@
                 <li style="color: #6d6c3f;"> | </li>
                 <li style="cursor: pointer; color: #252525;">가격순</li>
                 <li style="color: #6d6c3f;"> | </li>
-                <li style="cursor: pointer; color: #252525;">이름순</li>
+                <li style="cursor: pointer; color: #252525;" id="nameson">이름순</li>
             </ul>
         </div>
-        <hr style="border: 2px solid #1d0202; margin-top: 5px; margin-bottom: 5px;">
+        <hr style="border: 2px solid #1d0202; margin-top: 5px; margin-bottom: 8px;">
         <div class="used-two" style="height: 28px; margin-bottom:20px;">
-            <div class="col-md-11 bootcol one" style=" padding: 0;">
+            <div class="col-md-10 bootcol one" style=" padding: 0;">
             <select name="ware" id="ware-select" style="font-size: 10pt; height: 30px; vertical-align: middle;">
                 <option value="" selected>직접선택</option>
                 <option value="텐트/타프">텐트/타프</option>
@@ -141,13 +143,12 @@
                 <input type="submit" class="material-icons searchBtn" value="search" style="font-size: 16px; height: 30px; vertical-align: middle;">
             </form>
             </div>
-            <div class="col-md-1 bootcol one" style="vertical-align: middle;  padding: 0;">
+            <div class="col-md-2 bootcol one" style="vertical-align: middle;  padding: 0;">
             	<c:if test="${sessionScope.m != null }">
-               		<a href="/usedEnroll.do"><input type="button" value="물품등록" style="font-size: 16px; height: 30px; font-size: 13px; margin-left: 23px;" class="searchBtn"></a>
+               		<a href="/usedEnroll.do"><input type="button" value="물품등록" style="font-size: 16px; height: 30px; font-size: 14px; margin-left: 67px; width: 100px;" class="searchBtn"></a>
                 </c:if>
             </div>
         </div>
-    </section>
     <section class="section-mid-size">
 				<c:if test="${empty list }">
 				<div style="height: 50px;"></div>
@@ -167,16 +168,26 @@
         </div>
         </c:forEach>
     </section>
-    <section class="container">
+    <section class="container" style="height: 100px; margin-top: 50px; display: block;">
         <div class="items-navi">
 			<div class="btn-group">${pageNavi }</div>
 		</div>
     </section>
-    <div style="height: 200px"></div>
+</section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     
    	<script>
-   		$("#ware-select").change(function(){
+   	$("#nameson").click(function(){	
+   	var $divs = $(".prd-item");
+   	$(function (){
+   	  var OrderedDivs = $divs.sort(function (a, b) {
+   	      return $(a).find("#prd-item-click").text() > $(b).find("#prd-item-click").text();
+   	  });
+   	  $(".prd-item").html(OrderedDivs);
+   	});
+   });
+   	
+   	/* 	$("#ware-select").change(function(){
    			var ware = $("#ware-select").val();
    			var reqPage = $("#reqPage").val();
    			console.log(ware);
@@ -189,7 +200,7 @@
    				datatype : "json"
    				success: 
    			});
-   		});
+   		}); */
    	</script>
 </body>
 </html>
