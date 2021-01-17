@@ -18,7 +18,7 @@
             <hr>
             <div><a href="/opNoticeList.do?campNo=${campNo}&reqPage=1" style="text-decoration: none;">목록으로</a></div>
             <hr>
-            <form action="/insertCampNotice.do" method="get">
+            <form action="/insertCampNotice.do" method="post">
                 <table class="table">
                 	<input type="hidden" value="${ sessionScope.m.memberId}" name="campNoticeWriter">
                 	<input type="hidden" value="${campNo}" name="campNo">
@@ -29,7 +29,7 @@
                      <tr>
                     	<th>내용</th>
                     	<td colspan="3">
-                    		<div style="width:100% ;height:200px;"><textarea name="campNoticeContent" onKeyUp="javascript:fnChkByte(this,'2100')"></textarea></div>
+                    		<div style="width:100% ;height:200px;"><textarea name="campNoticeContent" onKeyUp="javascript:fnChkByte(this,'2100')" style="resize:none"></textarea></div>
                     	</td>
                     </tr>
                 </table>
@@ -41,6 +41,17 @@
         </div>
     </section>
     <script>
+    $("[type=submit]").click(function(){
+    	if($("[name=campNoticeTitle]").val()==''){
+    		alert("제목을 입력하세요!");
+    		return false;
+    	}
+    	if($("[name=campNoticeContent]").val()==''){
+    		alert("내용을 입력하세요!");
+    		return false;
+    	}
+    });
+    
     function fnChkByte(obj, maxByte){
         var str = obj.value;
         var str_len = str.length;

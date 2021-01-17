@@ -30,7 +30,7 @@
 					</ul>
 					<a href="/opReservation.do"><li>예약현황</li></a>
 					<a href="opNoticeList.do?campNo=${camp.campNo}&reqPage=1"><li style="border-bottom: 4px solid rgb(250, 220, 0);">공지사항</li></a>
-					<a href="/opReview.do"><li>리뷰관리</li></a>
+					<a href="/opReviewList.do?campNo=${camp.campNo }&reqPage=1"><li>리뷰관리</li></a>
 				</ul>
 			</div>
 			<div class="content">

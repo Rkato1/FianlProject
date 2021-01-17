@@ -32,15 +32,18 @@
                     <a href="/operatorpage.do">
                         <li>OPERATOR</li>
                     </a>
+                    <c:if test="${sessionScope.m !=null }">
                     <a href="/logout.do">
                         <li>LOGOUT</li>
                     </a>
+                    </c:if>
                 </ul>
             </span>
         </div>
         <div id="header_img">
-            <br><br><br><br>
-            <h1 style="color: white;"><b></b></h1>
+            <br><br><br><br><br>
+            <h2 style="color: white;text-shadow: 1px 1px 1px black"><b>[ 사업자 페이지 ]</b></h2>
+            <h6 style="color: white;text-shadow: 1px 1px 1px black"">환영합니다. ${sessionScope.m.memberId}님</h6>
             <div><i class="fas fa-campground"></i></div>
         </div>
     </header>

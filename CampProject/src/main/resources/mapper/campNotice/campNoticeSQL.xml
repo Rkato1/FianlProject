@@ -24,8 +24,8 @@
 				n)
         where rnum between #{start} and #{end}
 	</select>
-	<select id="cNoticetotalCount" resultType="_int">
-		select count(camp_notice_no) as cnt from camp_notice
+	<select id="cNoticetotalCount" parameterType="_int" resultType="_int">
+		select count(camp_notice_no) as cnt from camp_notice where camp_no=#{_parameter}
 	</select>
 	<select id="selectCampNotice" parameterType="cNotice" resultType="cNotice">
 		select 

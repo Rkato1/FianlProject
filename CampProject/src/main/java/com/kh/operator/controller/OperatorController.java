@@ -14,11 +14,17 @@ import com.kh.member.model.vo.MemberVO;
 import com.kh.operator.model.service.OperatorService;
 import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.review.model.service.ReviewService;
+import com.kh.review.model.vo.ReviewCommentVO;
+import com.kh.review.model.vo.ReviewPageData;
+import com.kh.review.model.vo.ReviewViewData;
 
 @Controller
 public class OperatorController {
 @Autowired
 private OperatorService service;
+@Autowired
+private ReviewService rService;
 private boolean isOperator = false;
 	
 	public boolean isOperator(HttpSession session) {
@@ -135,4 +141,72 @@ private boolean isOperator = false;
 		return "common/msg";
 	}
 	
+	@RequestMapping("/opReviewList.do")
+	private String ReviewList(int campNo,int reqPage,Model model) {
+		CampVO c = new CampVO();
+		c.setCampNo(campNo);
+		CampVO camp = service.selectOneCamp(c);
+		model.addAttribute("camp", camp);
+		ReviewPageData rpd = service.reviewList(reqPage,campNo);
+		model.addAttribute("list", rpd.getList());
+		model.addAttribute("pageNavi", rpd.getPageNavi());
+		return "operator/opReviewList";
+	}
+	@RequestMapping("/opReviewView.do")
+	public String reviewView(int reviewNo, int campNo, Model model) {
+		System.out.println("campNo : "+campNo);
+		System.out.println("reviewNo : "+reviewNo);
+		CampVO c = new CampVO();
+		c.setCampNo(campNo);
+		CampVO camp = service.selectOneCamp(c);
+		ReviewViewData rvd = rService.reviewView(reviewNo);
+		model.addAttribute("camp", camp);
+		model.addAttribute("rev", rvd.getR());
+		model.addAttribute("comCnt", rvd.getCnt());
+		model.addAttribute("comList", rvd.getList());
+		return "operator/opReviewView";
+	}
+	@RequestMapping("/insertReviewCommentOP.do")
+	public String insertReviewComment(ReviewCommentVO rc, Model model) {
+		int reviewNo = rc.getReviewNo();
+		int campNo = rService.searchCampNo(reviewNo);
+		
+		int result = rService.insertReviewComment(rc);
+		if (result > 0) {
+			model.addAttribute("msg", "댓글이 등록 되었습니다.");
+		} else {
+			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
+		}
+		model.addAttribute("loc", "/opReviewView.do?reviewNo="+reviewNo+"&campNo="+campNo);
+		return "common/msg";
+	}
+	
+	//캠핑 후기 - 댓글 수정하기
+	@RequestMapping("/updateReviewCommentOP.do")
+	public String updateReviewComment(ReviewCommentVO rc, Model model) {
+		int reviewNo = rc.getReviewNo();
+		int campNo = rService.searchCampNo(reviewNo);
+		int result = rService.updateReviewComment(rc); 
+		if(result>0) {
+			model.addAttribute("msg", "댓글이 수정되었습니다.");
+		} else {
+			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
+		} 
+		model.addAttribute("loc", "/opReviewView.do?reviewNo="+reviewNo+"&campNo="+campNo);
+		return "common/msg";
+	}
+	
+	//캠핑 후기 - 댓글 삭제하기
+	@RequestMapping("/deleteReviewCommentOP.do")
+	public String deleteReviewComment(int reviewCommentNo, int reviewNo, Model model) {
+		int campNo = rService.searchCampNo(reviewNo);
+		int result = rService.deleteReviewComment(reviewCommentNo);
+		if (result > 0) {
+			model.addAttribute("msg", "댓글이 삭제되었습니다.");
+		} else {
+			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
+		}
+		model.addAttribute("loc", "/opReviewView.do?reviewNo="+reviewNo+"&campNo="+campNo);
+		return "common/msg";
+	}
 }
