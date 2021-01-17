@@ -118,7 +118,7 @@
     <hr style="border: 2px solid #1d0202; margin-top: 5px; margin-bottom: 0px;">
   </section>
   <section class="section-size">         
-  <form action="/usedEnrollEnd.do" method="post" autocomplete="off" enctype="multipart/form-data">
+  <form action="/usedEnrollEnd.do" method="post" autocomplete="off" enctype="multipart/form-data" accept-charset="UTF-8">
       <table class="table tbl">
         <tbody>
         <tr>
@@ -210,7 +210,7 @@
               	<img id="img"/>
               </div>
               <label class="input-file-button" for="imgUp">사진업로드</label>
-              <input type="file" name="files" id="imgUp" multiple style="display:none;"}>
+              <input type="file" name="files" id="imgUp" multiple style="display:none;">
             </td>
           </tr>
         </tbody>
@@ -378,7 +378,7 @@
                 }
             }
             if (AllChk < 4) {
-                alert("입력한 정보를 확인해주세요.");
+                alert("입력을 해주세요.");
                 event.preventDefault();
             }
   	});

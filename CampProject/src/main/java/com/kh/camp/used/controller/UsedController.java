@@ -9,12 +9,16 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.mortbay.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.kh.camp.used.service.UsedService;
 import com.kh.camp.used.vo.FileNameOver;
 import com.kh.camp.used.vo.UsedFileVO;
@@ -27,10 +31,18 @@ public class UsedController {
 
 	@Autowired
 	private UsedService service;
-
+	//중고거래 물품들의 초기 리스트
 	@RequestMapping("/usedPage.do")
 	public String usedPage(int reqPage, Model model) {
 		UsedPageNavi cpn = service.usedPage(reqPage);
+		model.addAttribute("list", cpn.getList());
+		model.addAttribute("pageNavi", cpn.getPageNavi());
+		return "used/usedPage";
+	}
+	@RequestMapping("/usedSearch.do")
+	public String usedSearch(int reqPage, String search, Model model) {
+		UsedPageNavi cpn = service.usedSearch(reqPage, search);
+		System.out.println(search);
 		model.addAttribute("list", cpn.getList());
 		model.addAttribute("pageNavi", cpn.getPageNavi());
 		return "used/usedPage";
@@ -93,12 +105,15 @@ public class UsedController {
 		model.addAttribute("loc", "/usedPage.do?reqPage=1");
 		return "common/msg";
 	}
-//	//검색기능을 구현 컨트롤
-//	@RequestMapping("/searchKeyword.do")
-//	public String searchKeyword (String searchKeyword) {
-//		UsedVO keyword = service.keyword(searchKeyword);
+//	@ResponseBody
+//	@RequestMapping(value = "/selectSearch.do", produces="application/json; charset=utf-8")
+//	public String selectSearch(String ware, int reqPage) {
+//		System.out.println(ware);
+//		UsedPageNavi cpn = service.selectSearch(ware,reqPage);
+//		JsonObject obj = new JsonObject();
+//		obj.addProperty("list", cpn.getList());
 //		
-//		return "used/usedPage.do";
+//		return new Gson().toJson(obj);
 //	}
 	
 }
