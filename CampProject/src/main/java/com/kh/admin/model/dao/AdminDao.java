@@ -15,7 +15,10 @@ import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
+import com.kh.review.model.vo.ReviewCampVO;
 import com.kh.review.model.vo.ReviewCommentVO;
+
+import oracle.net.aso.s;
 
 @Repository
 public class AdminDao {
@@ -132,37 +135,41 @@ public class AdminDao {
 		return CanvasjsStickChartData.getCanvasjsDataList2(campNameList, salesList);
 	}
 
-	public ArrayList<ReviewCommentVO> adminAnswerList() {
-		List<ReviewCommentVO> adminAnswerList = sqlSession.selectList("selectAdminAnswerList");
-		return (ArrayList<ReviewCommentVO>) adminAnswerList;
-	}
-
-	public ArrayList<ReviewCommentVO> adminNotAnswerList() {
-		List<ReviewCommentVO> adminNotAnswerList = sqlSession.selectList("selectAdminNotAnswerList");
-		return (ArrayList<ReviewCommentVO>) adminNotAnswerList;
-	}
-
 //	따로 변화하지 않으면 후기에서만 검색
 //	이거 현재는 관리자 댓글제외하곤 다 답변안한거로 옴
 //	완벽한 로직을 위해서는 후기글이 관리자 답변된게 있으면 답변한글
 //	후기글이 관리자 답변된게 없으면 답변하지 않은글
-	public ArrayList<ReviewCommentVO> selectAdminAnswerList(HashMap<String, Integer> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<ReviewCampVO> selectAdminAnswerList(HashMap<String, Object> map) {
+		//관리자가 댓글 단 글번호 리스트
+		List<Integer> list = sqlSession.selectList("selectAdminAnswerReview");
+		//System.out.println("관리자가 댓글 단 글번호 리스트"+list);
+		//System.out.println("관리자가 댓글 단 글번호 리스트 크기"+list.size());
+		map.put("list", list);
+		List<ReviewCampVO> resultList = sqlSession.selectList("selectAdminAnswerReviewList");
+		System.out.println("총 결과 사이즈 = "+resultList.size());
+		return (ArrayList<ReviewCampVO>) resultList;
 	}
 
 	public int totalAdminAnswerListCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		List<Integer> reviewNoList = sqlSession.selectList("selectAdminAnswerReview");
+		return reviewNoList.size();
 	}
 
-	public ArrayList<ReviewCommentVO> selectAdminNotAnswerList(HashMap<String, Integer> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<ReviewCampVO> selectAdminNotAnswerList(HashMap<String, Object> map) {
+		//관리자가 댓글 단 글번호 리스트
+		List<Integer> list = sqlSession.selectList("selectAdminAnswerReview");
+		//System.out.println("관리자가 댓글 단 글번호 리스트"+list);
+		//System.out.println("관리자가 댓글 단 글번호 리스트 크기"+list.size());
+		map.put("list", list);
+		List<ReviewCampVO> resultList = sqlSession.selectList("selectAdminNotAnswerReviewList");
+		System.out.println("총 결과 사이즈 = "+resultList.size());
+		return (ArrayList<ReviewCampVO>) resultList;
 	}
 
 	public int totalAdminNotAnswerListCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		int allCount = sqlSession.selectOne("selectReviewCount");
+		List<Integer> reviewNoList = sqlSession.selectList("selectAdminAnswerReview");
+		return allCount-reviewNoList.size();
 	}
+
 }

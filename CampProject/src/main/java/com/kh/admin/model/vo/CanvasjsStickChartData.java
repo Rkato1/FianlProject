@@ -14,7 +14,8 @@ public class CanvasjsStickChartData {
 		map=null;
 		dataPoints1 = new ArrayList<Map<Object,Object>>();
 		list=new ArrayList<List<Map<Object,Object>>>();
-			
+		
+		//순위매기기, 동점일시 처리를 안했음=>따라서 가장 빨리 검색된게 나옴
 		int[] rank = new int[reviewPointList.size()];
 		for(int i=0; i<reviewPointList.size();i++) {
 			rank[i] = 1;

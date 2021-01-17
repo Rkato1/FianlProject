@@ -106,27 +106,46 @@
   	from reservation where reserve_status='예약중' and camp_no=#{_parameter}
   </select>
   
-  <select id="selectAdminAnswerList" resultType="reviewComment">
-  	select
-  		review_comment_no as reviewCommentNo,
-		review_comment_level as reviewCommentLevel,
-		review_comment_writer as reviewCommentWriter,
-		review_comment_content as reviewCommentContent,
-		review_no as reviewNo,
-		review_comment_ref as reviewCommentRef,
-		review_comment_date as reviewCommentDate
+  <select id="selectAdminAnswerReview" resultType="_int">
+  	select DISTINCT review_no
   	from review_comment where REVIEW_COMMENT_WRITER='admin'
   </select>
   
-  <select id="selectAdminNotAnswerList" resultType="reviewComment">
+  <select id="selectAdminAnswerReviewList" parameterType="map" resultType="reviewCamp">
   	select
-  		review_comment_no as reviewCommentNo,
-		review_comment_level as reviewCommentLevel,
-		review_comment_writer as reviewCommentWriter,
-		review_comment_content as reviewCommentContent,
-		review_no as reviewNo,
-		review_comment_ref as reviewCommentRef,
-		review_comment_date as reviewCommentDate
-  	from review_comment where REVIEW_COMMENT_WRITER!='admin'
+  		rownum as rnum,
+  		review_no as reviewNo,
+  		member_id as memberId,
+  		reserve_no as reserveNo,
+  		review_title as reviewTitle,
+  		review_content as reviewContent,
+  		review_date as reviewDate,
+  		review_point as reviewPoint,
+  		camp_no as campNo
+  from (select rownum as rnum,n.*from(select * from review where review_no in
+  <foreach collection="list" item="value" separator="," open="(" close=")">
+		#{value}
+  </foreach> order by 1 desc)n) where rnum between #{start} and #{end}
+  </select>
+  <!-- 위랑 밑에 list가 왜 null뜨는지만 알아내면 끝남 -->
+  <select id="selectAdminNotAnswerReviewList" parameterType="map" resultType="reviewCamp">
+  	select
+  		rownum as rnum,
+  		review_no as reviewNo,
+  		member_id as memberId,
+  		reserve_no as reserveNo,
+  		review_title as reviewTitle,
+  		review_content as reviewContent,
+  		review_date as reviewDate,
+  		review_point as reviewPoint,
+  		camp_no as campNo
+  from (select rownum as rnum,n.*from(select * from review where review_no not in
+  <foreach collection="list" item="value" separator="," open="(" close=")">
+    	#{value}
+  </foreach> order by 1 desc)n) where rnum between #{start} and #{end}   
+  </select>
+  
+  <select id="selectReviewCount" resultType="_int">
+  	select count(*) from review;
   </select>
 </mapper>

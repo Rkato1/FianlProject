@@ -12,11 +12,11 @@ import com.kh.admin.model.dao.AdminDao;
 import com.kh.admin.model.vo.CampVOPageData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
-import com.kh.admin.model.vo.ReviewCommentVOPageData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
-import com.kh.review.model.vo.ReviewCommentVO;
+import com.kh.review.model.vo.ReviewCampVO;
+import com.kh.review.model.vo.ReviewPageData;
 
 @Service
 public class AdminService{
@@ -200,17 +200,17 @@ public class AdminService{
 		return dao.getCanvasjsStickChartData2();
 	}
 
-	public ReviewCommentVOPageData adminAnswerList(int reqPage) {
+	public ReviewPageData adminAnswerList(int reqPage) {
 		//게시물 구해오기
 		//한 페이지당 게시물 수
 		int numPerPage = 10;
 		//게시물 10개 가져오기(start,end값 계산)
 		int end = reqPage*numPerPage;
 		int start = end-numPerPage+1;
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("end", end);
-		ArrayList<ReviewCommentVO> list = dao.selectAdminAnswerList(map);
+		ArrayList<ReviewCampVO> list = dao.selectAdminAnswerList(map);
 		//pageNavi제작
 		//총 개수
 		int totalCount = dao.totalAdminAnswerListCount();
@@ -248,21 +248,21 @@ public class AdminService{
 			pageNavi += "<a href='/admin/reserveAdmin.do?reqPage="+pageNo+"'>[다음]</a>";;
 		}
 		//System.out.println(pageNavi);
-		ReviewCommentVOPageData rcpd = new ReviewCommentVOPageData(list,pageNavi);
-		return rcpd;
+		ReviewPageData rpd = new ReviewPageData(list,pageNavi);
+		return rpd;
 	}
 
-	public ReviewCommentVOPageData adminNotAnswerList(int reqPage) {
+	public ReviewPageData adminNotAnswerList(int reqPage) {
 		//게시물 구해오기
 		//한 페이지당 게시물 수
 		int numPerPage = 10;
 		//게시물 10개 가져오기(start,end값 계산)
 		int end = reqPage*numPerPage;
 		int start = end-numPerPage+1;
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("end", end);
-		ArrayList<ReviewCommentVO> list = dao.selectAdminNotAnswerList(map);
+		ArrayList<ReviewCampVO> list = dao.selectAdminNotAnswerList(map);
 		//pageNavi제작
 		//총 개수
 		int totalCount = dao.totalAdminNotAnswerListCount();
@@ -300,7 +300,7 @@ public class AdminService{
 			pageNavi += "<a href='/admin/reserveAdmin.do?reqPage="+pageNo+"'>[다음]</a>";;
 		}
 		//System.out.println(pageNavi);
-		ReviewCommentVOPageData rcpd = new ReviewCommentVOPageData(list,pageNavi);
-		return rcpd;
+		ReviewPageData rpd = new ReviewPageData(list,pageNavi);
+		return rpd;
 	}
 }

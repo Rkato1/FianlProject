@@ -10,16 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.admin.model.vo.CampVOPageData;
 import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
-import com.kh.admin.model.vo.ReviewCommentVOPageData;
 import com.kh.admin.service.AdminService;
 import com.kh.member.model.vo.MemberVO;
-import com.kh.review.model.vo.ReviewCommentVO;
+import com.kh.review.model.vo.ReviewPageData;
 
 @RequestMapping("/admin")
 @Controller
@@ -99,7 +97,7 @@ public class AdminController {
 	@RequestMapping("/salesAdmin.do")
 	public String salesAdmin(Model model, HttpSession session, int campNo, int year) {
 		isAdmin = isAdmin(session);
-		if(isAdmin) {			
+		if(isAdmin) {
 			ArrayList<Integer> numList = service.getNumList();
 			ArrayList<String> nameList = service.nameList(numList);
 			ArrayList<ChartBasicData> dataList = new ArrayList<ChartBasicData>();
@@ -159,15 +157,16 @@ public class AdminController {
 	public String helpAdmin(Model model, HttpSession session, String option, int reqPage) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
-			ReviewCommentVOPageData rcpd = null;
+			//System.out.println("옵션으로 넘긴값"+option);
+			ReviewPageData rpd = null;
 			if(option.equals("answer")) {
-				rcpd = service.adminAnswerList(reqPage);
-				model.addAttribute("list", rcpd.getList());
-				model.addAttribute("pageNavi", rcpd.getPageNavi());
+				rpd = service.adminAnswerList(reqPage);
+				model.addAttribute("list", rpd.getList());
+				model.addAttribute("pageNavi", rpd.getPageNavi());
 			}else {
-				rcpd = service.adminNotAnswerList(reqPage);
-				model.addAttribute("list", rcpd.getList());
-				model.addAttribute("pageNavi", rcpd.getPageNavi());
+				rpd = service.adminNotAnswerList(reqPage);
+				model.addAttribute("list", rpd.getList());
+				model.addAttribute("pageNavi", rpd.getPageNavi());
 			}
 			return "admin/helpAdmin";
 		}else {
@@ -175,13 +174,5 @@ public class AdminController {
 			model.addAttribute("loc","/");
 			return "common/msg";
 		}
-	}
-	
-	@RequestMapping("/test.do")
-	public String test() {
-		//return "admin/memberAdmin";
-		return "admin/helpAdmin";
-	}
-	
-	
+	}	
 }
