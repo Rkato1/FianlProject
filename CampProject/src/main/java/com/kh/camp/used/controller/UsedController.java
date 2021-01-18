@@ -76,9 +76,9 @@ public class UsedController {
 		for (MultipartFile file : files) {
 			System.out.println(file);
 			if (!file.isEmpty()) {
-				//올린 파일명을 저장하는 구문
-				String filename;
 				try {
+					//올린 파일명을 저장하는 구문
+					String filename;
 					filename = new String(file.getOriginalFilename().getBytes("UTF-8"), "8859_1");
 					//중복파일 처리
 					String filepath = new FileNameOver().rename(path, filename);
