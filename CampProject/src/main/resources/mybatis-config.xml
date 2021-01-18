@@ -12,7 +12,7 @@
 		<!-- 태민 추가 -->
 		<typeAlias type="com.kh.reserve.model.vo.ReserveVO" alias="reserve" />
 		<typeAlias type="com.kh.camp.model.vo.CampVO" alias="camp" />
-		<typeAlias type="com.kh.camp.model.vo.CampPictureVo" alias="campPicture" />
+		<typeAlias type="com.kh.camp.model.vo.CampPictureVO" alias="campPicture" />
 		<typeAlias type="com.kh.camp.model.vo.SiteVO" alias="site" />
 		
 		<!-- 보경 추가 -->

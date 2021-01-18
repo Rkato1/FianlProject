@@ -101,4 +101,32 @@
   	from review where camp_no=#{_parameter}
   </select>
   
+  <select id="selectSalesChart" parameterType="_int" resultType="_int">
+  	select sum(RESERVE_PRICE)
+  	from reservation where reserve_status='예약중' and camp_no=#{_parameter}
+  </select>
+  
+  <select id="selectAdminAnswerList" resultType="reviewComment">
+  	select
+  		review_comment_no as reviewCommentNo,
+		review_comment_level as reviewCommentLevel,
+		review_comment_writer as reviewCommentWriter,
+		review_comment_content as reviewCommentContent,
+		review_no as reviewNo,
+		review_comment_ref as reviewCommentRef,
+		review_comment_date as reviewCommentDate
+  	from review_comment where REVIEW_COMMENT_WRITER='admin'
+  </select>
+  
+  <select id="selectAdminNotAnswerList" resultType="reviewComment">
+  	select
+  		review_comment_no as reviewCommentNo,
+		review_comment_level as reviewCommentLevel,
+		review_comment_writer as reviewCommentWriter,
+		review_comment_content as reviewCommentContent,
+		review_no as reviewNo,
+		review_comment_ref as reviewCommentRef,
+		review_comment_date as reviewCommentDate
+  	from review_comment where REVIEW_COMMENT_WRITER!='admin'
+  </select>
 </mapper>

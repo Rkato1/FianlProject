@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>물품등록</title>
+<title>물품수정</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
@@ -113,12 +113,13 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<section class="section-size">
     <div class="bootcol">
-      <p style="font-size: 20px; font-weight: 700;">물품등록</p>
+      <p style="font-size: 20px; font-weight: 700;">물품수정</p>
     </div>
     <hr style="border: 2px solid #1d0202; margin-top: 5px; margin-bottom: 0px;">
   </section>
   <section class="section-size">         
-  <form action="/usedEnrollEnd.do" method="post" autocomplete="off" enctype="multipart/form-data" accept-charset="UTF-8">
+  <form action="/updateEnrollEnd.do" method="post" autocomplete="off" enctype="multipart/form-data" accept-charset="UTF-8">
+  	  <input type="hidden" value="${u.usedNo }" name="usedNo"/>
       <table class="table tbl">
         <tbody>
         <tr>
@@ -127,13 +128,13 @@
           </tr>
           <tr>
             <td>상품명</td>
-            <td><input class="inpText" type="text" placeholder="상품명 입력" name="usedTitle" id="title"><span id="sp1"></span></td>
+            <td><input class="inpText" type="text" placeholder="상품명 입력" name="usedTitle" id="title" value="${u.usedTitle }"><span id="sp1"></span></td>
           </tr>
           <tr>
             <td>상품종류</td>
             <td>
               <select name="category" class="inpText" id="category">
-                <option value="" selected>직접선택</option>
+                <option value="${u.category }" selected>${u.category }</option>
                 <option value="텐트/타프">텐트/타프</option>
                 <option value="의자/테이블">의자/테이블</option>
                 <option value="침낭/매트">침낭/매트</option>
@@ -151,13 +152,14 @@
           </tr>
           <tr>
             <td>금액입력</td>
-            <td><input type="text" class="inpText" placeholder="숫자만 입력해주세요." name="usedPrice" id="price"><span id="sp3"></span></td>
+            <td><input type="text" class="inpText" placeholder="숫자만 입력해주세요." name="usedPrice" id="price" value="${u.usedPrice }"><span id="sp3"></span></td>
           </tr>
           <tr>
             <td>거래지역</td>
             <td>
               <select name="usedArea" class="inpText"> 
-                <option value="전국" selected>전국</option>
+                <option value="${u.usedArea }" selected>${u.usedArea }</option>
+                <option value="전국">전국</option>
                 <option value="서울">서울</option>
                 <option value="경기">경기</option>
                 <option value="인천">인천</option>
@@ -182,8 +184,9 @@
             <td>제품상태</td>
             <td>
               <select name="usedState" class="inpText">
-                <option value="중고" selected>중고</option>
-                <option value="새상품" selected>새상품</option>
+                <option value="${u.usedState }" selected>${u.usedState }</option>
+                <option value="중고">중고</option>
+                <option value="새상품">새상품</option>
               </select>
             </td>
           </tr>
@@ -191,76 +194,29 @@
             <td>교환여부</td>
             <td>
               <select name="usedChange" class="inpText">
-                <option value="교환가능" selected>교환가능</option>
-                <option value="교환불가능" selected>교환불가능</option>
+                <option value="${u.usedChange }" selected>${u.usedChange }</option>
+                <option value="교환가능">교환가능</option>
+                <option value="교환불가능">교환불가능</option>
               </select>
             </td>
           </tr>
           <tr>
             <td style="line-height: 100px;">상품설명</td>
             <td>
-              <textarea class="inpTextrea" name="usedContent" id="content" cols="80" rows="7" style="resize: none; line-height: 14px;" placeholder=" 상품에 대한 설명을 적어주세요." spellcheck="false"></textarea>
+              <textarea class="inpTextrea" name="usedContent" id="content" cols="80" rows="7" style="resize: none; line-height: 14px;" placeholder=" 상품에 대한 설명을 적어주세요." spellcheck="false">${u.usedContent }</textarea>
               <span id="sp4"></span>
-            </td>
-          </tr>
-          <tr>
-            <td style="line-height: 100px;">사진첨부</td>
-            <td>
-              <div id="imgs_wrap">
-              	<img id="img"/>
-              </div>
-              <label class="input-file-button" for="imgUp">사진업로드</label>
-              <input type="file" name="files" id="imgUp" multiple style="display:none;">
             </td>
           </tr>
         </tbody>
       </table>
       <hr style="border: 2px solid #1d0202; margin-top: 0px; margin-bottom: 0px;">
-      <input type="submit" class="enrollBtn" value="등록하기" id="enrollBtn">
+      <input type="submit" class="enrollBtn" value="수정하기" id="enrollBtn">
 </form>
   </section>
   <div style="height: 200px"></div>
   <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
   
   <script>
-    //이미지 정보를 담을 배열
-  	var sel_files = [];
-    
-	$(document).ready(function(){
-		$("#imgUp").on("change", handleImgsFilesSelect);
-	});
-	
-	function handleImgsFilesSelect(e) {
-		// 이미지 정보들을 초기화
-		sel_files = [];
-		$(".img_wrap").empty();
-		
-		var files = e.target.files;
-		var filesArr = Array.prototype.slice.call(files);
-		
-		var index = 0;
-		filesArr.forEach(function(f){
-			if(!f.type.match("image.*")){
-				alert("확장자는 이미지 확장자만 가능합니다.");
-				return;
-			}
-			sel_files.push(f);
-			
-			var reader = new FileReader();
-			reader.onload = function(e){
-				var img_html = "<a href=\"javascript:void(0);\" onclick=\"deleteImgeAction("+index+")\" id=\"img_id_"+index+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='imgUpload-size' title='Click to remove'></a>";
-				$("#imgs_wrap").append(img_html);
-				index++;
-			}
-			reader.readAsDataURL(f);
-		});
-	}   	
-	function deleteImgeAction(index){
-		sel_files.splice(index, 1);
-		
-		var img_id = "#img_id_"+index;
-		$(img_id).remove();
-	}
   
   	//가격입력시 3자리 마다 , 추가하는 코드
  	 $(document).on('keyup','input[id=price]',function(event){
@@ -270,8 +226,6 @@
 		}); 
   	 
   $(function(){
-  	//필요한 변수
-  	var check = [false, false, false, false];
   	
   	//상품명 조건
   	$("#title").change(function(){
@@ -283,12 +237,10 @@
   			$("#sp1").css("color","#fa9b00");
   			$("#sp1").css("font-size","12px");
   			$("#title").css("border","2px solid #fa9b00");
-  			check[0] = false;
-
   		}else{
   			$("#sp1").text("");
   			$("#title").css("border","1px solid #6c757d");
-  			check[0] = true;
+  			
   		}
   	});
   	//가격을 적지 않을 시에
@@ -299,11 +251,11 @@
   			$("#sp3").css("color","#fa9b00");
   			$("#sp3").css("font-size","12px");
   			$("#price").css("border","2px solid #fa9b00");
-  			check[2] = false;
+  			
   		}else{
   			$("#sp3").text("");
   			$("#price").css("border","1px solid #6c757d");
-  			check[2] = true;
+  			
   		}
   	});
   	//상품 종류 선택시
@@ -314,11 +266,11 @@
   			$("#sp2").css("color","#fa9b00");
   			$("#sp2").css("font-size","12px");
   			$("#category").css("border","2px solid #fa9b00");
-  			check[1] = false;
+  			
   		}else{
   			$("#sp2").text("");
   			$("#category").css("border","1px solid #6c757d");
-  			check[1] = true;
+  			
   		}
   	});
   	//상품상세설명 
@@ -331,11 +283,9 @@
   	  		$("#sp4").css("color","#fa9b00");
   	  		$("#sp4").css("font-size","12px");
   			$("#content").css("border","2px solid #fa9b00");
-  			check[3] = false;
   	  	}else{
   	  		$("#sp4").text("");
   	  		$("#content").css("border","1px solid #6c757d");
-  	  		check[3] = true;
   	  	}
   	});
   	
@@ -352,35 +302,29 @@
 	  			$("#sp1").css("color","#fa9b00");
 	  			$("#sp1").css("font-size","12px");
 	  			$("#title").css("border","2px solid #fa9b00");
+	  			event.preventDefault();
 	  		}
 	  		if(cate == '') {
 	  			$("#sp2").text(" 상품의 종류를 입력해주세요.");
 	  			$("#sp2").css("color","#fa9b00");
 	  			$("#sp2").css("font-size","12px");
 	  			$("#category").css("border","2px solid #fa9b00");
+	  			event.preventDefault();
 	  		}
 	  		if(price == '') {
 	  			$("#sp3").text(" 가격을 입력해주세요.");
 	  			$("#sp3").css("color","#fa9b00");
 	  			$("#sp3").css("font-size","12px");
 	  			$("#price").css("border","2px solid #fa9b00");
+	  			event.preventDefault();
 	  		}
 	  		if(content == '') {
 	  			$("#sp4").text(" 상품에 대한 설명을 입력해주세요.(5글자 이상 300글자 이하)");
 	  			$("#sp4").css("color","#fa9b00");
 	  			$("#sp4").css("font-size","12px");
 	  			$("#content").css("border","2px solid #fa9b00");
+	  			event.preventDefault();
 	  		}
-	  		var AllChk = 0;
-            for (var i = 0; i < check.length; i++) {
-                if (check[i] == true) {
-                    AllChk++;
-                }
-            }
-            if (AllChk < 4) {
-                alert("입력을 해주세요.");
-                event.preventDefault();
-            }
   	});
   });
   </script>

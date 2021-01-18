@@ -55,7 +55,7 @@
 				//xValueFormatString: "MMM",
 				xValueFormatString: "# 월",
 				//y축 값의 글자 포맷(hover시 보여주기)
-				yValueFormatString: "#,### 원",
+				yValueFormatString: "#,##0 원",
 				dataPoints: dps[0]
 			}]
 		});
@@ -78,7 +78,7 @@
 		</c:forEach>
 		chart.render();
 	}
-			
+
 	function setValues(){		
 		var campNo = $("#campNoVal option:selected").val();
 		var year = $("#yearVal option:selected").html();
@@ -94,15 +94,15 @@
         <div class="admin-content">
             <div class="real-content">
                 <div class="members">
-                	<select id="campNoVal" onchange="">
+                	<select id="campNoVal">
                 		<c:forEach items="${list }" var="data">
                 			<option value="${data.campNo }">${data.campName}</option>
                 		</c:forEach>
                 	</select>
                 	<!-- 이부분도 조회해서 조회된 년도만 뜨게 만들수 있음 -->
-                	<select id="yearVal" onchange="">
+                	<select id="yearVal">
                 		<option>2020</option>
-                		<option>2021</option>                		
+                		<option>2021</option>
                 	</select>
                 	<button id="okBtn" onclick="setValues()">조회</button>
                     <p class="title">매출관련정보</p>

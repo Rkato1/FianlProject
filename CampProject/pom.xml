@@ -15,7 +15,12 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
-
+		<!-- Geocoder Maven dependency -->
+		<dependency>
+			<groupId>com.google.code.geocoder-java</groupId>
+			<artifactId>geocoder-java</artifactId>
+			<version>0.16</version>
+		</dependency>
 		<!-- google api -->
 		<dependency>
 			<groupId>com.google.api-client</groupId>

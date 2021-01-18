@@ -17,7 +17,7 @@ import com.kh.camp.used.vo.UsedVO;
 public class UsedDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-
+	//리스트
 	public ArrayList<UsedVO> usedPage(HashMap<String, Integer> map) {
 		List<UsedVO> list = sqlSession.selectList("used.selectList",map);
 		return (ArrayList<UsedVO>)list;
@@ -27,11 +27,27 @@ public class UsedDao {
 		List<UsedFileVO> fileList = sqlSession.selectList("used.selectFileList",map);
 		return (ArrayList<UsedFileVO>)fileList;
 	}
-
 	public int totalCount() {
 		return sqlSession.selectOne("used.totalCount");
 	}
-
+	//가격순
+	
+	
+	
+	//검색
+	public ArrayList<UsedVO> usedSearch(HashMap<String, Object> map) {
+		System.out.println(map);
+		List<UsedVO> list = sqlSession.selectList("used.selectListSearch",map);
+		return (ArrayList<UsedVO>)list;
+	}
+	public ArrayList<UsedFileVO> UsedFileListSearch(HashMap<String, Object> map) {
+		List<UsedFileVO> fileList = sqlSession.selectList("used.selectFileListSearch",map);
+		return (ArrayList<UsedFileVO>)fileList;
+	}
+	public int totalCountSearch(String search) {
+		return sqlSession.selectOne("used.totalCountSearch",search);
+	}
+	////////////////////////////////////////////////////////////////////////////////////////
 	public int usedEnrollOk(UsedVO usedVO) {
 		return sqlSession.insert("used.usedInsert", usedVO);
 	}
@@ -45,19 +61,37 @@ public class UsedDao {
 	}
 
 	public int selectNo() {
-		
 		return sqlSession.selectOne("used.selectNo");
 	}
 	//Datail 중고판매 상세정보를 보기위한 dao	
 	public UsedVO selectDatail(UsedVO used) {
 		return sqlSession.selectOne("used.selectOneDatail",used);
 	}
+	public ArrayList<UsedFileVO> selectDatailFile(int usedNo) {
+		List<UsedFileVO> fileList = sqlSession.selectList("used.selectDatailFile",usedNo);
+		return (ArrayList<UsedFileVO>)fileList;
+	}
+	//중고상품
+	public UsedVO updateEnroll(UsedVO used) {
+		return sqlSession.selectOne("used.updateEnroll",used);
+	}
+	//중고상품 업데이트
+	public int updateEnrollEnd(UsedVO used) {
+		return sqlSession.update("used.usedUpdate", used);
+	}
+	//물품 삭제
+	public int deleteEnroll(int usedNo) {
+		return sqlSession.delete("used.deleteEnroll", usedNo);
+	}
+	//물품 삭제
+	public int deleteFile(int usedNo) {
+		return sqlSession.delete("used.deleteFile", usedNo);
+	}
 
-//	public ArrayList<UsedVO> keyword(String searchKeyword) {
-//		UsedVO used = new UsedVO();
-//		used.setCategory(searchKeyword);
-//		return sqlSession.select("used.selectKeyword", used);
-//	}
+
+	
+
+
 	
 	
 }

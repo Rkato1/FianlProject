@@ -16,8 +16,10 @@ import com.kh.admin.model.vo.CampVOPageData;
 import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
+import com.kh.admin.model.vo.ReviewCommentVOPageData;
 import com.kh.admin.service.AdminService;
 import com.kh.member.model.vo.MemberVO;
+import com.kh.review.model.vo.ReviewCommentVO;
 
 @RequestMapping("/admin")
 @Controller
@@ -104,7 +106,7 @@ public class AdminController {
 			for(int i=0; i<numList.size(); i++) {
 				dataList.add(new ChartBasicData(numList.get(i), nameList.get(i)));
 			}
-			String campName="";			
+			String campName="";
 			if(campNo==0) {
 				campNo = dataList.get(0).getCampNo();
 				campName = dataList.get(0).getCampName();
@@ -134,11 +136,17 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/greatcampAdmin.do")
-	public String greatcampAdmin(Model model, HttpSession session) {
+	public String greatcampAdmin(Model model, HttpSession session, String option) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
-			List<List<Map<Object, Object>>> list = service.getCanvasjsStickChartData();
+			List<List<Map<Object, Object>>> list = null;
+			if(option.equals("sales")) {
+				list = service.getCanvasjsStickChartData2();
+			}else {
+				list = service.getCanvasjsStickChartData();
+			}
 			model.addAttribute("dataPointsList", list);
+			model.addAttribute("option", option);
 			return "admin/greatcampAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
@@ -148,9 +156,19 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/helpAdmin.do")
-	public String helpAdmin(Model model, HttpSession session) {
+	public String helpAdmin(Model model, HttpSession session, String option, int reqPage) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
+			ReviewCommentVOPageData rcpd = null;
+			if(option.equals("answer")) {
+				rcpd = service.adminAnswerList(reqPage);
+				model.addAttribute("list", rcpd.getList());
+				model.addAttribute("pageNavi", rcpd.getPageNavi());
+			}else {
+				rcpd = service.adminNotAnswerList(reqPage);
+				model.addAttribute("list", rcpd.getList());
+				model.addAttribute("pageNavi", rcpd.getPageNavi());
+			}
 			return "admin/helpAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");

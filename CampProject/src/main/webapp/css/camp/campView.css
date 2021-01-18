@@ -60,3 +60,14 @@ ul {
 .transform {
 	transform: rotate(180deg);
 }
+.fc-center {
+	float: right
+}
+
+.fc-right {
+	display: none
+}
+
+.fc-left button:first-child {
+	display: none
+}

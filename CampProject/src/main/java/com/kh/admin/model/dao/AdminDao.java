@@ -15,6 +15,7 @@ import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
+import com.kh.review.model.vo.ReviewCommentVO;
 
 @Repository
 public class AdminDao {
@@ -109,5 +110,59 @@ public class AdminDao {
 			nameList.add(str);
 		}
 		return nameList;
+	}
+
+	public List<List<Map<Object, Object>>> getCanvasjsStickChartData2() {
+		List<Integer> campNoList = sqlSession.selectList("selectSalesListNum");
+		//System.out.println("중복제거한 캠프 리스트수"+campNoList.size());
+		ArrayList<Integer> salesList = new ArrayList<Integer>();
+		ArrayList<String> campNameList = new ArrayList<String>();
+		for(int i : campNoList) {
+			//이 sql은 예약중으로 거르게 되어있어서 결제완료가 생성되면 바꿔야함
+			//Integer로 받으면 null도 대처가 가능함
+			Integer salesMoney = sqlSession.selectOne("selectSalesChart",i);
+			if(salesMoney==null) {
+				salesList.add(0);
+			}else {
+				salesList.add(salesMoney);
+			}
+			String campName = sqlSession.selectOne("selectSalesListName", i);
+			campNameList.add(campName);
+		}
+		return CanvasjsStickChartData.getCanvasjsDataList2(campNameList, salesList);
+	}
+
+	public ArrayList<ReviewCommentVO> adminAnswerList() {
+		List<ReviewCommentVO> adminAnswerList = sqlSession.selectList("selectAdminAnswerList");
+		return (ArrayList<ReviewCommentVO>) adminAnswerList;
+	}
+
+	public ArrayList<ReviewCommentVO> adminNotAnswerList() {
+		List<ReviewCommentVO> adminNotAnswerList = sqlSession.selectList("selectAdminNotAnswerList");
+		return (ArrayList<ReviewCommentVO>) adminNotAnswerList;
+	}
+
+//	따로 변화하지 않으면 후기에서만 검색
+//	이거 현재는 관리자 댓글제외하곤 다 답변안한거로 옴
+//	완벽한 로직을 위해서는 후기글이 관리자 답변된게 있으면 답변한글
+//	후기글이 관리자 답변된게 없으면 답변하지 않은글
+	public ArrayList<ReviewCommentVO> selectAdminAnswerList(HashMap<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int totalAdminAnswerListCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public ArrayList<ReviewCommentVO> selectAdminNotAnswerList(HashMap<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int totalAdminNotAnswerListCount() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

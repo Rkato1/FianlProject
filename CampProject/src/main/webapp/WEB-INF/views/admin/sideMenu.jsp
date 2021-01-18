@@ -29,10 +29,10 @@
                 <a href="/admin/salesAdmin.do?campNo=0&year=0">매출관리</a>
             </li>
             <li>
-                <a href="/admin/greatcampAdmin.do">우수캠핑장선정</a>
+                <a href="/admin/greatcampAdmin.do?option=reviewPoint">우수캠핑장선정</a>
             </li>
             <li>
-                <a href="/admin/helpAdmin.do?reqPage=1">고객센터</a>
+                <a href="/admin/helpAdmin.do??option=answer&reqPage=1">고객센터</a>
             </li>
         </ul>
     </div>
