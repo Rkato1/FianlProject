@@ -152,7 +152,7 @@
     <section class="section-mid-size">
 				<c:if test="${empty list }">
 				<div style="height: 50px;"></div>
-				<div class="section-size"  style="text-align:center;">
+				<div style="margin-left: 400px; margin-top: 20px;">
 					<h4>검색 결과가 없습니다.</h4>
 				</div>
             	</c:if>
