@@ -145,6 +145,7 @@
 			str2 = str2.replace(/[^\d]+/g, "");
 			total += Number(str2);
 			$("#reservePrice").attr("value", total);
+			$("#reserveTotal").attr("value", total);
 			var don = String(total);
 			don = don.replace(/\B(?=(\d{3})+(?!\d))/g, ",");//그 총계를 천단위 구분기호를 넣는다.
 			$("#total").html(don);//그리고 총계를 화면에 출력한다.

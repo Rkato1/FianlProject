@@ -18,17 +18,16 @@ import com.kh.reserve.model.vo.ReserveVO;
 public class ReserveDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
-	
 
-	/*
-	 * public ReserveDao() { super(); System.out.println("ReserveDao객체생성"); }
-	 */
-
-
-
-	public ArrayList<ReserveVO> selectReserveList() {
-		List<ReserveVO> list = sqlSession.selectList("reserve.selectList");
+	public ArrayList<ReserveVO> selectReserveList(ReserveVO reserve) {
+		System.out.println("dao.reserve.memberNo ="+reserve.getMemberNo());
+		System.out.println("dao.reserve.campNo ="+reserve.getCampNo());
+		System.out.println("dao.reserve.checkInDate ="+reserve.getCheckInDate());
+		System.out.println("dao.reserve.reservePw ="+reserve.getReservePw());
+		System.out.println("dao.reserve.carNumber ="+reserve.getCarNumber());
+		System.out.println("dao.reserve.reserveMemo ="+reserve.getReserveMemo());
+		System.out.println("dao.reserve.reserveStatus ="+reserve.getReserveStatus());
+		List<ReserveVO> list = sqlSession.selectList("reserve.selectReserveList",reserve);
 		return (ArrayList<ReserveVO>)list;
 	}
 
@@ -96,4 +95,5 @@ public class ReserveDao {
 	public int flexOneRserve(ReserveVO reserve) {		
 		return sqlSession.update("reserve.flexOneRserve", reserve);
 	}
+	
 }
