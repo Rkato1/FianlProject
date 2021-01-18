@@ -87,6 +87,7 @@
 	<div class="container">
 		<div class="items">
 			<div class="item">
+				<br>
 				<h4>캠핑장 배치도</h4>
 				<hr>
 				<c:choose>
@@ -106,35 +107,33 @@
 		<div class="items">
 			<div class="item">
 				<h4>공지사항</h4>
-				<hr>
+				<hr>				
 				<div id="line-wrapper">
 					<ul class="nav-menu">
+						<c:if test="${noticeList.size()==0 }">
+							<h5>등록된 공지사항이 없습니다.</h5>
+							<br>
+						</c:if>
+						<c:set var="idx" value="1" />
 						<c:forEach items="${noticeList }" var="n">
 							<li class="parent">
-							<span>${n.campNoticeTitle}</span>
+							<span>${idx}. ${n.campNoticeTitle}</span>
 							<button class="nav-chevron"></button>
 							<ul>
 								<li>${n.campNoticeContent }</li>
 							</ul>
+							<c:set var="idx" value="${idx+1 }" />
 						</li>
 						</c:forEach>
-						<li class="parent">
-							<span>공지사항1</span>
+						<c:if test="${noticeList.size() > 5 }">						
+						<li class="parent">						
+							<span>페이지 번호</span>
 							<button class="nav-chevron"></button>
 							<ul>
-								<li>가나다</li>
-								<li>abcd</li>
-							</ul>
+								<li>${pageNavi }</li>
+							</ul>												
 						</li>
-						
-						<li class="parent">
-							<span>공지사항2</span>
-							<button class="nav-chevron"></button>
-							<ul>
-								<li>123</li>
-								<li>456</li>
-							</ul>
-						</li>
+						</c:if>	
 					</ul>
 				</div>
 			</div>

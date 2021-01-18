@@ -55,7 +55,7 @@
 					<c:forEach var="j" begin="1" end="${end2}">
 						<c:set var="c" value="${list[idx] }" />
 						<div class="item">
-							<a href="/campView.do?campNo=${c.campNo }">
+							<a href="/campView.do?campNo=${c.campNo }&reqPage=1">
 								<div class="item-top">
 									<div class="item-image">
 										<img src="resources/upload/camp/${c.pictureList[0].filepath }"> 최저
@@ -66,8 +66,8 @@
 							<div class="item-bottom">
 								<div class="camp_name">${c.campName }</div>
 								<div class="camp_addr">${c.campAddr }</div>
-								<button class="btn btn-outline-primary camp_button"
-									onclick="location.href='/campView.do?campNo=${c.campNo}'">상세보기</button>
+								<button class="btn btn-outline-dark btn-sm camp_button"
+									onclick="location.href='/campView.do?campNo=${c.campNo}&reqPage=1'">상세보기</button>
 							</div>
 						</div>
 						<c:set var="idx" value="${idx+1 }" />
