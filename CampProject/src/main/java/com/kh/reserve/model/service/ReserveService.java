@@ -307,7 +307,6 @@ public class ReserveService {
 					site.setReserveDate(startDate);
 					site.setSiteName(r.getReservePlace());
 					site.setReservePay(r.getReservePrice());
-
 					//사이트 찾기
 					SiteVO s = dao.selectOneSite(site);
 					if(s != null) {
@@ -325,5 +324,9 @@ public class ReserveService {
 			result += dao.deleteReserve(reserve);
 		}		
 		return result;
+	}
+
+	public int flexOneRserve(ReserveVO reserve) {		
+		return dao.flexOneRserve(reserve);
 	}
 }

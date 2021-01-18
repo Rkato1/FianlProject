@@ -323,7 +323,10 @@
 	
 	<delete id="deleteReserve" parameterType="reserve">
 		delete from reservation where reserve_no = #{reserveNo}
-	</delete>
-	
-	
+	</delete>	
+	<update id="flexOneRserve" parameterType="reserve">
+		update reservation set 
+			reserve_status = '결제완료'
+		where reserve_no=#{reserveNo}
+	</update>	
 </mapper>

@@ -103,8 +103,18 @@ public class ReserveController {
 		}else {
 			model.addAttribute("msg", "서버오류로인해 취소되지않았습니다 관리자에게 문의해주세요.");
 			model.addAttribute("loc", "/reserveUpdateFrm.do?reserveNo="+reserve.getReserveNo());
+		}		
+		return "common/msg";
+	}
+	@RequestMapping("/flexOneRserve.do")
+	public String flexOneRserve(Model model,ReserveVO reserve) {
+		int result = service.flexOneRserve(reserve);
+		if(result>0) {
+			model.addAttribute("msg", "결제완료 설정되었습니다.");	
+		}else {
+			model.addAttribute("msg", "결제완료 설정 안되었습니다...");
 		}
-		
+		model.addAttribute("loc", "/reserveUpdateFrm.do?reserveNo="+reserve.getReserveNo());
 		return "common/msg";
 	}
 }

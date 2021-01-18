@@ -1,0 +1,40 @@
+@charset "UTF-8";
+* {
+        font-family: 'Noto Sans KR';
+    }
+section {
+	overflow: hidden;
+}
+
+sectino>div:first-child {
+	width: 25%;
+	border: 1px solid black;
+}
+
+section>div:last-child {
+	width: 75%;
+	margin: 0 auto;
+}
+
+form {
+	display: block;
+	margin: 0 auto;
+	width: 80%;
+}
+
+table {
+	height: 40px;
+	width: 100%;
+	margin-top: 50px;
+}
+
+table th {
+	width: 15%;
+}
+
+table td {
+	height: 100%;
+}
+.table{
+	border-bottom: 1px solid #dddddd;	
+}

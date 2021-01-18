@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.kh.camp.model.dao.CampDao;
 import com.kh.camp.model.vo.CampEventData;
 import com.kh.camp.model.vo.CampPageData;
-import com.kh.camp.model.vo.CampPictureVo;
+import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 
@@ -31,7 +31,7 @@ public class CampService {
 		for (CampVO c : list) {
 			map.put("campNo", c.getCampNo());
 			map.put("filegrade", 1);
-			ArrayList<CampPictureVo> pictureList = dao.selectPictureList(map);
+			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 			c.setPictureList(pictureList);
 		}
 		int totalCount = dao.totalCount();
@@ -79,7 +79,7 @@ public class CampService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("campNo", c.getCampNo());
 		map.put("filegrade", 2);
-		ArrayList<CampPictureVo> pictureList = dao.selectPictureList(map);
+		ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 		camp.setPictureList(pictureList);
 
 		String events = "";
@@ -121,9 +121,19 @@ public class CampService {
 		if(idx != 0) {
 			events = events.substring(0, events.length()-1); //{}를 만들었다면 마지막 ',' 지우기
 		}
+		
+		
+		map.put("filegrade", 3);
+		ArrayList<CampPictureVO> layoutList = dao.selectPictureList(map);
+		camp.setLayoutList(layoutList);	
+		
+		//ArrayList<CampNoticeVO> noticeList = dao.selectNoticeList(camp);
+		
+		
 		CampEventData ced = new CampEventData();
 		ced.setCamp(camp);
 		ced.setEvents(events);
+		//ced.setNoticeList(noticeList);
 		return ced;
 	}
 }

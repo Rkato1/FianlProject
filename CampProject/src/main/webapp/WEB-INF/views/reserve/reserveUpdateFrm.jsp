@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +22,8 @@
 			<div class="item">
 				<h4>예약자정보</h4>
 				<form action="/updateReserve.do" method="post">
-					<input type="hidden" name="reserveNo" value="${reserve.reserveNo }">
+					<input type="hidden" id="reserveNo" name="reserveNo"
+						value="${reserve.reserveNo }">
 					<table class="infomation" width="100%">
 						<colgroup>
 							<col class="col01">
@@ -99,14 +102,15 @@
 						</tr>
 						<tr class="list0 col1 ht center">
 							<td class="ln_r ln_l ln_b">${site.siteName }</td>
-							<td class="ln_r ln_b">${site.minCnt }명/ ${site.maxCnt }명</td>
+							<td class="ln_r ln_b">${site.minCnt }명/${site.maxCnt }명</td>
 							<td class="ln_r ln_b">${reserve.checkInDate }~
 								${reserve.checkOutDate } (${site.usingNight }박${site.usingNight+1 }일)
 							</td>
 							<td class="ln_r ln_b">${site.usingCnt }명(추가인원:
 								${site.usingCnt - site.minCnt } 명)</td>
 							<td class="ln_r ln_b" style="color: #FF0000;">${site.reservePay}원
-								<input type="hidden" value="${site.reservePay}" name="reservePrice" id="reservePrice">
+								<input type="hidden" value="${site.reservePay}"
+								name="reservePrice" id="reservePrice">
 							</td>
 							<td class="ln_r ln_b">${reserve.reserveStatus }</td>
 						</tr>
@@ -131,48 +135,58 @@
 					<li>환불시 제차 동의 받는 것과 같이 7일 이후 월요일(최대15일)에 처리됩니다.</li>
 				</ul>
 			</div>
-			<div class="item">
-				<br>
-				<h3>결제하기</h3>
-				<input type="checkbox" id="mustChk"> (필수) 위 사항에 변동이 없습니다.
-				<p class="button">
-					<input type="button" id="flex" style="width: 90%; height: 28px;" value="결제하기">
-				</p>
-			</div>
+			<c:choose>
+				<c:when test="${reserve.reserveStatus == '결제대기' }">
+					<div class="item">
+						<br>
+						<h3>결제하기</h3>
+						<input type="checkbox" id="mustChk"> (필수) 위 사항에 변동이 없습니다.
+						<p class="button">
+							<input type="button" id="flex" style="width: 90%; height: 28px;"
+								value="결제하기">
+						</p>
+					</div>
+				</c:when>
+			</c:choose>
 		</div>
 	</div>
 
 	<script>
-		$("#flex").click(function() {
-			if ($("#mustChk").is(':checked')) {
-				var price = $("#reservePrice").val();
-				var d = new Date();
-				var date = d.getFullYear() + " " + (d.getMonth() + 1) + ''
-				+ d.getDate() + '' + d.getHours() + ''
-				+ d.getMinutes() + '' + d.getSeconds();
-				IMP.init("imp32601368");
-				IMP.request_pay({
-					merchant_uid : '상품명_' + date, //상점거래 ID
-					name : '${reserve.reservePlace}' + ' 예약', //결제이름
-					amount : price, //결제금액
-					buyer_email : '${sessionScope.m.memberEmail }',//구매자 email
-					buyer_name : '${sessionScope.m.memberName }', //구매자이름
-				}, function(rsp) {
-					if (rsp.success) {
-						//결제가 성공함
-						alert('결제 성공');
-						//예약완료(예약+결제완료된상태)로 설정
-					}else{
-						//결제가 실패함
-						alert('결제 실패');
-						//결제대기(예약완료 결제미완료)로 설정
+		$("#flex").click(
+				function() {
+					if ($("#mustChk").is(':checked')) {
+						var price = $("#reservePrice").val();
+						var d = new Date();
+						var date = d.getFullYear() + " " + (d.getMonth() + 1)
+								+ '' + d.getDate() + '' + d.getHours() + ''
+								+ d.getMinutes() + '' + d.getSeconds();
+						IMP.init("imp32601368");
+						IMP.request_pay({
+							merchant_uid : '상품명_' + date, //상점거래 ID
+							name : '${reserve.reservePlace}' + ' 예약', //결제이름
+							amount : price, //결제금액
+							buyer_email : '${sessionScope.m.memberEmail }',//구매자 email
+							buyer_name : '${sessionScope.m.memberName }', //구매자이름
+						}, function(rsp) {
+							if (rsp.success) {
+								//결제가 성공함
+								alert('결제 성공');
+								//해당 reserve에 status를 결제완료로 설정해줘야함
+								var rserveNo = $("#reserveNo").val();
+								location.href = '/flexOneRserve.do?reserveNo='
+										+ reserveNo;
+								//예약완료(예약+결제완료된상태)로 설정
+							} else {
+								//결제가 실패함
+								alert('결제 실패');
+								//결제대기(예약완료 결제미완료)로 설정
+							}
+						});
+					} else {
+						//필수항목 체크 안함
+						alert('필수항목을 체크해주세요');
 					}
 				});
-			}else {
-				//필수항목 체크 안함
-				alert('필수항목을 체크해주세요');
-			}		
-		});
 	</script>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
