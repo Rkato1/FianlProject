@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.camp.used.vo.UsedCommentVO;
 import com.kh.camp.used.vo.UsedFileVO;
 import com.kh.camp.used.vo.UsedVO;
 
@@ -87,6 +88,32 @@ public class UsedDao {
 	public int deleteFile(int usedNo) {
 		return sqlSession.delete("used.deleteFile", usedNo);
 	}
+
+	public int insertComment(UsedCommentVO uc) {
+		System.out.println(uc);
+		return sqlSession.insert("used.insertComment", uc);
+	}
+
+	public UsedVO selectOneUsed(int usedNo) {
+		return sqlSession.selectOne("used.selectOneUsed",usedNo);
+	}
+
+	public int selectCommentCnt(int usedNo) {
+		return sqlSession.selectOne("used.selecCommentCnt", usedNo);
+	}
+	public ArrayList<UsedCommentVO> selectComment(int usedNo) {
+		List<UsedCommentVO> list = sqlSession.selectList("used.selectComment",usedNo);
+		return (ArrayList<UsedCommentVO>)list;
+	}
+
+	public int updateComment(UsedCommentVO uc) {
+		return sqlSession.update("used.updateComment",uc);
+	}
+
+	public int deleteComment(UsedCommentVO uc) {
+		return sqlSession.delete("used.deleteComment",uc);
+	}
+
 
 
 	

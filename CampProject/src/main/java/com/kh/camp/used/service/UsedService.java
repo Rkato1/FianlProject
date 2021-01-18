@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.camp.used.dao.UsedDao;
+import com.kh.camp.used.vo.UsedCommentData;
+import com.kh.camp.used.vo.UsedCommentVO;
 import com.kh.camp.used.vo.UsedFileVO;
 import com.kh.camp.used.vo.UsedPageNavi;
 import com.kh.camp.used.vo.UsedVO;
+import com.kh.review.model.vo.ReviewCommentVO;
 
 @Service
 public class UsedService {
@@ -141,6 +144,8 @@ public class UsedService {
 		u.setFile(fileList);
 		return u;
 	}
+	// 상세보기 댓글 
+
 	//상품 수정select과정
 	public UsedVO updateEnroll(UsedVO used) {
 		return dao.updateEnroll(used);
@@ -157,5 +162,36 @@ public class UsedService {
 		}
 		return result;
 	}
+	//댓글 인서트
+	public int insertComment(UsedCommentVO uc) {
+		System.out.println(uc);
+		return dao.insertComment(uc);
+	}
+
+	public UsedCommentData selectUcd(int usedNo) {
+		//중고거래를 받아옴
+		//UsedVO usv = dao.selectOneUsed(usedNo);
+		
+		//중고거래의 댓글 갯수를 가져옴
+		int cnt = dao.selectCommentCnt(usedNo);
+		
+		//중고거래의 댓글을 가져옴
+		ArrayList<UsedCommentVO> list = dao.selectComment(usedNo);
+		
+		UsedCommentData ucd = new UsedCommentData();
+		ucd.setCnt(cnt);
+		ucd.setClist(list);
+		
+		return ucd;
+	}
+
+	public int updateComment(UsedCommentVO uc) {
+		return dao.updateComment(uc);
+	}
+
+	public int deleteComment(UsedCommentVO uc) {
+		return dao.deleteComment(uc);
+	}
+
 
 }
