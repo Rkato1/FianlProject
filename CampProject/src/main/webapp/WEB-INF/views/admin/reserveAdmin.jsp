@@ -51,7 +51,7 @@
 							<td>${r.reservePrice }</td>
 							<td>${r.reservePw }</td>
 							<td>${r.carNumber }</td>
-							<td>${r.reserveMeno }</td>
+							<td>${r.reserveMemo }</td>
                        	</tr>
                        	</c:forEach>
                     </table>

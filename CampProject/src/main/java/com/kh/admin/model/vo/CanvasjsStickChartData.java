@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CanvasjsStickChartData {
-	static Map<Object,Object> map = null;
+	static Map<Object,Object> map = null;					
 	static List<List<Map<Object,Object>>> list = new ArrayList<List<Map<Object,Object>>>();
 	static List<Map<Object,Object>> dataPoints1 = new ArrayList<Map<Object,Object>>();	
 		
@@ -25,12 +25,16 @@ public class CanvasjsStickChartData {
 				}
 			}
 		}
-		System.out.println("순위 = "+rank);
-		//동점시 빠른게 들어가니까 중복검사 후 넣기
-		for(int i=0; i<3; i++) {
-			map = new HashMap<Object,Object>();
+		for(int i : rank) {
+			System.out.println("순위 = "+i);
+		}
+		
+		for(int i=0; i<3; i++) {			
 			for(int j=0; j<rank.length; j++) {
 				if(rank[j]==i+1) {
+					map = new HashMap<Object,Object>();
+					//1,2,3등일때
+					//이미 해당이름이 존재할때
 					map.put("label", campNameList.get(j));
 					//System.out.println("x값 = "+campNameList.get(i));
 					map.put("y", reviewPointList.get(j));
@@ -72,10 +76,10 @@ public class CanvasjsStickChartData {
 				}
 			}
 		}
-		for(int i=0; i<3; i++) {
-			map = new HashMap<Object,Object>();
-			for(int j=0; j<rank.length; j++) {					
+		for(int i=0; i<3; i++) {			
+			for(int j=0; j<rank.length; j++) {
 				if(rank[j]==i+1) {
+					map = new HashMap<Object,Object>();
 					map.put("label", campNameList.get(j));			
 					//System.out.println("x값 = "+campNameList.get(j));
 					map.put("y", salesList.get(j));

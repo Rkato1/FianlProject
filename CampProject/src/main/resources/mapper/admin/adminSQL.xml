@@ -13,10 +13,7 @@
   		member_email as memberEmail,
   		member_reg_date as memberRegDate,
   		member_grade as memberGrade
-  from (select rownum as rnum,n.*from(select * from member where member_grade = 1 order by 1 desc)n) where rnum between #{start} and #{end}
-  	<!-- if test="memPw != null"> 
-  	and mem_pw=#{memPw}
-  	</if--> 
+  from (select rownum as rnum,n.*from(select * from member where member_grade = 1 order by 1 desc)n) where rnum between #{start} and #{end}  	 
   </select>  
   
   <select id="selectAllMemberCount" resultType="_int">
@@ -36,11 +33,7 @@
   		camp_ph as campPh,
   		camp_period as campPeriod,
   		camp_day as campDay,
-  		camp_facility as campFacility,
-  		camp_fee_ori_day as campFeeOriDay,
-  		camp_fee_ori_end as campFeeOriEnd,
-  		camp_fee_peak_day as campFeePeakDay,
-  		camp_fee_peak_end as campFeePeakEnd
+  		camp_facility as campFacility
   from (select rownum as rnum,n.*from(select * from camp order by 1 desc)n) where rnum between #{start} and #{end}  	 
   </select>
   
@@ -62,7 +55,7 @@
   		reserve_price as reservePrice,
   		reserve_pw as reservePw,
   		car_number as carNumber,
-  		reserve_memo as reserveMeno
+  		reserve_memo as reserveMemo
   from (select rownum as rnum,n.*from(select * from reservation order by 1 desc)n) where rnum between #{start} and #{end}  	 
   </select>
   
@@ -103,7 +96,7 @@
   
   <select id="selectSalesChart" parameterType="_int" resultType="_int">
   	select sum(RESERVE_PRICE)
-  	from reservation where reserve_status='예약중' and camp_no=#{_parameter}
+  	from reservation where reserve_status='결제완료' and camp_no=#{_parameter}
   </select>
   
   <select id="selectAdminAnswerReview" resultType="_int">
@@ -127,7 +120,7 @@
 		#{value}
   </foreach> order by 1 desc)n) where rnum between #{start} and #{end}
   </select>
-  <!-- 위랑 밑에 list가 왜 null뜨는지만 알아내면 끝남 -->
+  
   <select id="selectAdminNotAnswerReviewList" parameterType="map" resultType="reviewCamp">
   	select
   		rownum as rnum,

@@ -76,8 +76,9 @@ public class AdminDao {
 			if(saleList.size()!=0) {
 				int monthSale=0;
 				for(ReserveVO r : saleList) {
-					//예약완료로 바뀌게 된다면 꼭 수정해야될 부분
-					if(r.getReserveStatus().equals("예약중")) {
+					//결제완료로 바뀌게 된다면 꼭 수정해야될 부분
+					if(r.getReserveStatus().equals("결제완료")) {
+					//if(r.getReserveStatus().equals("예약중")) {
 						monthSale+=r.getReservePrice();
 					}
 				}
