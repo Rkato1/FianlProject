@@ -27,10 +27,13 @@ public class UsedDao {
 		List<UsedFileVO> fileList = sqlSession.selectList("used.selectFileList",map);
 		return (ArrayList<UsedFileVO>)fileList;
 	}
-
 	public int totalCount() {
 		return sqlSession.selectOne("used.totalCount");
 	}
+	//가격순
+	
+	
+	
 	//검색
 	public ArrayList<UsedVO> usedSearch(HashMap<String, Object> map) {
 		System.out.println(map);
@@ -64,6 +67,29 @@ public class UsedDao {
 	public UsedVO selectDatail(UsedVO used) {
 		return sqlSession.selectOne("used.selectOneDatail",used);
 	}
+	public ArrayList<UsedFileVO> selectDatailFile(int usedNo) {
+		List<UsedFileVO> fileList = sqlSession.selectList("used.selectDatailFile",usedNo);
+		return (ArrayList<UsedFileVO>)fileList;
+	}
+	//중고상품
+	public UsedVO updateEnroll(UsedVO used) {
+		return sqlSession.selectOne("used.updateEnroll",used);
+	}
+	//중고상품 업데이트
+	public int updateEnrollEnd(UsedVO used) {
+		return sqlSession.update("used.usedUpdate", used);
+	}
+	//물품 삭제
+	public int deleteEnroll(int usedNo) {
+		return sqlSession.delete("used.deleteEnroll", usedNo);
+	}
+	//물품 삭제
+	public int deleteFile(int usedNo) {
+		return sqlSession.delete("used.deleteFile", usedNo);
+	}
+
+
+	
 
 
 	

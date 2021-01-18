@@ -67,12 +67,12 @@ public class ReserveService {
 			m.setMemberNo(site.getMemberNo());
 			MemberVO member = dao.selectOneMemberNo(m);
 			if(member != null) {
-				System.out.println("memberName = "+member.getMemberName());
 				memberList.add(member);
 			}
-			ReserveVO r = dao.selectOneReserve(site);
+			map.put("siteName", site.getSiteName());
+			map.put("memberNo", site.getMemberNo());
+			ReserveVO r = dao.selectOneReserve(map);
 			if(r !=null) {
-				System.out.println("reserve = "+r);
 				reserveList.add(r);
 			}			
 		}
@@ -186,82 +186,31 @@ public class ReserveService {
 		int idx = 0;
 		for(int i = 0 ; i <end1;i++) {
 			SiteVO site = new SiteVO();
-			//0 -> siteNo
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setSiteNo");
 			site.setSiteNo(Integer.parseInt(item[idx++]));
-			//1 -> campNo
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setCampNo");
 			site.setCampNo(Integer.parseInt(item[idx++]));
-			//2 -> setSiteTitle
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setSiteTitle");
 			site.setSiteTitle(item[idx++]);
-			//3 -> setSiteName
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setSiteName");
 			site.setSiteName(item[idx++]);
-			//4 -> setMinCnt
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setMinCnt");
 			site.setMinCnt(Integer.parseInt(item[idx++]));
-			//5 -> setMaxCnt
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setMaxCnt");
 			site.setMaxCnt(Integer.parseInt(item[idx++]));
-			//6 -> setMinNight
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setMinNight");
 			site.setMinNight(Integer.parseInt(item[idx++]));
-			//7 -> setMaxNight
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setMaxNight");
 			site.setMaxNight(Integer.parseInt(item[idx++]));
-			//8 -> setDiscountPay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setDiscountPay");
 			site.setDiscountPay(Integer.parseInt(item[idx++]));
-			//9 -> setAddCntPay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setAddCntPay");
 			site.setAddCntPay(Integer.parseInt(item[idx++]));
-			//10 -> setAddCarPay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setAddCarPay");
 			site.setAddCarPay(Integer.parseInt(item[idx++]));
-			//11 -> setUsingCnt
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setUsingCnt");
 			site.setUsingCnt(Integer.parseInt(item[idx++]));
-			//12 -> setUsingPay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setUsingPay");
 			site.setUsingPay(Integer.parseInt(item[idx++]));
-			//13 -> setUsingNight
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setUsingNight");
 			site.setUsingNight(Integer.parseInt(item[idx++]));
-			//14 -> setAddCarDay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setAddCarDay");
 			site.setAddCarDay(Integer.parseInt(item[idx++]));
-			//15 -> setAddCarCnt
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setAddCarCnt");
 			site.setAddCarCnt(Integer.parseInt(item[idx++]));
-			//16 -> setMemberNo
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setMemberNo");
 			site.setMemberNo(Integer.parseInt(item[idx++]));
-			//17 -> setReservePay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setReservePay");
 			site.setReservePay(Integer.parseInt(item[idx++]));
-			//18 -> setReserveDate
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setReserveDate");
 			site.setReserveDate(item[idx++]);			
-			//19 -> setLowDayPay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setLowDayPay");
 			site.setLowDayPay(Integer.parseInt(item[idx++]));
-			//20 -> setLowEndPay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setLowEndPay");
 			site.setLowEndPay(Integer.parseInt(item[idx++]));
-			//21 -> setPeakDayPay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setPeakDayPay");
 			site.setPeakDayPay(Integer.parseInt(item[idx++]));
-			//22 -> setPeakEndPay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setPeakEndPay");
 			site.setPeakEndPay(Integer.parseInt(item[idx++]));
-			//23 -> setPolarDayPay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setPolarDayPay");
 			site.setPolarDayPay(Integer.parseInt(item[idx++]));
-			//24 -> setPolarEndPay
-			//System.out.println("item["+idx+"] = "+item[idx] + "-> setPolarEndPay");
 			site.setPolarEndPay(Integer.parseInt(item[idx++]));
-			//System.out.println("site = " +site);
 			siteList.add(site);		
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -303,5 +252,81 @@ public class ReserveService {
 			}			
 		}
 		return result;
+	}
+
+	public ReserveVO selectOneReserve(ReserveVO reserve) {		
+		return dao.selectOneReserve(reserve);
+	}
+
+	public SiteVO selectOneSiteReserve(ReserveVO r) {		
+		return dao.selectOneSiteReserve(r);
+	}
+
+	public MemberVO selectOneMember(ReserveVO r) {
+		MemberVO m = new MemberVO();
+		m.setMemberNo(r.getMemberNo());
+		return dao.selectOneMemberNo(m);
+	}
+
+	public int updateReserve(ReserveVO reserve) {		
+		return dao.updateReserve(reserve);
+	}
+
+	public int reserveDelete(ReserveVO reserve) {
+		//일단 삭제해야할 reserve부터 찾는다.
+		int result = 0;
+		ReserveVO r = dao.selectOneReserve(reserve);
+		if(r != null) {
+			//시작날짜 저장
+			String startDate = r.getCheckInDate();
+			//끝날짜 저장
+			String endDate = r.getCheckOutDate();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //날짜 형식 설정			
+			Calendar cal2 = Calendar.getInstance(); // 캘린더 현재 날짜 초기화			
+			//조건문while이 다르다가 같으면 멈춰서 한번 더 돌리기 위한 날짜 1증가
+			try {
+				Date date2 = sdf.parse(endDate);
+				cal2.setTime(date2);//날짜 셋팅 됨
+				cal2.add(Calendar.DATE, 1); // 1일 더해준다
+				endDate = sdf.format(cal2.getTime());				
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			//날짜값들을 가지고와서 n번만큼 반복하여 삭제해야함
+			while(!startDate.equals(endDate)) {
+				try {
+					Calendar cal = Calendar.getInstance(); // 캘린더 현재 날짜 초기화
+					Date date = sdf.parse(startDate);
+					cal.setTime(date);//날짜 셋팅 됨
+					//startDate해당 날짜인거 삭제
+					SiteVO site = new SiteVO();
+					site.setCampNo(r.getCampNo());
+					site.setMemberNo(r.getMemberNo());
+					site.setReserveDate(startDate);
+					site.setSiteName(r.getReservePlace());
+					site.setReservePay(r.getReservePrice());
+					//사이트 찾기
+					SiteVO s = dao.selectOneSite(site);
+					if(s != null) {
+						//찾는데 성공하면 삭제실시
+						result += dao.deleteSite(s);
+					}				
+					cal.add(Calendar.DATE, 1); // 1일 더해준다
+					startDate = sdf.format(cal.getTime());
+					date = sdf.parse(startDate);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}			
+			result += dao.deleteReserve(reserve);
+		}		
+		return result;
+	}
+
+	public int flexOneRserve(ReserveVO reserve) {		
+		return dao.flexOneRserve(reserve);
 	}
 }

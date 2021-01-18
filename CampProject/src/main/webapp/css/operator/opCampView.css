@@ -1,0 +1,54 @@
+@charset "UTF-8";
+* {
+        font-family: 'Noto Sans KR';
+    }
+.title {
+	font-weight: bold;
+	font-family: 'Noto Sans KR';
+}
+
+.camp_info th {
+	height: 30px;
+	width: 120px;
+}
+
+.info_imgs {
+	overflow: hidden;
+}
+
+.info_imgs>.img-wrapper {
+	width: calc(100%/ 3);
+	height: 200px;
+	float: left;
+	padding: 1%;
+}
+#main_img{
+	width:30%;
+	height:180px;
+	display: inline-block;
+}
+#main_img+div{
+	width:65%;
+	display: inline-block;
+	margin-left: 4%;
+}
+.img-wrapper {
+	border: none;
+}
+
+.updateBtn {
+	background-color: #f49b00;
+	color: white;
+	border: none;
+	border-radius: 2px;
+	width: 100px;
+	height: 40px;
+}
+
+hr{
+	color: #f49b00;
+}
+h4 {
+	padding-top: 25px;
+	padding-bottom: 10px;
+}
