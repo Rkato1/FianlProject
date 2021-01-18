@@ -89,6 +89,11 @@
         	box-shadow: none !important;
         }
         
+        .delFileDiv {
+        	margin-top: 5px;
+        	margin-bottom: 5px;
+        }
+        
 	</style>
 	
 </head>
@@ -103,6 +108,7 @@
         <div class="review-table">
             
             <form action="/updateReview.do" method="post" enctype="multipart/form-data" onsubmit="delFileTest()">
+            	<input type="hidden" name="reviewNo" id="reviewNo" value="${rev.reviewNo }">
                 <table class="table table-bordered">
                     <tr>
                         <td>제목</td>
@@ -139,15 +145,17 @@
                     <tr>
                         <td>첨부파일</td>
                         <td>
+                        	<!-- 파일 삭제되면 delFileList에 fileNo 배열로 담기-->
                         	<input type="hidden" name="delFileList" class="delFileNo">
-							<!-- 파일 삭제 여부 확인 (자바스크립트에서 삭제하면 value값 delete로 변경)-->
 							<input type="hidden" id="status" name="status" value="stay">
 							<c:choose>
 								<c:when test="${!empty rev.fileList }"><!-- 첨부파일이 존재할 때 -->
 									<input type="file" name="files" multiple><br>
 									<c:forEach items="${rev.fileList }" var="f">
-										<span class="delFileSpan">${f.filename }</span>										
-										<button type="button" id="fileDelBtn" class="btn btn-danger btn-sm delFileBtn" onclick="delFileListAdd('${f.reviewFileNo}')">삭제</button>
+										<div class="delFileDiv">
+											<span class="delFileSpan">${f.filename }</span>
+											<button type="button" id="fileDelBtn" class="btn btn-dark btn-sm delFileBtn" onclick="delFileListAdd('${f.filepath}')">삭제</button>
+										</div>										
 									</c:forEach>
 								</c:when>
 								
@@ -165,7 +173,7 @@
                     </tr>
                 </table>
                 <div class="review-button">
-                    <button type="submit" class="btn" id="updateBtn">작성완료</button>
+                    <button type="submit" class="btn" id="updateBtn">수정완료</button>
                 </div>
             </form>
         </div>
@@ -174,15 +182,18 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	
 	<script>
+		//삭제된 파일 리스트를 담을 배열 생성
 		var delList = new Array();
 		
-		function delFileTest() {
-			$("[name=delFileList]").val(delList.join("/"));	
+		//삭제 버튼을 클릭하면 만들어둔 배열에 file값 push
+		function delFileListAdd(delFilepath) {
+			delList.push(delFilepath);
+			console.log(delList);
 		}
 		
-		function delFileListAdd(delFileNo) {
-			delList.push(delFileNo);
-			console.log(delList);
+		//숨겨둔 input-hidden에 값 넣기
+		function delFileTest() {
+			$("[name=delFileList]").val(delList.join("/"));		
 		}
 		
 		$(".delFileBtn").click(function() {
@@ -192,9 +203,9 @@
 				$(".delFileSpan").eq(idx).hide();
 				$(".delFileBtn").eq(idx).hide();
 				$("#status").val('delete');
-			}
-			;
+			};
 		});
+		
 		
 		//별 클릭하면 채워진 별 이미지로 변경하는 이벤트
 		//한번만 클릭되고 다음부터는 안되는 문제가 있었음

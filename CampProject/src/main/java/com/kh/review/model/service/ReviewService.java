@@ -163,6 +163,10 @@ public class ReviewService {
 		return rpd;
 	}
 
+	public CampVO selectOneCamp(int campNo) {
+		return dao.selectOneCamp(campNo);
+	}
+	
 	public ReviewViewData reviewView(int reviewNo) {
 		//리뷰를 가져오는 dao
 		ReviewVO r = dao.selectOneReview(reviewNo); 
@@ -184,34 +188,14 @@ public class ReviewService {
 		return rvd;
 	}
 	
-	public ArrayList<ReserveCampVO> selectListReserve(int memberNo) {
-		return dao.selectListReserve(memberNo);
-	}
-	
-	public int deleteReview(int reviewNo) {
-		return dao.deleteReview(reviewNo);
-	}
-	
-	public CampVO selectOneCamp(int campNo) {
-		return dao.selectOneCamp(campNo);
-	}
-
 	public int searchCampNo(int reviewNo) {
 		return dao.searchCampNo(reviewNo);
 	}
 	
-	public int insertReviewComment(ReviewCommentVO rc) {
-		return dao.insertReviewComment(rc);
+	public ArrayList<ReserveCampVO> selectListReserve(int memberNo) {
+		return dao.selectListReserve(memberNo);
 	}
-
-	public int updateReviewComment(ReviewCommentVO rc) {
-		return dao.updateReviewComment(rc);
-	}
-
-	public int deleteReviewComment(int reviewCommentNo) {
-		return dao.deleteReviewComment(reviewCommentNo);
-	}
-
+	
 	public int insertReview(ReviewVO r) {
 		//예약번호로 campNo 조회하기
 		int reserveNo = r.getReserveNo();
@@ -235,19 +219,47 @@ public class ReviewService {
 	public ReviewVO selectOneReview(int reviewNo) {
 		//리뷰를 가져오는 dao
 		ReviewVO r = dao.selectOneReview(reviewNo); 
-		
 		//리뷰 파일을 가져오는 dao
 		if(r != null) {
 			ArrayList<ReviewFileVO> fileList = dao.selectFileList(reviewNo);
 			r.setFileList(fileList);
 		}
-		
 		return r;
 	}
 
 	public int updateReview(ReviewVO r) {
+		//새로운 첨부파일이 있을 경우 review_file 테이블에 등록		
+		int reviewNo = r.getReviewNo();
+		//받아온 reviewNo로 file테이블에 삽입 (반복문으로 여러 개 파일 등록)
+		for(ReviewFileVO rfv : r.getFileList()) {
+			rfv.setReviewNo(reviewNo);
+			int result = dao.insertReviewFile(rfv);
+		}
 		return dao.updateReview(r);
 	}
 
+	public int deleteReviewFilepath(ArrayList<String> delFilepathList) {
+		return dao.deleteReviewFilepath(delFilepathList);
+	}
+
+	public ArrayList<String> selectReviewFilepath(int reviewNo) {
+		return dao.selectReviewFilepath(reviewNo);
+	}
+	
+	public int deleteReview(int reviewNo) {
+		return dao.deleteReview(reviewNo);
+	}
+	
+	public int insertReviewComment(ReviewCommentVO rc) {
+		return dao.insertReviewComment(rc);
+	}
+
+	public int updateReviewComment(ReviewCommentVO rc) {
+		return dao.updateReviewComment(rc);
+	}
+
+	public int deleteReviewComment(int reviewCommentNo) {
+		return dao.deleteReviewComment(reviewCommentNo);
+	}
 
 }

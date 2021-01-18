@@ -112,7 +112,7 @@
       }
       
       .review-content-text {
-      	margin-top: 100px;
+      	margin-top: 50px;
       }
       
       .review-content-img-one {

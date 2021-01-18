@@ -38,7 +38,7 @@ public class MemberController {
 				model.addAttribute("loc", "/admin/mainAdmin.do");
 			}else {
 				model.addAttribute("msg", "[로그인]되었습니다.");
-				model.addAttribute("loc", "/campList.do?reqPage=1");
+				model.addAttribute("loc", "/reviewList.do?reqPage=1");
 			}
 		} else {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요.");
