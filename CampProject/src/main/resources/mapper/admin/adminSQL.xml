@@ -70,4 +70,63 @@
   	select count(*)
   	from reservation
   </select>
+  
+  <select id="selectSalesListName" resultType="String">
+  	select camp_name
+  	from camp where camp_no=#{_parameter}
+  </select>
+  
+  <select id="selectSalesListNum" resultType="_int">
+  	select DISTINCT camp_no
+  	from reservation
+  </select>
+  
+  <select id="selectMonthSale" parameterType="map" resultType="reserve">
+  	select
+  		RESERVE_PRICE as reservePrice,
+  		reserve_status as reserveStatus
+  	from reservation where
+  		substr(check_in_date,6,2)=#{month} and
+  		substr(check_in_date,1,4)=#{year} and
+  		camp_no=#{campNo}
+  </select>
+  
+  <select id="selectReviewListNum" resultType="_int">
+  	select DISTINCT camp_no
+  	from review
+  </select>
+  
+  <select id="selectReviewPointChart" resultType="_float">
+  	select avg(review_point)
+  	from review where camp_no=#{_parameter}
+  </select>
+  
+  <select id="selectSalesChart" parameterType="_int" resultType="_int">
+  	select sum(RESERVE_PRICE)
+  	from reservation where reserve_status='예약중' and camp_no=#{_parameter}
+  </select>
+  
+  <select id="selectAdminAnswerList" resultType="reviewComment">
+  	select
+  		review_comment_no as reviewCommentNo,
+		review_comment_level as reviewCommentLevel,
+		review_comment_writer as reviewCommentWriter,
+		review_comment_content as reviewCommentContent,
+		review_no as reviewNo,
+		review_comment_ref as reviewCommentRef,
+		review_comment_date as reviewCommentDate
+  	from review_comment where REVIEW_COMMENT_WRITER='admin'
+  </select>
+  
+  <select id="selectAdminNotAnswerList" resultType="reviewComment">
+  	select
+  		review_comment_no as reviewCommentNo,
+		review_comment_level as reviewCommentLevel,
+		review_comment_writer as reviewCommentWriter,
+		review_comment_content as reviewCommentContent,
+		review_no as reviewNo,
+		review_comment_ref as reviewCommentRef,
+		review_comment_date as reviewCommentDate
+  	from review_comment where REVIEW_COMMENT_WRITER!='admin'
+  </select>
 </mapper>

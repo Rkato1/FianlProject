@@ -1,5 +1,6 @@
 package com.kh.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,12 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.admin.model.vo.CampVOPageData;
+import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
+import com.kh.admin.model.vo.ReviewCommentVOPageData;
 import com.kh.admin.service.AdminService;
 import com.kh.member.model.vo.MemberVO;
+import com.kh.review.model.vo.ReviewCommentVO;
 
 @RequestMapping("/admin")
 @Controller
@@ -92,11 +97,36 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/salesAdmin.do")
-	public String salesAdmin(Model model, HttpSession session) {
+	public String salesAdmin(Model model, HttpSession session, int campNo, int year) {
 		isAdmin = isAdmin(session);
-		if(isAdmin) {
-			List<List<Map<Object, Object>>> list = service.getCanvasjsChartData();
+		if(isAdmin) {			
+			ArrayList<Integer> numList = service.getNumList();
+			ArrayList<String> nameList = service.nameList(numList);
+			ArrayList<ChartBasicData> dataList = new ArrayList<ChartBasicData>();
+			for(int i=0; i<numList.size(); i++) {
+				dataList.add(new ChartBasicData(numList.get(i), nameList.get(i)));
+			}
+			String campName="";
+			if(campNo==0) {
+				campNo = dataList.get(0).getCampNo();
+				campName = dataList.get(0).getCampName();
+			}else {
+				for(ChartBasicData cbd : dataList) {
+					if(cbd.getCampNo()==campNo) {
+						campName = cbd.getCampName();
+					}
+				}
+			}
+			if(year==0) {
+				//원래는 달력기준 올해로 설정해야함
+				year = 2021;
+			}
+			
+			List<List<Map<Object, Object>>> list = service.getCanvasjsChartData(campNo, year);
 			model.addAttribute("dataPointsList", list);
+			model.addAttribute("list", dataList);			
+			model.addAttribute("campName", campName);
+			model.addAttribute("year", year);
 			return "admin/salesAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
@@ -106,11 +136,17 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/greatcampAdmin.do")
-	public String greatcampAdmin(Model model, HttpSession session) {
+	public String greatcampAdmin(Model model, HttpSession session, String option) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
-			List<List<Map<Object, Object>>> list = service.getCanvasjsStickChartData();
+			List<List<Map<Object, Object>>> list = null;
+			if(option.equals("sales")) {
+				list = service.getCanvasjsStickChartData2();
+			}else {
+				list = service.getCanvasjsStickChartData();
+			}
 			model.addAttribute("dataPointsList", list);
+			model.addAttribute("option", option);
 			return "admin/greatcampAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
@@ -120,9 +156,19 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/helpAdmin.do")
-	public String helpAdmin(Model model, HttpSession session) {
+	public String helpAdmin(Model model, HttpSession session, String option, int reqPage) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
+			ReviewCommentVOPageData rcpd = null;
+			if(option.equals("answer")) {
+				rcpd = service.adminAnswerList(reqPage);
+				model.addAttribute("list", rcpd.getList());
+				model.addAttribute("pageNavi", rcpd.getPageNavi());
+			}else {
+				rcpd = service.adminNotAnswerList(reqPage);
+				model.addAttribute("list", rcpd.getList());
+				model.addAttribute("pageNavi", rcpd.getPageNavi());
+			}
 			return "admin/helpAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");

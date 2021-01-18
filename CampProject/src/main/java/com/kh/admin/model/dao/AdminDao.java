@@ -9,9 +9,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.admin.model.vo.CanvasjsChartData;
+import com.kh.admin.model.vo.CanvasjsStickChartData;
+import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
+import com.kh.review.model.vo.ReviewCommentVO;
 
 @Repository
 public class AdminDao {
@@ -45,11 +49,120 @@ public class AdminDao {
 		return sqlSession.selectOne("selectAllReserveCount");
 	}
 
-	public List<List<Map<Object, Object>>> getCanvasjsChartData() {		
-		return CanvasjsChartData.getCanvasjsDataList();
+	public List<List<Map<Object, Object>>> getCanvasjsChartData(int campNo, int year) {
+		ArrayList<String> monthArray = new ArrayList<String>();
+		monthArray.add("01");
+		monthArray.add("02");
+		monthArray.add("03");
+		monthArray.add("04");
+		monthArray.add("05");
+		monthArray.add("06");
+		monthArray.add("07");
+		monthArray.add("08");
+		monthArray.add("09");
+		monthArray.add("10");
+		monthArray.add("11");
+		monthArray.add("12");
+		ArrayList<Integer> monthSales = new ArrayList<Integer>(monthArray.size());
+		for(int i=0; i<monthArray.size(); i++) {
+			HashMap<String, Object> tempMap = new HashMap<String, Object>();
+			tempMap.put("month", monthArray.get(i));
+			tempMap.put("campNo", campNo);
+			tempMap.put("year", year);
+			List<ReserveVO> saleList = sqlSession.selectList("selectMonthSale",tempMap);
+			if(saleList.size()!=0) {
+				int monthSale=0;
+				for(ReserveVO r : saleList) {
+					//예약완료로 바뀌게 된다면 꼭 수정해야될 부분
+					if(r.getReserveStatus().equals("예약중")) {
+						monthSale+=r.getReservePrice();
+					}
+				}
+				monthSales.add(monthSale);
+			}else {
+				monthSales.add(0);
+			}
+		}
+		return CanvasjsChartData.getCanvasjsDataList(monthArray, monthSales);
 	}
 
 	public List<List<Map<Object, Object>>> getCanvasjsStickChartData() {
-		return CanvasjsStickChartData.getCanvasjsDataList();
+		List<Integer> campNoList = sqlSession.selectList("selectReviewListNum");
+		ArrayList<Float> reviewPointList = new ArrayList<Float>();
+		ArrayList<String> campNameList = new ArrayList<String>();
+		for(int i : campNoList) {
+			Float reviewPoint = sqlSession.selectOne("selectReviewPointChart",i);
+			reviewPointList.add(reviewPoint);
+			String campName = sqlSession.selectOne("selectSalesListName", i);
+			campNameList.add(campName);
+		}
+		return CanvasjsStickChartData.getCanvasjsDataList(campNameList, reviewPointList);
+	}
+	public ArrayList<Integer> getNumList() {
+		List<Integer> numList = sqlSession.selectList("selectSalesListNum");
+		return (ArrayList<Integer>)numList;
+	}
+
+	public ArrayList<String> getNameList(ArrayList<Integer> numList) {
+		ArrayList<String> nameList = new ArrayList<String>();
+		for(int i : numList) {
+			String str = sqlSession.selectOne("selectSalesListName", i);
+			nameList.add(str);
+		}
+		return nameList;
+	}
+
+	public List<List<Map<Object, Object>>> getCanvasjsStickChartData2() {
+		List<Integer> campNoList = sqlSession.selectList("selectSalesListNum");
+		//System.out.println("중복제거한 캠프 리스트수"+campNoList.size());
+		ArrayList<Integer> salesList = new ArrayList<Integer>();
+		ArrayList<String> campNameList = new ArrayList<String>();
+		for(int i : campNoList) {
+			//이 sql은 예약중으로 거르게 되어있어서 결제완료가 생성되면 바꿔야함
+			//Integer로 받으면 null도 대처가 가능함
+			Integer salesMoney = sqlSession.selectOne("selectSalesChart",i);
+			if(salesMoney==null) {
+				salesList.add(0);
+			}else {
+				salesList.add(salesMoney);
+			}
+			String campName = sqlSession.selectOne("selectSalesListName", i);
+			campNameList.add(campName);
+		}
+		return CanvasjsStickChartData.getCanvasjsDataList2(campNameList, salesList);
+	}
+
+	public ArrayList<ReviewCommentVO> adminAnswerList() {
+		List<ReviewCommentVO> adminAnswerList = sqlSession.selectList("selectAdminAnswerList");
+		return (ArrayList<ReviewCommentVO>) adminAnswerList;
+	}
+
+	public ArrayList<ReviewCommentVO> adminNotAnswerList() {
+		List<ReviewCommentVO> adminNotAnswerList = sqlSession.selectList("selectAdminNotAnswerList");
+		return (ArrayList<ReviewCommentVO>) adminNotAnswerList;
+	}
+
+//	따로 변화하지 않으면 후기에서만 검색
+//	이거 현재는 관리자 댓글제외하곤 다 답변안한거로 옴
+//	완벽한 로직을 위해서는 후기글이 관리자 답변된게 있으면 답변한글
+//	후기글이 관리자 답변된게 없으면 답변하지 않은글
+	public ArrayList<ReviewCommentVO> selectAdminAnswerList(HashMap<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int totalAdminAnswerListCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public ArrayList<ReviewCommentVO> selectAdminNotAnswerList(HashMap<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int totalAdminNotAnswerListCount() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

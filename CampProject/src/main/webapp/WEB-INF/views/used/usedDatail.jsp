@@ -109,14 +109,13 @@
         <!-- 상품아이템 -->
         <main class="section-size hei" style="margin-bottom: 80px;">
             <div>
-                <div class="col-md-6 mid-img bootcol one">
+                <div class="col-md-6 mid-img bootcol one" style="padding: 0;">
                     <!-- Swiper -->
                     <div class="swiper-container" style="width: 500px; height: 500px;">
                         <div class="swiper-wrapper">
-                        <%-- <c:forEach items="${list }" var="l"> --%>
-                        <div class="swiper-slide"><img src="resources/upload/used/${u.file[0].filepath }"></div>
-                        <div class="swiper-slide"><img src="resources/upload/used/${u.file[1].filepath }"></div>
-                        <%-- </c:forEach> --%>
+                        <c:forEach items="${list }" var="l">
+                        <div class="swiper-slide"><img src="resources/upload/used/${l.filepath }"></div>
+                        </c:forEach>
                         </div>
                         <!-- Add Pagination -->
                         <div class="swiper-pagination"></div>
@@ -130,13 +129,13 @@
                         <pre>${u.usedTitle }</pre>
                     </div>
                     <div>
-                        <div class="col-md-3 one bootcol">
+                        <div class="col-md-3 one bootcol" style="font-size: 14px; font-weight: 600;">
                             <p>제품종류</p>
                             <p>교환여부</p>
                             <p>제품상태</p>
                             <p>거래지역</p>
                         </div>
-                        <div class="col-md-9 bootcol">
+                        <div class="col-md-9 bootcol"style="font-size: 14px;">
                             <p>${u.category }</p>
                             <p>${u.usedChange }</p>
                             <p>${u.usedState }</p>
@@ -145,7 +144,7 @@
                     </div>
                     <hr>
                     <div>
-                        <div class="col-md-3 one bootcol" style="line-height: 37px;">
+                        <div class="col-md-3 one bootcol" style="line-height: 37px; font-weight: 600;">
                             <p>가격</p>
                         </div>
                         <div class="col-md-9 bootcol" style="font-weight: 800; font-size: 26px;">
@@ -154,23 +153,27 @@
                     </div>
                     <hr>
                     <input id="chatBtn" type="button" value="채팅하기" >
+                    <c:if test="${sessionScope.m.memberId == u.usedWriter }">
+                    <a href="/updateEnroll.do?usedNo=${u.usedNo }"><input id="chatBtn" type="button" value="수정하기" style="margin-top: 7px; width: 49%;margin-right: 3px;"></a>
+                    <a href="javascript:void(0)" onclick="deleteEnroll(${u.usedNo })"><input id="chatBtn" type="button" value="삭제하기" style="margin-top: 7px; width: 49%;"></a>
+                    </c:if>
                 </div>
             </div>
         </main>
         <!-- 상품설명  -->
         <section class="section-size" style="height: 300px;">
             <div class="bootcol">
-                <p style="font-size: 20px; font-weight: 700;">상품설명</p>
+                <p style="font-size: 20px; font-weight: 700; margin: 0;">상품설명</p>
             </div>
-            <hr style="border: 2px solid #1d0202; margin-bottom: 5px;">
+            <hr style="border: 2px solid #1d0202; margin-bottom: 8px; margin-top: 5px;">
             <span>${u.usedContent }</span>
         </section>
         <!-- 상품문의 댓글-->
         <section class="section-size">
             <div class="bootcol">
-                <p style="font-size: 20px; font-weight: 700;">상품문의</p>
+                <p style="font-size: 20px; font-weight: 700; margin: 0;">상품문의</p>
             </div>
-            <hr style="border: 2px solid #1d0202; margin-bottom: 5px;">
+            <hr style="border: 2px solid #1d0202; margin-bottom: 8px; margin-top: 5px;">
             <div>
                 <div class="bootcol"style="float: left;">
             <textarea name="usedReview" id="usedReview" cols="105" rows="4" placeholder="문의하실 내용을 입력해주세요."></textarea>
@@ -196,6 +199,12 @@
             prevEl: '.swiper-button-prev',
           },
         });
+      //상품삭제 클릭 시 
+    	function deleteEnroll(usedNo) {
+    		if(confirm("등록하신 중고상품을 삭제하시겠습니까?")) {
+    			location.href="/deleteEnroll.do?usedNo="+usedNo;
+    		}
+    	}
       </script>
 </body>
 </html>

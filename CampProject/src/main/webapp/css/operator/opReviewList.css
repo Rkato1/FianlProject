@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+* {
+	font-family: 'Noto Sans KR';
+}
+
+.th-1 {
+	width: 10%;
+}
+.th-3 {
+	width: 30%;
+}
+
+.th-4 {
+	width: 15%;
+}
+
+.th-5 {
+	width: 15%;
+}
+
+.th-6 {
+	width: 15%;
+}
+td{
+	font-size: 12px;
+}
+#review-a {
+	text-decoration: none;
+	color: #383a3f;
+}
+
+#review-a:hover {
+	color: #f49b00;
+}
+
+.point>i {
+	color: #ffd56b;
+}
+
+.pageNaviBox {
+	width: 100%;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	text-align: center;
+}
+
+.form-control:focus {
+	border-color: #ced4da !important;
+	outline: 0 none !important;
+	box-shadow: none !important;
+}

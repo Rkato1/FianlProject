@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import com.kh.camp.model.dao.CampDao;
 import com.kh.camp.model.vo.CampEventData;
 import com.kh.camp.model.vo.CampPageData;
-import com.kh.camp.model.vo.CampPictureVo;
+import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
+import com.kh.operator.model.vo.CampNoticePageData;
+import com.kh.operator.model.vo.CampNoticeVO;
 
 @Service
 public class CampService {
@@ -31,7 +33,7 @@ public class CampService {
 		for (CampVO c : list) {
 			map.put("campNo", c.getCampNo());
 			map.put("filegrade", 1);
-			ArrayList<CampPictureVo> pictureList = dao.selectPictureList(map);
+			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 			c.setPictureList(pictureList);
 		}
 		int totalCount = dao.totalCount();
@@ -78,8 +80,8 @@ public class CampService {
 		CampVO camp = dao.campView(c);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("campNo", c.getCampNo());
-		map.put("filegrade", 1);
-		ArrayList<CampPictureVo> pictureList = dao.selectPictureList(map);
+		map.put("filegrade", 2);
+		ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 		camp.setPictureList(pictureList);
 
 		String events = "";
@@ -92,7 +94,6 @@ public class CampService {
 		String endDate = sdf.format(cal.getTime()); //종료 날짜 저장
 		cal = Calendar.getInstance(); // end날짜 설정후 한번더 초기화
 		int idx = 0;
-		boolean  bool = false;
 		//시작날짜부터 끝나는 날짜까지 반복
 		while (!startDate.equals(endDate)) {// 다르면 반복,같으면 종료
 			//날짜기준 campNo로 memberNo가 0인지 아닌지 구분하여 예약가능 개수파악
@@ -111,22 +112,71 @@ public class CampService {
 			//System.out.println("reserveTotalCount = "+reserveTotalCount);
 			if(reserveTotalCount != reserveUnableCnt) {
 				//예약가능
-				events += "{id: '"+(++idx)+"', title: '예약가능("+(reserveTotalCount-reserveUnableCnt)+"/"+reserveTotalCount+")', start: '"+startDate+"', color : 'green', url:'#' },";
-				bool = true;
+				events += "{id: '"+(++idx)+"', title: '예약가능("+(reserveTotalCount-reserveUnableCnt)+"/"+reserveTotalCount+")', start: '"+startDate+"', color : 'green', url:'/reserveWriteFrm.do?campNo="+c.getCampNo()+"&date="+startDate+"' },";
 			}else {
 				//예약 불가능
 				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red'},";	
-				bool = true;
 			}			
 			cal.add(Calendar.DATE, 1); // 1일 더해준다
 			startDate = sdf.format(cal.getTime());
 		}
-		if(bool) {
+		if(idx != 0) {
 			events = events.substring(0, events.length()-1); //{}를 만들었다면 마지막 ',' 지우기
-		}
+		}	
+		
+		map.put("filegrade", 3);
+		ArrayList<CampPictureVO> layoutList = dao.selectPictureList(map);
+		camp.setLayoutList(layoutList);		
+		
 		CampEventData ced = new CampEventData();
 		ced.setCamp(camp);
 		ced.setEvents(events);
+		//ced.setNoticeList(noticeList);
 		return ced;
+	}
+
+	public ArrayList<CampNoticeVO> campNoticeList(CampVO c) {
+		return dao.campNoticeList(c);
+	}
+
+	public CampNoticePageData selectCampNoticeList(CampVO c, int reqPage) {
+		int numPerPage = 5;
+		int end = reqPage*numPerPage;
+		int start = end - numPerPage + 1;
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("campNo",c.getCampNo());
+		ArrayList<CampNoticeVO> list = dao.selectCampNoticeList(map);
+		int totalCount = dao.noticeTotalCount(c.getCampNo());
+		int totalPage = 0;
+		if(totalCount%numPerPage == 0) {
+			totalPage = totalCount/numPerPage;
+		} else {
+			totalPage = totalCount/numPerPage+1;
+		}
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize+1;
+		String pageNavi = "";
+		String sameStr = "<a class='btn btn-outline-dark btn-sm' href='/campView.do?campNo="+c.getCampNo()+"&reqPage=";
+		if(pageNo != 1) {
+			pageNavi += sameStr+(pageNo-1)+"'>이전</a>&nbsp;";
+		}
+		for(int i=0; i<pageNaviSize; i++) {
+			if(pageNo != reqPage) {
+				pageNavi += sameStr+pageNo+"'>"+pageNo+"</a>&nbsp;";
+			} else {
+				pageNavi += "<span class='btn btn-outline-dark btn-sm'>"+pageNo+"</span>&nbsp;";
+			}
+			pageNo++;
+			if(pageNo > totalPage) {
+				break;
+			}
+		}
+		if(pageNo <= totalPage) {
+			pageNavi += sameStr+pageNo+"'>다음</a>";
+		}
+		CampNoticePageData cnpd = new CampNoticePageData(list, pageNavi);
+		return cnpd;
 	}
 }
