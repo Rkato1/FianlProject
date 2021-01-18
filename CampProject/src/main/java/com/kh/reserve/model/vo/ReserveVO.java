@@ -14,5 +14,5 @@ public class ReserveVO {
 	private int reservePrice; //결제금액
 	private String reservePw;//예약비밀번호
 	private String carNumber;//차량번호
-	private String reserveMeno;//예약메모
+	private String reserveMemo;//예약메모
 }

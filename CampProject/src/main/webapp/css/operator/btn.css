@@ -1,0 +1,23 @@
+@charset "UTF-8";
+.btn-div{
+	width:100%;
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 30px;	
+}
+.btn-update,.btn-delete,.btn-submit {
+	margin: 20px;
+	width: 100px;
+	height: 40px;
+	border: none;
+	border-radius: 3px;
+	background-color: rgb(250, 220, 0);
+}
+.btn-cancel{
+	margin: 20px;
+	width: 100px;
+	height: 40px;
+	border: none;
+	border-radius: 3px;
+	background-color: #dddddd;
+}

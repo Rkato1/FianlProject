@@ -1,0 +1,14 @@
+@charset "UTF-8";
+* {
+        font-family: 'Noto Sans KR';
+    }
+.pageNaviBox{
+	text-align: center;
+}
+#writeBtn{
+	margin-bottom:10px;
+}
+.pageNaviBox{
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
