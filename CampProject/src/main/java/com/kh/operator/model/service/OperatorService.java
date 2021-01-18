@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.camp.model.vo.CampPictureVo;
+import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.operator.model.dao.OperatorDao;
 import com.kh.operator.model.vo.CampNoticePageData;
@@ -29,7 +29,7 @@ public class OperatorService {
 		for(CampVO camp : list) {
 			map.put("campNo",camp.getCampNo());
 			map.put("filegrade", 1);
-			ArrayList<CampPictureVo> pictureList = dao.selectPictureList(map);
+			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 			camp.setPictureList(pictureList);		
 		}
 		return list;
@@ -40,7 +40,7 @@ public class OperatorService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("campNo", camp.getCampNo());
 		map.put("filegrade", 0);
-		ArrayList<CampPictureVo> pictureList = dao.selectPictureList(map);
+		ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 		camp.setPictureList(pictureList);
 		return camp;
 	}
