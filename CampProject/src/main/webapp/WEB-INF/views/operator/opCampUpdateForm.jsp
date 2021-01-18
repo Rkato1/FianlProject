@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="../css/operator/opCampForm.css" type="text/css" rel="stylesheet">
-<link href="../css/operator/btn.css" type="text/css" rel="stylesheet">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
@@ -54,7 +53,7 @@
 	                    </tr>
 	                     <tr>
 	                    	<th><span class="title">문의처</span></th>
-	                    	<td><input type="text" name="campPh"  style="width:50%;" placeholder="ex)010-0000-0000"><span class="comment"></span></td>
+	                    	<td><input type="text" name="campPh" placeholder="ex)010-0000-0000  전화번호,이메일 등"></td>
 	                    </tr>
 	                     <tr>
 	                    	<th><span class="title">운영기간</span></th>
@@ -105,14 +104,14 @@
                 	<tr>
                 		<th>소개글</th>
                 		<td>
-                			<textarea name="campShow" placeholder="캠핑장에 대해 설명해 주세요!" onKeyUp="javascript:fnChkByte(this,'4000')"></textarea>
+                			<textarea name="campShow" placeholder="캠핑장에 대해 설명해 주세요!"></textarea>
                 		</td>
                 </table>
                 <br>
                 <br>
                 <br>
                 <div style="text-align: center;">
-                	<input type="submit" class="btn-update" value="등록하기">
+                	<input type="submit" class="updateBtn" value="등록하기">
                 	<button type="button" class="btn-cancel" onclick="location.href='/operatorpage.do'">취소</button>
                 </div>
                 </form>
@@ -122,22 +121,6 @@
      <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
      
      <script>
-     var phcheck = true;
-     
-     $("[name=campPh]").change(function() {
-         var reg = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
-         if (reg.test($(this).val())) {
-             phcheck = true;
-             $(this).next().text("");
-             $(this).css('border', '2px solid #1d0e0e');
-         } else {
-        	 phcheck = false;
-        	 $(this).next().text("입력예시) 010-1234-5678");
-             $(this).css('border', '2px solid red');
-         }
-     });
-     
-     //항목을 모두 채웠는지 확인
      $("[type=submit]").click(function(){
     	 if($("[name=campName]").val()==''){
     		 alert("캠핑장 이름을 입력해주세요!");
@@ -156,7 +139,7 @@
     		 alert("캠핑장 유형을 체크해주세요!");
     		 return false;
     	 }
-    	 if($("[name=campPh]").val()==""&&phcheck){
+    	 if($("[name=campPh]").val()==""){
     		 alert("문의처를 입력해주세요!");
     		 $("[name=campPh]").focus();
     		 return false;
@@ -176,7 +159,7 @@
 
      });
      
-     //메인이미지(썸네일) 미리보기
+     
      function setThumbnail(event) { 
     	 var reader = new FileReader(); 
     	 reader.onload = function(event) { 
@@ -186,8 +169,7 @@
     		 }; 
     	reader.readAsDataURL(event.target.files[0]); 
     }
-     
-	//소개이미지 3장 제한   <------------------------수정필요
+
      $(document).ready( function() {
     	 
          $("input[name=files]").change(function () {
@@ -202,7 +184,6 @@
   
      });
      
-     //다음 주소찾기 
      function execDaumPostcode() {
          new daum.Postcode({
              oncomplete: function(data) {
@@ -241,38 +222,6 @@
                  $("[name=campAddr]").val(addr);
              }
          }).open();
-     }
-     
-     //캠핑장 소개글 글자 수(byte) 제한 기능
-     function fnChkByte(obj, maxByte){
-         var str = obj.value;
-         var str_len = str.length;
-         var rbyte = 0;
-         var rlen = 0;
-         var one_char = "";
-         var str2 = "";
-         for(var i=0; i<str_len; i++){
-             one_char = str.charAt(i);
-             if(escape(one_char).length > 4){
-                 rbyte += 2;                                         //한글2Byte
-             }
-             else{
-                 rbyte++;                                            //영문 등 나머지 1Byte
-             }
-             if(rbyte <= maxByte){
-                 rlen = i+1;                                          //return할 문자열 갯수
-             }
-          }
-          if(rbyte > maxByte){
- 		      // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
- 		      alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.")
- 		      str2 = str.substr(0,rlen);                                  //문자열 자르기
- 		      obj.value = str2;
- 		      fnChkByte(obj, maxByte);
-          }
-          else{
-             document.getElementById('byteInfo').innerText = rbyte;
-          }
      }
      </script>
 </body>

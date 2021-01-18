@@ -16,10 +16,6 @@ public class CampVO {
 	private String campPeriod;//운영기간
 	private String campDay; //운영일
 	private String campFacility; //이용가능시설
-	private int campFeeOriDay; //평상시이용요금(주중)
-	private int campFeeOriEnd;//평상시이용요금(주말)
-	private int campFeePeakDay;//성수기이용요금(주중)
-	private int campFeePeakEnd;//성수기이용요금(주말)
 	private ArrayList<CampPictureVO> pictureList; //캠프 사진 리스트
 	private ArrayList<SiteVO> siteList; //캠핑장소 리스트
 	private ArrayList<CampPictureVO> layoutList; //캠프 레이아웃리스트

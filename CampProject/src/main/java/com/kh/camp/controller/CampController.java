@@ -36,4 +36,5 @@ public class CampController {
 	public String calendar() {
 		return "calendar/calendar";
 	}
+	
 }

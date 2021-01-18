@@ -8,7 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.camp.model.vo.CampPictureVo;
+import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.operator.model.vo.CampNoticeVO;
 import com.kh.review.model.vo.ReviewCampVO;
@@ -25,9 +25,9 @@ public class OperatorDao {
 	public CampVO selectOneCamp(CampVO c) {
 		return sqlSession.selectOne("camp.selectCamp",c);
 	}
-	public ArrayList<CampPictureVo> selectPictureList(HashMap<String, Integer> map) {
-		List<CampPictureVo> list = sqlSession.selectList("camp.selectPictureList",map);
-		return (ArrayList<CampPictureVo>)list;
+	public ArrayList<CampPictureVO> selectPictureList(HashMap<String, Integer> map) {
+		List<CampPictureVO> list = sqlSession.selectList("camp.selectPictureList",map);
+		return (ArrayList<CampPictureVO>)list;
 	}
 	public ArrayList<CampNoticeVO> selectCampNoticeList(HashMap<String, Integer> map) {
 		List<CampNoticeVO> list = sqlSession.selectList("campNotice.selectCampNoticeList",map);
@@ -57,6 +57,18 @@ public class OperatorDao {
 	}
 	public int deleteCamp(int campNo) {
 		return sqlSession.delete("camp.deleteCamp", campNo);
+	}
+	public int insertCamp(CampVO c) {
+		return sqlSession.insert("camp.insertCamp", c);
+	}
+	public int selectLastCamp() {
+		return sqlSession.selectOne("camp.selectLastCamp");
+	}
+	public int insertPicture(CampPictureVO cpv2) {
+		return sqlSession.insert("camp.insertCampPicture", cpv2);
+	}
+	public int deleteCampPicture(int campNo) {
+		return sqlSession.delete("camp.deleteCampPicture", campNo);
 	}
 
 }

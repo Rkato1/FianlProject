@@ -52,3 +52,8 @@ h4 {
 	padding-top: 25px;
 	padding-bottom: 10px;
 }
+@media ( max-width : 1000px) {
+	body {
+		width: 1000px;
+	}
+}

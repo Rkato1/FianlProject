@@ -13,11 +13,7 @@
     		campPh,
     		campPeriod,
     		campDay,
-    		campFacility,
-    		campFeeOriDay,
-    		campFeeOriEnd,
-    		campFeePeakDay,
-    		campFeePeakEnd
+    		campFacility
 			from
         		(select rownum as rnum, n.*
 		from
@@ -31,11 +27,7 @@
 			camp_ph as campPh,
 			camp_period as campPeriod,
 			camp_day as campDay,
-			camp_facility as campFacility,
-			camp_fee_ori_day as campFeeOriDay,
-			camp_fee_ori_end as campFeeOriEnd,
-			camp_fee_peak_day as campFeePeakDay,
-			camp_fee_peak_end as campFeePeakEnd
+			camp_facility as campFacility
 		from camp order by 1 desc)
 		n)
            where rnum between #{start} and #{end}
@@ -54,11 +46,7 @@
 			camp_ph as campPh,
 			camp_period as campPeriod,
 			camp_day as campDay,
-			camp_facility as campFacility,
-			camp_fee_ori_day as campFeeOriDay,
-			camp_fee_ori_end as campFeeOriEnd,
-			camp_fee_peak_day as campFeePeakDay,
-			camp_fee_peak_end as campFeePeakEnd
+			camp_facility as campFacility
         from camp 
         <trim prefix="where" prefixOverrides="and|or">
 		  	<if test="campNo != 0">
@@ -72,7 +60,7 @@
 			camp_no as campNo,
 			filename ,
 			filepath ,
-			filegrade
+			filegrade 
 		from camp_picture
 		<trim prefix="where" prefixOverrides="and|or">
 		  	<if test="campNo != 0">
@@ -94,11 +82,7 @@
 			camp_ph as campPh,
 			camp_period as campPeriod,
 			camp_day as campDay,
-			camp_facility as campFacility,
-			camp_fee_ori_day as campFeeOriDay,
-			camp_fee_ori_end as campFeeOriEnd,
-			camp_fee_peak_day as campFeePeakDay,
-			camp_fee_peak_end as campFeePeakEnd
+			camp_facility as campFacility
 			from
 			camp
 			<trim prefix="where" prefixOverrides="and|or">
@@ -138,5 +122,22 @@
 	<delete id="deleteCamp" parameterType="_int">
 		delete from camp where camp_no=#{_parameter}
 	</delete>
-
+	<insert id="insertCamp" parameterType="camp">
+		insert into camp values(camp_seq.nextval,#{campName},#{campAddr},#{memberNo},#{campShow},#{campType},#{campPh},#{campPeriod},#{campDay},#{campFacility})
+	</insert>
+	<select id="selectLastCamp" resultType="_int">
+		select 
+			camp_No
+		from camp where camp_No=(
+	    select 
+	        max(camp_No) 
+	    from camp
+	    )
+	</select>
+	<insert id="insertCampPicture" parameterType="campPicture">
+		insert into camp_picture values(camp_picture_seq_2.nextval,#{campNo},#{filename},#{filepath},#{fileGrade})
+	</insert>
+	<delete id="deleteCampPicture" parameterType="_int">
+		delete from camp_picture where camp_no = #{_parameter}
+	</delete>
 </mapper>
