@@ -35,6 +35,75 @@
 	<select id="totalCount" resultType="_int">
 		select count(camp_no) as cnt from camp
 	</select>
+	
+	<select id="campSearchListObject" parameterType="map" resultType="camp">           
+        select
+    		rnum,
+    		campNo,
+   			campName,
+    		campAddr,
+    		memberNo,
+    		campShow,
+    		campType,
+    		campPh,
+    		campPeriod,
+    		campDay,
+    		campFacility
+			from
+        		(select rownum as rnum, n.*
+		from
+		(select
+			camp_no as campNo,
+			camp_name as campName,
+			camp_addr as campAddr,
+			member_no as memberNo,
+			camp_show as campShow,
+			camp_type as campType,
+			camp_ph as campPh,
+			camp_period as campPeriod,
+			camp_day as campDay,
+			camp_facility as campFacility
+		from camp 
+           where 1 = 1			 
+			<choose>
+           		<when test="keyword.equals('name')">
+           			and camp_name like '%'||#{ value }||'%'
+           		</when>
+           		<when test="keyword.equals('addr')">
+           			and camp_addr like '%'||#{ value }||'%'
+           		</when>
+           		<otherwise>
+           			and (camp_name like '%'||#{ value }||'%'
+                     or camp_addr like '%'||#{ value }||'%')
+           		</otherwise>
+           	</choose>
+        order by 1 desc)
+		n)
+           where rnum between #{start} and #{end}   
+	</select>
+	<select id="totalSearchCount" resultType="_int" parameterType="map">
+		select count(*) as cnt 
+			from camp
+		 	where 1 = 1			 
+			<choose>
+           		<when test="keyword.equals('name')">
+           			and camp_name like '%'||#{ value }||'%'
+           		</when>
+           		<when test="keyword.equals('addr')">
+           			and camp_addr like '%'||#{ value }||'%'
+           		</when>
+           		<otherwise>
+           			and (camp_name like '%'||#{ value }||'%'
+                     or camp_addr like '%'||#{ value }||'%')
+           		</otherwise>
+           	</choose>
+	</select>
+	
+	
+	
+	
+	
+	
 	<select id="selectOne" parameterType="camp" resultType="camp">
 		select 
           	camp_no as campNo,
@@ -122,5 +191,39 @@
 	</select>
 	<select id="cNoticetotalCount" parameterType="_int" resultType="_int">
 		select count(camp_notice_no) as cnt from camp_notice where camp_no=#{_parameter}
+	</select>
+	<select id="selectSiteListMap" parameterType="map" resultType="site">
+		select
+		site_no as siteNo,
+		camp_no as campNo,
+		site_title as
+		siteTitle,
+		site_name as siteName,
+		min_cnt as minCnt,
+		max_cnt as maxCnt,
+		min_night as minNight,
+		max_night as maxNight,
+		discount_pay as
+		discountPay,
+		add_cnt_pay as addCntPay,
+		add_car_pay as addCarPay,
+		using_cnt as usingCnt,
+		using_pay as usingPay,
+		using_night as usingNight,
+		add_car_day as addCarDay,
+		add_car_cnt as addCarCnt,
+		member_no as
+		memberNo,
+		reserve_pay as reservePay,
+		reserve_date as reserveDate,
+		low_day_pay as lowDayPay,
+		low_end_pay as lowEndPay,
+		peak_day_pay as
+		peakDayPay,
+		peak_end_pay as peakEndPay,
+		polar_day_pay as polarDayPay,
+		polar_end_pay as polarEndPay
+		from site
+		where camp_no = ${campNo} and reserve_date = '0000-00-00'
 	</select>
 </mapper>

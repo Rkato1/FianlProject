@@ -24,7 +24,6 @@ public class ReserveController {
 		// campNo로 모든 사이트 정보 구하기
 		ReserveListsVO rlv = service.selectAllLists(camp, date);
 		CampVO c = service.selectOneCamp(camp);
-
 		model.addAttribute("sitePriceList", rlv.getSitePriceList());
 		model.addAttribute("siteList", rlv.getSiteList());
 		model.addAttribute("memberList", rlv.getMemberList());

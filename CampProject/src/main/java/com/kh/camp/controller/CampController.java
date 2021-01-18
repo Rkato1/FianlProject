@@ -43,4 +43,14 @@ public class CampController {
 	public String calendar() {
 		return "calendar/calendar";
 	}
+	
+	@RequestMapping("/searchCampList.do")
+	public String searchCampList(Model model,int reqPage,String keyword,String value) {
+		CampPageData cpd = service.campSearchList(reqPage,keyword,value);
+		model.addAttribute("list", cpd.getList());
+		model.addAttribute("pageNavi", cpd.getPageNavi());
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("value", value);
+		return "camp/campList";
+	}
 }
