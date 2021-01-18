@@ -146,6 +146,6 @@
   </select>
   
   <select id="selectReviewCount" resultType="_int">
-  	select count(*) from review;
+  	select count(*) from review
   </select>
 </mapper>

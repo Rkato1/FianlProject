@@ -21,16 +21,17 @@ public class CanvasjsStickChartData {
 			rank[i] = 1;
 			for(int j=0 ; j<reviewPointList.size() ; j++) {
 				if(reviewPointList.get(i) < reviewPointList.get(j)) { 
-					rank[i]++; 
+					rank[i]++;
 				}
 			}
 		}
-		
+		System.out.println("순위 = "+rank);
+		//동점시 빠른게 들어가니까 중복검사 후 넣기
 		for(int i=0; i<3; i++) {
 			map = new HashMap<Object,Object>();
 			for(int j=0; j<rank.length; j++) {
 				if(rank[j]==i+1) {
-					map.put("label", campNameList.get(j));			
+					map.put("label", campNameList.get(j));
 					//System.out.println("x값 = "+campNameList.get(i));
 					map.put("y", reviewPointList.get(j));
 					//System.out.println("y값 = "+reviewPointList.get(i));

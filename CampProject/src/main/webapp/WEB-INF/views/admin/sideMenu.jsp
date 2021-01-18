@@ -32,7 +32,7 @@
                 <a href="/admin/greatcampAdmin.do?option=reviewPoint">우수캠핑장선정</a>
             </li>
             <li>
-                <a href="/admin/helpAdmin.do?option=notanswer&reqPage=1">고객센터</a>
+                <a href="/admin/helpAdmin.do?option=answer&reqPage=1">고객센터</a>
             </li>
         </ul>
     </div>
