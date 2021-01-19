@@ -25,6 +25,7 @@ import com.kh.camp.used.vo.FileNameOver;
 import com.kh.camp.used.vo.UsedCommentData;
 import com.kh.camp.used.vo.UsedCommentVO;
 import com.kh.camp.used.vo.UsedFileVO;
+import com.kh.camp.used.vo.UsedMessageVO;
 import com.kh.camp.used.vo.UsedPageNavi;
 import com.kh.camp.used.vo.UsedVO;
 
@@ -213,5 +214,27 @@ public class UsedController {
 //		
 //		return new Gson().toJson(obj);
 //	}
+	
+	
+	@RequestMapping("/usedChat.do")
+	public String chat() {
+		return "used/usedChat";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

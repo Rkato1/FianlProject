@@ -74,5 +74,9 @@
 	<!-- admin탐색추가 -->
 	<context:component-scan base-package="com.kh.admin" />	
 	
+	<!-- <websocket:handlers>
+		<websocket:mapping handler="allMemberChat" path="/allChat.kh"/>
+		<websocket:mapping handler="dmCount" path="/dmCount.kh"/>
+	</websocket:handlers> -->
 	
 </beans:beans>

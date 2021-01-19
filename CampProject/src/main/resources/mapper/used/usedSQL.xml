@@ -241,4 +241,6 @@
 	<delete id="deleteFile" parameterType="_int">
 		delete from used_trade_file where used_trade_no = #{usedNo}
 	</delete>
+	<!-- 댓글 -->
+	
 </mapper>

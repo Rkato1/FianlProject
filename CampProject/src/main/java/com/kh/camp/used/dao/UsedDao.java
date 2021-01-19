@@ -114,6 +114,8 @@ public class UsedDao {
 		return sqlSession.delete("used.deleteComment",uc);
 	}
 
+	
+
 
 
 	

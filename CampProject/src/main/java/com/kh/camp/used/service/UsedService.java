@@ -22,7 +22,7 @@ public class UsedService {
 	// 페이지 초기 리스트
 	public UsedPageNavi usedPage(int reqPage) {
 		// 한 페이지의 게시물 수를 정함
-		int numPerPage = 9;
+		int numPerPage = 12;
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
@@ -70,7 +70,7 @@ public class UsedService {
 	// 페이지 검색 리스트
 	public UsedPageNavi usedSearch(int reqPage, String search) {
 		// 한 페이지의 게시물 수를 정함
-		int numPerPage = 9;
+		int numPerPage = 12;
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -162,12 +162,12 @@ public class UsedService {
 		}
 		return result;
 	}
+	//댓글 부분 service
 	//댓글 인서트
 	public int insertComment(UsedCommentVO uc) {
 		System.out.println(uc);
 		return dao.insertComment(uc);
 	}
-
 	public UsedCommentData selectUcd(int usedNo) {
 		//중고거래를 받아옴
 		//UsedVO usv = dao.selectOneUsed(usedNo);
@@ -184,14 +184,17 @@ public class UsedService {
 		
 		return ucd;
 	}
-
+	//댓글 수정
 	public int updateComment(UsedCommentVO uc) {
 		return dao.updateComment(uc);
 	}
-
+	//댓글 삭제
 	public int deleteComment(UsedCommentVO uc) {
 		return dao.deleteComment(uc);
 	}
+	
+	//채팅 service
+	
 
 
 }

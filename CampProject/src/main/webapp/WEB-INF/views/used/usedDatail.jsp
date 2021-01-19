@@ -274,7 +274,9 @@
                         </div>
                     </div>
                     <hr>
-                    <input id="chatBtn" type="button" value="채팅하기" >
+                    <c:if test="${sessionScope.m.memberId != u.usedWriter && sessionScope.m != null }">
+                    <button id="chatBtn" type="button" value="" onclick="javascript:chatPop('${sessionScope.m.memberId}','${u.usedWriter }')">채팅하기</button>
+                    </c:if>
                     <c:if test="${sessionScope.m.memberId == u.usedWriter }">
                     <a href="/updateEnroll.do?usedNo=${u.usedNo }"><input id="chatBtn" type="button" value="수정하기" style="margin-top: 7px; width: 49%;margin-right: 3px;"></a>
                     <a href="javascript:void(0)" onclick="deleteEnroll(${u.usedNo })"><input id="chatBtn" type="button" value="삭제하기" style="margin-top: 7px; width: 49%;"></a>
@@ -398,6 +400,10 @@
     <!-- 스트립트부분 -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
+	    function chatPop(sender,receiver){
+	        var popup = window.open('/usedChat.do', '채팅하기', "top=1000, left=2000, width=480, height=800, scrollbars=no, resizable=no ,status=no ,toolbar=no");
+	    }
+    
         var swiper = new Swiper('.swiper-container', {
           pagination: {
             el: '.swiper-pagination',
