@@ -33,7 +33,7 @@
                         <li>OPERATOR</li>
                     </a>
                     <c:if test="${sessionScope.m !=null }">
-                    	<a href="/opMypage.do">
+                    	<a href="/opMypage.do?memberNo=${sessionScope.m.memberNo }&memberId=${sessionScope.m.memberId }">
 	                        <li>MYPAGE</li>
 	                    </a>
 	                    <a href="/logout.do">

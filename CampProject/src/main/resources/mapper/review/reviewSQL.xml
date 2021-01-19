@@ -29,6 +29,9 @@
 			camp_name as campName
 		from review 
 		join camp on (review.camp_no = camp.camp_no)
+		<if test="campNo!=0">
+		where review.camp_no = #{campNo}
+		</if>
 		order by 1 desc)
 		r)
            where rnum between #{start} and #{end}
@@ -37,7 +40,9 @@
 	<select id="totalCount" resultType="_int">
 		select count(*) as cnt from review
 	</select>
-	
+	<select id="reviewTotalCount" parameterType="_int" resultType="_int">
+		select count(*) as cnt from review where camp_no=#{_parameter}
+	</select>
 	<select id="selectOneReview" parameterType="_int" resultType="review">
 		select
 			review_no as reviewNo,

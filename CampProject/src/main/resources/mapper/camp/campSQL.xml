@@ -129,16 +129,39 @@
 			camp_no as campNo,
 			filename ,
 			filepath ,
-			filegrade
+			filegrade as fileGrade
 		from camp_picture
 		<trim prefix="where" prefixOverrides="and|or">
 		  	<if test="campNo != 0">
 				 camp_no=#{campNo}
 		  	</if>
-		  	<if test="filegrade != 0">
-		  		and filegrade = #{filegrade}
+		  	<if test="fileGrade != 0">
+		  		and filegrade = #{fileGrade}
 		  	</if>  	
 		  </trim>
+	</select>
+	<select id="selectCamp" parameterType="camp" resultType="camp">
+	select
+    		camp_no as campNo,
+			camp_name as campName,
+			camp_addr as campAddr,
+			member_no as memberNo,
+			camp_show as campShow,
+			camp_type as campType,
+			camp_ph as campPh,
+			camp_period as campPeriod,
+			camp_day as campDay,
+			camp_facility as campFacility
+			from
+			camp
+			<trim prefix="where" prefixOverrides="and|or">
+			  	<if test="campNo != 0">
+					 camp_no=#{campNo}
+			  	</if>
+			  	<if test="memberNo != 0">
+		  		and member_No = #{memberNo}
+		  		</if> 
+		  	</trim>
 	</select>
 	
 	
@@ -165,6 +188,7 @@
 		  	</if>
 		</trim>
 	</select>
+<<<<<<< HEAD
 	
 	<select id="selectCampNoticeList" parameterType="map" resultType="cNotice">		
 		select
@@ -226,4 +250,42 @@
 		from site
 		where camp_no = ${campNo} and reserve_date = '0000-00-00'
 	</select>
+=======
+	<delete id="deleteCamp" parameterType="_int">
+		delete from camp where camp_no=#{_parameter}
+	</delete>
+	<insert id="insertCamp" parameterType="camp">
+		insert into camp values(camp_seq.nextval,#{campName},#{campAddr},#{memberNo},#{campShow},#{campType},#{campPh},#{campPeriod},#{campDay},#{campFacility})
+	</insert>
+	<update id="updateCamp">
+		update camp set 
+				camp_name=#{campName}, 
+				camp_addr=#{campAddr},
+				camp_show=#{campShow},
+				camp_type=#{campType},
+				camp_ph=#{campPh},
+				camp_period=#{campPeriod},
+				camp_day=#{campDay},
+				camp_facility=#{campFacility}
+		where camp_no = #{campNo}
+	</update>
+	<select id="selectLastCamp" resultType="_int">
+		select 
+			camp_No
+		from camp where camp_No=(
+	    select 
+	        max(camp_No) 
+	    from camp
+	    )
+	</select>
+	<insert id="insertCampPicture" parameterType="campPicture">
+		insert into camp_picture values(camp_picture_seq.nextval,#{campNo},#{filename},#{filepath},#{fileGrade})
+	</insert>
+	<delete id="deleteCampPicture" parameterType="_int">
+		delete from camp_picture where camp_no = #{_parameter}
+	</delete>
+	<update id="updateMainImg" parameterType="campPicture">
+		update camp_picture set filename=#{filename},filepath=#{filepath} where camp_no=#{campNo} and filegrade = 1
+	</update>
+>>>>>>> gayoungBranch
 </mapper>

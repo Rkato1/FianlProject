@@ -41,6 +41,7 @@ public class CampController {
 		return "calendar/calendar";
 	}
 	
+<<<<<<< HEAD
 	@RequestMapping("/searchCampList.do")
 	public String searchCampList(Model model,int reqPage,String keyword,String value) {
 		CampPageData cpd = service.campSearchList(reqPage,keyword,value);
@@ -50,4 +51,6 @@ public class CampController {
 		model.addAttribute("value", value);
 		return "camp/campList";
 	}
+=======
+>>>>>>> gayoungBranch
 }

@@ -1,20 +1,31 @@
 package com.kh.operator.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
+import com.kh.camp.used.vo.FileNameOver;
+import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.operator.model.service.OperatorService;
 import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.reserve.model.vo.ReserveCampVO;
 import com.kh.review.model.service.ReviewService;
+import com.kh.review.model.vo.ReviewCampVO;
 import com.kh.review.model.vo.ReviewCommentVO;
 import com.kh.review.model.vo.ReviewPageData;
 import com.kh.review.model.vo.ReviewViewData;
@@ -25,6 +36,8 @@ public class OperatorController {
 private OperatorService service;
 @Autowired
 private ReviewService rService;
+@Autowired
+private MemberService mService;
 private boolean isOperator = false;
 	
 	public boolean isOperator(HttpSession session) {
@@ -86,6 +99,146 @@ private boolean isOperator = false;
 	@RequestMapping("/campForm.do")
 	public String CampForm() {
 		return "operator/opCampForm";
+	}
+	
+	@RequestMapping("/insertCamp.do")
+	public String insertCamp(CampVO c,MultipartFile mainFile,MultipartFile[] files,Model model,HttpServletRequest request,HttpSession session) {
+		MemberVO member = (MemberVO)session.getAttribute("m");
+		if(member!=null&&member.getMemberGrade()==2) {
+			String root = request.getSession().getServletContext().getRealPath("/");
+			String path = root + "/resources/upload/camp/";
+			ArrayList<CampPictureVO> fileList = new ArrayList<CampPictureVO>();
+			c.setMemberNo(member.getMemberNo());
+			String mfilename = mainFile.getOriginalFilename();
+			String mfilepath = new FileNameOver().rename(path, mfilename);
+			try {
+				byte[] mbytes = mainFile.getBytes();
+				File upMFile = new File(path+mfilepath);
+				FileOutputStream fos = new FileOutputStream(upMFile);
+				BufferedOutputStream bos = new BufferedOutputStream(fos);
+				bos.write(mbytes);
+				bos.close();
+				CampPictureVO mf =new CampPictureVO();
+				mf.setFilename(mfilename);
+				mf.setFilepath(mfilepath);
+				mf.setFileGrade(1);
+				fileList.add(mf);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for(MultipartFile file : files) {
+				String filename = file.getOriginalFilename();
+				String filepath = new FileNameOver().rename(path, filename);
+	
+				try {
+					byte[] bytes = file.getBytes();
+					File upFile = new File(path+filepath);
+					FileOutputStream fos = new FileOutputStream(upFile);
+					BufferedOutputStream bos = new BufferedOutputStream(fos);
+					bos.write(bytes);
+					bos.close();
+					CampPictureVO f =new CampPictureVO();
+					f.setFilename(filename);
+					f.setFilepath(filepath);
+					f.setFileGrade(2);
+					fileList.add(f);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			c.setPictureList(fileList);
+			int result = service.insertCamp(c);
+			if(result>0) {
+				model.addAttribute("msg","탬핑장이 등록 되었습니다.");
+			}else {
+				model.addAttribute("msg","등록실패");
+			}
+			model.addAttribute("loc","/operatorpage.do");
+		}else {
+			model.addAttribute("msg","사업자가 아닙니다.");
+			model.addAttribute("loc","/");
+		}
+		return "common/msg";
+	}
+	
+	
+	@RequestMapping("/opCampUpdateForm.do")
+	public String campUpdateForm(CampVO c,Model model) {
+		CampVO camp = service.selectOneCamp(c);
+		model.addAttribute("camp",camp);
+		return "operator/opCampUpdateForm";
+	}
+	
+	@RequestMapping("/updateCamp.do")
+	public String updateCamp(CampVO c,MultipartFile mainFile,MultipartFile[] files,Model model,HttpServletRequest request,HttpSession session) {
+		System.out.println("컨트롤러 메인: "+mainFile.isEmpty());
+		System.out.println("컨트롤러 소개 : "+files.length);
+		MemberVO member = (MemberVO)session.getAttribute("m");
+		CampVO camp = service.selectOneCamp(c);
+		if(member!=null&&member.getMemberGrade()==2&&camp.getMemberNo()==member.getMemberNo()) {
+			c.setMemberNo(member.getMemberNo());
+			String root = request.getSession().getServletContext().getRealPath("/");
+			String path = root + "/resources/upload/camp/";
+			ArrayList<CampPictureVO> fileList = new ArrayList<CampPictureVO>();
+			if(!mainFile.isEmpty()) {
+				String mfilename = mainFile.getOriginalFilename();
+				String mfilepath = new FileNameOver().rename(path, mfilename);
+				try {
+					byte[] mbytes = mainFile.getBytes();
+					File upMFile = new File(path+mfilepath);
+					FileOutputStream fos = new FileOutputStream(upMFile);
+					BufferedOutputStream bos = new BufferedOutputStream(fos);
+					bos.write(mbytes);
+					bos.close();
+					CampPictureVO mf =new CampPictureVO();
+					mf.setFilename(mfilename);
+					mf.setFilepath(mfilepath);
+					mf.setCampNo(c.getCampNo());
+					mf.setFileGrade(1);
+					fileList.add(mf);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(files.length>=3) {
+				for(MultipartFile file : files) {
+					String filename = file.getOriginalFilename();
+					String filepath = new FileNameOver().rename(path, filename);
+					try {
+						byte[] bytes = file.getBytes();
+						File upFile = new File(path+filepath);
+						FileOutputStream fos = new FileOutputStream(upFile);
+						BufferedOutputStream bos = new BufferedOutputStream(fos);
+						bos.write(bytes);
+						bos.close();
+						CampPictureVO f =new CampPictureVO();
+						f.setFilename(filename);
+						f.setFilepath(filepath);
+						f.setCampNo(c.getCampNo());
+						f.setFileGrade(2);
+						fileList.add(f);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			c.setPictureList(fileList);
+			int result = service.updateCamp(c);
+			if(result>0) {
+				model.addAttribute("msg","탬핑장이 수정 되었습니다.");
+			}else {
+				model.addAttribute("msg","수정실패");
+			}
+			model.addAttribute("loc","/operatorpage.do");
+		}else {
+			model.addAttribute("msg","사업자가 아닙니다.");
+			model.addAttribute("loc","/");
+		}
+		return "common/msg";
 	}
 	@RequestMapping("/opNoticeList.do")
 	public String selectCampNoticeList(CampVO c,Model model,HttpSession session,int reqPage) {
@@ -237,6 +390,25 @@ private boolean isOperator = false;
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
 		}
 		model.addAttribute("loc", "/opReviewView.do?reviewNo="+reviewNo+"&campNo="+campNo);
+		return "common/msg";
+	}
+	
+	@RequestMapping("/opMypage.do")
+	public String opUpdateMember(int memberNo, String memberId, Model model) {
+		MemberVO member = mService.mypageMember(memberNo);
+		model.addAttribute("m", member);
+		return "operator/member/opMypage";
+	}
+	
+	@RequestMapping("/opUpdateMember.do")
+	public String updateMember(MemberVO m, Model model) {
+		int result = mService.updateMember(m); 
+		if(result>0) {
+			model.addAttribute("msg", "회원정보를 수정했습니다.");
+		} else {
+			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
+		} 
+		model.addAttribute("loc", "/operatorpage.do");
 		return "common/msg";
 	}
 }
