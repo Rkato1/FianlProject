@@ -16,7 +16,7 @@
 <body>
 
 	<!-- CSS -->
-	<link href="../css/common/footer.css" type="text/css" rel="stylesheet">
+	<link href="/css/common/footer.css" type="text/css" rel="stylesheet">
 	
     <div class="footer-wrap">
         <div class="footer-info">

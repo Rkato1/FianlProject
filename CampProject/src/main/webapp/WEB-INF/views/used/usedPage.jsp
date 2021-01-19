@@ -13,11 +13,11 @@
 
 <style>
         .section-size{
-            width: 1000px;
+            width: 1200px;
             margin: 0 auto;
         }
         .section-mid-size{
-        	width : 1100px;
+        	width : 1300px;
            	display: flex;
    			flex-direction: row;
     		flex-wrap: wrap;
@@ -63,23 +63,23 @@
         }
  
         .prd-item{
-            width: 300px;
-            height: 360px;
+            width:	250px;
+            height: 310px;
             margin-bottom: 30px;
-            margin-right: 50px;
+            margin-right: 67px;
             float: left;
             transition: background-color .5s;
         }
         .prd-item img{
             object-fit: cover;
-            width: 298px;
-            height: 300px;
+            width: 248px;
+            height: 248px;
             
         }
         .prd-item img:hover{
             border: 2px solid #fa9b00;
-            width: 298px;
-            height: 300px;
+            width: 248px;
+            height: 248px;
         }
         .items-navi {
         text-align: center;
@@ -112,13 +112,6 @@
                 <p style="font-size: 20px; font-weight: 700;">중고거래</p>
                 <p style="font-size: 14px;"> 정직한 중고거래를 실천합시다</p>
             </div>
-            <ul class="col-md-3 two bootcol" style="font-size: 14px; padding: 0;">
-                <li style="cursor: pointer; color: #252525;">최근순</li>
-                <li style="color: #6d6c3f;"> | </li>
-                <li style="cursor: pointer; color: #252525;">가격순</li>
-                <li style="color: #6d6c3f;"> | </li>
-                <li style="cursor: pointer; color: #252525;" id="nameson">이름순</li>
-            </ul>
         </div>
         <hr style="border: 2px solid #1d0202; margin-top: 5px; margin-bottom: 8px;">
         <div class="used-two" style="height: 28px; margin-bottom:20px;">
@@ -145,20 +138,20 @@
             </div>
             <div class="col-md-2 bootcol one" style="vertical-align: middle;  padding: 0;">
             	<c:if test="${sessionScope.m != null }">
-               		<a href="/usedEnroll.do"><input type="button" value="물품등록" style="font-size: 16px; height: 30px; font-size: 14px; margin-left: 67px; width: 100px;" class="searchBtn"></a>
+               		<a href="/usedEnroll.do"><input type="button" value="물품등록" style="font-size: 16px; height: 30px; font-size: 14px; margin-left: 100px; width: 100px;" class="searchBtn"></a>
                 </c:if>
             </div>
         </div>
     <section class="section-mid-size">
 				<c:if test="${empty list }">
 				<div style="height: 50px;"></div>
-				<div class="section-size"  style="text-align:center;">
+				<div style="margin-left: 400px; margin-top: 20px;">
 					<h4>검색 결과가 없습니다.</h4>
 				</div>
             	</c:if>
         <c:forEach items="${list }" var="c">
         <div class="prd-item">
-            <div style="height: 300px; width: 300px; border: 1px solid #e0e0e0;">
+            <div style="height: 250px; width: 250px; border: 1px solid #e0e0e0;">
                 <a href="/usedDatail.do?usedNo=${c.usedNo }">
                 <img src="resources/upload/used/${c.file[0].filepath }">
                 </a>
@@ -187,15 +180,13 @@
    	});
    });
    	
-   	/* 	$("#ware-select").change(function(){
+   	/* $("#ware-select").change(function(){
    			var ware = $("#ware-select").val();
-   			var reqPage = $("#reqPage").val();
    			console.log(ware);
    			$.ajax({
    				type:"GET", //전송 방법
    				url : "/selectSearch.do?select",
    				data : {ware : ware,
-   						reqPage : reqPage
    					   },
    				datatype : "json"
    				success: 

@@ -65,6 +65,7 @@
       /*----------------------------------*/
 
       .camp-info {
+      	 /*background-color: #f9f9f9;*/
          border-top: 2px solid #d3d3d3;
          border-bottom: 2px solid #d3d3d3;
          margin: 70px 0px 70px 0px;
@@ -111,7 +112,14 @@
       }
       
       .review-content-text {
-      	margin-top: 30px;
+      	margin-top: 50px;
+      }
+      
+      .review-content-img-one {
+      	width: 700px;
+      	margin: 0 auto;
+      	margin-top: 10px;
+      	margin-bottom: 10px;
       }
 
       .commnet-wrap {
@@ -311,10 +319,12 @@
          <div class="camp-link"><a href="campView.do?campNo=${camp.campNo}">캠핑장 바로가기</a></div>
       </div>
       <div class="review-content">
-      	<c:if test="${!empty rev.fileList }">
+      	<c:if test="${!empty rev.fileList }"><!-- 첨부파일이 존재할 때 -->
       	<div class="review-content-img">
       		<c:forEach items="${rev.fileList }" var="f">
-      			<img src = "resources/upload/review/${f.filepath }" width="700px">   	
+      			<div class="review-content-img-one">
+      				<img src = "resources/upload/review/${f.filepath }" width="100%">   	
+      			</div>
       		</c:forEach>
 		</div>
 		</c:if>

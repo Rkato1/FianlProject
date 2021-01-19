@@ -4,8 +4,13 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.StringTokenizer;
 
+import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +75,13 @@ public class ReviewController {
 	//캠핑 후기 - 글 작성하기 (예약번호 조회)
 	@RequestMapping("/searchReserve.do")
 	public String searchReserve(int memberNo, Model model) {
+		//체크아웃  날짜가 지난 것만 가져오기 위함
+		Date date = new Date();
+		//MM대문자 : 월 //mm소문자 : 시간  //dd소문자 : 일
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+		String now = sdf.format(date);
+		System.out.println(now);
+		
 		ArrayList<ReserveCampVO> listRes = service.selectListReserve(memberNo);
 		model.addAttribute("listRes", listRes);
 		return "review/searchReserve";
@@ -130,19 +142,110 @@ public class ReviewController {
 	
 	//캠핑 후기 - 글 수정하기 (페이지 이동)
 	@RequestMapping("/reviewUpdateFrm.do")
-	public String reviewUpdateFrm() {
+	public String reviewUpdateFrm(int reviewNo, Model model) {
+		ReviewVO rev = service.selectOneReview(reviewNo);
+		model.addAttribute("rev", rev);
 		return "review/reviewUpdateFrm";
 	}
 	
 	//캠핑 후기 - 글 수정하기
 	@RequestMapping("/updateReview.do")
-	public String updateReview() {
-		return "review/reviewList";
+	public String updateReview(ReviewVO r, String delFileList, Model model, MultipartFile[] files, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("/");
+		String path = root + "resources/upload/review/";
+		
+		ArrayList<ReviewFileVO> fileList = new ArrayList<ReviewFileVO>();
+
+		for (MultipartFile file : files) { // 파일이 여러 개여서 반복문으로 처리
+			if (!file.isEmpty()) { //첨부파일이 없을 때는 if문을 수행하지 않음
+				
+				//getOriginalFilename() : 파일 이름을 String 값으로 반환
+				String filename = file.getOriginalFilename();
+				//파일이름 중복 시 넘버링 해주는 FileNameOverlap(ReveiwFilName)활용 
+				String filepath = new ReviewFileName().rename(path, filename);
+				System.out.println("filename : " + filename);
+				System.out.println("filepath : " + filepath);
+				
+				try {
+					byte[] bytes = file.getBytes();
+					File upFile = new File(path + filepath);
+					FileOutputStream fos = new FileOutputStream(upFile);
+					BufferedOutputStream bos = new BufferedOutputStream(fos);
+					bos.write(bytes);
+					bos.close();
+
+					ReviewFileVO f = new ReviewFileVO();
+					f.setFilename(filename);
+					f.setFilepath(filepath);
+					fileList.add(f); //데이터베이스 처리를 위해 list에 추가
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		//삭제한 첨부파일이 있을 때
+		if(!delFileList.equals("")) {
+			//String으로 넘어온 삭제된 fileNo를  int 배열로 변경
+			System.out.println(delFileList);
+			StringTokenizer sT = new StringTokenizer(delFileList, "/");
+
+			ArrayList<String> delFilepathList = new ArrayList<String>();
+			while(sT.hasMoreTokens()) {
+				delFilepathList.add(sT.nextToken());
+			}
+			
+			//fileNo로 DB삭제하기
+			int result = service.deleteReviewFilepath(delFilepathList);
+			if (result > 0) {
+				for(String str : delFilepathList) {
+					File delFile = new File(path + str);
+					boolean delResult = delFile.delete();
+					if(delResult) {
+						System.out.println("첨부파일 삭제 성공");
+					} else {
+						System.out.println("첨부파일 삭제 실패");
+					}
+				}
+			}
+		}
+		
+		//ReviewVO 객체에 FileList 세팅 
+		r.setFileList(fileList);
+		
+		int reviewNo = r.getReviewNo();
+		int campNo = service.searchCampNo(reviewNo);
+		int result = service.updateReview(r); 
+		if(result>0) {
+			model.addAttribute("msg", "후기 글이 수정되었습니다.");
+		} else {
+			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
+		} 
+		model.addAttribute("loc", "/reviewView.do?reviewNo="+reviewNo+"&campNo="+campNo);
+		return "common/msg";
 	}
 	
 	//캠핑 후기 - 글 삭제하기
 	@RequestMapping("/deleteReview.do")
-	public String deleteReview(int reviewNo, Model model) {
+	public String deleteReview(int reviewNo, Model model, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("/");
+		String path = root + "resources/upload/review/";
+		
+		//리뷰 번호로 삭제한 리뷰 첨부파일 filepath 받아오기
+		ArrayList<String> delFilepathList = service.selectReviewFilepath(reviewNo);
+		if(!delFilepathList.isEmpty()) {
+			for(String str : delFilepathList) {
+				File delFile = new File(path + str);
+				boolean delResult = delFile.delete();
+				if(delResult) {
+					System.out.println("첨부파일 삭제 성공");
+				} else {
+					System.out.println("첨부파일 삭제 실패");
+				}
+			}
+		}
+
 		int result = service.deleteReview(reviewNo);
 		if (result > 0) {
 			model.addAttribute("msg", "후기 글이 삭제되었습니다.");

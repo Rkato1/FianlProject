@@ -80,7 +80,7 @@ public class ReviewDao {
 	public int deleteReview(int reviewNo) {
 		return sqlSession.delete("review.deleteReview", reviewNo);
 	}
-
+	
 	public int insertReview(ReviewVO r) {
 		return sqlSession.insert("review.insertReview", r);
 	}
@@ -100,6 +100,19 @@ public class ReviewDao {
 	public ArrayList<ReviewFileVO> selectFileList(int reviewNo) {
 		List<ReviewFileVO> list = sqlSession.selectList("review.selectFileList", reviewNo);
 		return (ArrayList<ReviewFileVO>)list;
+	}
+
+	public int updateReview(ReviewVO r) {
+		return sqlSession.update("review.updateReview", r);
+	}
+
+	public int deleteReviewFilepath(ArrayList<String> delFilepathList) {
+		return sqlSession.delete("review.deleteReviewFilepath", delFilepathList);
+	}
+
+	public ArrayList<String> selectReviewFilepath(int reviewNo) {
+		List<String> list = sqlSession.selectList("review.selectReviewFilepath", reviewNo);
+		return (ArrayList<String>)list;
 	}
 
 }

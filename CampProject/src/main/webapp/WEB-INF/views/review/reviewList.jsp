@@ -140,8 +140,15 @@
     	text-align: center;
     }
     
+    /*----------------------------*/
+    
     .form-control:focus {
 		border-color: #ced4da !important;
+        outline: 0 none !important;
+        box-shadow: none !important;
+    }
+    
+    .btn:focus {
         outline: 0 none !important;
         box-shadow: none !important;
     }

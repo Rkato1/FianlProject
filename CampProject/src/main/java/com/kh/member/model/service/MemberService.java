@@ -63,6 +63,14 @@ public class MemberService {
 		return dao.mypageUsedTrade(memberId);
 	}
 	
+	public String selectChangePw(int memberNo) {
+		return dao.selectChangePw(memberNo);
+	}
+
+	public int updateMemberPw(MemberVO m) {
+		return dao.updateMemberPw(m);
+	}
+
 	public int updateMember(MemberVO m) {
 		return dao.updateMember(m);
 	}
@@ -70,7 +78,5 @@ public class MemberService {
 	public int deleteMember(int memberNo) {
 		return dao.deleteMember(memberNo);
 	}
-
-
 	
 }

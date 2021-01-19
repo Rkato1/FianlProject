@@ -22,7 +22,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kh.camp.used.service.UsedService;
 import com.kh.camp.used.vo.FileNameOver;
+import com.kh.camp.used.vo.UsedCommentData;
+import com.kh.camp.used.vo.UsedCommentVO;
 import com.kh.camp.used.vo.UsedFileVO;
+import com.kh.camp.used.vo.UsedMessageVO;
 import com.kh.camp.used.vo.UsedPageNavi;
 import com.kh.camp.used.vo.UsedVO;
 
@@ -54,10 +57,55 @@ public class UsedController {
 	public String usedDatail(Model model, UsedVO used) {
 		System.out.println(used.getUsedNo());
 		UsedVO u = service.selectDatail(used);
+		UsedCommentData ucd = service.selectUcd(u.getUsedNo());
 		System.out.println(u.getUsedPrice());
 		model.addAttribute("u",u);
 		model.addAttribute("list", u.getFile());
+		model.addAttribute("clist",ucd.getClist());
+		model.addAttribute("cnt",ucd.getCnt());
 		return "used/usedDatail";
+	}
+	//댓글 달기
+	@RequestMapping("/usedComment.do")
+	public String usedComment(Model model, UsedCommentVO uc) {
+		int usedNo = uc.getUsedNo();
+		System.out.println("usedNO : "+usedNo);
+		int result = service.insertComment(uc);
+		if(result > 0) {
+			model.addAttribute("msg","댓글 등록 완료!");
+		}else {
+			model.addAttribute("msg","댓글 등록 실패!");
+		}
+		model.addAttribute("loc","/usedDatail.do?usedNo="+usedNo);
+		return "common/msg";
+	}
+	//댓글 수정
+	@RequestMapping("/updateComment.do")
+	public String updateComment(Model model, UsedCommentVO uc) {
+		int usedNo = uc.getUsedNo();
+		System.out.println("usedNo : "+usedNo);
+		int result = service.updateComment(uc); 
+		if(result>0) {
+			model.addAttribute("msg", "댓글이 수정되었습니다.");
+		} else {
+			model.addAttribute("msg", "댓글 수정에 실패하였습니다."); 
+		} 
+		model.addAttribute("loc","/usedDatail.do?usedNo="+usedNo);
+		return "common/msg";
+	}
+	//댓글 삭제
+	@RequestMapping("/deleteComment.do")
+	public String deleteComment(Model model, UsedCommentVO uc) {
+		int usedNo = uc.getUsedNo();
+		System.out.println("usedNo : "+usedNo);
+		int result = service.deleteComment(uc); 
+		if(result>0) {
+			model.addAttribute("msg", "댓글이 삭제되었습니다.");
+		} else {
+			model.addAttribute("msg", "댓글 삭제를 실패하였습니다."); 
+		} 
+		model.addAttribute("loc","/usedDatail.do?usedNo="+usedNo);
+		return "common/msg";
 	}
 	//물품등록 페이지연결
 	@RequestMapping("/usedEnroll.do")
@@ -76,9 +124,9 @@ public class UsedController {
 		for (MultipartFile file : files) {
 			System.out.println(file);
 			if (!file.isEmpty()) {
+				//올린 파일명을 저장하는 구문
+				String filename;
 				try {
-					//올린 파일명을 저장하는 구문
-					String filename;
 					filename = new String(file.getOriginalFilename().getBytes("UTF-8"), "8859_1");
 					//중복파일 처리
 					String filepath = new FileNameOver().rename(path, filename);
@@ -156,13 +204,6 @@ public class UsedController {
 		return "common/msg";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 //	@ResponseBody
 //	@RequestMapping(value = "/selectSearch.do", produces="application/json; charset=utf-8")
 //	public String selectSearch(String ware, int reqPage) {
@@ -173,5 +214,27 @@ public class UsedController {
 //		
 //		return new Gson().toJson(obj);
 //	}
+	
+	
+	@RequestMapping("/usedChat.do")
+	public String chat() {
+		return "used/usedChat";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

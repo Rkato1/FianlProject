@@ -62,11 +62,13 @@
 			camp_ph as campPh,
 			camp_period as campPeriod,
 			camp_day as campDay,
-			camp_facility as campFacility,
+			camp_facility as campFacility
+			<!-- 
 			camp_fee_ori_day as campFeeOriDay,
 			camp_fee_ori_end as campFeeOriEnd,
 			camp_fee_peak_day as campFeePeakDay,
 			camp_fee_peak_end as campFeePeakEnd
+			-->
 		from camp where camp_no = #{_parameter}	
 	</select>
 	
@@ -233,5 +235,26 @@
 		where review_no = #{_parameter}
 	</select>
 	
+	<update id="updateReview" parameterType="review">
+		update review
+		set 
+			review_title = #{reviewTitle},
+			review_point = #{reviewPoint},
+			review_content = #{reviewContent}
+		where review_no = #{reviewNo}	
+	</update>
+	
+	<delete id="deleteReviewFilepath" parameterType="java.util.List">
+		delete from review_file 
+		where
+		<foreach collection="list" item="item" separator="or">
+		filepath = #{item}
+		</foreach>
+	</delete>
+	
+	<select id="selectReviewFilepath" parameterType="_int" resultType="String">		
+		select filepath from review_file
+		where review_no = #{_parameter}
+	</select>
 	
 </mapper>

@@ -208,11 +208,11 @@
                     <td class="checkbox-td">
                         <input type="checkbox" id="agreeAll">
                         <label for="allAgree">&nbsp;전체 이용 약관 동의</label><br><br>
-                        <input type="checkbox" class="agrees" id="agree1">
+                        <input type="checkbox" name="chk" class="agrees" id="agree1">
                         <label for="agree1">&nbsp;<span style="color: #f49b00">(필수)</span> 이용약관에 동의합니다.</label><br>
-                        <input type="checkbox" class="agrees" id="agree2">
+                        <input type="checkbox" name="chk" class="agrees" id="agree2">
                         <label for="agree2">&nbsp;<span style="color: #f49b00">(필수)</span> 개인정보처리방침에 동의합니다.</label><br><br>
-                        <input type="checkbox" class="agrees" id="agree3">
+                        <input type="checkbox" name="chk" class="agrees" id="agree3">
                         <label for="agree3">&nbsp;(선택) 광고성 정보 수신 동의</label><br>
                         <span>회원에게 제공되는 더 많은 정보를 받아보세요!</span><br>
                     </td>
@@ -358,7 +358,6 @@
             
 
             agreeAll.click(function() {
-
                 if (agreeAll.prop("checked")) {
                     //each()메소드 : for반복문 사용
                     agrees.each(function(index, item) {
@@ -369,10 +368,18 @@
                         $(item).prop("checked", false)
                     });
                 }
-
             });
             
-            
+            //전체 체크 후 하나만 해제 했을 때, 전체 선택도 해제
+            //전체 다 선택 될 경우, 전체 체크에 체크
+            agrees.click(function() {
+            	if($("input[name='chk']:checked").length == 3) {
+            		agreeAll.prop("checked", true);
+            	} else {
+            		agreeAll.prop("checked", false);
+            	}
+            });
+
             //Submit 버튼
             $("#joinBtn").click(function(event) {
                 if ($("#agree1").is(":checked") && $("#agree2").is(":checked")) {
