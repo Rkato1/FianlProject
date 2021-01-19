@@ -1,7 +1,5 @@
 package com.kh.camp.controller;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +10,6 @@ import com.kh.camp.model.vo.CampEventData;
 import com.kh.camp.model.vo.CampPageData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.operator.model.vo.CampNoticePageData;
-import com.kh.operator.model.vo.CampNoticeVO;
 
 @Controller
 public class CampController {
@@ -42,5 +39,15 @@ public class CampController {
 	@RequestMapping("/calendar.do")
 	public String calendar() {
 		return "calendar/calendar";
+	}
+	
+	@RequestMapping("/searchCampList.do")
+	public String searchCampList(Model model,int reqPage,String keyword,String value) {
+		CampPageData cpd = service.campSearchList(reqPage,keyword,value);
+		model.addAttribute("list", cpd.getList());
+		model.addAttribute("pageNavi", cpd.getPageNavi());
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("value", value);
+		return "camp/campList";
 	}
 }

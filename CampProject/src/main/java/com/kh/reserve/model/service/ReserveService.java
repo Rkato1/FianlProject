@@ -26,19 +26,9 @@ public class ReserveService {
 	@Autowired
 	private ReserveDao dao;
 
-	/*
-	 * public ReserveService() { super(); System.out.println("ReserveService객체생성");
-	 * }
-	 */
-
-	public ArrayList<ReserveVO> selectReserveList() {
-		return dao.selectReserveList();
+	public ArrayList<ReserveVO> selectReserveList(ReserveVO reserve) {		
+		return dao.selectReserveList(reserve);
 	}
-
-	/*
-	 * public ArrayList<SiteVO> selectSitePriceList(CampVO camp) { return
-	 * dao.selectSitePriceList(camp); }
-	 */
 
 	public ReserveListsVO selectAllLists(CampVO camp, String date) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -328,5 +318,21 @@ public class ReserveService {
 
 	public int flexOneRserve(ReserveVO reserve) {		
 		return dao.flexOneRserve(reserve);
+	}
+
+	public int flexAllReserve(String numbers) {
+		String item[] = numbers.split(",");
+		int reserveNo = 0;
+		int result = 0;
+		for(int i=0; i<item.length;i++) {
+			reserveNo = Integer.parseInt(item[i]);
+			ReserveVO r = new ReserveVO();
+			r.setReserveNo(reserveNo);
+			ReserveVO reserve = dao.selectOneReserve(r);
+			if(reserve != null) {
+				result += dao.flexOneRserve(reserve);				
+			}
+		}
+		return result;
 	}
 }

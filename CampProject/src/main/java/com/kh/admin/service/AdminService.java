@@ -12,11 +12,11 @@ import com.kh.admin.model.dao.AdminDao;
 import com.kh.admin.model.vo.CampVOPageData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
-import com.kh.admin.model.vo.ReviewCommentVOPageData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
-import com.kh.review.model.vo.ReviewCommentVO;
+import com.kh.review.model.vo.ReviewCampVO;
+import com.kh.review.model.vo.ReviewPageData;
 
 @Service
 public class AdminService{
@@ -200,17 +200,18 @@ public class AdminService{
 		return dao.getCanvasjsStickChartData2();
 	}
 
-	public ReviewCommentVOPageData adminAnswerList(int reqPage) {
+	public ReviewPageData adminAnswerList(int reqPage) {
 		//게시물 구해오기
 		//한 페이지당 게시물 수
 		int numPerPage = 10;
 		//게시물 10개 가져오기(start,end값 계산)
 		int end = reqPage*numPerPage;
 		int start = end-numPerPage+1;
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("start", start);
-		map.put("end", end);
-		ArrayList<ReviewCommentVO> list = dao.selectAdminAnswerList(map);
+//		HashMap<String, Object> map = new HashMap<String, Object>();
+//		map.put("start", start);
+//		map.put("end", end);
+//		ArrayList<ReviewCampVO> list = dao.selectAdminAnswerList(map);
+		ArrayList<ReviewCampVO> list = dao.selectAdminAnswerList(start,end);
 		//pageNavi제작
 		//총 개수
 		int totalCount = dao.totalAdminAnswerListCount();
@@ -229,11 +230,11 @@ public class AdminService{
 		String pageNavi = "";
 		//이전 버튼 생성
 		if(pageNo!=1) {
-			pageNavi += "<a href='/admin/reserveAdmin.do?reqPage="+(pageNo-1)+"'>[이전]</a>";
+			pageNavi += "<a href='/admin/helpAdmin.do?option=answer&reqPage="+(pageNo-1)+"'>[이전]</a>";
 		}
 		for(int i=0; i<pageNaviSize; i++) {
 			if(pageNo != reqPage) {
-				pageNavi += "<a href='/admin/reserveAdmin.do?reqPage="+pageNo+"'>"+pageNo+"</a>";
+				pageNavi += "/admin/helpAdmin.do?option=answer&reqPage="+pageNo+"'>"+pageNo+"</a>";
 			}else {
 				pageNavi += "<span class='selectedPage'>"+pageNo+"</span>";
 			}
@@ -245,24 +246,25 @@ public class AdminService{
 		}
 		//다음 버튼 생성
 		if(pageNo <= totalPage) {
-			pageNavi += "<a href='/admin/reserveAdmin.do?reqPage="+pageNo+"'>[다음]</a>";;
+			pageNavi += "<a href='/admin/helpAdmin.do?option=answer&reqPage="+pageNo+"'>[다음]</a>";;
 		}
 		//System.out.println(pageNavi);
-		ReviewCommentVOPageData rcpd = new ReviewCommentVOPageData(list,pageNavi);
-		return rcpd;
+		ReviewPageData rpd = new ReviewPageData(list,pageNavi);
+		return rpd;
 	}
 
-	public ReviewCommentVOPageData adminNotAnswerList(int reqPage) {
+	public ReviewPageData adminNotAnswerList(int reqPage) {
 		//게시물 구해오기
 		//한 페이지당 게시물 수
 		int numPerPage = 10;
 		//게시물 10개 가져오기(start,end값 계산)
 		int end = reqPage*numPerPage;
 		int start = end-numPerPage+1;
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("end", end);
-		ArrayList<ReviewCommentVO> list = dao.selectAdminNotAnswerList(map);
+		ArrayList<ReviewCampVO> list = dao.selectAdminNotAnswerList(map);
+		//ArrayList<ReviewCampVO> list = dao.selectAdminNotAnswerList(start, end);
 		//pageNavi제작
 		//총 개수
 		int totalCount = dao.totalAdminNotAnswerListCount();
@@ -281,11 +283,11 @@ public class AdminService{
 		String pageNavi = "";
 		//이전 버튼 생성
 		if(pageNo!=1) {
-			pageNavi += "<a href='/admin/reserveAdmin.do?reqPage="+(pageNo-1)+"'>[이전]</a>";
+			pageNavi += "<a href='/admin/helpAdmin.do?option=notanswer&reqPage="+(pageNo-1)+"'>[이전]</a>";
 		}
 		for(int i=0; i<pageNaviSize; i++) {
 			if(pageNo != reqPage) {
-				pageNavi += "<a href='/admin/reserveAdmin.do?reqPage="+pageNo+"'>"+pageNo+"</a>";
+				pageNavi += "<a href='/admin/helpAdmin.do?option=notanswer&reqPage="+pageNo+"'>"+pageNo+"</a>";
 			}else {
 				pageNavi += "<span class='selectedPage'>"+pageNo+"</span>";
 			}
@@ -297,10 +299,10 @@ public class AdminService{
 		}
 		//다음 버튼 생성
 		if(pageNo <= totalPage) {
-			pageNavi += "<a href='/admin/reserveAdmin.do?reqPage="+pageNo+"'>[다음]</a>";;
+			pageNavi += "<a href='/admin/helpAdmin.do?option=notanswer&reqPage="+pageNo+"'>[다음]</a>";;
 		}
 		//System.out.println(pageNavi);
-		ReviewCommentVOPageData rcpd = new ReviewCommentVOPageData(list,pageNavi);
-		return rcpd;
+		ReviewPageData rpd = new ReviewPageData(list,pageNavi);
+		return rpd;
 	}
 }

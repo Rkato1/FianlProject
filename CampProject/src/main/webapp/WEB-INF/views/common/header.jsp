@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- Google Fonts -->
+<html lang="kr">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 <!-- BOOTETRAP -->
@@ -18,8 +19,8 @@
 </head>
 <body>
 
-	<!-- CSS / (절대경로로 하는 법)href=처음에/가 webapp을 의미함 -->
-	<link href="/css/common/header.css" type="text/css" rel="stylesheet">
+	<!-- CSS -->
+	<link href="../css/common/header.css" type="text/css" rel="stylesheet">
 	
     <div class="header-all-wrap">
         <div class="header-title">
@@ -47,12 +48,12 @@
             </div>
             <div class="header-logo">
                     <div class="logo-text-left">create</div>
-                    <div class="logo-img"><img src="resources/upload/common/tentb.png"></div>
+                    <div class="logo-img"><!--  a href="/"--><img src="resources/upload/common/tentb.png"><!-- /a--></div>
                     <div class="logo-text-right">camp</div>
             </div>
             <div class="header-navi">
                 <ul>
-                    <li><a href="/noticeList.do?reqPage=1">공지사항</a></li>
+                    <li><a href="/notice/noticeList.do?reqPage=1">공지사항</a></li>
                     <li><a href="/campList.do?reqPage=1">캠핑장예약</a></li>
                     <li><a href="/reviewList.do?reqPage=1">캠핑후기</a></li>
                     <li><a href="/usedPage.do?reqPage=1">중고거래</a></li>

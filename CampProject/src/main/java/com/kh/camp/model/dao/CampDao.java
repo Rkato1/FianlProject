@@ -60,6 +60,30 @@ public class CampDao {
 		return sqlSession.selectOne("campNotice.cNoticetotalCount",campNo);
 	}
 
+	public ArrayList<SiteVO> selectSiteListMap(HashMap<String, Integer> map) {
+		List<SiteVO> list = sqlSession.selectList("camp.selectSiteListMap",map);
+		return (ArrayList<SiteVO>)list;
+	}
+
+	public ArrayList<CampVO> campSearchListObject(HashMap<String, Object> map) {
+		List<CampVO> list = sqlSession.selectList("camp.campSearchListObject",map);
+		return (ArrayList<CampVO>)list;
+	}
+
+	public ArrayList<CampPictureVO> selectPictureListObject(HashMap<String, Object> map) {
+		List<CampPictureVO> pictureList = sqlSession.selectList("camp.selectPictureList",map);
+		return (ArrayList<CampPictureVO>)pictureList;
+	}
+
+	public ArrayList<SiteVO> selectSiteListMapObject(HashMap<String, Object> map) {
+		List<SiteVO> list = sqlSession.selectList("camp.selectSiteListMap",map);
+		return (ArrayList<SiteVO>)list;
+	}
+
+	public int totalSearchCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne("camp.totalSearchCount",map);
+	}
+
 
 
 	//public ArrayList<CampNoticeVO> selectNoticeList(CampVO camp) {

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CanvasjsStickChartData {
-	static Map<Object,Object> map = null;
+	static Map<Object,Object> map = null;					
 	static List<List<Map<Object,Object>>> list = new ArrayList<List<Map<Object,Object>>>();
 	static List<Map<Object,Object>> dataPoints1 = new ArrayList<Map<Object,Object>>();	
 		
@@ -14,25 +14,34 @@ public class CanvasjsStickChartData {
 		map=null;
 		dataPoints1 = new ArrayList<Map<Object,Object>>();
 		list=new ArrayList<List<Map<Object,Object>>>();
-			
+		
+		//순위매기기, 동점일시 처리를 안했음=>따라서 가장 빨리 검색된게 나옴
 		int[] rank = new int[reviewPointList.size()];
 		for(int i=0; i<reviewPointList.size();i++) {
 			rank[i] = 1;
 			for(int j=0 ; j<reviewPointList.size() ; j++) {
 				if(reviewPointList.get(i) < reviewPointList.get(j)) { 
-					rank[i]++; 
+					rank[i]++;
 				}
 			}
 		}
 		
+//		for(int i : rank) {
+//			System.out.println("순위 = "+i);
+//		}
+		
 		for(int i=0; i<3; i++) {
-			map = new HashMap<Object,Object>();
 			for(int j=0; j<rank.length; j++) {
 				if(rank[j]==i+1) {
-					map.put("label", campNameList.get(j));			
-					//System.out.println("x값 = "+campNameList.get(i));
+					map = new HashMap<Object,Object>();
+					//1,2,3등일때
+					//이미 해당이름이 존재할때
+					map.put("label", campNameList.get(j));
+					map.put("indexLabel",rank[j]+" 위");
+					//System.out.println("x값 = "+campNameList.get(j));
+					//System.out.println("순위 = "+rank[j]);
 					map.put("y", reviewPointList.get(j));
-					//System.out.println("y값 = "+reviewPointList.get(i));
+					//System.out.println("y값 = "+reviewPointList.get(j));
 					if(dataPoints1.size()==3) {
 						break;
 					}else {
@@ -70,12 +79,19 @@ public class CanvasjsStickChartData {
 				}
 			}
 		}
+		
+//		for(int i : rank) {
+//			System.out.println("순위 = "+i);
+//		}
+		
 		for(int i=0; i<3; i++) {
-			map = new HashMap<Object,Object>();
-			for(int j=0; j<rank.length; j++) {					
+			for(int j=0; j<rank.length; j++) {
 				if(rank[j]==i+1) {
-					map.put("label", campNameList.get(j));			
+					map = new HashMap<Object,Object>();
+					map.put("label", campNameList.get(j));
+					map.put("indexLabel",rank[j]+" 위");
 					//System.out.println("x값 = "+campNameList.get(j));
+					//System.out.println("순위 = "+rank[j]);
 					map.put("y", salesList.get(j));
 					//System.out.println("y값 = "+salesList.get(j));
 					if(dataPoints1.size()==3) {

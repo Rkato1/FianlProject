@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="admin">
+<!-- 동적쿼리 -->
+  <select id="selectNoticeList" parameterType="map" resultType="notice">
+  select
+  		rownum as rnum,
+  		notice_no as noticeNo,
+  		notice_title as noticeTitle,
+  		notice_writer as noticeWriter,
+  		notice_content as noticeContent,
+  		notice_date as noticeDate
+  from (select rownum as rnum,n.*from(select * from notice order by 1 desc)n) where rnum between #{start} and #{end}  	 
+  </select>  
+  
+  <select id="selectOneNotice" parameterType="_int" resultType="notice">
+  	select
+  		notice_no as noticeNo,
+  		notice_title as noticeTitle,
+  		notice_writer as noticeWriter,
+  		notice_content as noticeContent,
+  		notice_date as noticeDate
+  	from notice where notice_no=#{parameter}
+  </select>
+  
+  <select id="selectNoticeCount" resultType="_int">
+  	select count(*)
+  	from notice
+  </select>
+  
+  <insert id="insertNoticeFile" parameterType="fileNotice">
+  	insert into notice_file values(
+  		notice_file_seq.nextval,
+  		#{noticeNo},
+		#{filename},
+		#{filepath}
+	)
+  </insert>
+  
+  <select id="selectNoticeFileList" parameterType="_int" resultType="fileNotice">
+  select
+  		notice_file_no as noticeFileNo,
+  		reserve_no as reserveNo,
+  		notice_no as noticeNo,
+  		filename,
+  		filepath
+  from notice where notice_no=#{parameter}  	 
+  </select>
+  
+  <insert id="insertNotice" parameterType="notice">
+  	insert into notice values(
+	  	notice_seq.nextval,
+	  	#{noticeTitle},
+	  	'admin',
+	  	#{noticeContent},
+	  	sysdate
+  	)
+  </insert>
+  
+  <select id="selectReviewNo" parameterType="String" resultType="_int">
+		select max(notice_no) from notice
+  </select>
+  
+  <delete id="deleteNotice" parameterType="_int">
+  	delete from notice where notice_no=#{paramater}
+  </delete>
+  
+  <update id="updateNotice" parameterType="notice">
+  	update notice
+  	set notice_title=#{noticeTitle},
+  		notice_content=#{noticeContent}
+  	where notice_no=#{noticeNo};
+  </update>
+  <!-- <select id="selectFileList" parameterType="_int" resultType="f">
+  	select
+  		file_no as fileNo,
+  		board_no as boardNo,
+  		filename,
+  		filepath
+  	from file_tbl where board_no=#{board_no}
+  </select>
+  <resultMap type="b" id="board">
+  	<result column="board_no" property="boardNo"/>
+  	<result column="board_title" property="boardTitle"/>
+  	<result column="board_writer" property="boardWriter"/>
+  	<result column="board_content" property="boardContent"/>
+  	<result column="board_date" property="boardDate"/>
+  	<collection property="fileList"
+  				column="board_no"
+  				javaType="java.util.ArrayList"
+  				ofType="f"
+  				select="selectFileList"/>
+  </resultMap> -->
+</mapper>

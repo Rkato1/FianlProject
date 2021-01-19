@@ -37,10 +37,6 @@
                             <th>운영기간</th>
                             <th>운영일</th>
                             <th>이용가능시설</th>
-                            <th>주중요금<br>(일반)</th>                            
-                            <th>주말요금<br>(일반)</th>
-                            <th>주중요금<br>(성수기)</th>
-                            <th>주말요금<br>(성수기)</th>
                         </tr>
                         <c:forEach items="${list }" var="c">
 						<tr>
@@ -54,10 +50,6 @@
                         	<td>${c.campPeriod }</td>
                         	<td>${c.campDay }</td>
                         	<td>${c.campFacility }</td>
-                        	<td>${c.campFeeOriDay }</td>
-                        	<td>${c.campFeeOriEnd }</td>
-                        	<td>${c.campFeePeakDay }</td>
-                        	<td>${c.campFeePeakEnd }</td>
                        	</tr>
                        	</c:forEach>
                     </table>

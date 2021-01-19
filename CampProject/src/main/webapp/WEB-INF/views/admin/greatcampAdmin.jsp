@@ -93,6 +93,7 @@ window.onload = function() {
 	 
 	var yValue;
 	var label;
+	var indexLabel;
 	 
 	<c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">	
 		<c:forEach items="${dataPoints}" var="dataPoint">			
@@ -101,9 +102,11 @@ window.onload = function() {
 				yValue = parseFloat("0");
 			</c:if>
 			label = "${dataPoint.label}";
+			indexLabel = "${dataPoint.indexLabel}";
 			dps[parseInt("${loop.index}")].push({
 				label : label,
-				y : yValue
+				y : yValue,
+				indexLabel : indexLabel
 			});
 		</c:forEach>	
 	</c:forEach> 
