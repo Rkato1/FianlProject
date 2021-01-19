@@ -188,8 +188,7 @@
 		  	</if>
 		</trim>
 	</select>
-<<<<<<< HEAD
-	
+
 	<select id="selectCampNoticeList" parameterType="map" resultType="cNotice">		
 		select
     		rnum,
@@ -250,7 +249,6 @@
 		from site
 		where camp_no = ${campNo} and reserve_date = '0000-00-00'
 	</select>
-=======
 	<delete id="deleteCamp" parameterType="_int">
 		delete from camp where camp_no=#{_parameter}
 	</delete>
@@ -287,5 +285,4 @@
 	<update id="updateMainImg" parameterType="campPicture">
 		update camp_picture set filename=#{filename},filepath=#{filepath} where camp_no=#{campNo} and filegrade = 1
 	</update>
->>>>>>> gayoungBranch
 </mapper>

@@ -28,11 +28,7 @@ public class OperatorService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		for(CampVO camp : list) {
 			map.put("campNo",camp.getCampNo());
-<<<<<<< HEAD
-			map.put("filegrade", 1);
-=======
 			map.put("fileGrade", 1);
->>>>>>> gayoungBranch
 			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 			camp.setPictureList(pictureList);		
 		}
@@ -43,11 +39,7 @@ public class OperatorService {
 		CampVO camp = dao.selectOneCamp(c);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("campNo", camp.getCampNo());
-<<<<<<< HEAD
-		map.put("filegrade", 0);
-=======
 		map.put("fileGrade", 0);
->>>>>>> gayoungBranch
 		ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 		camp.setPictureList(pictureList);
 		return camp;

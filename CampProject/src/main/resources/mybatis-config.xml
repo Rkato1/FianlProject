@@ -29,7 +29,6 @@
 		<typeAlias type="com.kh.camp.used.vo.UsedVO" alias="used" />
 		<typeAlias type="com.kh.camp.used.vo.UsedFileVO" alias="file" />
 		<typeAlias type="com.kh.camp.used.vo.UsedCommentVO" alias="comment" />
-<<<<<<< HEAD
 		
 		<!-- 현식 추가 -->
 		<typeAlias type="com.kh.admin.model.vo.MemberVOPageData" alias="mpd"/>
@@ -40,14 +39,6 @@
 		<!-- 가영 추가 -->
 		<typeAlias type="com.kh.operator.model.vo.CampNoticeVO" alias="cNotice"/>
 				
-=======
 
-		<!-- 현식 추가 -->
-		<typeAlias type="com.kh.admin.model.vo.MemberVOPageData" alias="mpd"/>
-		
-		<!-- 가영 추가 -->
-		<typeAlias type="com.kh.operator.model.vo.CampNoticeVO" alias="cNotice"/>
-
->>>>>>> gayoungBranch
 	</typeAliases>
 </configuration>
