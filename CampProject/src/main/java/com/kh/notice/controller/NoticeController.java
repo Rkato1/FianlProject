@@ -15,8 +15,8 @@ import com.kh.notice.model.vo.NoticePageData;
 import com.kh.notice.service.NoticeService;
 
 @Controller
-@RequestMapping("/notice")
 public class NoticeController {
+	
 	@Autowired
 	NoticeService service;
 	
@@ -34,11 +34,12 @@ public class NoticeController {
 	@RequestMapping("/noticeList.do")
 	public String noticeList(Model model, int reqPage) {
 		NoticePageData npd = service.selectAllNotice(reqPage);
-		model.addAttribute("list", npd.getList());
+		model.addAttribute("notiList", npd.getList());
 		model.addAttribute("pageNavi", npd.getPageNavi());
 		return "notice/noticeList";
 	}
 	
+	/*
 	@RequestMapping("/shownotice.do")
 	public String selectOnenotice(Notice n, Model model) {
 		Notice notice = service.selectOneNotice(n.getNoticeNo());
@@ -46,6 +47,7 @@ public class NoticeController {
 		model.addAttribute("n", notice);
 		return "notice/shownotice";
 	}
+	*/
 	
 	//noticeController부터작업재개하면됨
 	//글쓸때,수정할때는 isadmin사용

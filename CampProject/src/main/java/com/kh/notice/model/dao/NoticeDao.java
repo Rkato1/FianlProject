@@ -13,16 +13,19 @@ import com.kh.notice.model.vo.Notice;
 
 @Repository
 public class NoticeDao {
+	
 	@Autowired
 	SqlSessionTemplate sqlSession;
 
 	public Notice selectOneNotice(int noticeNo) {
 		return sqlSession.selectOne("selectOneNotice", noticeNo);
 	}
+	
 	public ArrayList<Notice> selectNoticeList(HashMap<String, Integer> map) {
 		List<Notice> list = sqlSession.selectList("selectNoticeList", map);
 		return (ArrayList<Notice>) list;
 	}
+	
 	public int totalNoticeCount() {
 		return sqlSession.selectOne("selectNoticeCount");
 	}
@@ -30,6 +33,7 @@ public class NoticeDao {
 	public int insertReviewFile(FileVO fv) {
 		return sqlSession.insert("insertNoticeFile", fv);
 	}
+	
 	public ArrayList<FileVO> selectFileList(int noticeNo) {
 		List<FileVO> list = sqlSession.selectList("selectNoticeFileList", noticeNo);
 		return (ArrayList<FileVO>)list;

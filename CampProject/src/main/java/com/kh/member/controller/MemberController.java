@@ -23,12 +23,7 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
-	//공지사항 임시 페이지 이동
-	@RequestMapping("/noticeList.do")
-	public String noticeList(int reqPage, Model model) {
-		return "notice_bk/noticeList";	
-	}
-	
+	//메인에서 로그인 (페이지 이동)
 	@RequestMapping("/loginFrm.do")
 	public String loginFrm(HttpSession session, @SessionAttribute(required = false) MemberVO m, Model model) {
 		if (m != null) { //로그인 되어있는 상태일 때
@@ -39,6 +34,7 @@ public class MemberController {
 		}
 	}
 
+	//로그인
 	@RequestMapping("/login.do")
 	public String login(MemberVO m, HttpSession session, Model model) {
 		MemberVO member = service.selectOneMember(m);
@@ -48,7 +44,7 @@ public class MemberController {
 				model.addAttribute("msg", "관리자 로그인되었습니다.");
 				model.addAttribute("loc", "/admin/mainAdmin.do");
 			}else {
-				model.addAttribute("msg", "오늘도 'Create A Camp'를 찾아주셔서 감사합니다!");
+				model.addAttribute("msg", "오늘도 'Create A Camp'를 찾아주셔서 감사합니다.");
 				model.addAttribute("loc", "/reviewList.do?reqPage=1");
 			}
 		} else {
@@ -58,6 +54,7 @@ public class MemberController {
 		return "common/msg";
 	}
 
+	//로그아웃
 	@RequestMapping("/logout.do")
 	public String logout(HttpSession session, Model model, @SessionAttribute(required = false) MemberVO m) {
 		if (m != null) {
