@@ -28,9 +28,7 @@
 			 var number = $(".numbers").eq(idx).val();
 	         var result = String(number);
 	         numbers[idx] = result;
-	         console.log("number = "+number);
 		 });
-		 console.log("numbers = "+numbers);
 		 var date = $("#date").val();
 		 var campNo = $("#campNo").val();
 		 
@@ -51,12 +49,9 @@
    			buyer_tel : memberPhone	//구매자 전화번호   		
    		},function(rsp){
    			if(rsp.success){ //결제가 성공한 경우
-   				alert("결제성공");
    				location.href = "/flexAllRserve.do?numbers='"+numbers+"'&date=${date}&campNo="+campNo;
    			}else{			//결제가 실패한 경우
-   				alert("결제실패");
-   				location.href = "/reserveWriteFrm.do?campNo="+campNo+"&date=${date}";
-   				
+   				location.href = "/reserveWriteFrm.do?campNo="+campNo+"&date=${date}";   				
    			}
    		}); 
       });

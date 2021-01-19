@@ -78,7 +78,7 @@
 	<div class="container">
 		<div class="items">
 			<div class="item">
-				<h4>달력 이미지</h4>
+				<a name="target"><h4>달력 이미지</h4></a>
 				<hr>
 				<div id="calendar" style="width: 100%;"></div>
 			</div>
@@ -140,37 +140,14 @@
 				<hr>
 				<h3>주소 : ${camp.campAddr }</h3>
 				<!-- 지도를 표시할 div 입니다 -->
-				<div id="map" style="width: 100%; height: 350px;"></div>
+				<input type="hidden" name="campName" id="campName" class="campName" value="${camp.campName }">
+        		<input type="hidden" name="campAddr" id="campAddr" class="campAddr" value="${camp.campAddr }">
+        		<div id="map" style="width:100%;height:400px;"></div>
 			</div>
 		</div>
 	</div>
 	<!-- 카카오 지도 API 호출 -->
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ef86e3cd225d33d28097d509c357ae61"></script>
-	<script>
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = { 
-        center: new kakao.maps.LatLng(37.533807, 126.896772), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };
-
-var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-var iwContent = '<div style="padding:5px;">'+${camp.campName}+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-    iwPosition = new kakao.maps.LatLng(37.533807, 126.896772), //인포윈도우 표시 위치입니다
-    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-// 인포윈도우를 생성하고 지도에 표시합니다
-var infowindow = new kakao.maps.InfoWindow({
-    map: map, // 인포윈도우가 표시될 지도
-    position : iwPosition, 
-    content : iwContent,
-    removable : iwRemoveable
-});
-      
-// 아래 코드는 인포윈도우를 지도에서 제거합니다
-// infowindow.close();   
-	</script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ef86e3cd225d33d28097d509c357ae61&libraries=services"></script>
 	<!-- campView js파일 호출 -->
 	<script src="../js/camp/campView.js"></script>
 	<!-- calendar js파일 호출 -->
