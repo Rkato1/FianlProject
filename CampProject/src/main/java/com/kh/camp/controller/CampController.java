@@ -50,4 +50,14 @@ public class CampController {
 		model.addAttribute("value", value);
 		return "camp/campList";
 	}
+	
+	@RequestMapping("/searchCampListTest.do")
+	public String searchCampListTest(Model model,int reqPage,String value,String startDate,String endDate) {
+		CampPageData cpd = service.campSearchList(reqPage,value,startDate,endDate);
+		model.addAttribute("list", cpd.getList());
+		model.addAttribute("pageNavi", cpd.getPageNavi());
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("value", value);
+		return "camp/campList";
+	}
 }

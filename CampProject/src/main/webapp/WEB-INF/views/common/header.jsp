@@ -53,7 +53,7 @@
             </div>
             <div class="header-navi">
                 <ul>
-                    <li><a href="/notice/noticeList.do?reqPage=1">공지사항</a></li>
+                    <li><a href="/noticeList.do?reqPage=1">공지사항</a></li>
                     <li><a href="/campList.do?reqPage=1">캠핑장예약</a></li>
                     <li><a href="/reviewList.do?reqPage=1">캠핑후기</a></li>
                     <li><a href="/usedPage.do?reqPage=1">중고거래</a></li>
