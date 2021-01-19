@@ -1,7 +1,5 @@
 package com.kh.camp.controller;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +10,6 @@ import com.kh.camp.model.vo.CampEventData;
 import com.kh.camp.model.vo.CampPageData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.operator.model.vo.CampNoticePageData;
-import com.kh.operator.model.vo.CampNoticeVO;
 
 @Controller
 public class CampController {

@@ -159,6 +159,7 @@ public class AdminController {
 		if(isAdmin) {
 			//System.out.println("옵션으로 넘긴값"+option);
 			ReviewPageData rpd = null;
+			//현재 리스트크기 null값에 대한 대처를 안해뒀음 그거 처리해야함
 			if(option.equals("answer")) {
 				rpd = service.adminAnswerList(reqPage);
 				model.addAttribute("list", rpd.getList());

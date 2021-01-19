@@ -55,7 +55,7 @@
                        	</tr>
                        	</c:forEach>
                     </table>
-                    <div id= "pageNavi"></div>
+                    <div id= "pageNavi">${pageNavi }</div>
                 </div>
             </div>
         </div>

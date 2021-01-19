@@ -44,7 +44,7 @@ public class AdminDao {
 	}
 
 	public ArrayList<ReserveVO> selectReserveList(HashMap<String, Integer> map) {
-		List<ReserveVO> list = sqlSession.selectList("selectReserveList",map);
+		List<ReserveVO> list = sqlSession.selectList("selectReserveListAdmin",map);
 		return (ArrayList<ReserveVO>)list;
 	}
 
@@ -137,22 +137,24 @@ public class AdminDao {
 	}
 
 //	따로 변화하지 않으면 후기에서만 검색
-//	이거 현재는 관리자 댓글제외하곤 다 답변안한거로 옴
-//	완벽한 로직을 위해서는 후기글이 관리자 답변된게 있으면 답변한글
-//	후기글이 관리자 답변된게 없으면 답변하지 않은글
 	public ArrayList<ReviewCampVO> selectAdminAnswerList(int start, int end) {
 	//public ArrayList<ReviewCampVO> selectAdminAnswerList(HashMap<String, Object> map) {
 		//관리자가 댓글 단 글번호 리스트
 		List<Integer> list = sqlSession.selectList("selectAdminAnswerReview");
 		//System.out.println("관리자가 댓글 단 글번호 리스트"+list);
 		//System.out.println("관리자가 댓글 단 글번호 리스트 크기"+list.size());
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("start", start);
-		map.put("end", end);
-		map.put("list", list);
-		List<ReviewCampVO> resultList = sqlSession.selectList("selectAdminAnswerReviewList", map);
-		//System.out.println("총 결과 사이즈 = "+resultList.size());
-		return (ArrayList<ReviewCampVO>) resultList;
+		if(list.size()!=0) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("start", start);
+			map.put("end", end);
+			map.put("list", list);
+			List<ReviewCampVO> resultList = sqlSession.selectList("selectAdminAnswerReviewList", map);
+			//System.out.println("총 결과 사이즈 = "+resultList.size());
+			return (ArrayList<ReviewCampVO>) resultList;
+		}
+		else {
+			return null;
+		}
 	}
 
 	public int totalAdminAnswerListCount() {

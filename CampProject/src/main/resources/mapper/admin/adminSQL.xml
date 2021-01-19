@@ -42,7 +42,7 @@
   	from camp
   </select>
   
-  <select id="selectReserveList" parameterType="map" resultType="reserve">
+  <select id="selectReserveListAdmin" parameterType="map" resultType="reserve">
   select
   		rownum as rnum,
   		reserve_no as reserveNo,
@@ -132,10 +132,11 @@
   		review_date as reviewDate,
   		review_point as reviewPoint,
   		camp_no as campNo
-  from (select rownum as rnum,n.*from(select * from review where review_no not in
+  from (select rownum as rnum,n.*from(select * from review
+  <if test="!list.isEmpty()"> where review_no not in  
   <foreach collection="list" item="value" separator="," open="(" close=")">
     	#{value}
-  </foreach> order by 1 desc)n) where rnum between #{start} and #{end}   
+  </foreach></if> order by 1 desc)n) where rnum between #{start} and #{end}
   </select>
   
   <select id="selectReviewCount" resultType="_int">

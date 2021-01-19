@@ -25,20 +25,23 @@ public class CanvasjsStickChartData {
 				}
 			}
 		}
-		for(int i : rank) {
-			System.out.println("순위 = "+i);
-		}
 		
-		for(int i=0; i<3; i++) {			
+//		for(int i : rank) {
+//			System.out.println("순위 = "+i);
+//		}
+		
+		for(int i=0; i<3; i++) {
 			for(int j=0; j<rank.length; j++) {
 				if(rank[j]==i+1) {
 					map = new HashMap<Object,Object>();
 					//1,2,3등일때
 					//이미 해당이름이 존재할때
 					map.put("label", campNameList.get(j));
-					//System.out.println("x값 = "+campNameList.get(i));
+					map.put("indexLabel",rank[j]+" 위");
+					//System.out.println("x값 = "+campNameList.get(j));
+					//System.out.println("순위 = "+rank[j]);
 					map.put("y", reviewPointList.get(j));
-					//System.out.println("y값 = "+reviewPointList.get(i));
+					//System.out.println("y값 = "+reviewPointList.get(j));
 					if(dataPoints1.size()==3) {
 						break;
 					}else {
@@ -76,12 +79,19 @@ public class CanvasjsStickChartData {
 				}
 			}
 		}
-		for(int i=0; i<3; i++) {			
+		
+//		for(int i : rank) {
+//			System.out.println("순위 = "+i);
+//		}
+		
+		for(int i=0; i<3; i++) {
 			for(int j=0; j<rank.length; j++) {
 				if(rank[j]==i+1) {
 					map = new HashMap<Object,Object>();
-					map.put("label", campNameList.get(j));			
+					map.put("label", campNameList.get(j));
+					map.put("indexLabel",rank[j]+" 위");
 					//System.out.println("x값 = "+campNameList.get(j));
+					//System.out.println("순위 = "+rank[j]);
 					map.put("y", salesList.get(j));
 					//System.out.println("y값 = "+salesList.get(j));
 					if(dataPoints1.size()==3) {
