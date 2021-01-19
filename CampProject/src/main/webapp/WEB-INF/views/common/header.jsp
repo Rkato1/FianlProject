@@ -48,12 +48,12 @@
             </div>
             <div class="header-logo">
                     <div class="logo-text-left">create</div>
-                    <div class="logo-img"><img src="resources/upload/common/tentb.png"></div>
+                    <div class="logo-img"><!--  a href="/"--><img src="resources/upload/common/tentb.png"><!-- /a--></div>
                     <div class="logo-text-right">camp</div>
             </div>
             <div class="header-navi">
                 <ul>
-                    <li><a href="/notice/noticeList.do">공지사항</a></li>
+                    <li><a href="/notice/noticeList.do?reqPage=1">공지사항</a></li>
                     <li><a href="/campList.do?reqPage=1">캠핑장예약</a></li>
                     <li><a href="/reviewList.do?reqPage=1">캠핑후기</a></li>
                     <li><a href="/usedPage.do?reqPage=1">중고거래</a></li>

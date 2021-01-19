@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class FileVO {
 	int fileNo;
-	int boardNo;
+	int noticeNo;
 	String filename;
 	String filepath;
 }
