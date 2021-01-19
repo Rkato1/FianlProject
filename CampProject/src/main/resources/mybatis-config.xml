@@ -32,6 +32,9 @@
 		
 		<!-- 현식 추가 -->
 		<typeAlias type="com.kh.admin.model.vo.MemberVOPageData" alias="mpd"/>
+		<typeAlias type="com.kh.notice.model.vo.Notice" alias="notice"/>
+		<typeAlias type="com.kh.notice.model.vo.NoticePageData" alias="npd"/>
+		<typeAlias type="com.kh.notice.model.vo.FileVO" alias="fileNotice"/>
 		
 		<!-- 가영 추가 -->
 		<typeAlias type="com.kh.operator.model.vo.CampNoticeVO" alias="cNotice"/>
