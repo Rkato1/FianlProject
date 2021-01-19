@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 * {
 	margin: 0;
 	padding: 0;
@@ -8,16 +9,17 @@ ul {
 	list-style: none;
 }
 
-.container {
+.content {
 	display: flex;
 	justify-content: center;
 }
 
 .items {
-	width: 80%;
+	width: 1200px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+
 }
 
 .item {
@@ -115,4 +117,9 @@ ul {
 	border: 1px solid #EBEBEB;
 	background: #F5F5F5;
 	text-align: center;
+}
+
+#myModal {
+	top: 30%;
+	margin-top: -50px;
 }

@@ -12,15 +12,14 @@
 	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <meta charset="UTF-8">
 <title>예약 상세히 보기</title>
+<link rel="stylesheet" type="text/css" href="/resources/css/reserve/reserveUpdateFrm.css">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<link href="../css/reserve/reserveWriteFrm.css" type="text/css"
-		rel="stylesheet">
-	<div class="container">
+	<div class="content">
 		<div class="items">
 			<div class="item">
-				<h4>예약자정보</h4>
+				<h4>예약자 정보</h4>
 				<form action="/updateReserve.do" method="post">
 					<input type="hidden" id="reserveNo" name="reserveNo"
 						value="${reserve.reserveNo }">
@@ -37,8 +36,8 @@
 							</tr>
 							<tr>
 								<td class="section ln_r">이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</td>
-								<td class="ln_r center"><input type="text"
-									name="memberName" value="${member.memberName }"
+								<td class="ln_r center">
+								<input type="text" name="memberName" value="${member.memberName }"
 									style="width: 70%; background-color: #a0a0a0;" readonly>
 								</td>
 								<td class="section ln_r">비밀번호</td>
@@ -73,7 +72,7 @@
 								<td colspan="6" class="line2" style="height: 1px;"></td>
 							</tr>
 							<tr>
-								<td colspan="6" style="text-align: center"><input
+								<td colspan="6" style="text-align: center"><input class="btn btn-outline-dark btn-sm"
 									type="submit" style="width: 90%; height: 28px;" value="수정하기">
 								</td>
 							</tr>
@@ -118,10 +117,10 @@
 				</table>
 			</div>
 			<div class="item" style="text-align: center;">
-				<br> <input type="button" style="width: 45%; height: 28px;"
+				<br> <input type="button" class="btn btn-outline-dark btn-sm" style="width: 45%; height: 28px;"
 					value="취소하기"
 					onclick="location.href='/reserveDelete.do?reserveNo=${reserve.reserveNo}&campNo=${reserve.campNo }&checkInDate=${reserve.checkInDate }'">
-				<input type="button" style="width: 45%; height: 28px;" value="목록보기"
+				<input type="button" class="btn btn-outline-dark btn-sm" style="width: 45%; height: 28px;" value="목록보기"
 					onclick="location.href='/reserveWriteFrm.do?campNo=${reserve.campNo}&date=${site.reserveDate }'">
 			</div>
 			<div class="item">
@@ -142,7 +141,7 @@
 						<h3>결제하기</h3>
 						<input type="checkbox" id="mustChk"> (필수) 위 사항에 변동이 없습니다.
 						<p class="button">
-							<input type="button" id="flex" style="width: 90%; height: 28px;"
+							<input type="button" id="flex" style="width: 90%; height: 28px;" class="btn btn-outline-dark btn-sm"
 								value="결제하기">
 						</p>
 					</div>

@@ -1,5 +1,5 @@
-		$(".modalbtn").click(function(){
-			var val = $(this).val();			
+		$(".modalbtn").click(function() {
+			var val = $(this).val();
 			var reserveNo = val;
 			$("#modalNo").val(reserveNo);
 		});
@@ -42,8 +42,6 @@
 			}
 			return bool;
 		}
-
-		
 
 		$('.usingNight').change(function() {
 			var idx = $('.usingNight').index($(this));
@@ -151,7 +149,6 @@
 			$("#total").html(don);//그리고 총계를 화면에 출력한다.
 		}
 
-		
 		$("#inputName").keyup(function() {
 			var val = $(this).val();
 			$("#memberName").val(val);
@@ -181,7 +178,7 @@
 				bool = false;
 			}
 			if (!bool) {
-				alert("사이트 체크 및 예약자 정보를 확인해주세요. cnt = " + cnt);
+				alert("사이트 체크 및 예약자 정보를 확인해주세요.");
 			}
 			return bool;
 		}
@@ -192,7 +189,6 @@
 			var cnt = 0;
 			var siteArr = new Array();
 			$(".siteChkbx").each(function(idx, item) {
-				//console.log("idx = "+idx);
 				if ($(item).is(':checked')) {
 					cnt++;
 					var site = new Array();
@@ -249,13 +245,39 @@
 					site.push(polarEndPay);
 
 					siteArr.push(site);
-
-					console.log("siteNo = " + siteNo);
-					console.log("site = " + site);
 				}
 			});
 
-			console.log("siteArr = " + siteArr);
-			console.log("cnt = " + cnt);
 			$("#siteArr").val(siteArr);
+		});
+
+		$('.siteChkbx').click(function() {
+			var idx = $('.siteChkbx').index($(this));
+			if ($(this).is(':checked')) {
+				var total = getSumTr(idx);
+				printSum(idx, total);
+				var usingNight = $(".usingNight").eq(idx).val();
+				$(".listUsingNight").eq(idx).val(usingNight);
+				var usingCnt = $(".usingCnt").eq(idx).val();
+				$(".listUsingCnt").eq(idx).val(usingCnt);
+				var date = $("#date").val();
+				$(".listReserveDate").eq(idx).val(date);
+				var memberNo = $("#memberNo");
+				if (memberNo == '') {
+					memberNo = 9999;
+				}
+				$(".listMemberNo").eq(idx).val(memberNo);
+
+			} else {
+				var zero = 0;
+				$(".sumTr").eq(idx).html(zero);
+				var date = '0000-00-00';
+				$(".listReserveDate").eq(idx).val(date);
+				$(".listMemberNo").eq(idx).val(zero);
+			}
+			printTotal();
+		});
+		$(function() {
+			var name = $("#inputName").val();
+			$("#memberName").val(name);
 		});

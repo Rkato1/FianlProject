@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 * {
 	margin: 0;
 	padding: 0;
@@ -9,13 +8,13 @@ ul {
 	list-style: none;
 }
 
-.container {
+.content {
 	display: flex;
 	justify-content: center;
 }
 
 .items {
-	width: 80%;
+	width: 1200px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

@@ -14,8 +14,10 @@ import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.service.ReserveService;
+import com.kh.reserve.model.vo.ReserveDatesVO;
 import com.kh.reserve.model.vo.ReserveListsVO;
 import com.kh.reserve.model.vo.ReserveVO;
+
 
 @Controller
 public class ReserveController {
@@ -23,17 +25,39 @@ public class ReserveController {
 	private ReserveService service;
 
 	@RequestMapping("/reserveWriteFrm.do")
-	public String reserveWriteFrm(Model model, CampVO camp, String date) {
-		// campNo로 모든 사이트 정보 구하기
-		ReserveListsVO rlv = service.selectAllLists(camp, date);
-		CampVO c = service.selectOneCamp(camp);
-		model.addAttribute("sitePriceList", rlv.getSitePriceList());
-		model.addAttribute("siteList", rlv.getSiteList());
-		model.addAttribute("memberList", rlv.getMemberList());
-		model.addAttribute("reserveList", rlv.getReserveList());
-		model.addAttribute("camp", c);
-		model.addAttribute("date", date);
-		return "reserve/reserveWriteFrm";
+	public String reserveWriteFrm(HttpSession session,@SessionAttribute(required = false) ReserveDatesVO rdv, Model model, CampVO camp, String date) {
+		if(rdv ==null) {
+			//아예 예약리스트가 없는상태에서 호출된경우
+			model.addAttribute("msg", "실행할 수 없습니다.");
+			model.addAttribute("loc", "/");
+			return "common/msg";
+		}else{
+			ArrayList<String> reserveDates = rdv.getDateList();
+			int searchIdx = -1;
+			for(int i=0;i<reserveDates.size();i++) {
+				if(date.equals(reserveDates.get(i))) {
+					searchIdx = 1;
+					break;
+				}
+			}
+			if(searchIdx == -1) {
+				model.addAttribute("msg", "예약 할 수 없는 날짜를 선택하셨습니다.");
+				model.addAttribute("loc", "/campView.do?campNo=" + camp.getCampNo() + "&reqPage=1");
+				return "common/msg";
+			}else {
+				// campNo로 모든 사이트 정보 구하기
+				ReserveListsVO rlv = service.selectAllLists(camp, date);
+				CampVO c = service.selectOneCamp(camp);
+				model.addAttribute("sitePriceList", rlv.getSitePriceList());
+				model.addAttribute("siteList", rlv.getSiteList());
+				model.addAttribute("memberList", rlv.getMemberList());
+				model.addAttribute("reserveList", rlv.getReserveList());
+				model.addAttribute("reserveDates", reserveDates);
+				model.addAttribute("camp", c);
+				model.addAttribute("date", date);
+				return "reserve/reserveWriteFrm";
+			}
+		}
 	}
 
 	@RequestMapping("/insertReserve.do")

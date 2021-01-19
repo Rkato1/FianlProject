@@ -5,20 +5,20 @@
 <html>
 <head>
 <!-- calendar CSS파일 호출 -->
-<link href="../css/calendar/fullcalendar.min.css" type="text/css"
+<link href="/resources/css/calendar/fullcalendar.min.css"
 	rel="stylesheet">
-<link href="../css/calendar/main.css" type="text/css" rel="stylesheet">
-
-<!-- campView CSS파일 호출 -->
-<link href="../css/camp/campView.css" type="text/css" rel="stylesheet" />
+<link href="/resources/css/calendar/main.css" rel="stylesheet">
 <!-- jQuery 호출 -->
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <meta charset="UTF-8">
 <title>camp 상세보기</title>
+<!-- campView CSS파일 호출 -->
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/camp/campView.css">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<div class="container">
+	<div class="content">
 		<div class="items">
 			<div class="item">
 				<h4>캠핑장 이미지</h4>
@@ -75,7 +75,7 @@
 	</div>
 	</div>
 	<br>
-	<div class="container">
+	<div class="content">
 		<div class="items">
 			<div class="item">
 				<a name="target"><h4>달력 이미지</h4></a>
@@ -84,7 +84,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="content">
 		<div class="items">
 			<div class="item">
 				<h4>캠핑장 배치도</h4>
@@ -102,7 +102,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="content">
 		<div class="items">
 			<div class="item">
 				<h4>공지사항</h4>
@@ -133,28 +133,31 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="content">
 		<div class="items">
 			<div class="item">
 				<h4>오시는 길</h4>
 				<hr>
 				<h3>주소 : ${camp.campAddr }</h3>
 				<!-- 지도를 표시할 div 입니다 -->
-				<input type="hidden" name="campName" id="campName" class="campName" value="${camp.campName }">
-        		<input type="hidden" name="campAddr" id="campAddr" class="campAddr" value="${camp.campAddr }">
-        		<div id="map" style="width:100%;height:400px;"></div>
+				<input type="hidden" name="campName" id="campName" class="campName"
+					value="${camp.campName }"> <input type="hidden"
+					name="campAddr" id="campAddr" class="campAddr"
+					value="${camp.campAddr }">
+				<div id="map" style="width: 100%; height: 400px;"></div>
 			</div>
 		</div>
 	</div>
 	<!-- 카카오 지도 API 호출 -->
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ef86e3cd225d33d28097d509c357ae61&libraries=services"></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ef86e3cd225d33d28097d509c357ae61&libraries=services"></script>
 	<!-- campView js파일 호출 -->
-	<script src="../js/camp/campView.js"></script>
+	<script src="/js/camp/campView.js"></script>
 	<!-- calendar js파일 호출 -->
-	<script src="../js/calendar/jquery.min.js"></script>
-	<script src="../js/calendar/moment.min.js"></script>
-	<script src="../js/calendar/fullcalendar.min.js"></script>
-	<script src="../js/calendar/ko.js"></script>
+	<script src="/js/calendar/jquery.min.js"></script>
+	<script src="/js/calendar/moment.min.js"></script>
+	<script src="/js/calendar/fullcalendar.min.js"></script>
+	<script src="/js/calendar/ko.js"></script>
 	<script>
 		var draggedEventIsAllDay;
 		var activeInactiveWeekends = true;

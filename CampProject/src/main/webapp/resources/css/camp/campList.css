@@ -1,17 +1,16 @@
 @charset "UTF-8";
-.container {
-	width: 100%;
+
+.content {
 	display: flex;
 	justify-content: center;
 }
-
 .items-height {
-	width: 80vw;
 	display: flex;
 	flex-direction: column;
 }
 
 .items-width {
+	width: 1200px;
 	display: flex;
 	margin-bottom: 10px;
 }
@@ -130,4 +129,7 @@ img {
 	border: none;
 	border-radius: 2px;
 	cursor: pointer;
+}
+.camp_addr{
+	font-size: 13px;
 }
