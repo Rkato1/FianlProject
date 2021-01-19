@@ -128,11 +128,14 @@
 			used_trade_no as usedNo,
 			used_trade_title as usedTitle,
 			used_trade_price as usedPrice,
-			category as category,
+			category,
 			used_trade_writer as usedWriter,
 			used_trade_content as usedContent,
-			used_trade_date as usedDate
-		from used_trade where member_id=#{value} order by 1 desc
+			used_trade_date as usedDate,
+			used_trade_area as usedArea,
+			used_trade_state as usedState,
+			used_trade_change as usedChange
+		from used_trade where used_trade_writer=#{value} order by 1 desc
 	</select>
 	
 	<update id="updateMember" parameterType="member">

@@ -23,9 +23,20 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
+	//공지사항 임시 페이지 이동
+	@RequestMapping("/noticeList.do")
+	public String noticeList(int reqPage, Model model) {
+		return "notice_bk/noticeList";	
+	}
+	
 	@RequestMapping("/loginFrm.do")
-	public String loginFrm() {
-		return "member/loginFrm";
+	public String loginFrm(HttpSession session, @SessionAttribute(required = false) MemberVO m, Model model) {
+		if (m != null) { //로그인 되어있는 상태일 때
+			model.addAttribute("loc", "/loginFrm.do");
+			return "common/msg";
+		} else { //로그인 되어있지 않은 상태일 때
+			return "member/loginFrm";
+		}
 	}
 
 	@RequestMapping("/login.do")
@@ -37,7 +48,7 @@ public class MemberController {
 				model.addAttribute("msg", "관리자 로그인되었습니다.");
 				model.addAttribute("loc", "/admin/mainAdmin.do");
 			}else {
-				model.addAttribute("msg", "[로그인]되었습니다.");
+				model.addAttribute("msg", "오늘도 'Create A Camp'를 찾아주셔서 감사합니다!");
 				model.addAttribute("loc", "/reviewList.do?reqPage=1");
 			}
 		} else {
@@ -51,7 +62,7 @@ public class MemberController {
 	public String logout(HttpSession session, Model model, @SessionAttribute(required = false) MemberVO m) {
 		if (m != null) {
 			session.invalidate();
-			model.addAttribute("msg", "[로그아웃]되었습니다");
+			model.addAttribute("msg", "[로그아웃]");
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
 		}
@@ -113,7 +124,7 @@ public class MemberController {
 	public String join(MemberVO m, Model model) {
 		int result = service.insertMember(m);
 		if (result > 0) {
-			model.addAttribute("msg", "회원가입 되었습니다.");
+			model.addAttribute("msg", "'Create A Camp'에 오신 것을 환영합니다!");
 			model.addAttribute("loc", "/loginFrm.do");
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
@@ -145,7 +156,7 @@ public class MemberController {
 		//데이터 조회
 		ArrayList<ReserveCampVO> listRes = service.mypageReserve(memberNo);
 		ArrayList<ReviewCampVO> listRev = service.mypageReview(memberId);
-		//ArrayList<UsedVO> listUsed = service.mypageUsedTrade(memberId);
+		ArrayList<UsedVO> listUsed = service.mypageUsedTrade(memberId);
 		
 		model.addAttribute("m", member);
 		//갯수 전달
@@ -155,7 +166,7 @@ public class MemberController {
 		//데이터 전달
 		model.addAttribute("listRes", listRes);
 		model.addAttribute("listRev", listRev);
-		//model.addAttribute("listUsed", listUsed);
+		model.addAttribute("listUsed", listUsed);
 		
 		return "member/mypage";
 	}
@@ -200,7 +211,7 @@ public class MemberController {
 	public String updateMember(MemberVO m, Model model) {
 		int result = service.updateMember(m); 
 		if(result>0) {
-			model.addAttribute("msg", "회원정보를 수정했습니다.");
+			model.addAttribute("msg", "회원정보가 수정되었습니다.");
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
 		} 
@@ -214,7 +225,7 @@ public class MemberController {
 		int result = service.deleteMember(memberNo);
 		if (result > 0) {
 			session.invalidate();
-			model.addAttribute("msg", "탈퇴되었습니다.");
+			model.addAttribute("msg", "탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.");
 			model.addAttribute("loc", "/");
 		} else {
 			session.invalidate();

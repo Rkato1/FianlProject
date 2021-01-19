@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -213,12 +215,22 @@
         #point>i {
         	color: #ffd56b;
     	}
+    	
+    	#link>a {
+            color: #383a3f;
+            text-decoration: underline;
+        }
+        
+        #link>a:hover {
+        	color: #383a3f;
+            font-weight: bolder;
+        }
         
         /*표 숨기기--------------------------*/
         .select {
         	display: none;
         }
-       
+
     </style>
 </head>
 <body>
@@ -311,7 +323,9 @@
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;">
-                            <span class="delete">정말로 탈퇴하시겠어요? <a href="javascript:void(0)" onclick="deleteMember(${m.memberNo })">회원탈퇴</a></span>
+                            <span class="delete"><span>정말로 탈퇴하시겠어요?&nbsp;</span>
+                            	<a href="javascript:void(0)" onclick="deleteMember(${m.memberNo })">회원탈퇴</a>
+                            </span>
                         </td>
                     </tr>
                 </table>
@@ -338,9 +352,11 @@
                 	<tbody>
                 		<c:forEach items="${listRes }" var="res">
                 		<tr>
-                    		<td>${res.campName }</td>
+                    		<td id="link">
+                    			<a href="/campView.do?campNo=${res.campNo}&reqPage=1">${res.campName }</a>
+                    		</td>
                         	<td>${res.checkInDate } - ${res.checkOutDate }</td>
-                        	<td>${res.reservePrice }</td>
+                        	<td><fmt:formatNumber value="${res.reservePrice }" pattern="#,###" /></td>
                         	<td id="state">${res.reserveStatus }</td>
                     	</tr>
                     	</c:forEach>
@@ -360,18 +376,21 @@
         	<c:otherwise><!-- 후기내역이 있을 때 --> 
         		<table class="table table-bordered data-table">
             		<thead>
-                		<tr>
-                			<th>캠핑장</th>
+                		<tr>	
                     		<th>제목</th>
                         	<th>별점</th>
+                        	<th>캠핑장</th>
                         	<th>작성일</th>
                     	</tr>
                 	</thead>
                 	<tbody>
                 		<c:forEach items="${listRev }" var="rev">
                 		<tr>
-                			<td>${rev.campName }</td>
-                    		<td>${rev.reviewTitle }</td>
+                    		<td id="link">
+                    			<a href="/reviewView.do?reviewNo=${rev.reviewNo }&campNo=${rev.campNo }">
+                    				${rev.reviewTitle }
+                    			</a>
+                    		</td>
                     		<td id="point">
                     		<c:forEach var="i" begin="0" end="4">
                 				<c:choose>
@@ -384,6 +403,7 @@
                 				</c:choose>
                 			</c:forEach>
                         	</td>
+                        	<td>${rev.campName }</td>
                         	<td>${rev.reviewDate }</td>
                     	</tr>
                     	</c:forEach>
@@ -395,6 +415,13 @@
         
         <!-- 거래 내역 테이블 -->
         <div class="mypage-table select">
+        <c:choose>
+        	<c:when test="${empty listUsed }"><!-- 거래내역이 없을 때 -->
+        		<p>작성하신 게시글이 없습니다.&nbsp;&nbsp;<a href="/usedPage.do?reqPage=1">지금 거래하러 갈까요?</a></p>
+        	</c:when>
+        	
+        	<c:otherwise><!-- 거래내역이 있을 때 -->
+        	        	        
         	<table class="table table-bordered data-table">
             	<thead>
                 	<tr>
@@ -405,14 +432,20 @@
                     </tr>
                 </thead>
                 <tbody>
+                <c:forEach items="${listUsed }" var="used">
                 	<tr>
-                    	<td>~~~</td>
-                        <td>~~~</td>
-                        <td>~~~</td>
-                        <td>~~~</td>
+                    	<td id="link">
+                    		<a href="/usedDatail.do?usedNo=${used.usedNo }">${used.usedTitle }</a>
+                    	</td>
+                        <td>${used.category }</td>
+                        <td>${used.usedPrice }</td>
+                        <td>${used.usedDate }</td>
                     </tr>
+                </c:forEach>
                 </tbody>
             </table>
+            </c:otherwise>
+         </c:choose>
         </div>
                
     </div>

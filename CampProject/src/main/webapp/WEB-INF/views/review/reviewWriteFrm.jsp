@@ -201,7 +201,7 @@
                     </tr>
                     <tr>
                         <td>내용<span id="required">*</span></td>
-                        <td><textarea rows="20" cols="50" name="reviewContent" id="reviewContent" class="form-control"></textarea></td>
+                        <td><textarea style="resize: none;" rows="20" cols="50" name="reviewContent" id="reviewContent" class="form-control"></textarea></td>
                     </tr>
                 </table>
                 <div class="review-button">
