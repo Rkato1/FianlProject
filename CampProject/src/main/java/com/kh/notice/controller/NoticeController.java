@@ -47,6 +47,6 @@ public class NoticeController {
 		return "notice/shownotice";
 	}
 	
-	//noticeController부터작업
+	//noticeController부터작업재개하면됨
 	//글쓸때,수정할때는 isadmin사용
 }
