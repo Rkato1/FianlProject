@@ -61,15 +61,6 @@
 		select max(notice_no) from notice
   </select>
   
-  <insert id="insertNoticeFile" parameterType="fileNotice">
-  	insert into notice values(
-  		notice_file_seq.nextval,
-		#{noticeNo},
-		#{filename},
-		#{filepath}
-  	)
-  </insert>
-  
   <delete id="deleteNotice" parameterType="_int">
   	delete from notice where notice_no=#{paramater}
   </delete>
