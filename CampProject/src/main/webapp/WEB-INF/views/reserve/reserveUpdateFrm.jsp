@@ -170,8 +170,6 @@
 						}, function(rsp) {
 							if (rsp.success) {
 								//결제가 성공함
-								alert('결제 성공');
-								//해당 reserve에 status를 결제완료로 설정해줘야함
 								var rserveNo = $("#reserveNo").val();
 								location.href = '/flexOneRserve.do?reserveNo='
 										+ reserveNo;

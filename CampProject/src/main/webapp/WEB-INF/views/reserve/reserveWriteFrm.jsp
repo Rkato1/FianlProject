@@ -457,7 +457,7 @@
 							</c:when>
 							<c:otherwise>
 								<!-- 비회원용 -->
-								<input type="hidden" id="memberNo" name="memberNo" value="9999">
+								<!-- <input type="hidden" id="memberNo" name="memberNo" value="9999"> -->
 							</c:otherwise>
 						</c:choose>
 						<input type="hidden" id="memberName" name="memberName"> 
@@ -473,7 +473,7 @@
 						<input type="hidden" id="reserveTotal" name="reserveTotal"> 
 						<input type="hidden" id="date" name="date" value="${date }">
 						<input id="reserveBtn" type="submit" style="width: 90%; height: 28px;" value="예약하기"> 
-						<input id="reserveBtn2" type="button" style="width: 90%; height: 28px;" value="예약하기2">
+						<input id="reserveBtn2" type="hidden" style="width: 90%; height: 28px;" value="예약하기2">
 					</p>
 				</form>
 			</div>
@@ -664,7 +664,7 @@
 				bool = false;
 			}
 			if (!bool) {
-				alert("사이트 체크 및 예약자 정보를 확인해주세요. cnt = " + cnt);
+				alert("사이트 체크 및 예약자 정보를 확인해주세요.");
 			}
 			return bool;
 		}
@@ -675,7 +675,6 @@
 			var cnt = 0;
 			var siteArr = new Array();
 			$(".siteChkbx").each(function(idx, item) {
-				//console.log("idx = "+idx);
 				if ($(item).is(':checked')) {
 					cnt++;
 					var site = new Array();
@@ -732,14 +731,9 @@
 					site.push(polarEndPay);
 
 					siteArr.push(site);
-
-					console.log("siteNo = " + siteNo);
-					console.log("site = " + site);
 				}
 			});
 
-			console.log("siteArr = " + siteArr);
-			console.log("cnt = " + cnt);
 			$("#siteArr").val(siteArr);
 		});
 

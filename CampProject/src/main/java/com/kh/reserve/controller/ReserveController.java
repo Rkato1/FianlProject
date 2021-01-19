@@ -2,10 +2,13 @@ package com.kh.reserve.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
@@ -34,30 +37,38 @@ public class ReserveController {
 	}
 
 	@RequestMapping("/insertReserve.do")
-	public String insertReserve(Model model, ReserveVO reserve, String siteArr, int reserveTotal, String date,CampVO camp) {
-		int result = service.insertReserve(reserve, siteArr);
-		/*
-		 * if (result > 0) { model.addAttribute("msg", "예약 되었습니다."); } else {
-		 * model.addAttribute("msg", "예약이 실패했습니다."); } model.addAttribute("loc",
-		 * "/reserveWriteFrm.do?campNo=" + reserve.getCampNo() + "&date=" +
-		 * reserve.getCheckInDate()); return "common/msg";		 */
-		if (result > 0) {
-			// 예약됨 결제페이지로 넘어감			
-			ArrayList<ReserveVO> reserveList = service.selectReserveList(reserve);
-			CampVO c = service.selectOneCamp(camp);
-			System.out.println("reserveList.size = "+reserveList.size());
-			model.addAttribute("camp", c);
-			model.addAttribute("reserveList", reserveList);
-			model.addAttribute("date", date); // 결제페이지 나가면
-			model.addAttribute("total", reserveTotal);
-			return "reserve/reserveFlex";
-		} else {
-			model.addAttribute("msg", "예약이 실패했습니다.");
-			model.addAttribute("loc",
-					"/reserveWriteFrm.do?campNo=" + reserve.getCampNo() + "&date=" + reserve.getCheckInDate());
+	public String insertReserve(HttpSession session, @SessionAttribute(required = false) MemberVO m,Model model, ReserveVO reserve, String siteArr, int reserveTotal, String date,CampVO camp) {
+		if(m == null) {
+		//로그인이 안된경우
+			model.addAttribute("msg", "로그인이 안되어있습니다.");
+			model.addAttribute("loc", "/loginFrm.do");
 			return "common/msg";
+		}else {
+		//로그인이 된경우
+			int result = service.insertReserve(reserve, siteArr);
+			/*
+			 * if (result > 0) { model.addAttribute("msg", "예약 되었습니다."); } else {
+			 * model.addAttribute("msg", "예약이 실패했습니다."); } model.addAttribute("loc",
+			 * "/reserveWriteFrm.do?campNo=" + reserve.getCampNo() + "&date=" +
+			 * reserve.getCheckInDate()); return "common/msg";		 */
+			if (result > 0) {
+				// 예약됨 결제페이지로 넘어감			
+				ArrayList<ReserveVO> reserveList = service.selectReserveList(reserve);
+				CampVO c = service.selectOneCamp(camp);
+				System.out.println("reserveList.size = "+reserveList.size());
+				model.addAttribute("camp", c);
+				model.addAttribute("reserveList", reserveList);
+				model.addAttribute("date", date); // 결제페이지 나가면
+				model.addAttribute("total", reserveTotal);
+				return "reserve/reserveFlex";
+			} else {
+				model.addAttribute("msg", "예약이 실패했습니다.");
+				model.addAttribute("loc",
+						"/reserveWriteFrm.do?campNo=" + reserve.getCampNo() + "&date=" + reserve.getCheckInDate());
+				return "common/msg";
 
-		}
+			}			
+		}		
 	}
 
 	@RequestMapping("/searchOneReserve.do")
@@ -114,9 +125,9 @@ public class ReserveController {
 	public String flexOneRserve(Model model, ReserveVO reserve) {
 		int result = service.flexOneRserve(reserve);
 		if (result > 0) {
-			model.addAttribute("msg", "결제완료 설정되었습니다.");
+			model.addAttribute("msg", "결제완료 되었습니다");
 		} else {
-			model.addAttribute("msg", "결제완료 설정 안되었습니다...");
+			model.addAttribute("msg", "서버 오류로 결제완료 설정 안되었습니다. 관리자에게 문의해주세요.");
 		}
 		model.addAttribute("loc", "/reserveUpdateFrm.do?reserveNo=" + reserve.getReserveNo());
 		return "common/msg";

@@ -20,7 +20,7 @@
 }
 
 .items-height {
-	width: 100%;
+	width: 80vw;
 	display: flex;
 	flex-direction: column;
 }
@@ -32,14 +32,14 @@
 
 .item {
 	padding: 5px;
-	width: 10vw;
-	height: 21vh;
+	width: 24vw;
+	height: 24vh;
 	/* border: 1px solid black;*/
 }
 
 img {
 	width: 100%;
-	height: 9vh;
+	height: 12vh;
 	vertical-align: middle;
 	z-index: 200;
 }
@@ -149,8 +149,6 @@ img {
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<link href="../css/camp/campList.css" type="text/css" rel="stylesheet">
-
 	<%-- <form action="/searchCampList.do" method="post">
 		<input type="hidden" name="reqPage" value="1">
 		<div class="search-wrap camp_search">
@@ -193,55 +191,58 @@ img {
 			</div>
 		</div>
 	</form> --%>
-	<form action="/searchCampList.do" method="post">
-	<div class="container">
-		<div class="items-height">
-			<div class="items-width">
-				<div class="camp_search">
-					<div class="input-group">					
-						<input type="hidden" name="reqPage" value="1">
-						<select name="keyword">
-							<c:choose>
-								<c:when test="${keyword eq 'name' }">							
-									<option value="default">전체</option>
-									<option value="name" selected>이름으로 검색</option>
-									<option value="addr">주소로 검색</option>
-								</c:when>
-								<c:when test="${keyword eq 'addr' }">
-									<option value="default">전체</option>
-									<option value="name">이름으로 검색</option>
-									<option value="addr" selected>주소로 검색</option>
-								</c:when>
-								<c:otherwise>
-									<option value="default" selected>전체</option>
-									<option value="name">이름으로 검색</option>
-									<option value="addr">주소로 검색</option>
-								</c:otherwise>
-							</c:choose>
-						</select> 
-						<c:choose>
-							<c:when test="${value != null }">
-								<input type="text" name="value" class="form-control" placeholder="입력해주세요..." value="${value }">
-							</c:when>
-							<c:otherwise>
-								<input type="text" name="value" class="form-control" placeholder="입력해주세요...">
-							</c:otherwise>
-						</c:choose>
-						<div class="input-group-append">
-							<button class="btn" type="submit">
-								<i class="fa fa-search"></i>
-							</button>
-						</div>					
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</form>
+
 	<c:choose>
 		<c:when test="${list.size()>0 }">
 			<div class="container">
 				<div class="items-height">
+					<form action="/searchCampList.do" method="post">
+						<div class="items-height">
+							<div class="items-width">
+								<div class="camp_search">
+									<div class="input-group">
+										<input type="hidden" name="reqPage" value="1"> <select
+											name="keyword">
+											<c:choose>
+												<c:when test="${keyword eq 'name' }">
+													<option value="default">전체</option>
+													<option value="name" selected>이름으로 검색</option>
+													<option value="addr">주소로 검색</option>
+												</c:when>
+												<c:when test="${keyword eq 'addr' }">
+													<option value="default">전체</option>
+													<option value="name">이름으로 검색</option>
+													<option value="addr" selected>주소로 검색</option>
+												</c:when>
+												<c:otherwise>
+													<option value="default" selected>전체</option>
+													<option value="name">이름으로 검색</option>
+													<option value="addr">주소로 검색</option>
+												</c:otherwise>
+											</c:choose>
+										</select>
+										<c:choose>
+											<c:when test="${value != null }">
+												<input type="text" name="value" style="width: 300px;"
+													class="form-control" placeholder="입력해주세요..."
+													value="${value }">
+											</c:when>
+											<c:otherwise>
+												<input type="text" name="value" style="width: 300px;"
+													class="form-control" placeholder="입력해주세요...">
+											</c:otherwise>
+										</c:choose>
+										<div class="input-group-append">
+											<button class="btn" type="submit">
+												<i class="fa fa-search"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+
 					<br>
 					<c:set var="size" value="${list.size() }" />
 					<c:set var="end1" value="${size/5 }" />
@@ -313,5 +314,6 @@ img {
 			<h1>캠핑장이 존재하지 않습니다.</h1>
 		</c:otherwise>
 	</c:choose>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>
