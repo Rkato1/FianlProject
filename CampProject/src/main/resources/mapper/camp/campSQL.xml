@@ -60,14 +60,14 @@
 			camp_no as campNo,
 			filename ,
 			filepath ,
-			filegrade 
+			filegrade as fileGrade
 		from camp_picture
 		<trim prefix="where" prefixOverrides="and|or">
 		  	<if test="campNo != 0">
 				 camp_no=#{campNo}
 		  	</if>
-		  	<if test="filegrade != 0">
-		  		and filegrade = #{filegrade}
+		  	<if test="fileGrade != 0">
+		  		and filegrade = #{fileGrade}
 		  	</if>  	
 		  </trim>
 	</select>
@@ -125,6 +125,18 @@
 	<insert id="insertCamp" parameterType="camp">
 		insert into camp values(camp_seq.nextval,#{campName},#{campAddr},#{memberNo},#{campShow},#{campType},#{campPh},#{campPeriod},#{campDay},#{campFacility})
 	</insert>
+	<update id="updateCamp">
+		update camp set 
+				camp_name=#{campName}, 
+				camp_addr=#{campAddr},
+				camp_show=#{campShow},
+				camp_type=#{campType},
+				camp_ph=#{campPh},
+				camp_period=#{campPeriod},
+				camp_day=#{campDay},
+				camp_facility=#{campFacility}
+		where camp_no = #{campNo}
+	</update>
 	<select id="selectLastCamp" resultType="_int">
 		select 
 			camp_No
@@ -135,9 +147,12 @@
 	    )
 	</select>
 	<insert id="insertCampPicture" parameterType="campPicture">
-		insert into camp_picture values(camp_picture_seq_2.nextval,#{campNo},#{filename},#{filepath},#{fileGrade})
+		insert into camp_picture values(camp_picture_seq.nextval,#{campNo},#{filename},#{filepath},#{fileGrade})
 	</insert>
 	<delete id="deleteCampPicture" parameterType="_int">
 		delete from camp_picture where camp_no = #{_parameter}
 	</delete>
+	<update id="updateMainImg" parameterType="campPicture">
+		update camp_picture set filename=#{filename},filepath=#{filepath} where camp_no=#{campNo} and filegrade = 1
+	</update>
 </mapper>

@@ -15,6 +15,8 @@
 	<jsp:include page="/WEB-INF/views/operator/opHeader.jsp" />
 	<section>
 		<div>
+			<div><a href="/operatorpage.do">목록으로</a></div>
+        	<hr>
 			<div>
 				<h2>${camp.campName }</h2>
 			</div>

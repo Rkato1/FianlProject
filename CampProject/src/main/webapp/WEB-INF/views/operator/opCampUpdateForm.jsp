@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,30 +16,27 @@
             <div style="margin:0 auto">
              <h4>캠핑장 등록</h4>
              <hr>
-             <form action="/insertCamp.do" method="post" enctype="multipart/form-data">
+             <form action="/updateCamp.do" method="post" enctype="multipart/form-data">
+             <input type="hidden" value="${camp.campNo }" name="campNo">
                 <div>
                 	<table class="camp_info table">
                 		<tr>
                 			<th>캠핑장 이름</th>
                 			<td>
-                				<input type="text" name="campName" maxlength="20"  placeholder="ex)OOO 캠핑장"><span class="comment">20자 이내</span>
+                				<input type="text" name="campName" maxlength="20"  placeholder="ex)OOO 캠핑장" value="${camp.campName }"><span class="comment">20자 이내</span>
                 			</td>
                 		</tr>
                 		<tr>
-                			<th rowspan="2">메인이미지(썸네일)</th>
+                			<th>메인이미지(썸네일)</th>
                 			<td>
-								  <input type="file" name="mainFile" accept="image/jpeg, image/jpg, image/png" onchange="setThumbnail(event);">  			
+								  <input type="file" name="mainFile" accept="image/jpeg, image/jpg, image/png" onchange="setThumbnail(event);">  
                 			</td>
                 		</tr>
-                		<tr>
-                			<td>
-	                			<div class="img-wrapper" id="mainImg-container"></div>     
-	               			</td>
                 		</tr>
 	                     <tr>
 	                    	<th><span class="title">캠핑장 주소</span></th>
 	                    	<td>
-		                    	<input type="text" name="campAddr" readonly> 
+		                    	<input type="text" name="campAddr" value="${camp.campAddr }" readonly> 
 		                    	<input type="button" onclick="execDaumPostcode()" value="주소찾기">
 	                 		</td>
 	                    </tr>
@@ -53,7 +51,7 @@
 	                    </tr>
 	                     <tr>
 	                    	<th><span class="title">문의처</span></th>
-	                    	<td><input type="text" name="campPh" placeholder="ex)010-0000-0000  전화번호,이메일 등"></td>
+	                    	<td><input type="text" name="campPh" placeholder="ex)010-0000-0000  전화번호,이메일 등" value="${camp.campPh }"></td>
 	                    </tr>
 	                     <tr>
 	                    	<th><span class="title">운영기간</span></th>
@@ -91,28 +89,23 @@
                 <h4>소개글 작성</h4>
                 <table class="table">
 		            <tr>
-	                	<th rowspan="2">소개 이미지(3개)</th>
+	                	<th>소개 이미지(3개)</th>
 	                	<td>
-							<input type="file" name="files" multiple>  			
+							<input type="file" name="files" onchange="changeImg(this)" multiple>  			
 	                	</td>
-	                </tr>
-	                <tr>
-	                	<td class="infoImg-container">
-	                		 
-	               		</td> 
 	                </tr>
                 	<tr>
                 		<th>소개글</th>
                 		<td>
-                			<textarea name="campShow" placeholder="캠핑장에 대해 설명해 주세요!"></textarea>
+                			<textarea name="campShow" placeholder="캠핑장에 대해 설명해 주세요!" onKeyUp="javascript:fnChkByte(this,'4000')">${camp.campShow }</textarea>
                 		</td>
                 </table>
                 <br>
                 <br>
                 <br>
                 <div style="text-align: center;">
-                	<input type="submit" class="updateBtn" value="등록하기">
-                	<button type="button" class="btn-cancel" onclick="location.href='/operatorpage.do'">취소</button>
+                	<input type="submit" class="updateBtn" value="수정하기">
+                	<button type="button" class="btn-cancel" onclick="location.href='/opCampView.do?campNo=${camp.campNo}'">취소</button>
                 </div>
                 </form>
             </div>
@@ -121,15 +114,66 @@
      <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
      
      <script>
+     
+     //데이터 로드 후 해당 체크박스 체크함
+     $(function(){
+    	var campType ='${camp.campType}';
+    	if(campType!=null){
+    		var strArr = campType.split(',');
+    		var campTypeChkBox = $("[name=campType]");
+			for(var i=0;i<strArr.length;i++){
+				for(var j=0;j<campTypeChkBox.length;j++){
+					if(campTypeChkBox.eq(j).val()==strArr[i]){
+						$("input[name=campType]").eq(j).attr("checked",true);
+					}
+				}
+			}		
+    	}
+    	var campPeriod ='${camp.campPeriod}';
+    	if(campType!=null){
+    		var strArr = campPeriod.split(',');
+    		var campPeriodChkBox = $("[name=campPeriod]");
+			for(var i=0;i<strArr.length;i++){
+				for(var j=0;j<campPeriodChkBox.length;j++){
+					if(campPeriodChkBox.eq(j).val()==strArr[i]){
+						$("input[name=campPeriod]").eq(j).attr("checked",true);
+					}
+				}
+			}		
+    	}
+    	var campDay ='${camp.campDay}';
+    	if(campType!=null){
+    		var strArr = campDay.split(',');
+    		var campDayChkBox = $("[name=campDay]");
+			for(var i=0;i<strArr.length;i++){
+				for(var j=0;j<campDayChkBox.length;j++){
+					if(campDayChkBox.eq(j).val()==strArr[i]){
+						$("input[name=campDay]").eq(j).attr("checked",true);
+					}
+				}
+			}		
+    	}
+    	var campFacility ='${camp.campFacility}';
+    	if(campFacility!=null){
+    		var strArr = campFacility.split(',');
+    		var campFacilityChkBox = $("[name=campFacility]");
+			for(var i=0;i<strArr.length;i++){
+				for(var j=0;j<campFacilityChkBox.length;j++){
+					if(campFacilityChkBox.eq(j).val()==strArr[i]){
+						$("input[name=campFacility]").eq(j).attr("checked",true);
+					}
+				}
+			}		
+    	}
+     });
+     
+     
+     
      $("[type=submit]").click(function(){
     	 if($("[name=campName]").val()==''){
     		 alert("캠핑장 이름을 입력해주세요!");
     		 $("[name=campName]").focus();
 			 return false;    		 
-    	 }
-    	 if($("[name=mainFile]").val()==''){
-    		 alert("썸네일을 등록해주세요!");
-    		 return false; 
     	 }
     	 if($("[name=campAddr]").val()==""){
     		 alert("캠핑장 주소를 입력해주세요!");
@@ -152,37 +196,30 @@
     		 alert("운영일을 체크해주세요!");
     		 return false;
     	 }
-    	 if($("[name=files]").val()==""){
-    		 alert("소개이미지를 등록해주세요!");
-    		 return false;
-    	 }
 
      });
      
-     
+     /*
      function setThumbnail(event) { 
     	 var reader = new FileReader(); 
     	 reader.onload = function(event) { 
+    		 document.getElementsById("mainImg-container").removeChild();
     		 var img = document.createElement("img");
     		 img.setAttribute("src", event.target.result); 
-    		 document.querySelector("div#mainImg-container").appendChild(img);
+    		 document.querySelector("div#mainImg-container").appendChild(img); 
     		 }; 
     	reader.readAsDataURL(event.target.files[0]); 
-    }
+    }*/
 
-     $(document).ready( function() {
-    	 
-         $("input[name=files]").change(function () {
-             var fileInput = $(this);
-             var files = fileInput.files;
-             if(files.length>3){
-            	 alert("소개이미지 등록은 3장까지만 가능합니다.");
-            	 fileInput.val("");
-             }
-              
-         });
-  
-     });
+     function changeImg(file){
+         var filess =  file.files.length;
+         if(filess!=3){
+            alert("소개이미지를 3개 등록해 주세요!");
+            for(var i=0;i<filess;i++){
+            	 file.value ="";
+           	 }
+         }
+	}
      
      function execDaumPostcode() {
          new daum.Postcode({

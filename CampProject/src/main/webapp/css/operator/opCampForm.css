@@ -33,6 +33,9 @@ label{
 	width:280px;
 	height: 200px;
 }
+.infoImg{
+	width:30%;height:150px;float:left;padding:2px;border:none;
+}
 .comment{
 	padding-left:10px;
 	width:15%;

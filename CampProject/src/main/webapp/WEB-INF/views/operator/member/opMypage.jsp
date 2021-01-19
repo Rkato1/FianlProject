@@ -62,7 +62,8 @@
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;" class="update-btn-td">
-                            <input type="submit" id="updateBtn" value="수정하기">
+                            <input type="submit" id="updateBtn" value="수정하기" style="width: 100px;">
+                            <button type="button" style="width: 100px; height: 50px;border-radius: 5px;outline: none; border: none; background-color: #ccc;color: white;font-size: 1em;" onclick="location.href='/operatorpage.do'">취소</button>
                         </td>
                     </tr>
                     <tr>

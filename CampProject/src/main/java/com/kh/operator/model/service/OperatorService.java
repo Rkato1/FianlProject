@@ -28,7 +28,7 @@ public class OperatorService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		for(CampVO camp : list) {
 			map.put("campNo",camp.getCampNo());
-			map.put("filegrade", 1);
+			map.put("fileGrade", 1);
 			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 			camp.setPictureList(pictureList);		
 		}
@@ -39,7 +39,7 @@ public class OperatorService {
 		CampVO camp = dao.selectOneCamp(c);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("campNo", camp.getCampNo());
-		map.put("filegrade", 0);
+		map.put("fileGrade", 0);
 		ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 		camp.setPictureList(pictureList);
 		return camp;
@@ -215,15 +215,39 @@ public class OperatorService {
 		if(result>0) {
 			int campNo = dao.selectLastCamp();
 			for(CampPictureVO cpv : c.getPictureList()) {
-				CampPictureVO cpv2 = new CampPictureVO();
-				cpv2.setFilename(cpv.getFilename());
-				cpv2.setFilepath(cpv.getFilepath());
-				cpv2.setCampNo(campNo);
-				result = dao.insertPicture(cpv2);
+				cpv.setCampNo(campNo);
+				result = dao.insertPicture(cpv);
 			}
 		}
 		return result;
 	}
 
-	
+	public int updateCamp(CampVO c) {
+		System.out.println("서비스 사진 배열 : "+c.getPictureList().size());
+		int result = dao.updateCamp(c);
+		int result2 =0;
+		if(result>0) {
+				if(c.getPictureList().size()==1) {
+					result2 +=updateMainImg(c.getPictureList().get(0));
+				}else if(c.getPictureList().size()>=3) {
+					result2 +=updatePicture(c.getPictureList());
+				}
+		}
+		return result;
+	}
+	public int updateMainImg(CampPictureVO cp) {
+		int result = dao.updateMainImg(cp);
+		return result;
+	}
+	public int updatePicture(ArrayList<CampPictureVO> cpList){
+		int result1 = dao.deleteCampPicture(cpList.get(0).getCampNo());
+		int result2 =0;
+		if(result1>0) {
+			for(CampPictureVO cpv : cpList) {
+				result2 += dao.insertPicture(cpv);
+			}
+		}
+		return result2;
+	}
+
 }

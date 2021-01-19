@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,15 +27,10 @@
                 			</td>
                 		</tr>
                 		<tr>
-                			<th rowspan="2">메인이미지(썸네일)</th>
+                			<th>메인이미지(썸네일)</th>
                 			<td>
 								  <input type="file" name="mainFile" accept="image/jpeg, image/jpg, image/png" onchange="setThumbnail(event);">  			
                 			</td>
-                		</tr>
-                		<tr>
-                			<td>
-	                			<div class="img-wrapper" id="mainImg-container"></div>     
-	               			</td>
                 		</tr>
 	                     <tr>
 	                    	<th><span class="title">캠핑장 주소</span></th>
@@ -92,15 +88,10 @@
                 <h4>소개글 작성</h4>
                 <table class="table">
 		            <tr>
-	                	<th rowspan="2">소개 이미지(3개)</th>
+	                	<th>소개 이미지(3개)</th>
 	                	<td>
-							<input type="file" name="files" multiple>  			
+							<input type="file" name="files" onchange="changeImg(this)" multiple>  			
 	                	</td>
-	                </tr>
-	                <tr>
-	                	<td class="infoImg-container">
-	                		 
-	               		</td> 
 	                </tr>
                 	<tr>
                 		<th>소개글</th>
@@ -177,7 +168,7 @@
      });
      
      //메인이미지(썸네일) 미리보기
-     function setThumbnail(event) { 
+    /* function setThumbnail(event) { 
     	 var reader = new FileReader(); 
     	 reader.onload = function(event) { 
     		 var img = document.createElement("img");
@@ -185,22 +176,18 @@
     		 document.querySelector("div#mainImg-container").appendChild(img);
     		 }; 
     	reader.readAsDataURL(event.target.files[0]); 
-    }
+    }*/
      
-	//소개이미지 3장 제한   <------------------------수정필요
-     $(document).ready( function() {
-    	 
-         $("input[name=files]").change(function () {
-             var fileInput = $(this);
-             var files = fileInput.files;
-             if(files.length>3){
-            	 alert("소개이미지 등록은 3장까지만 가능합니다.");
-            	 fileInput.val("");
-             }
-              
-         });
-  
-     });
+	//소개이미지 3장 제한   
+	function changeImg(file){
+         var filess =  file.files.length;
+         if(filess!=3){
+            alert("소개이미지를 3개 등록해 주세요!");
+            for(var i=0;i<filess;i++){
+            	 file.value ="";
+           	 }
+         }
+	}
      
      //다음 주소찾기 
      function execDaumPostcode() {
@@ -269,9 +256,6 @@
  		      str2 = str.substr(0,rlen);                                  //문자열 자르기
  		      obj.value = str2;
  		      fnChkByte(obj, maxByte);
-          }
-          else{
-             document.getElementById('byteInfo').innerText = rbyte;
           }
      }
      </script>

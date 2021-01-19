@@ -162,65 +162,76 @@ private boolean isOperator = false;
 		}
 		return "common/msg";
 	}
-	@RequestMapping("opCampUpdateForm.do")
+	
+	
+	@RequestMapping("/opCampUpdateForm.do")
 	public String campUpdateForm(CampVO c,Model model) {
 		CampVO camp = service.selectOneCamp(c);
 		model.addAttribute("camp",camp);
 		return "operator/opCampUpdateForm";
 	}
+	
 	@RequestMapping("/updateCamp.do")
 	public String updateCamp(CampVO c,MultipartFile mainFile,MultipartFile[] files,Model model,HttpServletRequest request,HttpSession session) {
+		System.out.println("컨트롤러 메인: "+mainFile.isEmpty());
+		System.out.println("컨트롤러 소개 : "+files.length);
 		MemberVO member = (MemberVO)session.getAttribute("m");
-		if(member!=null&&member.getMemberGrade()==2) {
+		CampVO camp = service.selectOneCamp(c);
+		if(member!=null&&member.getMemberGrade()==2&&camp.getMemberNo()==member.getMemberNo()) {
+			c.setMemberNo(member.getMemberNo());
 			String root = request.getSession().getServletContext().getRealPath("/");
 			String path = root + "/resources/upload/camp/";
 			ArrayList<CampPictureVO> fileList = new ArrayList<CampPictureVO>();
-			c.setMemberNo(member.getMemberNo());
-			String mfilename = mainFile.getOriginalFilename();
-			String mfilepath = new FileNameOver().rename(path, mfilename);
-			try {
-				byte[] mbytes = mainFile.getBytes();
-				File upMFile = new File(path+mfilepath);
-				FileOutputStream fos = new FileOutputStream(upMFile);
-				BufferedOutputStream bos = new BufferedOutputStream(fos);
-				bos.write(mbytes);
-				bos.close();
-				CampPictureVO mf =new CampPictureVO();
-				mf.setFilename(mfilename);
-				mf.setFilepath(mfilepath);
-				mf.setFileGrade(1);
-				fileList.add(mf);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			for(MultipartFile file : files) {
-				String filename = file.getOriginalFilename();
-				String filepath = new FileNameOver().rename(path, filename);
-	
+			if(!mainFile.isEmpty()) {
+				String mfilename = mainFile.getOriginalFilename();
+				String mfilepath = new FileNameOver().rename(path, mfilename);
 				try {
-					byte[] bytes = file.getBytes();
-					File upFile = new File(path+filepath);
-					FileOutputStream fos = new FileOutputStream(upFile);
+					byte[] mbytes = mainFile.getBytes();
+					File upMFile = new File(path+mfilepath);
+					FileOutputStream fos = new FileOutputStream(upMFile);
 					BufferedOutputStream bos = new BufferedOutputStream(fos);
-					bos.write(bytes);
+					bos.write(mbytes);
 					bos.close();
-					CampPictureVO f =new CampPictureVO();
-					f.setFilename(filename);
-					f.setFilepath(filepath);
-					f.setFileGrade(2);
-					fileList.add(f);
+					CampPictureVO mf =new CampPictureVO();
+					mf.setFilename(mfilename);
+					mf.setFilepath(mfilepath);
+					mf.setCampNo(c.getCampNo());
+					mf.setFileGrade(1);
+					fileList.add(mf);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+			if(files.length>=3) {
+				for(MultipartFile file : files) {
+					String filename = file.getOriginalFilename();
+					String filepath = new FileNameOver().rename(path, filename);
+					try {
+						byte[] bytes = file.getBytes();
+						File upFile = new File(path+filepath);
+						FileOutputStream fos = new FileOutputStream(upFile);
+						BufferedOutputStream bos = new BufferedOutputStream(fos);
+						bos.write(bytes);
+						bos.close();
+						CampPictureVO f =new CampPictureVO();
+						f.setFilename(filename);
+						f.setFilepath(filepath);
+						f.setCampNo(c.getCampNo());
+						f.setFileGrade(2);
+						fileList.add(f);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
 			c.setPictureList(fileList);
-			int result = service.insertCamp(c);
+			int result = service.updateCamp(c);
 			if(result>0) {
-				model.addAttribute("msg","탬핑장이 등록 되었습니다.");
+				model.addAttribute("msg","탬핑장이 수정 되었습니다.");
 			}else {
-				model.addAttribute("msg","등록실패");
+				model.addAttribute("msg","수정실패");
 			}
 			model.addAttribute("loc","/operatorpage.do");
 		}else {

@@ -64,11 +64,17 @@ public class OperatorDao {
 	public int selectLastCamp() {
 		return sqlSession.selectOne("camp.selectLastCamp");
 	}
-	public int insertPicture(CampPictureVO cpv2) {
-		return sqlSession.insert("camp.insertCampPicture", cpv2);
+	public int insertPicture(CampPictureVO cpv) {
+		return sqlSession.insert("camp.insertCampPicture", cpv);
 	}
 	public int deleteCampPicture(int campNo) {
 		return sqlSession.delete("camp.deleteCampPicture", campNo);
+	}
+	public int updateCamp(CampVO c) {
+		return sqlSession.update("camp.updateCamp",c);
+	}
+	public int updateMainImg(CampPictureVO cp) {
+		return sqlSession.update("camp.updateMainImg",cp);
 	}
 
 }
