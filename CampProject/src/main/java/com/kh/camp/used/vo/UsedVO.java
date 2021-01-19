@@ -17,4 +17,10 @@ public class UsedVO {
 	private String usedState;
 	private String usedChange;
 	private ArrayList<UsedFileVO> file;
+	
+	//getter 추가
+	public String getUsedContentBr() {
+		return usedContent.replace("\r\n", "<br>");
+	}
+
 }
