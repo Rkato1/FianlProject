@@ -116,3 +116,26 @@ ul {
 	background: #F5F5F5;
 	text-align: center;
 }
+.inputBox {
+	width: 50%;
+}
+
+.readonly {
+	background-color: #a0a0a0;
+}
+.inputDiv {
+	overflow: hidden;
+}
+
+.inputDiv>input {
+	margin-left: 10px;
+}
+
+.inputDiv>* {
+	display: block;
+	float: left;
+}
+
+#inputMemo {
+	width: 90%;
+}
