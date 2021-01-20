@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항</title>
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 <!-- Google Fonts-->
@@ -19,10 +19,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <style>
-
-    * {
+	* {
         font-family: 'Noto Sans KR';
-    }
+    }    
 
     .content-wrap {
         width: 1200px;
@@ -30,17 +29,17 @@
         box-sizing: border-box;
     }
 
-    .title-box {
+    .titleBox {
         padding-top: 30px;
         padding-bottom: 30px;
     }
 
-    .title-box>h2 {
+    .titleBox>h2 {
         font-weight: bolder;
         padding-bottom: 5px;
     }
 
-    .title-box>p {
+    .titleBox>p {
         padding: 0;
         margin: 0;
         color: dimgray;
@@ -48,187 +47,163 @@
     }
     
     
-    .title-box>p:first-child {
+    .titleBox>p:first-child {
     	color: dimgray;
     }
     
-    .title-box>p:last-child {
+    .titleBox>p:last-child {
     	color: #f49b00;
     }
     
     /*--------------------------------*/
-   
-    .list-box {
-    	margin-top: 30px;
-        margin-bottom: 30px;
-	}
+
+    .inputBar {
+        overflow: hidden;
+        padding-top: 30px;
+    }
+
+    .searchBox {
+        float: right;
+        width: 350px;
+        padding-bottom: 10px;
+    }
+
+    #searchInput,
+    #searchBtn {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .writeBox {
+        float: right;
+        margin-left: 10px;
+        color: white;
+    }
+
+    #writeBtn {
+        background-color: #f49b00;
+    }
+
+    #writeBtn>a {
+        text-decoration: none;
+        color: white;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    /*--------------------------------*/
+
+    /*표 너비 설정*/
+    .th-1 {
+        width: 7%;
+    }
+
+    .th-2 {
+        width: 23%;
+    }
+
+    .th-3 {
+        width: 30%;
+    }
+
+    .th-4 {
+        width: 13%;
+    }
+
+    .th-5 {
+        width: 17%;
+    }
+
+    .th-6 {
+        width: 10%;
+    }
+
+    #review-a {
+        text-decoration: none;
+        color: #383a3f;
+    }
+
+    #review-a:hover {
+        color: #f49b00;
+    }
+
+    .point>i {
+        color: #ffd56b;
+    }
     
-    
-    .list-header {
-        padding-top: 10px;
-    	padding-bottom: 10px;
-    	border-top: 2px solid #383a3f;
-    	border-bottom: 2px solid #383a3f;
-	}
-
-	.list-header>span:first-child {
-    	padding-left: 25px;
-    	font-size: 16px;
-    	font-weight: bolder;
-	}
-
-	.list-header>span:last-child {
-    	padding-left: 500px;
-    	font-size: 16px;
-    	font-weight: bolder;
-	}
-	
-	.list-body {
-		overflow: hidden;
-		border-bottom: 2px solid #383a3f;
-	}
-
-	.list-body ul {
-    	list-style: none;
-    	margin: 0;
-    	padding: 0;
-	}
-
-	.list-body li {
-    	list-style: none;
-    	float: left;
-    	width: 100%;
-    	border-bottom: 1px solid #f2f2f2;
-    	padding: 10px;
-	}
-
-	.list-body a {
-    	color: black;
-    	text-decoration: none;
-    	font-size: 16px;
-    	padding-left: 25px;
-	}
-
-	.list-body a:hover {
-		color : #f49b00;
-	    text-decoration: none;
-    	font-size: 16px;
-    	padding-left: 25px;
-    	font-weight: bolder;
-	}
-
-	#no {
-    	font-size: 16px;
-    	padding-left: 15px;
-	}
-
-	#date {
-    	font-size: 14px;
-    	color: #c8c8c8;
-    	padding-left: 20px;
-	}
-	
-	.list_sub {
-		background-color: #f2f2f2;
-	}
-	
-	.list_sub>div {
-		padding: 10px;
-		padding-top: 30px;
-		padding-bottom: 30px;
-	}
-	
-	/*--------------------------------*/
-	
-	.pagenavi-box {
+    .pageNaviBox {
     	width: 1200px;
     	padding-top: 30px;
     	padding-bottom: 50px;
     	text-align: center;
     }
     
-    
-</style>
+    .form-control:focus {
+		border-color: #ced4da !important;
+        outline: 0 none !important;
+        box-shadow: none !important;
+    }
 
+</style>
 </head>
 <body>
 
-	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	
-    <div class="content-wrap">
-    
-		<div class="title-box">
+	    <div class="content-wrap">
+
+        <div class="titleBox">
             <h2>공지사항</h2>
-            <p>CAC의 새로운 소식들과 유용한 정보를 확인해보세요.</p>
-            <p>※ 1월 공지사항 업데이트 되었습니다. </p>
+            <p>관리자만 글을 쓸 수 있습니다.</p>
+            <p>※ 댓글 기능은 지원하지 않습니다.</p>
         </div>
 
-		<div class="list-box">
-			<div class="list-header">
-				<span>번호</span><span>제목 / 일자</span>
-			</div>
-			<div class="list-body">
-				<ul>
-				<c:forEach items="${notiList }" var="n">
-					<li class="list_main">
-						<span id="no">${n.noticeNo }</span>
-						<a href="javascript:void(0)" class="list_main-a">${n.noticeTitle }</a>
-						<span id="date">${n.noticeDate }</span>
-					</li>
-					<li class="list_sub" style="display: none">
-						<div>${n.noticeContentBr }</div>
-					</li>
-				</c:forEach>
-					<li class="list_main">
-						<span id="no">474</span>
-						<a href="javascript:void(0)" class="list_main-a">현금 거래 유도 및 계약 위반 캠핑장 탈퇴 조치 합니다!</a>
-						<span id="date">2020.10.23</span>
-					</li>
-					<li class="list_sub" style="display: none">
-						<div>
-							현금 결제 유도 (무통장 수기 예약 금지)<br>
-							무통장 수기 예약은 예약 중복이 발생 할 수 있는 예약 사고 유발 행위로 중대 위반 사항입니다.<br>
-							캠핑장 홍보 및 예약 프로그램을 지원하여 예약 고객을 보내주고 있는데 카드 결제 완료 이후,<br>
-							캠핑장에 이미 예약금까지 지급 된 예약 완료 건을  사용자에게 카드 결제를 취소하고 현금 결제 유도하는 행위는 계약 위반에 해당합니다.<br>
-							예약은 약속이고 서로간의 신뢰입니다!
-						</div>
-					</li>
-					<li class="list_main">
-						<span id="no">475</span>
-						<a href="javascript:void(0)" class="list_main-a"> 
-							업무시간 / 문의방법 - 예약 / 환불 / 이용 문의건은 해당 캠핑장에 문의 바랍니다.
-						</a>
-						<span id="date">2020.10.27</span>
-					</li>
-					<li class="list_sub" style="display: none">
-						<div>
-							서버 유지 비용을 위해 일부 예약 수수료만 받고 캠핑장 예약 시스템만을 제공하는 사이트입니다.<br>
-							사용자 상담은 캠핑장에서 잔담하며, 원할한 예약 관리를 위해 업무 협조 부탁 드립니다!<br>
-							예약 / 환불 / 이용 문의건은 해당 캠핑장에 문의 바랍니다.<br>
-						</div>
-					</li>
-				</ul>
-			</div>
+        <div class="inputBar">
+        	<c:if test="${sessionScope.m.getMemberId().equals('admin') }">
+            	<div class="writeBox">
+                	<button type="button" class="btn" id="writeBtn">
+                    	<a href="/noticeWriteFrm.do">글쓰기</a>
+                	</button>
+            	</div>
+			</c:if>
+	
+            <div class="searchBox">
+            </div>
+        </div>
 
-			<div class="pagenavi-box">
-        		<div class="pageNavi">${pageNavi }</div>
-        	</div>
-		</div><!-- list-box -->
-    </div><!-- content-wrap -->
-	
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-	
-	
-	<script>
-	
-        //게시물 클릭 시 상세내용 보여주는 이벤트
-        $(".list_main-a").click(function() {
-        	//클릭 했던 게시글 외에 다른 게시글을 눌렀을 때 나머지 게시물은 닫아주기
-        	$(".list_sub").not($(this).parent().next(".list_sub")).slideUp();
-			$(this).parent(".list_main").next(".list_sub").slideToggle();
-        });
+        <table class="table table-striped" style="width: 100%; text-align: center;">
+            <thead>
+            	<tr>
+                	<th class="th-1">번호</th>
+                	<th class="th-3">제목</th>
+                	<th class="th-5">작성자</th>
+                	<th class="th-6">작성일</th>
+            	</tr>
+            </thead>
+            <tbody>
+            	<c:forEach items="${list }" var="n">
+            	<tr>
+                	<td>${n.noticeNo }</td>
+                	<td>
+                		<a id="review-a" href="/noticeView.do?noticeNo=${n.noticeNo }">
+                			${n.noticeTitle }
+                		</a>
+                	</td>
+                	<td>${n.noticeWriter }</td>
+                	<td>${n.noticeDate }</td>
+            	</tr>
+            	</c:forEach>
+            </tbody>
+        </table>
 
-    </script>
-
+		<div class="pageNaviBox">
+        	<div class="pageNavi">${pageNavi }</div>
+        </div>
+    </div>
+    
+   <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+	
 </body>
 </html>

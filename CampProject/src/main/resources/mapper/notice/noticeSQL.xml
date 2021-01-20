@@ -40,11 +40,10 @@
   <select id="selectNoticeFileList" parameterType="_int" resultType="fileNotice">
   select
   		notice_file_no as noticeFileNo,
-  		reserve_no as reserveNo,
   		notice_no as noticeNo,
   		filename,
   		filepath
-  from notice where notice_no=#{parameter}  	 
+  from notice_file where notice_no=#{parameter}  	 
   </select>
   
   <insert id="insertNotice" parameterType="notice">
@@ -57,7 +56,7 @@
   	)
   </insert>
   
-  <select id="selectReviewNo" parameterType="String" resultType="_int">
+  <select id="selectNoticeNo" parameterType="String" resultType="_int">
 		select max(notice_no) from notice
   </select>
   
@@ -69,7 +68,7 @@
   	update notice
   	set notice_title=#{noticeTitle},
   		notice_content=#{noticeContent}
-  	where notice_no=#{noticeNo};
+  	where notice_no=#{noticeNo}
   </update>
   <!-- <select id="selectFileList" parameterType="_int" resultType="f">
   	select
