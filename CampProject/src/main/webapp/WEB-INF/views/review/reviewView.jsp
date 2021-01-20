@@ -15,6 +15,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
    <style>
       * {
          font-family: 'Noto Sans KR';
@@ -112,7 +113,7 @@
       }
       
       .review-content-text {
-      	margin-top: 50px;
+      	margin-top: 80px;
       }
       
       .review-content-img-one {

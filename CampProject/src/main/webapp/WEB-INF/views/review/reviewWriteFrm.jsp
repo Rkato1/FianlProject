@@ -12,8 +12,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- jQuery -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<!-- ckeditor -->
+<script type="text/javascript" src="../js/ckeditor/ckeditor.js" ></script>
 
     <style>
         * {
@@ -92,65 +96,7 @@
 	
 </head>
 <body>
-
-   <script>
-   
-		$(function() {
-	        //Submit 버튼
-	        $("#writeBtn").click(function(event) {
-
-	        	var reviewTitle = $("#reviewTitle").val();
-	        	var reserveNo = $("#reserveNo").val();
-	        	var reviewPoint = $("#reviewPoint").val();
-	        	var reviewContent = $("#reviewContent").val();
-	        	
-	        	if(reviewTitle == "" || reserveNo == "" || reviewPoint == "" || reviewContent == "") {
-	                alert("*는 필수 입력 항목입니다.");
-	                event.preventDefault();
-	        	}
-	        });
-		 });
-		
-        //예약번호 검색 팝업창
-        function search() {
-            var url = "/searchReserve.do"; //서블릿 url mapping 값
-            var title = "searchReserve";
-            var status = "left=400px, top=400px, width=500px, height=300px, menubar=no, status=no, scrollbars=yes";
-            //비어있는 창 열어주기
-            var popup = window.open("", title, status);
-
-         	//숨겨둔 form name으로 가져오기
-            var searchFrm = $("[name=searchReserve]");
-
-            //popup창 - form태그 연결
-            //target속성 : a태그에서  _blank로 하면 새창에서 열림
-            searchFrm.attr("target", title);
-            searchFrm.attr("action", url);
-            searchFrm.submit();
-        }
-        
-		//별 클릭하면 채워진 별 이미지로 변경하는 이벤트
-		//한번만 클릭되고 다음부터는 안되는 문제가 있었음
-		//-> $(document).on 페이지가 로드 될때 계속 새로운 클래스로 생성
-		$(document).on("click", ".point-mark", function() {
-			mark = $(".point-mark");
-			idx = $(".point-mark").index(this);
-			mark.removeClass("fas fa-star");
-			mark.removeClass("far fa-star");
-			mark.each(function(index, item) {
-				if (index <= idx) {
-					$(item).addClass("fas fa-star");
-				} else {
-					$(item).addClass("far fa-star");
-				}
-			});
-			//input val에 숫자로 값 넣어주기
-			$(".point").val((idx + 1));
-			console.log($(".point").val());
-		});
 	
-    </script>
-
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	
     <div class="content-wrap">
@@ -201,7 +147,9 @@
                     </tr>
                     <tr>
                         <td>내용<span id="required">*</span></td>
-                        <td><textarea style="resize: none;" rows="20" cols="50" name="reviewContent" id="reviewContent" class="form-control"></textarea></td>
+                        <td>
+                        	<textarea style="resize: none;" rows="20" cols="50" name="reviewContent" id="reviewContent" class="form-control"></textarea>
+                        </td>
                     </tr>
                 </table>
                 <div class="review-button">
@@ -211,7 +159,69 @@
         </div>
     </div>
     
-   <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
    
+	<script>
+		$(function() {
+	        //Submit 버튼
+	        $("#writeBtn").click(function(event) {	        	
+	        	var reviewTitle = $("#reviewTitle").val();
+	        	var reserveNo = $("#reserveNo").val();
+	        	var reviewPoint = $("#reviewPoint").val();
+	        	var reviewContent = $("#reviewContent").val();
+	        	var reviewContentCk = CKEDITOR.instances.reviewContent.getData();
+	        	
+	        	if(reviewTitle == "" || reserveNo == "" || reviewPoint == "" || reviewContentCk == "") {
+	                alert("*는 필수 입력 항목입니다.");
+	                event.preventDefault();
+	        	}
+	        })
+		 });
+		
+        //예약번호 검색 팝업창
+        function search() {
+            var url = "/searchReserve.do"; //서블릿 url mapping 값
+            var title = "searchReserve";
+            var status = "left=400px, top=400px, width=500px, height=300px, menubar=no, status=no, scrollbars=yes";
+            //비어있는 창 열어주기
+            var popup = window.open("", title, status);
+
+         	//숨겨둔 form name으로 가져오기
+            var searchFrm = $("[name=searchReserve]");
+
+            //popup창 - form태그 연결
+            //target속성 : a태그에서  _blank로 하면 새창에서 열림
+            searchFrm.attr("target", title);
+            searchFrm.attr("action", url);
+            searchFrm.submit();
+        }
+        
+		//별 클릭하면 채워진 별 이미지로 변경하는 이벤트
+		//한번만 클릭되고 다음부터는 안되는 문제가 있었음
+		//-> $(document).on 페이지가 로드 될때 계속 새로운 클래스로 생성
+		$(document).on("click", ".point-mark", function() {
+			mark = $(".point-mark");
+			idx = $(".point-mark").index(this);
+			mark.removeClass("fas fa-star");
+			mark.removeClass("far fa-star");
+			mark.each(function(index, item) {
+				if (index <= idx) {
+					$(item).addClass("fas fa-star");
+				} else {
+					$(item).addClass("far fa-star");
+				}
+			});
+			//input val에 숫자로 값 넣어주기
+			$(".point").val((idx + 1));
+			console.log($(".point").val());
+		});
+	
+		//id가 reviewContent인 태그에 ckeditor를 적용시킴
+		//이미지 업로드 불가
+		CKEDITOR.replace('reviewContent', {
+			height: 500
+		});
+    </script>
+    
 </body>
 </html>

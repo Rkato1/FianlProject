@@ -75,13 +75,13 @@ public class ReviewController {
 	//캠핑 후기 - 글 작성하기 (예약번호 조회)
 	@RequestMapping("/searchReserve.do")
 	public String searchReserve(int memberNo, Model model) {
-		//체크아웃  날짜가 지난 것만 가져오기 위함
+		/*체크아웃  날짜가 지난 것만 가져오기 위함
 		Date date = new Date();
 		//MM대문자 : 월 //mm소문자 : 시간  //dd소문자 : 일
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 		String now = sdf.format(date);
 		System.out.println(now);
-		
+		*/
 		ArrayList<ReserveCampVO> listRes = service.selectListReserve(memberNo);
 		model.addAttribute("listRes", listRes);
 		return "review/searchReserve";

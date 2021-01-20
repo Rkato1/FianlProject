@@ -15,6 +15,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<!-- jQuery -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+<!-- ckeditor -->
+<script type="text/javascript" src="../js/ckeditor/ckeditor.js" ></script>
 
     <style>
         * {
@@ -168,7 +172,7 @@
                     <tr>
                         <td>내용</td>
                         <td>
-                        	<textarea rows="20" cols="50" name="reviewContent" id="reviewContent" class="form-control">${rev.reviewContent }</textarea>
+                        	<textarea rows="20" cols="50" name="reviewContent" id="reviewContent" class="form-control">${rev.reviewContentBr }</textarea>
                         </td>
                     </tr>
                 </table>
@@ -225,6 +229,12 @@
 			//input val에 숫자로 값 넣어주기
 			$(".point").val((idx + 1));
 			console.log($(".point").val());
+		});
+		
+		//id가 reviewContent인 태그에 ckeditor를 적용시킴
+		//이미지 업로드 불가
+		CKEDITOR.replace('reviewContent', {
+			height: 500
 		});
 		
 	</script>

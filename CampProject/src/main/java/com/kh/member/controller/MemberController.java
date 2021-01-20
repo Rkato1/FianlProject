@@ -27,7 +27,8 @@ public class MemberController {
 	@RequestMapping("/loginFrm.do")
 	public String loginFrm(HttpSession session, @SessionAttribute(required = false) MemberVO m, Model model) {
 		if (m != null) { //로그인 되어있는 상태일 때
-			model.addAttribute("loc", "/loginFrm.do");
+			model.addAttribute("msg", "오늘도 'Create A Camp'를 찾아주셔서 감사합니다.");
+			model.addAttribute("loc", "/campList.do?reqPage=1");
 			return "common/msg";
 		} else { //로그인 되어있지 않은 상태일 때
 			return "member/loginFrm";
@@ -36,7 +37,7 @@ public class MemberController {
 
 	//로그인
 	@RequestMapping("/login.do")
-	public String login(MemberVO m, HttpSession session, Model model) {
+	public String login(MemberVO m, HttpSession session, Model model) {		
 		MemberVO member = service.selectOneMember(m);
 		if (member != null) {
 			session.setAttribute("m", member);
@@ -45,7 +46,7 @@ public class MemberController {
 				model.addAttribute("loc", "/admin/mainAdmin.do");
 			}else {
 				model.addAttribute("msg", "오늘도 'Create A Camp'를 찾아주셔서 감사합니다.");
-				model.addAttribute("loc", "/reviewList.do?reqPage=1");
+				model.addAttribute("loc", "/campList.do?reqPage=1");
 			}
 		} else {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요.");
