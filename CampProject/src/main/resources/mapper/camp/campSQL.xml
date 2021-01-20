@@ -226,13 +226,13 @@
 		from site
 		where camp_no = ${campNo} and reserve_date = '0000-00-00'
 	</select>
-	<select id="campSearchListObject2" parameterType="String">
+	<select id="campSearchListObject2" parameterType="String" resultType="_int">
 	select
 		camp_no as campNo
 	from camp where	camp_name like '%'||#{ parameter }||'%'
                      or camp_addr like '%'||#{ parameter }||'%'
 	</select>
-	<select id="campSiteSearchListObject">
+	<select id="campSiteSearchListObject" parameterType="map" resultType="_int">
 		select
 			camp_no as campNo 
 		from site where
@@ -244,7 +244,7 @@
 		</if> RESERVE_DATE = '0000-00-00'
 	</select>
 	
-	<select id="campSearchResultList">
+	<select id="campSearchResultList" parameterType="map" resultType="camp">
 		select
     		rnum,
     		campNo,
@@ -272,7 +272,7 @@
 			camp_day as campDay,
 			camp_facility as campFacility
 		from camp 
-           <if test="!list.isEmpty()"> where camp_no in
+           <if test="!reserveCanList.isEmpty()"> where camp_no in
 		<foreach collection="reserveCanList" item="value" separator="," open="(" close=")">
     		#{value}
   		</foreach>
@@ -280,5 +280,5 @@
         order by 1 desc)
 		n)
            where rnum between #{start} and #{end}
-	</select>
+	</select>	
 </mapper>

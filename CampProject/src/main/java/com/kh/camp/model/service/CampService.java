@@ -258,13 +258,13 @@ public class CampService {
 			ArrayList<CampPictureVO> pictureList = dao.selectPictureListObject(map);
 			if(pictureList.size()>0) {
 				c.setPictureList(pictureList);
-			}			
+			}
 			ArrayList<SiteVO> siteList = dao.selectSiteListMapObject(map);
 			if(siteList.size()>0) {
 				c.setSiteList(siteList);
-			}			
+			}
 		}
-		int totalCount = dao.totalSearchCount(map);
+		int totalCount = dao.totalSearchCount(map,map2);
 		int totalPage = totalCount / numPerPage;
 		if (totalCount % numPerPage != 0) {
 			totalPage++;

@@ -56,7 +56,7 @@ public class CampController {
 		CampPageData cpd = service.campSearchList(reqPage,value,startDate,endDate);
 		model.addAttribute("list", cpd.getList());
 		model.addAttribute("pageNavi", cpd.getPageNavi());
-		model.addAttribute("keyword", keyword);
+		//model.addAttribute("keyword", keyword);
 		model.addAttribute("value", value);
 		return "camp/campList";
 	}
