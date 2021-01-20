@@ -20,10 +20,10 @@
 		<div class="items">
 			<div class="item">
 				<h4>예약자 정보</h4>
-				<form action="/updateReserve.do" method="post">
+				<form action="/updateReserve.do" method="post" onsubmit="return reserveUpdate();">
 					<input type="hidden" id="reserveNo" name="reserveNo"
 						value="${reserve.reserveNo }">
-					<table class="infomation" width="100%">
+					<table class="infomation table" width="100%">
 						<colgroup>
 							<col class="col01">
 							<col class="col02">
@@ -31,48 +31,53 @@
 							<col class="col02">
 						</colgroup>
 						<tbody>
+							
 							<tr>
-								<td colspan="6" class="line2" style="height: 1px;"></td>
-							</tr>
-							<tr>
-								<td class="section ln_r">이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</td>
-								<td class="ln_r center">
-								<input type="text" name="memberName" value="${member.memberName }"
-									style="width: 70%; background-color: #a0a0a0;" readonly>
+								<td class="section ln_r" height="50" width="100">
+									이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</td>
+								<td class="ln_r center" width="250">
+									<div class="inputDiv">
+										<input type="text" name="memberName" value="${member.memberName }" class="inputBox readonly" readonly required>
+										<span class="inputSpan"><font color="#66A2C8">&nbsp; 수정불가</font></span>
+									</div>
 								</td>
-								<td class="section ln_r">비밀번호</td>
-								<td class="center"><input type="text" name="reservePw"
-									value="${reserve.reservePw }" style="width: 70%">
-									&nbsp;</td>
+								<td class="section ln_r" width="100">예약암호</td>
+								<td class="center" width="400">
+									<div class="inputDiv">
+										<input type="text" id="inputPw" name="reservePw"	value="${reserve.reservePw }" class="inputBox" required>
+										<span class="inputSpan"><font color="#66A2C8">&nbsp; 6~18자리 영어 대소문자/숫자 조합</font></span>
+									</div>
+								</td>
 							</tr>
-							<tr>
-								<td colspan="6" class="line3" style="height: 1px;"></td>
-							</tr>
+
 							<tr>
 								<td class="section ln_r" height="50">핸드폰번호</td>
-								<td class="ln_r center"><input type="text"
-									name="memberPhone" value="${member.memberPhone }"
-									style="width: 70%; background-color: #a0a0a0;" readonly>
-									&nbsp;</td>
+								<td class="ln_r center">
+									<div class="inputDiv">
+										<input type="text" name="memberPhone" value="${member.memberPhone }" class="inputBox readonly" readonly required>
+										<span class="inputSpan"><font color="#66A2C8">&nbsp; 수정불가</font></span>
+									</div>
+								</td>
 								<td class="section ln_r">차량번호</td>
-								<td class="center"><input type="text" name="carNumber"
-									value="${reserve.carNumber }" style="width: 70%">
-									&nbsp;</td>
+								<td class="center">
+									<div class="inputDiv">
+										<input type="text" id="inputCarNumber" name="carNumber" value="${reserve.carNumber }" class="inputBox">
+										<span class="inputSpan"><font color="#66A2C8">&nbsp; ※ 예) 01가 1234, 서울 01가 1234</font></span>
+									</div>
+								</td>
 							</tr>
-							<tr>
-								<td colspan="6" class="line2" style="height: 1px;"></td>
-							</tr>
+
 							<tr>
 								<td class="section ln_r" height="50">메모/닉네임</td>
-								<td colspan="3" class="center"><input type="text"
-									name="reserveMemo" style="width: 99%;"
-									value="${reserve.reserveMemo }" class="text"></td>
+								<td colspan="3" class="center">
+									<div class="inputDiv">
+										<input type="text" id="inputMemo" name="reserveMemo" style="width: 99%;" value="${reserve.reserveMemo }">
+									</div>
+								</td>
 							</tr>
+
 							<tr>
-								<td colspan="6" class="line2" style="height: 1px;"></td>
-							</tr>
-							<tr>
-								<td colspan="6" style="text-align: center"><input class="btn btn-outline-dark btn-sm"
+								<td colspan="6" style="text-align: center"><input class="btn btn-outline-dark btn-sm" id="updateBtn"
 									type="submit" style="width: 90%; height: 28px;" value="수정하기">
 								</td>
 							</tr>
@@ -83,7 +88,7 @@
 			<div class="item">
 				<br>
 				<h4>예약사항</h4>
-				<table width="100%" cellpadding="0" celSpacing="1">
+				<table class="table table-striped" width="100%" cellpadding="0" celSpacing="1">
 					<colgroup width></colgroup>
 					<colgroup width="10%"></colgroup>
 					<colgroup width="30%"></colgroup>
@@ -151,6 +156,7 @@
 	</div>
 
 	<script>
+	
 		$("#flex").click(
 				function() {
 					if ($("#mustChk").is(':checked')) {
@@ -184,6 +190,87 @@
 						alert('필수항목을 체크해주세요');
 					}
 				});
+		
+		$(function() {
+			//예약암호 체크
+			$("#inputPw").change(
+					function() {
+						check[0] = false;
+						var reg = /^[A-Za-z0-9_-]{6,18}$/;
+						if (reg.test($(this).val())) {
+							check[0] = true;
+							var comment = '&nbsp; 올바르게 입력하셨습니다';
+							$(".inputSpan").eq(1).children().first().html(
+									comment);
+							$(".inputSpan").eq(1).children().first().attr(
+									'color', 'green');
+							$("#inputPw").css('border', '2px solid green');
+						} else {
+							check[0] = false;
+							var comment = '&nbsp; 6~18자리 영어 대소문자/숫자 조합';
+							$(".inputSpan").eq(1).children().first().html(
+									comment);
+							$(".inputSpan").eq(1).children().first().attr(
+									'color', 'red');
+							$("#inputPw").css('border', '2px solid red');
+						}
+					});
+			//차량번호 체크
+			$("#inputCarNumber").change(function() {
+				check[1] = false;
+				var val = $('#inputCarNumber').val();
+	            var reg = /^[0-9]{2}[가-힣]{1}[\s]*[0-9]{4}$/;//신 : 11가 1234
+	            var reg2 = /^[가-힣]{2}[\s]*[0-9]{2}[가-힣]{1}[\s]*[0-9]{4}$/; //구 : 서울 11가 1234
+	            if(reg.test(val)){
+	                 check[1] = true;
+					    var comment = '&nbsp; 올바르게 입력하셨습니다';
+					    $(".inputSpan").eq(3).children().first().html(comment);
+					    $(".inputSpan").eq(3).children().first().attr('color','green');
+					    $("#inputCarNumber").css('border', '2px solid green');
+	            }else{
+	                if(reg2.test(val)){
+	                   check[1] = true;
+					    var comment = '&nbsp; 올바르게 입력하셨습니다';
+					    $(".inputSpan").eq(3).children().first().html(comment);
+					    $(".inputSpan").eq(3).children().first().attr('color','green');
+					    $("#inputCarNumber").css('border', '2px solid green');
+	                   
+	                }else{
+	                    check[1] = false;
+					    var comment = '&nbsp; ※ 예) 01가 1234, 서울 01가 1234';
+					    $(".inputSpan").eq(3).children().first().html(comment);
+					    $(".inputSpan").eq(3).children().first().attr('color','red');
+					    $("#inputCarNumber").css('border', '2px solid red');	                    
+	                }
+	            }
+			});
+		});
+		check = [ true, true ];
+		function checkInput(){
+			var inputBool = false;
+			var regChk = 0;
+			for (var i = 0; i < check.length; i++) {
+				if (check[i] == true) {
+					regChk++;
+				}
+			}
+			if (regChk == 2 ) {
+				inputBool = true;
+			}	
+			return inputBool;
+		}	
+		function reserveUpdate(){
+			var totalBool = false;
+			var inputBool = checkInput();
+			if(!inputBool){
+				var msg = "예약정보를 확인해주세요";
+				alert(msg);
+			}
+			if(inputBool){
+				totalBool = true;
+			}
+			return totalBool;
+		}
 	</script>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
