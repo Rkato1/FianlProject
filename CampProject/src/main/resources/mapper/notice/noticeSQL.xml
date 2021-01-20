@@ -52,7 +52,7 @@
 	  	#{noticeTitle},
 	  	'admin',
 	  	#{noticeContent},
-	  	sysdate
+	  	to_char(sysdate,'yyyy-mm-dd')
   	)
   </insert>
   

@@ -59,7 +59,7 @@ public class MemberController {
 	public String logout(HttpSession session, Model model, @SessionAttribute(required = false) MemberVO m) {
 		if (m != null) {
 			session.invalidate();
-			model.addAttribute("msg", "[로그아웃]");
+			model.addAttribute("msg", "로그아웃 되었습니다.");
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
 		}

@@ -135,7 +135,6 @@
     
     .pageNaviBox {
     	width: 1200px;
-    	padding-top: 30px;
     	padding-bottom: 50px;
     	text-align: center;
     }
