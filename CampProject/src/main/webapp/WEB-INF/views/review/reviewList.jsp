@@ -140,7 +140,7 @@
     	text-align: center;
     }
     
-    /*----------------------------*/
+    /*부트스트랩 설정 바꾸기------------------*/
     
     .form-control:focus {
 		border-color: #ced4da !important;
@@ -152,7 +152,16 @@
         outline: 0 none !important;
         box-shadow: none !important;
     }
-
+    
+    .table thead th {
+    	border-top: 2px solid #383a3f;
+    	border-bottom: 2px solid #383a3f !important;
+    }
+    
+    .table tbody {
+    	border-bottom: 2px solid #383a3f;
+    }
+   
 </style>
 </head>
 <body>

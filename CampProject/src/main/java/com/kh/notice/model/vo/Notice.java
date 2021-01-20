@@ -18,4 +18,9 @@ public class Notice {
 	String noticeContent;
 	String noticeDate;
 	ArrayList<FileVO> fileList;
+	
+	//getter 추가
+	public String getnoticeContentBr() {
+		return noticeContent.replace("\r\n", "<br>");
+	}
 }

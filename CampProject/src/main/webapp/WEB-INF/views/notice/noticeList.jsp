@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,18 +73,19 @@
 
 	.list-header>span:first-child {
     	padding-left: 25px;
-    	font-size: 18px;
+    	font-size: 16px;
     	font-weight: bolder;
 	}
 
 	.list-header>span:last-child {
     	padding-left: 500px;
-    	font-size: 18px;
+    	font-size: 16px;
     	font-weight: bolder;
 	}
 	
 	.list-body {
 		overflow: hidden;
+		border-bottom: 2px solid #383a3f;
 	}
 
 	.list-body ul {
@@ -127,11 +129,13 @@
 	}
 	
 	.list_sub {
-		background-color: #d3d3d3;
+		background-color: #f2f2f2;
 	}
 	
 	.list_sub>div {
 		padding: 10px;
+		padding-top: 30px;
+		padding-bottom: 30px;
 	}
 	
 	/*--------------------------------*/
@@ -142,6 +146,7 @@
     	padding-bottom: 50px;
     	text-align: center;
     }
+    
     
 </style>
 
@@ -164,21 +169,19 @@
 			</div>
 			<div class="list-body">
 				<ul>
+				<c:forEach items="${notiList }" var="n">
 					<li class="list_main">
-						<span id="no">475</span>
-						<a href="#">업무시간 / 문의방법 - 예약 / 환불 / 이용 문의건은 해당 캠핑장에 문의 바랍니다.</a>
-						<span id="date">2020.10.27</span>
+						<span id="no">${n.noticeNo }</span>
+						<a href="javascript:void(0)" class="list_main-a">${n.noticeTitle }</a>
+						<span id="date">${n.noticeDate }</span>
 					</li>
 					<li class="list_sub" style="display: none">
-						<div>
-							서버 유지 비용을 위해 일부 예약 수수료만 받고 캠핑장 예약 시스템만을 제공하는 사이트입니다.<br>
-							사용자 상담은 캠핑장에서 잔담하며, 원할한 예약 관리를 위해 업무 협조 부탁 드립니다!<br>
-							예약 / 환불 / 이용 문의건은 해당 캠핑장에 문의 바랍니다.<br>
-						</div>
+						<div>${n.noticeContentBr }</div>
 					</li>
+				</c:forEach>
 					<li class="list_main">
 						<span id="no">474</span>
-						<a href="#">현금 거래 유도 및 계약 위반 캠핑장 탈퇴 조치 합니다!</a>
+						<a href="javascript:void(0)" class="list_main-a">현금 거래 유도 및 계약 위반 캠핑장 탈퇴 조치 합니다!</a>
 						<span id="date">2020.10.23</span>
 					</li>
 					<li class="list_sub" style="display: none">
@@ -191,17 +194,18 @@
 						</div>
 					</li>
 					<li class="list_main">
-						<span id="no">473</span>
-						<a href="#">공지사항 공지사항 공지사항 테스트 1234</a>
-						<span id="date">2020.10.22</span>
+						<span id="no">475</span>
+						<a href="javascript:void(0)" class="list_main-a"> 
+							업무시간 / 문의방법 - 예약 / 환불 / 이용 문의건은 해당 캠핑장에 문의 바랍니다.
+						</a>
+						<span id="date">2020.10.27</span>
 					</li>
 					<li class="list_sub" style="display: none">
-						<span>공지사항 공지사항 공지사항 테스트 1234</span>
-					</li>
-					<li class="list_main">
-						<span id="no">472</span>
-						<a href="#">공지사항 공지사항 공지사항 테스트 1234</a>
-						<span id="date">2020.09.07</span>
+						<div>
+							서버 유지 비용을 위해 일부 예약 수수료만 받고 캠핑장 예약 시스템만을 제공하는 사이트입니다.<br>
+							사용자 상담은 캠핑장에서 잔담하며, 원할한 예약 관리를 위해 업무 협조 부탁 드립니다!<br>
+							예약 / 환불 / 이용 문의건은 해당 캠핑장에 문의 바랍니다.<br>
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -218,12 +222,12 @@
 	<script>
 	
         //게시물 클릭 시 상세내용 보여주는 이벤트
-        $(".list_main").find("a").click(function() {
-            $(this).parent().next(".list_sub").slideToggle();
-            //var offset = $(".list-box").offset();
-            //$('html, body').animate({scrollTop : offset.top}, 400);
+        $(".list_main-a").click(function() {
+        	//클릭 했던 게시글 외에 다른 게시글을 눌렀을 때 나머지 게시물은 닫아주기
+        	$(".list_sub").not($(this).parent().next(".list_sub")).slideUp();
+			$(this).parent(".list_main").next(".list_sub").slideToggle();
         });
-        
+
     </script>
 
 </body>
