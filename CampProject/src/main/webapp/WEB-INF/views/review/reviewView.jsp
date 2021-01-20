@@ -316,7 +316,7 @@
          </div><br>
          <div class="camp-name">${camp.campName }</div>
          <div class="camp-addr">${camp.campAddr }</div><br>
-         <div class="camp-link"><a href="campView.do?campNo=${camp.campNo}">캠핑장 바로가기</a></div>
+         <div class="camp-link"><a href="campView.do?campNo=${camp.campNo}&reqPage=1">캠핑장 바로가기</a></div>
       </div>
       <div class="review-content">
       	<c:if test="${!empty rev.fileList }"><!-- 첨부파일이 존재할 때 -->
