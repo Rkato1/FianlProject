@@ -94,13 +94,13 @@
         <div class="admin-content">
             <div class="real-content">
                 <div class="members">
-                	<select id="campNoVal">
+                	<select class="option" id="campNoVal">
                 		<c:forEach items="${list }" var="data">
                 			<option value="${data.campNo }">${data.campName}</option>
                 		</c:forEach>
                 	</select>
                 	<!-- 이부분도 조회해서 조회된 년도만 뜨게 만들수 있음 -->
-                	<select id="yearVal">
+                	<select class="option" id="yearVal">
                 		<option>2020</option>
                 		<option>2021</option>
                 	</select>
