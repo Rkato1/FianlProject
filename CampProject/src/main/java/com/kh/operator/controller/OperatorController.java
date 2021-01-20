@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,6 +25,7 @@ import com.kh.member.model.vo.MemberVO;
 import com.kh.operator.model.service.OperatorService;
 import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.reserve.model.vo.ReserveVO;
 import com.kh.review.model.service.ReviewService;
 import com.kh.review.model.vo.ReviewCommentVO;
 import com.kh.review.model.vo.ReviewPageData;
@@ -37,6 +39,7 @@ private OperatorService service;
 private ReviewService rService;
 @Autowired
 private MemberService mService;
+
 private boolean isOperator = false;
 	
 	public boolean isOperator(HttpSession session) {
@@ -83,7 +86,19 @@ private boolean isOperator = false;
 		}
 	}
 	@RequestMapping("/deleteCamp.do")
-	public String deleteCamp(int campNo,Model model) {
+	public String deleteCamp(int campNo,Model model,HttpServletRequest request) {
+		ArrayList<CampPictureVO> cplist = service.selectCampPictureList(campNo,0);
+		String root = request.getSession().getServletContext().getRealPath("/");
+		String saveDirectory = root +"resources/upload/camp/";
+		for(CampPictureVO cp : cplist) {
+			File delFile = new File(saveDirectory+cp.getFilepath());
+			boolean delResult = delFile.delete();
+			if(delResult) {
+				System.out.println(cp.getFilepath()+": 삭제성공");
+			}else {
+				System.out.println(cp.getFilepath()+": 삭제실패");
+			}
+		}
 		int result = service.deleteCamp(campNo);
 		if(result>0) {
 			model.addAttribute("msg", "캠핑목록에서 삭제되었습니다.");
@@ -179,6 +194,18 @@ private boolean isOperator = false;
 			c.setMemberNo(member.getMemberNo());
 			String root = request.getSession().getServletContext().getRealPath("/");
 			String path = root + "/resources/upload/camp/";
+			
+			ArrayList<CampPictureVO> cplist = service.selectCampPictureList(c.getCampNo(),1);
+			for(CampPictureVO cp : cplist) {
+				File delFile = new File(path+cp.getFilepath());
+				boolean delResult = delFile.delete();
+				if(delResult) {
+					System.out.println(cp.getFilepath()+": 삭제성공");
+				}else {
+					System.out.println(cp.getFilepath()+": 삭제실패");
+				}
+			}
+			
 			ArrayList<CampPictureVO> fileList = new ArrayList<CampPictureVO>();
 			if(!mainFile.isEmpty()) {
 				String mfilename = mainFile.getOriginalFilename();
@@ -202,7 +229,20 @@ private boolean isOperator = false;
 				}
 			}
 			if(files.length>=3) {
+				
+				ArrayList<CampPictureVO> cplist2 = service.selectCampPictureList(c.getCampNo(),2);
+				for(CampPictureVO cp : cplist2) {
+					File delFile = new File(path+cp.getFilepath());
+					boolean delResult = delFile.delete();
+					if(delResult) {
+						System.out.println(cp.getFilepath()+": 삭제성공");
+					}else {
+						System.out.println(cp.getFilepath()+": 삭제실패");
+					}
+				}
+				
 				for(MultipartFile file : files) {
+					
 					String filename = file.getOriginalFilename();
 					String filepath = new FileNameOver().rename(path, filename);
 					try {
@@ -534,6 +574,18 @@ private boolean isOperator = false;
 		if(member!=null&&member.getMemberGrade()==2&&camp.getMemberNo()==member.getMemberNo()) {
 			String root = request.getSession().getServletContext().getRealPath("/");
 			String path = root + "/resources/upload/camp/";
+			
+			ArrayList<CampPictureVO> cplist = service.selectCampPictureList(c.getCampNo(),3);
+			for(CampPictureVO cp : cplist) {
+				File delFile = new File(path+cp.getFilepath());
+				boolean delResult = delFile.delete();
+				if(delResult) {
+					System.out.println(cp.getFilepath()+": 삭제성공");
+				}else {
+					System.out.println(cp.getFilepath()+": 삭제실패");
+				}
+			}
+			
 			CampPictureVO f = new CampPictureVO();
 			if(!file.isEmpty()) {
 				String mfilename = file.getOriginalFilename();
@@ -596,9 +648,26 @@ private boolean isOperator = false;
 		model.addAttribute("camp",camp);
 		return "operator/site/opCampSiteUpdatePicture";
 	}
-	@RequestMapping("/opReservationList.do")
-	public String selectReservationList(int campNo) {
-		
+	@RequestMapping("/opReservation.do")
+	public String selectReservationList(ReserveVO r,Model model) {
+		String today=r.getCheckInDate();
+		CampVO c = new CampVO();
+		c.setCampNo(r.getCampNo());
+		CampVO camp = service.selectOneCamp(c);
+		if(today==null) {
+			Calendar cal = Calendar.getInstance();
+			int year = cal.get ( cal.YEAR );
+			int month = cal.get ( cal.MONTH ) + 1 ;
+			int date = cal.get ( cal.DATE ) ;
+			today = year+"-"+month+"-"+date;
+			r.setCheckInDate(today);
+		}
+		ArrayList<ReserveVO> list = service.selectReservationList(r);
+		model.addAttribute("list",list);
+		model.addAttribute("camp",camp);
+		model.addAttribute("checkInDate",r.getCheckInDate());
 		return "operator/reserve/opReservationList";
 	}
+	
+	
 }

@@ -12,12 +12,9 @@ import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.dao.OperatorDao;
 import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.reserve.model.vo.ReserveVO;
 import com.kh.review.model.vo.ReviewCampVO;
-import com.kh.review.model.vo.ReviewCommentVO;
-import com.kh.review.model.vo.ReviewFileVO;
 import com.kh.review.model.vo.ReviewPageData;
-import com.kh.review.model.vo.ReviewVO;
-import com.kh.review.model.vo.ReviewViewData;
 
 @Service
 public class OperatorService {
@@ -286,5 +283,14 @@ public class OperatorService {
 	public int insertInfoImg(CampPictureVO f) {
 		return dao.insertInfoImg(f);
 	}
-
+	public ArrayList<ReserveVO> selectReservationList(ReserveVO r){
+		return dao.selectReserveList(r);
+	}
+	public ArrayList<CampPictureVO> selectCampPictureList(int campNo,int grade){
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("campNo", campNo);
+		map.put("fileGrade", grade); 
+		ArrayList<CampPictureVO> list = dao.selectPictureList(map);
+		return list;
+	}
 }

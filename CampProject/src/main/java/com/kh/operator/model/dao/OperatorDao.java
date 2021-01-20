@@ -12,6 +12,7 @@ import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.reserve.model.vo.ReserveVO;
 import com.kh.review.model.vo.ReviewCampVO;
 import com.kh.review.model.vo.ReviewVO;
 
@@ -28,6 +29,7 @@ public class OperatorDao {
 	}
 	public ArrayList<CampPictureVO> selectPictureList(HashMap<String, Integer> map) {
 		List<CampPictureVO> list = sqlSession.selectList("camp.selectPictureList",map);
+		System.out.println("dao : "+list.size());
 		return (ArrayList<CampPictureVO>)list;
 	}
 	public ArrayList<CampNoticeVO> selectCampNoticeList(HashMap<String, Integer> map) {
@@ -102,6 +104,10 @@ public class OperatorDao {
 	}
 	public int insertInfoImg(CampPictureVO f) {
 		return sqlSession.insert("camp.insertCampPicture", f);
+	}
+	public ArrayList<ReserveVO> selectReserveList(ReserveVO r) {
+		 List<ReserveVO> list = sqlSession.selectList("reserve.selectReserveList", r);
+		 return (ArrayList<ReserveVO>)list;
 	}
 
 }

@@ -28,7 +28,7 @@
                         <a href="/opCampView.do?campNo=${camp.campNo}"><li>캠핑장소개</li></a>
                         <a href="/opCampSite.do?campNo=${camp.campNo }"><li style="border-bottom: 4px solid rgb(250,220,0);">구역 안내</li></a>
                     </ul>
-                    <a href="/opReservation.do"><li>예약현황</li></a>
+                    <a href="/opReservation.do?campNo=${camp.campNo }&reqPage=1"><li>예약현황</li></a>
                     <a href="/opNoticeList.do?campNo=${camp.campNo}&reqPage=1"><li>공지사항</li></a>
                     <a href="/opReviewList.do?campNo=${camp.campNo }&reqPage=1"><li>리뷰관리</li></a>
                 </ul>
