@@ -249,7 +249,7 @@
 		from site
 		where camp_no = ${campNo} and reserve_date = '0000-00-00'
 	</select>
-<<<<<<< HEAD
+
 	<delete id="deleteCamp" parameterType="_int">
 		delete from camp where camp_no=#{_parameter}
 	</delete>
@@ -286,7 +286,6 @@
 	<update id="updateMainImg" parameterType="campPicture">
 		update camp_picture set filename=#{filename},filepath=#{filepath} where camp_no=#{campNo} and filegrade = 1
 	</update>
-=======
 	<select id="campSearchListObject2" parameterType="String" resultType="_int">
 	select
 		camp_no as campNo
@@ -342,5 +341,4 @@
 		n)
            where rnum between #{start} and #{end}
 	</select>	
->>>>>>> main
 </mapper>
