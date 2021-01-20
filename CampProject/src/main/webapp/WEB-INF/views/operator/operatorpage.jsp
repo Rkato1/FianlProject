@@ -19,7 +19,7 @@
                 <div class="camp_box">
             <a href="/opCampView.do?campNo=${c.campNo }">
                 	<div class="img_wrapper">
-                    	<img src="resources/upload/camp/${c.pictureList[0].filepath }">
+                    	<img src="resources/upload/camp/${c.pictureList[0].filename }">
                     </div>
                		</a>
                     <div class="camp-name">

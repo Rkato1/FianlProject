@@ -64,9 +64,3 @@ section>div {
 #menu li:hover {
 	border-bottom: 4px solid rgb(250, 220, 0);
 }
-@media(max-width:1000px){
-	body{
-		width:1000px;
-	}
-	
-}

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
+import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.vo.CampNoticeVO;
 import com.kh.review.model.vo.ReviewCampVO;
 import com.kh.review.model.vo.ReviewVO;
@@ -75,6 +76,29 @@ public class OperatorDao {
 	}
 	public int updateMainImg(CampPictureVO cp) {
 		return sqlSession.update("camp.updateMainImg",cp);
+	}
+	public ArrayList<SiteVO> selectSiteList(CampVO c) {
+		List<SiteVO> list = sqlSession.selectList("camp.selectSiteListNo", c.getCampNo());
+		return (ArrayList<SiteVO>)list;
+	}
+	public ArrayList<String> selectCategorys(int campNo) {
+		List<String> list = sqlSession.selectList("camp.selectCategorys", campNo);
+		return (ArrayList<String>)list;
+	}
+	public int insertSite(SiteVO s) {
+		return sqlSession.insert("camp.insertSite", s);
+	}
+	public int updateSite(SiteVO s) {
+		return sqlSession.update("camp.updateSite", s);
+	}
+	public int deleteSite(int siteNo) {
+		return sqlSession.delete("camp.deleteSite", siteNo);
+	}
+	public SiteVO selectOneSite(int siteNo) {
+		return sqlSession.selectOne("camp.selectOneSite", siteNo);
+	}
+	public int updateInfoImg(CampPictureVO f) {
+		return sqlSession.insert("camp.updateInfoImg", f);
 	}
 
 }

@@ -90,7 +90,7 @@
 		            <tr>
 	                	<th>소개 이미지(3개)</th>
 	                	<td>
-							<input type="file" name="files" onchange="changeImg(this)" multiple>  			
+							<input type="file" name="files" onchange="imgChk(this)" multiple>  			
 	                	</td>
 	                </tr>
                 	<tr>
@@ -113,6 +113,23 @@
      <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
      
      <script>
+     function chk_file_type(obj) {
+    	 var file_kind = obj.value.lastIndexOf('.');
+    	 var file_name = obj.value.substring(file_kind+1,obj.length);
+    	 var file_type = file_name.toLowerCase();
+    	 var check_file_type=new Array();​
+
+    	 check_file_type=['jpg','gif','png','jpeg'];
+    	 
+    	 if(check_file_type.indexOf(file_type)==-1){
+    	  alert('이미지 파일만 선택할 수 있습니다.');
+    	  var parent_Obj=obj.parentNode
+    	  var node=parent_Obj.replaceChild(obj.cloneNode(true),obj);
+    	  return false;
+    	 }
+    	}
+     
+     
      var phcheck = true;
      
      $("[name=campPh]").change(function() {
@@ -179,7 +196,7 @@
     }*/
      
 	//소개이미지 3장 제한   
-	function changeImg(file){
+	function imgChk(file){
          var filess =  file.files.length;
          if(filess!=3){
             alert("소개이미지를 3개 등록해 주세요!");
@@ -187,6 +204,7 @@
             	 file.value ="";
            	 }
          }
+         chk_file_type(file);
 	}
      
      //다음 주소찾기 

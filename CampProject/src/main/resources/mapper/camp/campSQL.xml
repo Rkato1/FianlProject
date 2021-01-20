@@ -99,11 +99,6 @@
            	</choose>
 	</select>
 	
-	
-	
-	
-	
-	
 	<select id="selectOne" parameterType="camp" resultType="camp">
 		select 
           	camp_no as campNo,
@@ -219,15 +214,13 @@
 		select
 		site_no as siteNo,
 		camp_no as campNo,
-		site_title as
-		siteTitle,
+		site_title as siteTitle,
 		site_name as siteName,
 		min_cnt as minCnt,
 		max_cnt as maxCnt,
 		min_night as minNight,
 		max_night as maxNight,
-		discount_pay as
-		discountPay,
+		discount_pay as discountPay,
 		add_cnt_pay as addCntPay,
 		add_car_pay as addCarPay,
 		using_cnt as usingCnt,
@@ -235,14 +228,12 @@
 		using_night as usingNight,
 		add_car_day as addCarDay,
 		add_car_cnt as addCarCnt,
-		member_no as
-		memberNo,
+		member_no as memberNo,
 		reserve_pay as reservePay,
 		reserve_date as reserveDate,
 		low_day_pay as lowDayPay,
 		low_end_pay as lowEndPay,
-		peak_day_pay as
-		peakDayPay,
+		peak_day_pay as peakDayPay,
 		peak_end_pay as peakEndPay,
 		polar_day_pay as polarDayPay,
 		polar_end_pay as polarEndPay
@@ -285,4 +276,96 @@
 	<update id="updateMainImg" parameterType="campPicture">
 		update camp_picture set filename=#{filename},filepath=#{filepath} where camp_no=#{campNo} and filegrade = 1
 	</update>
+	<update id="updateInfoImg" parameterType="campPicture">
+		update camp_picture set filename=#{filename},filepath=#{filepath} where camp_no=#{campNo} and filegrade = 3
+	</update>
+	<select id="selectSiteListNo" parameterType="_int" resultType="site">
+		select
+		site_no as siteNo,
+		camp_no as campNo,
+		site_title as siteTitle,
+		site_name as siteName,
+		min_cnt as minCnt,
+		max_cnt as maxCnt,
+		min_night as minNight,
+		max_night as maxNight,
+		discount_pay as discountPay,
+		add_cnt_pay as addCntPay,
+		add_car_pay as addCarPay,
+		using_cnt as usingCnt,
+		using_pay as usingPay,
+		using_night as usingNight,
+		add_car_day as addCarDay,
+		add_car_cnt as addCarCnt,
+		member_no as memberNo,
+		reserve_pay as reservePay,
+		reserve_date as reserveDate,
+		low_day_pay as lowDayPay,
+		low_end_pay as lowEndPay,
+		peak_day_pay as peakDayPay,
+		peak_end_pay as peakEndPay,
+		polar_day_pay as polarDayPay,
+		polar_end_pay as polarEndPay
+		from site
+		where camp_no = #{_parameter}
+	</select>
+	<select id="selectCategorys" parameterType="_int" resultType="string">
+		select distinct site_title from site where camp_no=#{_parameter}
+	</select>
+	<insert id="insertSite" parameterType="site">
+		insert into site values
+		(site_seq.nextval,#{campNo},#{siteTitle},#{siteName},#{minCnt},#{maxCnt},#{minNight},#{maxNight},#{discountPay},#{addCntPay},#{addCarPay},0,0,0,0,0,0,0,'0000-00-00',#{lowDayPay},#{lowEndPay},#{peakDayPay},#{peakEndPay},#{polarDayPay},#{polarEndPay})
+	</insert>
+	<update id="updateSite" parameterType="site">
+		update site set 
+			site_title = #{siteTitle},
+			site_name = #{siteName},
+			min_cnt=#{minCnt},
+			max_cnt=#{maxCnt},
+			min_night=#{minNight},
+			max_night=#{maxNight},
+			discount_pay=#{discountPay},
+			add_cnt_pay=#{addCntPay},
+			add_car_pay=#{addCarPay},
+			low_day_pay=#{lowDayPay},
+			low_end_pay=#{lowEndPay},
+			peak_day_pay=#{peakDayPay},
+			peak_end_pay=#{peakEndPay},
+			polar_day_pay=#{polarDayPay},
+			polar_end_pay=#{polarEndPay}
+		where site_no=#{siteNo}
+	</update>
+	<delete id="deleteSite" parameterType="_int">
+		delete from site where site_no=#{_parameter}
+	</delete>
+	<select id="selectOneSite" parameterType="_int" resultType="site">
+		select
+			site_no as siteNo,
+			camp_no as campNo,
+			site_title as siteTitle,
+			site_name as siteName,
+			min_cnt as minCnt,
+			max_cnt as maxCnt,
+			min_night as minNight,
+			max_night as maxNight,
+			discount_pay as discountPay,
+			add_cnt_pay as addCntPay,
+			add_car_pay as addCarPay,
+			using_cnt as usingCnt,
+			using_pay as usingPay,
+			using_night as usingNight,
+			add_car_day as addCarDay,
+			add_car_cnt as addCarCnt,
+			member_no as memberNo,
+			reserve_pay as reservePay,
+			reserve_date as reserveDate,
+			low_day_pay as lowDayPay,
+			low_end_pay as lowEndPay,
+			peak_day_pay as peakDayPay,
+			peak_end_pay as peakEndPay,
+			polar_day_pay as polarDayPay,
+			polar_end_pay as polarEndPay
+		from site
+		where site_no = #{siteNo}
+	</select>
 </mapper>

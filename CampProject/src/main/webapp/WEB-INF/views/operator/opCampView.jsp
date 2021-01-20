@@ -24,7 +24,7 @@
                     <li style="border-bottom: 4px solid rgb(250,220,0);">캠핑장정보</li>
                     <ul>
                         <a href="/opCampView.do?campNo=${camp.campNo}"><li style="border-bottom: 4px solid rgb(250,220,0);">캠핑장소개</li></a>
-                        <a href="/opCampSite"><li>구역 안내</li></a>
+                        <a href="/opCampSite.do?campNo=${camp.campNo }"><li>구역 안내</li></a>
                     </ul>
                     <a href="/opReservation.do"><li>예약현황</li></a>
                     <a href="/opNoticeList.do?campNo=${camp.campNo}&reqPage=1"><li>공지사항</li></a>

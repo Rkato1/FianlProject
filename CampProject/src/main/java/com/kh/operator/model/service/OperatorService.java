@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
+import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.dao.OperatorDao;
 import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
@@ -248,6 +249,38 @@ public class OperatorService {
 			}
 		}
 		return result2;
+	}
+
+	public ArrayList<SiteVO> selectSiteList(CampVO c) {
+		ArrayList<SiteVO> sList = dao.selectSiteList(c);
+		return sList;
+	}
+	public ArrayList<String> selectCategorys(int campNo) {
+		ArrayList<String> categorys = dao.selectCategorys(campNo);
+		return categorys;
+	}
+	public int insertSite(SiteVO s) {
+		int result = dao.insertSite(s);
+		return result;
+	}
+
+	public int updateSite(SiteVO s) {
+		int result = dao.updateSite(s);
+		return result;
+	}
+
+	public int deleteSite(int siteNo) {
+		int result = dao.deleteSite(siteNo);
+		return result;
+	}
+
+	public SiteVO selectOneSite(int siteNo) {
+		SiteVO site = dao.selectOneSite(siteNo);
+		return site;
+	}
+
+	public int updateInfoImg(CampPictureVO f) {
+		return dao.updateInfoImg(f);
 	}
 
 }

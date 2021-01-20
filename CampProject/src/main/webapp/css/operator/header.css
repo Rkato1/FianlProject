@@ -73,3 +73,9 @@ header {
 #header_menu li:hover {
 	border-bottom: 5px solid #FA9B00;
 }
+@media(max-width:1000px){
+	body{
+		width:1000px;
+	}
+	
+}

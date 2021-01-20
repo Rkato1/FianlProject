@@ -17,15 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
+import com.kh.camp.model.vo.SiteVO;
 import com.kh.camp.used.vo.FileNameOver;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.operator.model.service.OperatorService;
 import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
-import com.kh.reserve.model.vo.ReserveCampVO;
 import com.kh.review.model.service.ReviewService;
-import com.kh.review.model.vo.ReviewCampVO;
 import com.kh.review.model.vo.ReviewCommentVO;
 import com.kh.review.model.vo.ReviewPageData;
 import com.kh.review.model.vo.ReviewViewData;
@@ -49,7 +48,6 @@ private boolean isOperator = false;
 		}
 	}
 
-	
 	@RequestMapping("/operatorpage.do")
 	public String operatorPage(HttpSession session,Model model) { //세션을 가져와 멤버등급이 2가아닌경우 메인페이지로 돌려보냄.
 		MemberVO member = (MemberVO) session.getAttribute("m");
@@ -229,7 +227,7 @@ private boolean isOperator = false;
 			c.setPictureList(fileList);
 			int result = service.updateCamp(c);
 			if(result>0) {
-				model.addAttribute("msg","탬핑장이 수정 되었습니다.");
+				model.addAttribute("msg","캠핑장이 수정 되었습니다.");
 			}else {
 				model.addAttribute("msg","수정실패");
 			}
@@ -394,10 +392,17 @@ private boolean isOperator = false;
 	}
 	
 	@RequestMapping("/opMypage.do")
-	public String opUpdateMember(int memberNo, String memberId, Model model) {
-		MemberVO member = mService.mypageMember(memberNo);
-		model.addAttribute("m", member);
-		return "operator/member/opMypage";
+	public String opUpdateMember(HttpSession session,int memberNo, String memberId, Model model) {
+		MemberVO m = (MemberVO)session.getAttribute("m");
+		if(m!=null) {
+			MemberVO member = mService.mypageMember(memberNo);
+			model.addAttribute("m", member);
+			return "operator/member/opMypage";
+		}else {
+			model.addAttribute("msg", "로그인 후 이용해 주시기 바랍니다.");
+			model.addAttribute("loc", "/loginFrm.do");
+			return "common/msg";
+		}
 	}
 	
 	@RequestMapping("/opUpdateMember.do")
@@ -409,6 +414,137 @@ private boolean isOperator = false;
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
 		} 
 		model.addAttribute("loc", "/operatorpage.do");
+		return "common/msg";
+	}
+	@RequestMapping("/opCampSite.do")
+	public String opCampSite(CampVO c,Model model) {
+		CampVO camp = service.selectOneCamp(c);
+		ArrayList<SiteVO> sList = service.selectSiteList(c);
+		ArrayList<String> categorys = service.selectCategorys(c.getCampNo());
+		
+		model.addAttribute("siteList",sList);
+		model.addAttribute("camp",camp);
+		model.addAttribute("categorys",categorys);
+		
+		return "operator/site/opCampSite";
+	}
+	@RequestMapping("/opCampSiteForm.do")
+	public String opCampSiteForm(CampVO c,Model model) {
+		CampVO camp = service.selectOneCamp(c);
+		ArrayList<String> categorys = service.selectCategorys(c.getCampNo());
+		model.addAttribute("camp",camp);
+		model.addAttribute("categorys",categorys);
+		return "operator/site/opCampSiteForm";
+	}
+	@RequestMapping("/insertSite.do")
+	public String insertSite(SiteVO s,Model model,HttpSession session) {
+		CampVO c = new CampVO();
+		c.setCampNo(s.getCampNo());
+		CampVO camp = service.selectOneCamp(c);
+		MemberVO member = (MemberVO)session.getAttribute("m");
+		if(camp.getMemberNo()==member.getMemberNo()) {
+			int result = service.insertSite(s);
+			if(result>0) {
+				model.addAttribute("msg", "사이트가 등록되었습니다.");
+			}else {
+				model.addAttribute("msg", "등록실패. 관리자에게 문의하세요");
+			}
+			model.addAttribute("loc", "/opCampSite.do?campNo="+c.getCampNo());
+		}else {
+			model.addAttribute("msg", "사업자가 아닙니다.");
+			model.addAttribute("loc", "/campList.do?reqPage=1");
+		}
+		return "common/msg";
+	}
+	@RequestMapping("/siteUpdateForm.do")
+	public String siteUpdateForm(SiteVO s,Model model) {
+		CampVO c = new CampVO();
+		c.setCampNo(s.getCampNo());
+		CampVO camp = service.selectOneCamp(c);
+		SiteVO site = service.selectOneSite(s.getSiteNo());
+		
+		model.addAttribute("camp",camp);
+		model.addAttribute("site",site);
+	
+		return "operator/site/opCampSiteUpdateForm";
+	}
+		
+	@RequestMapping("/updateSite.do")
+	public String updateSite(SiteVO s,Model model,HttpSession session) {
+		CampVO c = new CampVO();
+		c.setCampNo(s.getCampNo());
+		CampVO camp = service.selectOneCamp(c);
+		MemberVO member = (MemberVO)session.getAttribute("m");
+		if(camp.getMemberNo()==member.getMemberNo()) {
+			int result = service.updateSite(s);
+			if(result>0) {
+				model.addAttribute("msg", "사이트가 수정되었습니다.");
+			}else {
+				model.addAttribute("msg", "수정실패. 관리자에게 문의하세요");
+			}
+			model.addAttribute("loc", "/opCampSite.do?campNo="+c.getCampNo());
+		}else {
+			model.addAttribute("msg", "사업자가 아닙니다.");
+			model.addAttribute("loc", "/campList.do?reqPage=1");
+		}
+		return "common/msg";
+	}
+	@RequestMapping("/updateInfoImg.do")
+	public String updateInfoImg(CampVO c,HttpServletRequest request,MultipartFile file,HttpSession session,Model model) {
+		System.out.println("컨트롤러 메인: "+file.isEmpty());
+		MemberVO member = (MemberVO)session.getAttribute("m");
+		CampVO camp = service.selectOneCamp(c);
+		if(member!=null&&member.getMemberGrade()==2&&camp.getMemberNo()==member.getMemberNo()) {
+			String root = request.getSession().getServletContext().getRealPath("/");
+			String path = root + "/resources/upload/camp/";
+			CampPictureVO f = new CampPictureVO();
+			if(!file.isEmpty()) {
+				String mfilename = file.getOriginalFilename();
+				String mfilepath = new FileNameOver().rename(path, mfilename);
+				try {
+					byte[] mbytes = file.getBytes();
+					File upMFile = new File(path+mfilepath);
+					FileOutputStream fos = new FileOutputStream(upMFile);
+					BufferedOutputStream bos = new BufferedOutputStream(fos);
+					bos.write(mbytes);
+					bos.close();
+					f.setFilename(mfilename);
+					f.setFilepath(mfilepath);
+					f.setCampNo(c.getCampNo());
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			int result = service.updateInfoImg(f);
+			if(result>0&&!file.isEmpty()) {
+				model.addAttribute("msg","캠핑배치도가 수정되었습니다.");
+			}else {
+				model.addAttribute("msg","수정 실패");
+			}
+			model.addAttribute("msg","수정 실패");
+		}
+		model.addAttribute("loc", "/opCampSite.do?campNo="+c.getCampNo());
+		return "common/msg";
+	}
+	@RequestMapping("/deleteSite.do")
+	public String deleteSite(SiteVO s,Model model,HttpSession session) {
+		CampVO c = new CampVO();
+		c.setCampNo(s.getCampNo());
+		CampVO camp = service.selectOneCamp(c);
+		MemberVO member = (MemberVO)session.getAttribute("m");
+		if(camp.getMemberNo()==member.getMemberNo()) {
+			int result = service.deleteSite(s.getSiteNo());
+			if(result>0) {
+				model.addAttribute("msg", "사이트가 삭제되었습니다.");
+			}else {
+				model.addAttribute("msg", "삭제실패. 관리자에게 문의하세요");
+			}
+			model.addAttribute("loc", "/opCampSite.do?campNo="+c.getCampNo());
+		}else {
+			model.addAttribute("msg", "사업자가 아닙니다.");
+			model.addAttribute("loc", "/campList.do?reqPage=1");
+		}
 		return "common/msg";
 	}
 }

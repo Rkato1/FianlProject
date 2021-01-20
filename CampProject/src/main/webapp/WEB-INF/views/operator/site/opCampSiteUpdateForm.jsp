@@ -22,12 +22,13 @@
 			
 			<div class="content" style="width:100%;">
 				<div class="tbl-wrapper"  style="margin:0 auto;">
-					<form action="/insertSite.do" method="post">
-					<input type="hidden" value="${camp.campNo }" name="campNo">
+					<form action="/updateSite.do" method="post">
+					<input type="hidden" name="siteNo" value="${site.siteNo }">
+					<input type="hidden" name="campNo" value="${camp.campNo }">
 					<table class="table">
 						<tr>
 							<th class="th-info" style="width:20%;">사이트 카테고리</th>
-							<td><input type="text" name="siteTitle" class="input-s" maxlength="10"></td>
+							<td><input type="text" name="siteTitle" class="input-s" maxlength="10" value="${site.siteTitle }"></td>
 							<td>
 								<c:if test="${fn:length(categorys)!=0}">
 									<select id="selct" class="input-s">
@@ -40,7 +41,7 @@
 						</tr>
 						<tr>
 							<th class="th-info">사이트 이름</th>
-							<td><input type="text" name="siteName" class="input-s" maxlength="10"></td>
+							<td><input type="text" name="siteName" class="input-s" maxlength="10" value="${site.siteName}"></td>
 							<td></td>
 						</tr>
 					</table>
@@ -55,13 +56,13 @@
 							<th>추가차량금액</th>
 						</tr>
 						<tr>
-							<td><input type="number" name="minCnt" min="1" class="input-s">명</td>
-							<td><input type="number" name="maxCnt" min="1" class="input-s">명</td>
-							<td><input type="number" name="minNight" min="1" class="input-s">박</td>
-							<td><input type="number" name="maxNight" min="1" class="input-s">박</td>
-							<td><input type="number" name="discountPay" min="1000" class="input-s" step="1000">원</td>
-							<td><input type="number" name="addCntPay" min="1000" class="input-s" step="1000">원</td>
-							<td><input type="number" name="addCarPay" min="1000" class="input-s" step="1000">원</td>
+							<td><input type="number" name="minCnt" min="1" class="input-s" value="${site.minCnt }">명</td>
+							<td><input type="number" name="maxCnt" min="1" class="input-s" value="${site.maxCnt }">명</td>
+							<td><input type="number" name="minNight" min="1" class="input-s" value="${site.minNight }">박</td>
+							<td><input type="number" name="maxNight" min="1" class="input-s" value="${site.maxNight }">박</td>
+							<td><input type="number" name="discountPay" min="1000" class="input-s" step="1000" value="${site.discountPay }">원</td>
+							<td><input type="number" name="addCntPay" min="1000" class="input-s" step="1000" value="${site.addCntPay }">원</td>
+							<td><input type="number" name="addCarPay" min="1000" class="input-s" step="1000" value="${site.addCarPay }">원</td>
 						</tr>
 					</table>
 					<table class="table table-bordered">
@@ -73,20 +74,20 @@
 						</tr>
 						<tr>
 							<th>주중</th>
-							<td><span><input type="number" name="lowDayPay" min="1000" class="input-s" step="1000"></span>원</td>
-							<td><span><input type="number" name="peakDayPay" min="1000" class="input-s" step="1000"></span>원</td>
-							<td><span><input type="number" name="polarDayPay" min="1000" class="input-s" step="1000"></span>원</td>
+							<td><span><input type="number" name="lowDayPay" min="1000" class="input-s" step="1000" value="${site.lowDayPay }"></span>원</td>
+							<td><span><input type="number" name="peakDayPay" min="1000" class="input-s" step="1000" value="${site.peakDayPay }"></span>원</td>
+							<td><span><input type="number" name="polarDayPay" min="1000" class="input-s" step="1000" value="${site.polarDayPay }"></span>원</td>
 						</tr>
 						<tr>
 							<th>주말</th>
-							<td><span><input type="number" name="lowEndPay" min="1000" class="input-s" step="1000"></span>원</td>
-							<td><span><input type="number" name="peakEndPay" min="1000" class="input-s" step="1000"></span>원</td>
-							<td><span><input type="number" name="polarEndPay" min="1000" class="input-s" step="1000"></span>원</td>
+							<td><span><input type="number" name="lowEndPay" min="1000" class="input-s" step="1000" value="${site.lowEndPay }"></span>원</td>
+							<td><span><input type="number" name="peakEndPay" min="1000" class="input-s" step="1000" value="${site.peakEndPay }"></span>원</td>
+							<td><span><input type="number" name="polarEndPay" min="1000" class="input-s" step="1000" value="${site.polarEndPay }"></span>원</td>
 						</tr>
 					</table>
 				</div>			
 				<div class="btn-wrapper">
-					<input type="submit" class="btn-update" value="등록하기">
+					<input type="submit" class="btn-update" value="수정하기">
 					<button type="button" class="btn-cancel" onclick="location.href='/opCampSite.do?campNo=${camp.campNo}'">취소</button>
 				</div>
 				</form>

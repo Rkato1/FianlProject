@@ -1,0 +1,10 @@
+@charset "UTF-8";
+.input-s{
+	width:80%;
+	outline: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.th-info{
+	background-color: #eee;
+}
