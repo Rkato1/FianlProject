@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.kh.reserve.model.vo.ReserveVO;
 
 import lombok.Data;
-
 @Data
 public class ReserveVOPageData {
 	ArrayList<ReserveVO> list;

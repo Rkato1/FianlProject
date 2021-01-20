@@ -16,11 +16,8 @@
 <link rel="stylesheet" href="/css/admin/admin.css">
 <script src="/js/admin/admin.js"></script>
 <!-- 따로 변화하지 않으면 후기에서만 검색 -->
-<!-- 이거 현재는 관리자 댓글제외하곤 다 답변안한거로 옴 -->
-<!-- 완벽한 로직을 위해서는 후기글이 관리자 답변된게 있으면 답변한글 -->
+<!-- 로직을 위해서는 후기글이 관리자 답변된게 있으면 답변한글 -->
 <!-- 후기글이 관리자 답변된게 없으면 답변하지 않은글 -->
-<!-- 페이징 처리까지 해야됨-->
-<!-- select-option으로 분할하기 -->
 <script>
 	function setValues(){
 		var option = $("#option option:selected").val();
@@ -37,7 +34,7 @@
         <p class="title">고객센터</p>
             <div class="real-content">
                 <div class="members">
-                	<select id="option">
+                	<select class="option" id="option">
 				   		<option value="answer">답변한 글들</option>
 				   		<option value="notanswer">답변하지 않은 글들</option>
 				   	</select>
@@ -64,7 +61,7 @@
 	                        	<td>${rc.reviewNo}</td>
 	                        	<td>${rc.memberId}</td>
 	                        	<td>${rc.reserveNo}</td>
-	                        	<td>${rc.reviewTitle}</td>
+	                        	<td><a href="/reviewView.do?reviewNo=${rc.reviewNo }&campNo=${rc.campNo}">${rc.reviewTitle}</a></td>
 	                        	<td>${rc.reviewContent}</td>
 	                        	<td>${rc.reviewDate}</td>
 	                        	<td>${rc.reviewPoint}</td>
@@ -92,7 +89,7 @@
 	                        	<td>${rc.reviewNo}</td>
 	                        	<td>${rc.memberId}</td>
 	                        	<td>${rc.reserveNo}</td>
-	                        	<td>${rc.reviewTitle}</td>
+	                        	<td><a href="/reviewView.do?reviewNo=${rc.reviewNo }&campNo=${rc.campNo}">${rc.reviewTitle}</a></td>
 	                        	<td>${rc.reviewContent}</td>
 	                        	<td>${rc.reviewDate}</td>
 	                        	<td>${rc.reviewPoint}</td>

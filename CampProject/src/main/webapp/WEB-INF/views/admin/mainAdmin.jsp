@@ -25,7 +25,10 @@
                 <div class="members">
                     <p class="title">관리자메인</p>
                 </div>
-                <a href="/noticeList.do?reqPage=1">공지사항</a>
+                <div style="width:100%;">
+                	<img src="/img/admin/noticeImage.jpg" style="width:60%; max-width:540px;"><br>
+                	<a href="/noticeList.do?reqPage=1" style="width:100%;font-size:4em;">공지사항 관리하러 가기</a>
+                </div>
             </div>
         </div>
 
