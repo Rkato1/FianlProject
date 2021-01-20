@@ -208,7 +208,7 @@ public class OperatorService {
 		if(result1>0) {
 			result2 = dao.deleteCampPicture(campNo);
 		}
-		return result2;
+		return result1;
 	}
 
 	public int insertCamp(CampVO c) {
@@ -281,6 +281,10 @@ public class OperatorService {
 
 	public int updateInfoImg(CampPictureVO f) {
 		return dao.updateInfoImg(f);
+	}
+
+	public int insertInfoImg(CampPictureVO f) {
+		return dao.insertInfoImg(f);
 	}
 
 }

@@ -489,9 +489,46 @@ private boolean isOperator = false;
 		}
 		return "common/msg";
 	}
+	@RequestMapping("/insertInfoImg.do")
+	public String insertInfoImg(CampVO c,HttpServletRequest request,MultipartFile file,HttpSession session,Model model) {
+		MemberVO member = (MemberVO)session.getAttribute("m");
+		CampVO camp = service.selectOneCamp(c);
+		if(member!=null&&member.getMemberGrade()==2&&camp.getMemberNo()==member.getMemberNo()) {
+			String root = request.getSession().getServletContext().getRealPath("/");
+			String path = root + "/resources/upload/camp/";
+			CampPictureVO f = new CampPictureVO();
+			if(!file.isEmpty()) {
+				String filename = file.getOriginalFilename();
+				String filepath = new FileNameOver().rename(path, filename);
+				try {
+					byte[] mbytes = file.getBytes();
+					File upMFile = new File(path+filepath);
+					FileOutputStream fos = new FileOutputStream(upMFile);
+					BufferedOutputStream bos = new BufferedOutputStream(fos);
+					bos.write(mbytes);
+					bos.close();
+					f.setFilename(filename);
+					f.setFilepath(filepath);
+					f.setFileGrade(3);
+					f.setCampNo(c.getCampNo());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			int result = service.insertInfoImg(f);
+			if(result>0) {
+				model.addAttribute("msg","캠핑배치도가 등록되었습니다.");
+			}else {
+				model.addAttribute("msg","등록 실패");
+			}
+		}else {
+			model.addAttribute("msg","사업자가 아닙니다.");
+		}
+		model.addAttribute("loc", "/opCampSite.do?campNo="+c.getCampNo());
+		return "common/msg";
+	}
 	@RequestMapping("/updateInfoImg.do")
 	public String updateInfoImg(CampVO c,HttpServletRequest request,MultipartFile file,HttpSession session,Model model) {
-		System.out.println("컨트롤러 메인: "+file.isEmpty());
 		MemberVO member = (MemberVO)session.getAttribute("m");
 		CampVO camp = service.selectOneCamp(c);
 		if(member!=null&&member.getMemberGrade()==2&&camp.getMemberNo()==member.getMemberNo()) {
@@ -510,19 +547,19 @@ private boolean isOperator = false;
 					bos.close();
 					f.setFilename(mfilename);
 					f.setFilepath(mfilepath);
+					f.setFileGrade(3);
 					f.setCampNo(c.getCampNo());
 					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				int result = service.updateInfoImg(f);
+				if(result>0&&!file.isEmpty()) {
+					model.addAttribute("msg","캠핑배치도가 수정되었습니다.");
+				}else {
+					model.addAttribute("msg","수정 실패");
+				}
 			}
-			int result = service.updateInfoImg(f);
-			if(result>0&&!file.isEmpty()) {
-				model.addAttribute("msg","캠핑배치도가 수정되었습니다.");
-			}else {
-				model.addAttribute("msg","수정 실패");
-			}
-			model.addAttribute("msg","수정 실패");
 		}
 		model.addAttribute("loc", "/opCampSite.do?campNo="+c.getCampNo());
 		return "common/msg";
@@ -546,5 +583,22 @@ private boolean isOperator = false;
 			model.addAttribute("loc", "/campList.do?reqPage=1");
 		}
 		return "common/msg";
+	}
+	@RequestMapping("/siteInfoPictureForm.do")
+	public String siteInfoPictureForm(CampVO c,Model model) {
+		CampVO camp = service.selectOneCamp(c);
+		model.addAttribute("camp",camp);
+		return "operator/site/opCampSitePicture";
+	}
+	@RequestMapping("/opCampSitePictureUpdateForm.do")
+	public String siteInfoPictureUpdateForm(CampVO c,Model model) {
+		CampVO camp = service.selectOneCamp(c);
+		model.addAttribute("camp",camp);
+		return "operator/site/opCampSiteUpdatePicture";
+	}
+	@RequestMapping("/opReservationList.do")
+	public String selectReservationList(int campNo) {
+		
+		return "operator/reserve/opReservationList";
 	}
 }

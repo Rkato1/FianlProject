@@ -13,10 +13,10 @@
 	<section>
         <div class="content" style="margin:0 auto">
             <div style="margin:0 auto">
-	             <h4>시설 배치도 등록</h4>
+	             <h4>시설 배치도 수정</h4>
 	             <hr>
 	             <h6>배치도로 사용할 사진을 선택해 주세요.</h6>
-	             <form action="/insertInfoImg.do" method="post" enctype="multipart/form-data">
+	             <form action="/updateInfoImg.do" method="post" enctype="multipart/form-data">
 	             <input type="hidden" name="campNo" value="${camp.campNo }">
 	                <table class="table">
 	                	<tr>
@@ -34,10 +34,7 @@
     </section>    
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     <script>
-    function back(){
-		location.href='/opCampSite.do?campNo=${camp.campNo}';
-	}
-    $("[type=submit]").click(function(){
+	$("[type=submit]").click(function(){
 		if($("[name=file]").val()==""){
 			alert("이미지를 선택해주세요.");
 			return false;
@@ -47,12 +44,15 @@
 		chk_file_type($(this));
 	});
 	function chk_file_type(obj) {
-		var ext = $(obj).val().split('.').pop().toLowerCase();
-		if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
-			alert('gif, png, jpg, jpeg 파일만 업로드 할수 있습니다.');
-		    $("[name=file]").val("");
-		    return;
+		 var ext = $(obj).val().split('.').pop().toLowerCase();
+		    if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+		        alert('gif, png, jpg, jpeg 파일만 업로드 할수 있습니다.');
+		        $("[name=file]").val("");
+		        return;
+		    }
 		}
+	function back(){
+		location.href='/opCampSite.do?campNo=${camp.campNo}';
 	}
     </script>
 </body>

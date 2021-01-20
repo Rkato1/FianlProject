@@ -98,7 +98,10 @@ public class OperatorDao {
 		return sqlSession.selectOne("camp.selectOneSite", siteNo);
 	}
 	public int updateInfoImg(CampPictureVO f) {
-		return sqlSession.insert("camp.updateInfoImg", f);
+		return sqlSession.update("camp.updateInfoImg", f);
+	}
+	public int insertInfoImg(CampPictureVO f) {
+		return sqlSession.insert("camp.insertCampPicture", f);
 	}
 
 }

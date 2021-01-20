@@ -29,6 +29,37 @@
                 </ul>
             </div>
 			<div class="content">
+				<table class="table table-hover">
+                        <tr>
+                            <th>예약번호</th>
+                            <th>회원번호</th>
+                            <th>캠핑장번호</th>
+                            <th>입실일</th>
+                            <th>퇴실일</th>                            
+                            <th>예약상태</th>
+                            <th>예약주소</th>
+                            <th>예약가격</th>
+                            <th>비밀번호</th>
+                            <th>차번호</th>
+                            <th>예약메모</th>
+                        </tr>
+                        <c:forEach items="${list }" var="r">
+						<tr>
+							<td>${r.reserveNo }</td>
+							<td>${r.memberNo }</td>
+							<td>${r.campNo }</td>
+							<td>${r.checkInDate }</td>
+							<td>${r.checkOutDate }</td>
+							<td>${r.reserveStatus }</td>
+							<td>${r.reservePlace }</td>
+							<td>${r.reservePrice }</td>
+							<td>${r.reservePw }</td>
+							<td>${r.carNumber }</td>
+							<td>${r.reserveMemo }</td>
+                       	</tr>
+                       	</c:forEach>
+                    </table>
+                    <div id= "pageNavi">${pageNavi }</div>
 			</div>
 		</div>
 	</section>

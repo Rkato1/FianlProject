@@ -47,12 +47,12 @@
 	                	<c:choose>
 		                	<c:when test="${picture != null }">
 		                		<div class="img-wrapper"><img src="/resources/upload/camp/${picture.filename}"/></div>
-		                		<button class="btn-update" onclick="location.href='/opCampSitePictureUpdate.do?campNo=${picture.pictNo}'">사진 수정</button>
+		                		<button class="btn-update" onclick="location.href='/opCampSitePictureUpdateForm.do?campNo=${camp.campNo}'">사진 수정</button>
 		                	</c:when>
 		                	<c:otherwise>
 		                		<div>
 			                		<div style="height: 100px;line-height: 100px;">캠핑장에 대한 시설 배치도가 존재하지 않습니다.</div>
-			                		<button class="btn-update" onclick="location.href='/opCampSitePicture.do?campNo=${camp.campNo}'">사진 등록</button>
+			                		<button class="btn-update" onclick="location.href='/siteInfoPictureForm.do?campNo=${camp.campNo}'">사진 등록</button>
 			                	</div>
 		                	</c:otherwise>
 	                	</c:choose>
