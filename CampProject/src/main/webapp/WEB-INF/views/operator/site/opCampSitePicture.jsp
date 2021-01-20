@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>CAC : 사업자 페이지 배치도 등록</title>
 <link href="../css/operator/opCampForm.css" type="text/css" rel="stylesheet">
 <link href="../css/operator/btn.css" type="text/css" rel="stylesheet">
 </head>

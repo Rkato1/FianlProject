@@ -277,7 +277,6 @@
 	<update id="updateMainImg" parameterType="campPicture">
 		update camp_picture set filename=#{filename},filepath=#{filepath} where camp_no=#{campNo} and filegrade = 1
 	</update>
-<<<<<<< HEAD
 	<update id="updateInfoImg" parameterType="campPicture">
 		update camp_picture set filename=#{filename},filepath=#{filepath} where camp_no=#{campNo} and filegrade = 3
 	</update>
@@ -370,7 +369,6 @@
 		from site
 		where site_no = #{siteNo}
 	</select>
-=======
 	<select id="campSearchListObject2" parameterType="String" resultType="_int">
 	select
 		camp_no as campNo
@@ -426,5 +424,4 @@
 		n)
            where rnum between #{start} and #{end}
 	</select>	
->>>>>>> gayoung_main
 </mapper>

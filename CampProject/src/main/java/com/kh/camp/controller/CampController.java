@@ -56,9 +56,6 @@ public class CampController {
 		model.addAttribute("value", value);
 		return "camp/campList";
 	}
-<<<<<<< HEAD
-
-=======
 	
 	@RequestMapping("/searchCampListTest.do")
 	public String searchCampListTest(Model model,int reqPage,String value,String startDate,String endDate) {
@@ -69,5 +66,4 @@ public class CampController {
 		model.addAttribute("value", value);
 		return "camp/campList";
 	}
->>>>>>> main
 }
