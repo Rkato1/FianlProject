@@ -128,14 +128,13 @@ window.onload = function() {
         <div class="admin-content">
             <div class="real-content">
                 <div class="members">
-	                <select id="option">
+	                <select class="option" id="option">
 				   		<option value="reviewPoint">평점</option>
 				   		<option value="sales">매출</option>
 				   	</select>
 				   	<button id="okBtn" onclick="setValues()">조회</button>
                    	<p class="title">우수캠핑장선정</p>
                    	<div id="chartContainer" style="height: 65%; width: 100%;"></div>
-                   	<!-- div id="chartContainer" style="height: 65%; width: 100%;"></div-->
 					<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
                 </div>
             </div>

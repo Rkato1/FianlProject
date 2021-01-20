@@ -1,0 +1,149 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+.content {
+	display: flex;
+	justify-content: center;
+}
+
+.items {
+	width: 1200px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.item {
+	width: 100%;
+}
+
+.carousel-inner img {
+	width: 100%;
+}
+
+.pdLlnb1 {
+	border-bottom: 1px #ddd solid;
+}
+
+.bg {
+	background-color: #f2f2f2;
+}
+
+.center {
+	text-align: center;
+}
+
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
+.b {
+	font-weight: bold;
+	letter-spacing: -0.05em;
+}
+
+.ln_l {
+	border-left: 1px solid #ddd;
+}
+
+.ln_r {
+	border-right: 1px solid #ddd;
+}
+
+.ln_t {
+	border-top: 1px solid #ddd;
+}
+
+.ln_b {
+	border-bottom: 1px solid #ddd;
+}
+
+.line2 {
+	background-color: #ccc;
+	height: 1px;
+}
+
+.line3 {
+	background-color: #ddd;
+	height: 1px;
+}
+
+.list0 {
+	background-color: #fff;
+}
+
+.list1 {
+	background-color: #f8f8f8;
+}
+
+.ht {
+	height: 30px;
+}
+
+.col1 {
+	color: #616161;
+}
+
+.price {
+	color: #ff0000;
+}
+
+.col {
+	display: table-column;
+}
+
+.section {
+	background-color: #F5F5F5;
+	font-weight: bold;
+	text-align: center;
+}
+
+.button {
+	margin: 10px 0 0 0;
+	padding: 12px 0 10px 0;
+	border: 1px solid #EBEBEB;
+	background: #F5F5F5;
+	text-align: center;
+}
+
+.inputBox {
+	width: 50%;
+}
+
+.readonly {
+	background-color: #a0a0a0;
+}
+
+#myModal {
+	top: 30%;
+	margin-top: -50px;
+}
+
+.inputDiv {
+	overflow: hidden;
+}
+
+.inputDiv>input {
+	margin-left: 10px;
+}
+
+.inputDiv>* {
+	display: block;
+	float: left;
+}
+
+#inputMemo {
+	width: 90%;
+}

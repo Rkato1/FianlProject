@@ -16,6 +16,7 @@ import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.reserve.model.vo.ReserveDatesVO;
 
 @Service
 public class CampService {
@@ -98,6 +99,7 @@ public class CampService {
 		String endDate = sdf.format(cal.getTime()); //종료 날짜 저장
 		cal = Calendar.getInstance(); // end날짜 설정후 한번더 초기화
 		int idx = 0;
+		ArrayList<String> dateList = new ArrayList<String>();
 		//시작날짜부터 끝나는 날짜까지 반복
 		while (!startDate.equals(endDate)) {// 다르면 반복,같으면 종료
 			//날짜기준 campNo로 memberNo가 0인지 아닌지 구분하여 예약가능 개수파악
@@ -119,11 +121,14 @@ public class CampService {
 				events += "{id: '"+(++idx)+"', title: '예약가능("+(reserveTotalCount-reserveUnableCnt)+"/"+reserveTotalCount+")', start: '"+startDate+"', color : 'green', url:'/reserveWriteFrm.do?campNo="+c.getCampNo()+"&date="+startDate+"' },";
 			}else {
 				//예약 불가능
-				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red'},";	
+				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo=\"+c.getCampNo()+\"&date=\"+startDate+\"' },";	
 			}			
+			dateList.add(startDate);
 			cal.add(Calendar.DATE, 1); // 1일 더해준다
-			startDate = sdf.format(cal.getTime());
+			startDate = sdf.format(cal.getTime());			
 		}
+		ReserveDatesVO rdv = new ReserveDatesVO();
+		rdv.setDateList(dateList);
 		if(idx != 0) {
 			events = events.substring(0, events.length()-1); //{}를 만들었다면 마지막 ',' 지우기
 		}	
@@ -135,6 +140,7 @@ public class CampService {
 		CampEventData ced = new CampEventData();
 		ced.setCamp(camp);
 		ced.setEvents(events);
+		ced.setReserveDates(rdv);
 		//ced.setNoticeList(noticeList);
 		return ced;
 	}
@@ -216,6 +222,63 @@ public class CampService {
 		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
 		String pageNavi = "";
 		String repeatStr = "<a class='btn btn-outline-dark navi-btn' href='/searchCampList.do?keyword="+keyword+"&value="+value+"&reqPage=";
+		if (pageNo != 1) {
+			pageNavi += repeatStr + (pageNo - 1) + "'>이전</a>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (pageNo != reqPage) {
+				pageNavi += repeatStr + pageNo + "'>" + pageNo + "</a>";// <a href='/noticeList.do?reqPage=1'>1</a>
+			} else {
+				pageNavi += "<span class='btn btn-outline-dark navi-btn'>" + pageNo + "</span>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		if (pageNo <= totalPage) {
+			pageNavi += repeatStr + (pageNo) + "'>다음</a>";
+		}
+		CampPageData cpd = new CampPageData();
+		cpd.setList(list);
+		cpd.setPageNavi(pageNavi);
+		return cpd;
+	}
+	
+	public CampPageData campSearchList(int reqPage, String value, String startDate, String endDate) {
+		int numPerPage = 20;
+		int end = reqPage * numPerPage;
+		int start = end - numPerPage + 1;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("value", value);
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("start", startDate);
+		map2.put("end", endDate);
+		ArrayList<CampVO> list = dao.campSearchListObject(map, map2);
+		
+		map.put("filegrade", 1);
+		for (CampVO c : list) {
+			map.put("campNo", c.getCampNo());
+			ArrayList<CampPictureVO> pictureList = dao.selectPictureListObject(map);
+			if(pictureList.size()>0) {
+				c.setPictureList(pictureList);
+			}
+			ArrayList<SiteVO> siteList = dao.selectSiteListMapObject(map);
+			if(siteList.size()>0) {
+				c.setSiteList(siteList);
+			}
+		}
+		int totalCount = dao.totalSearchCount(map,map2);
+		int totalPage = totalCount / numPerPage;
+		if (totalCount % numPerPage != 0) {
+			totalPage++;
+		}
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		String pageNavi = "";
+		String repeatStr = "<a class='btn btn-outline-dark navi-btn' href='/searchCampList.do?value="+value+"&reqPage=";
 		if (pageNo != 1) {
 			pageNavi += repeatStr + (pageNo - 1) + "'>이전</a>";
 		}

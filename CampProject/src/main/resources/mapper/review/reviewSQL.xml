@@ -67,59 +67,21 @@
 			camp_ph as campPh,
 			camp_period as campPeriod,
 			camp_day as campDay,
-			camp_facility as campFacility,
+			camp_facility as campFacility
+			<!-- 
 			camp_fee_ori_day as campFeeOriDay,
 			camp_fee_ori_end as campFeeOriEnd,
 			camp_fee_peak_day as campFeePeakDay,
 			camp_fee_peak_end as campFeePeakEnd
+			-->
 		from camp where camp_no = #{_parameter}	
 	</select>
-	
-	<select id="selectCntComment" parameterType="_int" resultType="_int">
-		select 
-			(count(*))cnt
-		from review_comment where review_no=#{_parameter}
-	</select>
-	
-	<select id="selectListComment" parameterType="_int" resultType="reviewComment">
-		select
-			review_comment_no as reviewCommentNo,
-			review_comment_level as reviewCommentLevel,
-			review_comment_writer as reviewCommentWriter,
-			review_comment_content as reviewCommentContent,
-			review_no as reviewNo,
-			review_comment_ref as reviewCommentRef,
-			review_comment_date as reviewCommentDate
-		from review_comment	where review_no = #{_parameter} order by 1
-	</select>
-	
-	<insert id="insertReviewComment" parameterType="reviewComment">
-		insert into review_comment values(
-			revc_seq.nextval,
-			#{reviewCommentLevel},
-			#{reviewCommentWriter},
-			#{reviewCommentContent},
-			#{reviewNo},
-			#{reviewCommentRef},
-			to_char(sysdate,'yyyy-mm-dd')
-		)
-	</insert>
 	
 	<select id="searchCampNo" parameterType="_int" resultType="_int">
 		select 
 			camp_no
 		from review where review_no=#{_parameter}
 	</select>
-	
-	<update id="updateReviewComment" parameterType="reviewComment">
-		update review_comment
-		set review_comment_content = #{reviewCommentContent}
-		where review_comment_no = #{reviewCommentNo}	
-	</update>
-	
-	<delete id="deleteReviewComment" parameterType="_int">
-		delete from review_comment where review_comment_no = #{_parameter}
-	</delete>
 	
 	<select id="selectListReserve" parameterType="_int" resultType="reserveCamp">
 		select 
@@ -137,7 +99,8 @@
 			camp_name as campName
 		from reservation 
 		join camp on (reservation.camp_no = camp.camp_no)
-		where reservation.member_no=#{_parameter} order by 1 desc
+		where reservation.member_no=#{_parameter} and reserve_status='결제완료'
+		order by 1 desc
 	</select>
 	
 	<select id="searchKeyword" parameterType="hashMap" resultType="reviewCamp">		
@@ -238,5 +201,68 @@
 		where review_no = #{_parameter}
 	</select>
 	
+	<update id="updateReview" parameterType="review">
+		update review
+		set 
+			review_title = #{reviewTitle},
+			review_point = #{reviewPoint},
+			review_content = #{reviewContent}
+		where review_no = #{reviewNo}	
+	</update>
+	
+	<delete id="deleteReviewFilepath" parameterType="java.util.List">
+		delete from review_file 
+		where
+		<foreach collection="list" item="item" separator="or">
+		filepath = #{item}
+		</foreach>
+	</delete>
+	
+	<select id="selectReviewFilepath" parameterType="_int" resultType="String">		
+		select filepath from review_file
+		where review_no = #{_parameter}
+	</select>
+	
+	<!-- 댓글 -->
+	
+	<select id="selectCntComment" parameterType="_int" resultType="_int">
+		select 
+			(count(*))cnt
+		from review_comment where review_no=#{_parameter}
+	</select>
+	
+	<select id="selectListComment" parameterType="_int" resultType="reviewComment">
+		select
+			review_comment_no as reviewCommentNo,
+			review_comment_level as reviewCommentLevel,
+			review_comment_writer as reviewCommentWriter,
+			review_comment_content as reviewCommentContent,
+			review_no as reviewNo,
+			review_comment_ref as reviewCommentRef,
+			review_comment_date as reviewCommentDate
+		from review_comment	where review_no = #{_parameter} order by 1
+	</select>
+	
+	<insert id="insertReviewComment" parameterType="reviewComment">
+		insert into review_comment values(
+			revc_seq.nextval,
+			#{reviewCommentLevel},
+			#{reviewCommentWriter},
+			#{reviewCommentContent},
+			#{reviewNo},
+			#{reviewCommentRef},
+			to_char(sysdate,'yyyy-mm-dd')
+		)
+	</insert>
+	
+	<update id="updateReviewComment" parameterType="reviewComment">
+		update review_comment
+		set review_comment_content = #{reviewCommentContent}
+		where review_comment_no = #{reviewCommentNo}	
+	</update>
+	
+	<delete id="deleteReviewComment" parameterType="_int">
+		delete from review_comment where review_comment_no = #{_parameter}
+	</delete>
 	
 </mapper>

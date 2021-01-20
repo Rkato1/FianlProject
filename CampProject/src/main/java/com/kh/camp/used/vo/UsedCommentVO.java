@@ -11,4 +11,9 @@ public class UsedCommentVO {
 	private int usedNo;
 	private String commentRef;
 	private String commentDate;
+	
+	//getter 추가
+		public String getCommentContentBr() {
+			return commentContent.replace("\r\n", "<br>");
+		}
 }

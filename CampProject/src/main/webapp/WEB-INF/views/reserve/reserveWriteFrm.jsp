@@ -7,9 +7,6 @@
 <head>
 <!-- jQuery 호출 -->
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-<!-- ↓ 결제 모듈 API -->
-<!-- <script type="text/javascript"
-	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script> -->
 <!-- ↓ 모달창 호출 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -21,19 +18,15 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
 <title>예약상세보기</title>
-<style>
-#myModal {
-	top: 30%;
-	margin-top: -50px;
-}
-</style>
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/reserve/reserveWriteFrm.css">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<link href="../css/reserve/reserveWriteFrm.css" type="text/css"
-		rel="stylesheet">
-	<div class="modal fade" id="myModal">
-		<div class="modal-dialog">
+
+	<div class="modal fade" id="myModal"
+		style="z-index: 10000; padding: 0; margin: 0; top: 0; background-color: rgba(0, 0, 0, 0.5);">
+		<div class="modal-dialog" style="top: 30%;">
 			<div class="modal-content modal-dialog-centered">
 				<form method="post" action="/searchOneReserve.do">
 					<!-- Modal Header -->
@@ -46,8 +39,7 @@
 						type="hidden" name="campNo" value="${camp.campNo }"> <input
 						type="hidden" name="date" value="${date }">
 					<div class="modal-body">
-						예약 비밀번호 : <input type="text" id="modalPw" name="reservePw"
-							required>
+						예약 암호 : <input type="text" id="modalPw" name="reservePw" required>
 					</div>
 					<!-- Modal footer -->
 					<div class="modal-footer">
@@ -58,7 +50,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="content">
 		<div class="items">
 			<div class="item">
 				<h4>이용안내</h4>
@@ -149,7 +141,28 @@
 				</div>
 				<div class="item">
 					<h4>자리선택</h4>
-					예약일자 : ${date }<br>
+					<c:choose>
+						<c:when test="${sessionScope.reserveDates.size() > 0}">
+							예약일자 : <select id="reserveDates">
+								<c:forEach items="${sessionScope.reserveDates }" var="dates">
+									<c:choose>
+										<c:when test="${dates eq date }">
+											<option value="${dates }" selected="selected">${dates }</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${dates }">${dates }</option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</select>
+							<br>
+						</c:when>
+						<c:otherwise>
+							예약일자 : ${date}
+							<br>
+						</c:otherwise>
+					</c:choose>
+
 					<table width="100%" cellpadding="0" cellspacing="1">
 						<colgroup width></colgroup>
 						<colgroup width="10%"></colgroup>
@@ -233,7 +246,8 @@
 											<input type="hidden" class="siteChkbx" value="1">
 											${memberList[mIdx].memberName }
 											<c:set var="mIdx" value="${mIdx+1 }" />
-											<button type="button" class="modalbtn btn btn-primary"
+											<button type="button"
+												class="modalbtn btn btn-outline-dark btn-sm"
 												value="${reserveList[rIdx].reserveNo }" data-toggle="modal"
 												data-target="#myModal" style="height: 30px;">확인</button>
 											<c:set var="rIdx" value="${rIdx+1 }" />
@@ -274,15 +288,14 @@
 								<input type="hidden" class="listAddCarCnt" name="listAddCarCnt"
 									value="${s.addCarCnt}">
 								<c:choose>
-									<c:when test="${sessionScope.m != null }">
-										<input type="hidden" class="listMemberNo" name="listMemberNo"
-											value="${sessionScope.m.memberNo}">
+									<c:when test="${sessionScope.m == null}">
+										<input type="hidden" class="listMemberNo" name="listMemberNo" value="0">
 									</c:when>
 									<c:otherwise>
 										<input type="hidden" class="listMemberNo" name="listMemberNo"
-											value="${s.memberNo}">
+									value="${sessionScope.m.memberNo}">
 									</c:otherwise>
-								</c:choose>
+								</c:choose>								
 								<input type="hidden" class="listReservePay"
 									name="listReservePay" value="${s.reservePay}">
 								<input type="hidden" class="listReserveDate"
@@ -387,8 +400,8 @@
 							<tr class="list0 col1 ht center">
 								<td class="ln_r ln_l ln_b b bg" colspan="7" height="70"><b>총
 										결제 금액</b></td>
-								<td class="price"><b> <span id="total">0</span>원
-								</b></td>
+								<td class="price"><b><span id="total">0</span>원</b></td>
+								<td class="ln_r"></td>
 							</tr>
 							<tr>
 								<td colspan="9" class="line2"></td>
@@ -397,9 +410,10 @@
 					</table>
 				</div>
 			</div>
+			<br>
 			<div class="item">
-				<h4>예약자정보</h4>
-				<table class="infomation">
+				<h4>예약자 정보</h4>
+				<table class="infomation" width="100%">
 					<colgroup>
 						<col class="col01">
 						<col class="col02">
@@ -408,33 +422,68 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<td class="section" height="50">
+							<td colspan="6" class="line2" style="height: 1px;"></td>
+						</tr>
+						<tr>
+							<td class="section ln_r" height="50" width="100">
 								이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</td>
-							<td><input type="text" id="inputName" name="inputName"
-								required class="text" value="${sessionScope.m.memberName }"></td>
-							<td class="section">비밀번호</td>
-							<td><input type="text" name="inputPw" id="inputPw"
-								class="text" required> &nbsp;<br> <font
-								color="#66A2C8">* 8자리 이상, 영문 + 숫자 + 특수문자 조합하여 입력</font></td>
+							<td class="ln_r center" width="250">
+								<div class="inputDiv">
+									<input type="text" id="inputName" class="inputBox readonly"
+										required value="${sessionScope.m.memberName }" readonly>
+									<span class="inputSpan"><font color="#66A2C8">&nbsp;
+											로그인시 자동입력</font></span>
+								</div>
+							</td>
+							<td class="section ln_r" width="100">예약암호</td>
+							<td class="center" width="400">
+								<div class="inputDiv">
+									<input type="text" id="inputPw" class="inputBox" required
+										placeholder="직접입력해주세요."> <span class="inputSpan"><font
+										color="#66A2C8">&nbsp; 6~18자리 영어 대소문자/숫자 조합</font></span>
+								</div>
+							</td>
 						</tr>
 						<tr>
-							<td class="section" height="50">핸드폰번호</td>
-							<td><input type="text" name="inputPhone" id="inputPhone"
-								value="${sessionScope.m.memberPhone }" class="text" required>
-								&nbsp; <font color="#66A2C8"> '-' 포함 입력.</font></td>
-							<td class="section">차량번호</td>
-							<td><input type="text" id="inputCarNumber"
-								name="inputCarNumber" class="text"> &nbsp; <font
-								color="#66A2C8">※ 예) 01가 1234 전체 입력.</font></td>
+							<td colspan="6" class="line3" style="height: 1px;"></td>
 						</tr>
 						<tr>
-							<td class="section" height="50">메모/닉네임</td>
-							<td colspan="3"><input type="text" id="inputMemo"
-								name="inputMemo" style="width: 99%;" itemname="메모" class="text"></td>
+							<td class="section ln_r" height="50">핸드폰번호</td>
+							<td class="ln_r center">
+								<div class="inputDiv">
+									<input type="text" id="inputPhone" class="inputBox readonly"
+										value="${sessionScope.m.memberPhone }" required readonly>
+									<span class="inputSpan"><font color="#66A2C8">&nbsp;
+											로그인시 자동입력</font></span>
+								</div>
+							</td>
+							<td class="section ln_r">차량번호</td>
+							<td class="center">
+								<div class="inputDiv">
+									<input type="text" id="inputCarNumber" class="inputBox"
+										placeholder="직접입력해주세요."> <span class="inputSpan"><font
+										color="#66A2C8">&nbsp; ※ 예) 01가 1234, 서울 01가 1234</font></span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="6" class="line2" style="height: 1px;"></td>
+						</tr>
+						<tr>
+							<td class="section ln_r" height="50">메모/닉네임</td>
+							<td colspan="3" class="center">
+								<div class="inputDiv">
+									<input type="text" id="inputMemo" placeholder="직접입력해주세요.">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="6" class="line2" style="height: 1px;"></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
+			<br>
 			<div class="item">
 				<h4>준수사항</h4>
 				<hr>
@@ -447,7 +496,7 @@
 			</div>
 			<div class="item">
 				<form action="/insertReserve.do" method="post"
-					onsubmit="return checkFrm();">
+					onsubmit="return reserveInsert();">
 					<p class="button">
 						<input type="hidden" id="siteArr" name="siteArr">
 						<c:choose>
@@ -457,41 +506,115 @@
 							</c:when>
 							<c:otherwise>
 								<!-- 비회원용 -->
-								<!-- <input type="hidden" id="memberNo" name="memberNo" value="9999"> -->
+								<input type="hidden" id="memberNo" name="memberNo" value="0"> 
 							</c:otherwise>
 						</c:choose>
-						<input type="hidden" id="memberName" name="memberName"> 
-						<input type="hidden" id="campNo" name="campNo" value="${camp.campNo }">
-						<input type="hidden" id="campName" name="campName" value="${camp.campName }">
-						<input type="hidden" id="reservePlace" name="reservePlace" value="${camp.campAddr }"> 
-						<input type="hidden" id="checkInDate" name="checkInDate" value="${date }"> 
-						<input type="hidden" id="reserveStatus" name="reserveStatus" value="결제대기"> 
-						<input type="hidden" id="reservePrice"	name="reservePrice"> 
-						<input type="hidden" id="reservePw"	name="reservePw"> 
-						<input type="hidden" id="carNumber" name="carNumber"> 
-						<input type="hidden" id="reserveMemo" name="reserveMemo">
-						<input type="hidden" id="reserveTotal" name="reserveTotal"> 
-						<input type="hidden" id="date" name="date" value="${date }">
-						<input id="reserveBtn" type="submit" style="width: 90%; height: 28px;" value="예약하기"> 
-						<input id="reserveBtn2" type="hidden" style="width: 90%; height: 28px;" value="예약하기2">
+						<input type="hidden" id="memberName" name="memberName"> <input
+							type="hidden" id="campNo" name="campNo" value="${camp.campNo }">
+						<input type="hidden" id="campName" name="campName"
+							value="${camp.campName }"> <input type="hidden"
+							id="reservePlace" name="reservePlace" value="${camp.campAddr }">
+						<input type="hidden" id="checkInDate" name="checkInDate"
+							value="${date }"> <input type="hidden" id="reserveStatus"
+							name="reserveStatus" value="결제대기"> <input type="hidden"
+							id="reservePrice" name="reservePrice"> <input
+							type="hidden" id="reservePw" name="reservePw"> <input
+							type="hidden" id="carNumber" name="carNumber"> <input
+							type="hidden" id="reserveMemo" name="reserveMemo"> <input
+							type="hidden" id="reserveTotal" name="reserveTotal"> <input
+							type="hidden" id="date" name="date" value="${date }"> <input
+							id="reserveBtn" type="submit" class="btn btn-outline-dark btn-sm"
+							style="width: 90%; height: 28px;" value="예약하기">
 					</p>
 				</form>
 			</div>
 		</div>
 	</div>
-
-	<!-- js파일 호출 -->
-	<!-- <script src="../js/reserve/reserveWriteFrm.js"></script> -->
-
 	<script>
+		$(function() {
+			/* $("#reserveBtn").click(function(){				
+				var memberNo = $("memberNo").val();
+				if(memberNo>0){
+					memberNo = 1;
+				}else{
+					memberNo = 0;
+				}
+				if(memberNo == 0){
+					msg += " 로그인 ";
+					location.href = "/loginFrm.do";
+				}
+			}); */
+			var name = $("#inputName").val();
+			$("#memberName").val(name);
+			//예약암호 체크
+			$("#inputPw").change(
+					function() {
+						var reg = /^[A-Za-z0-9_-]{6,18}$/;
+						if (reg.test($(this).val())) {
+							checkReg[0] = true;
+							var comment = '&nbsp; 올바르게 입력하셨습니다';
+							$(".inputSpan").eq(1).children().first().html(
+									comment);
+							$(".inputSpan").eq(1).children().first().attr(
+									'color', 'green');
+							$("#inputPw").css('border', '2px solid green');
+						} else {
+							checkReg[0] = false;
+							var comment = '&nbsp; 6~18자리 영어 대소문자/숫자 조합';
+							$(".inputSpan").eq(1).children().first().html(
+									comment);
+							$(".inputSpan").eq(1).children().first().attr(
+									'color', 'red');
+							$("#inputPw").css('border', '2px solid red');
+						}
+					});
+			//차량번호 체크
+			$("#inputCarNumber")
+					.change(
+							function() {
+								var val = $('#inputCarNumber').val();
+								var reg = /^[0-9]{2}[가-힣]{1}[\s]*[0-9]{4}$/;//신 : 11가 1234
+								var reg2 = /^[가-힣]{2}[\s]*[0-9]{2}[가-힣]{1}[\s]*[0-9]{4}$/; //구 : 서울 11가 1234
+								if (reg.test(val)) {
+									checkReg[1] = true;
+									var comment = '&nbsp; 올바르게 입력하셨습니다';
+									$(".inputSpan").eq(3).children().first()
+											.html(comment);
+									$(".inputSpan").eq(3).children().first()
+											.attr('color', 'green');
+									$("#inputCarNumber").css('border',
+											'2px solid green');
+								} else {
+									if (reg2.test(val)) {
+										checkReg[1] = true;
+										var comment = '&nbsp; 올바르게 입력하셨습니다';
+										$(".inputSpan").eq(3).children()
+												.first().html(comment);
+										$(".inputSpan").eq(3).children()
+												.first().attr('color', 'green');
+										$("#inputCarNumber").css('border',
+												'2px solid green');
+
+									} else {
+										checkReg[1] = false;
+										var comment = '&nbsp; ※ 예) 01가 1234, 서울 01가 1234';
+										$(".inputSpan").eq(3).children()
+												.first().html(comment);
+										$(".inputSpan").eq(3).children()
+												.first().attr('color', 'red');
+										$("#inputCarNumber").css('border',
+												'2px solid red');
+									}
+								}
+							});
+		});
+		//확인 버튼 클릭한경우 모달input에 reserveNo가지고오기		
 		$(".modalbtn").click(function() {
 			var val = $(this).val();
 			var reserveNo = val;
 			$("#modalNo").val(reserveNo);
 		});
-		var bool = new Boolean();
-		$(function() {
-		})
+		//Keyup이벤트들
 		$("#inputName").keyup(function() {
 			var val = $(this).val();
 			$("#memberName").val(val);
@@ -508,27 +631,18 @@
 			var val = $(this).val();
 			$("#reserveMemo").val(val);
 		});
-		function checkFrm() {
-			var cnt = 0;
-			$(".siteChkbx").each(function(idx, item) {
-				if ($(this).eq(idx).is(':checked')) {
-					cnt++;
-				}
-			});
-			if (cnt > 0) {
-				bool = true;
-			} else {
-				//site체크박스에 체크가 안되어있다.			
-				bool = false;
-			}
-			//bool이 참이면 submit 해도됨
-			//bool이 false이면 submit작동 하면 안댐
-			if (!bool) {
-				alert("사이트 체크 및 예약자 정보를 확인해주세요");
-			}
-			return bool;
-		}
+		//날짜변경 선택한경우
+		$("#reserveDates").change(
+				function() {
+					var reserveDate = $(this).val();
+					var campNo = $("#campNo").val();
+					location.href = "/reserveWriteFrm.do?campNo=" + campNo
+							+ "&date=" + reserveDate;
 
+				});
+		
+
+		//몇박몇일 선택한경우
 		$('.usingNight').change(function() {
 			var idx = $('.usingNight').index($(this));
 			if ($('.siteChkbx').eq(idx).is(':checked')) {
@@ -539,6 +653,7 @@
 				$(".listUsingNight").eq(idx).val(usNight);
 			}
 		});
+		//이용인원 선택한경우
 		$('.usingCnt').change(function() {
 			var idx = $('.usingCnt').index($(this));
 			if ($('.siteChkbx').eq(idx).is(':checked')) {
@@ -549,7 +664,27 @@
 				$(".listUsingCnt").eq(idx).val(usingCnt);
 			}
 		});
-
+		//추가차량 기간 선택박스 변경
+		$('.addCarDay').change(function() {
+			if ($('.carChkbx').is(':checked')) {
+				var total = getSumCar();
+				printSumCar(total);
+				printTotal();
+				var carday = $(".addCarDay").val();//주차기간
+				$(".listAddCarDay").val(carday);
+			}
+		});
+		//추가차량 대수 선택박스 변경
+		$('.addCarCnt').change(function() {
+			if ($('.carChkbx').is(':checked')) {
+				var total = getSumCar();
+				printSumCar(total);
+				printTotal();
+				var carCnt = $(".addCarCnt").val();//차량수
+				$(".listAddCarCnt").val(carCnt);
+			}
+		});
+		//추가차량 체크박스 클릭
 		$(".carChkbx").click(function() {
 			if ($(this).is(':checked')) {
 				var total = getSumCar();
@@ -567,26 +702,7 @@
 			}
 			printTotal();
 		});
-
-		$('.addCarDay').change(function() {
-			if ($('.carChkbx').is(':checked')) {
-				var total = getSumCar();
-				printSumCar(total);
-				printTotal();
-				var carday = $(".addCarDay").val();//주차기간
-				$(".listAddCarDay").val(carday);
-			}
-		});
-		$('.addCarCnt').change(function() {
-			if ($('.carChkbx').is(':checked')) {
-				var total = getSumCar();
-				printSumCar(total);
-				printTotal();
-				var carCnt = $(".addCarCnt").val();//차량수
-				$(".listAddCarCnt").val(carCnt);
-			}
-		});
-
+		//사이트들 합계 구함
 		function getSumTr(idx) {
 			var usPay = $(".usingPay").eq(idx).val(); //이용금액
 			var usNight = $(".usingNight").eq(idx).val(); //이용박수
@@ -599,12 +715,14 @@
 
 			return sum;
 		}
+		//사이트들 합계 표시
 		function printSum(idx, total) {
 			$(".listReservePay").eq(idx).val(total);
 			var don = String(total);
 			don = don.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 			$(".sumTr").eq(idx).html(don);
 		}
+		//자동차 합계 구함
 		function getSumCar() {
 			var carPay = $(".addCarPay").val();//주차비
 			var carday = $(".addCarDay").val();//주차기간
@@ -613,11 +731,13 @@
 
 			return sum;
 		}
+		//자동차 합계 표시
 		function printSumCar(total) {
 			var don = String(total);
 			don = don.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 			$("#carSum").html(don);
 		}
+		//최종 합게 표시
 		function printTotal() {
 			var total = 0; //초기화
 			$(".sumTr").each(function() { //site_name별 합계			
@@ -633,50 +753,20 @@
 			var don = String(total);
 			don = don.replace(/\B(?=(\d{3})+(?!\d))/g, ",");//그 총계를 천단위 구분기호를 넣는다.
 			$("#total").html(don);//그리고 총계를 화면에 출력한다.
-		}
-
-		$("#inputName").keyup(function() {
-			var val = $(this).val();
-			$("#memberName").val(val);
-		});
-		$("#inputPw").keyup(function() {
-			var val = $(this).val();
-			$("#reservePw").val(val);
-		});
-		$("#inputCarNumber").keyup(function() {
-			var val = $(this).val();
-			$("#carNumber").val(val);
-		});
-		$("#inputMemo").keyup(function() {
-			var val = $(this).val();
-			$("#reserveMemo").val(val);
-		});
-		function checkFrm() {
-			var cnt = 0;
-			$(".siteChkbx").each(function(idx, item) {
-				if ($(this).eq(idx).is(':checked')) {
-					cnt++;
-				}
-			});
-			if (cnt > 0) {
-				bool = true;
-			} else {
-				bool = false;
+			getSiteArr(); //사이트들 값 최신화
+			console.log("siteCnt = "+siteCnt);
+			if(siteCnt>0){
+				checkSite = true;
+			}else{
+				checkSite = false;
 			}
-			if (!bool) {
-				alert("사이트 체크 및 예약자 정보를 확인해주세요.");
-			}
-			return bool;
+			console.log("checkSite = "+checkSite);
 		}
-		$("#reserveBtn").click(function() {
-			$("#reserveBtn2").click();
-		});
-		$("#reserveBtn2").click(function() {
-			var cnt = 0;
+		//체크한 사이트 리스트 반환
+		function getSiteArr() {
 			var siteArr = new Array();
 			$(".siteChkbx").each(function(idx, item) {
 				if ($(item).is(':checked')) {
-					cnt++;
 					var site = new Array();
 					var siteNo = $(".listSiteNo").eq(idx).val();
 					var campNo = $(".listCampNo").eq(idx).val();
@@ -694,7 +784,8 @@
 					var usingNight = $(".listUsingNight").eq(idx).val(); //수동입력
 					var addCarDay = $(".listAddCarDay").eq(idx).val(); //수동입력
 					var addCarCnt = $(".listAddCarCnt").eq(idx).val(); //수동입력
-					var memberNo = $(".listMemberNo").eq(idx).val();
+					//var memberNo = $(".listMemberNo").eq(idx).val();
+					var memberNo = $("#memberNo").val();
 					var reservePay = $(".listReservePay").eq(idx).val();
 					var reserveDate = $(".listReserveDate").eq(idx).val();
 					var lowDayPay = $(".listLowDayPay").eq(idx).val();
@@ -731,30 +822,72 @@
 					site.push(polarEndPay);
 
 					siteArr.push(site);
+				}				
+			});
+			$("#siteArr").val(siteArr);	
+		}
+
+		//로그인 체크
+		/* function checkLogin(){
+			var loginBool = false;
+			
+			if(val != ''){
+				loginBool = true;
+			}
+			return loginBool;
+		}
+		 */
+		//체크한 사이트 있는지 확인
+		function checkSite(){
+			var siteBool = false;
+			var cnt = 0;
+			$(".siteChkbx").each(function(idx, item) {
+				if ($(this).eq(idx).is(':checked')) {
+					cnt++;
 				}
 			});
-
-			$("#siteArr").val(siteArr);
-		});
-
+			if (cnt > 0) {
+				siteBool = true;
+			} 
+			return siteBool;
+		}
+		//input박스 확인
+		checkReg = [ false, false ];
+		function checkInput(){
+			var inputBool = false;
+			var regChk = 0;
+			for (var i = 0; i < checkReg.length; i++) {
+				if (checkReg[i] == true) {
+					regChk++;
+				}
+			}
+			if (regChk == 2 ) {
+				inputBool = true;
+			}	
+			return inputBool;
+		}		
+		siteCnt = 0;
+		//사이트체크박스에 클릭한경우		
 		$('.siteChkbx').click(function() {
 			var idx = $('.siteChkbx').index($(this));
 			if ($(this).is(':checked')) {
+				siteCnt++;
 				var total = getSumTr(idx);
 				printSum(idx, total);
 				var usingNight = $(".usingNight").eq(idx).val();
 				$(".listUsingNight").eq(idx).val(usingNight);
 				var usingCnt = $(".usingCnt").eq(idx).val();
 				$(".listUsingCnt").eq(idx).val(usingCnt);
-				var date = '${date }';
+				var date = $("#date").val();
 				$(".listReserveDate").eq(idx).val(date);
-				var memberNo = '${sessionScope.m.memberNo}';
+				var memberNo = $("#memberNo");
 				if (memberNo == '') {
 					memberNo = 9999;
 				}
 				$(".listMemberNo").eq(idx).val(memberNo);
 
 			} else {
+				siteCnt--;
 				var zero = 0;
 				$(".sumTr").eq(idx).html(zero);
 				var date = '0000-00-00';
@@ -763,12 +896,28 @@
 			}
 			printTotal();
 		});
-		$(function() {
-			var name = '${sessionScope.m.memberName}';
-			$("#memberName").val(name);
-		})
+		checkSite = false;
+		//예약하기 버튼 submit전에 거치는 함수
+		function reserveInsert(){
+			var totalBool = false;	
+			var siteBool = checkSite;
+			var inputBool = checkInput();
+			var msg ="";
+			if(!siteBool){
+				msg += " 사이트 ";
+			}
+			if(!inputBool){
+				msg += " 예약정보 ";
+			}
+			if(msg.length>0){
+				msg += "확인 해주세요";
+				alert(msg);
+			}else{
+				totalBool = true;
+			}			
+			return totalBool;
+		}
 	</script>
-
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

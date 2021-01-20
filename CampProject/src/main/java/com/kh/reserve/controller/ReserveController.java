@@ -14,6 +14,7 @@ import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.service.ReserveService;
+import com.kh.reserve.model.vo.ReserveDatesVO;
 import com.kh.reserve.model.vo.ReserveListsVO;
 import com.kh.reserve.model.vo.ReserveVO;
 
@@ -23,52 +24,63 @@ public class ReserveController {
 	private ReserveService service;
 
 	@RequestMapping("/reserveWriteFrm.do")
-	public String reserveWriteFrm(Model model, CampVO camp, String date) {
-		// campNo로 모든 사이트 정보 구하기
-		ReserveListsVO rlv = service.selectAllLists(camp, date);
-		CampVO c = service.selectOneCamp(camp);
-		model.addAttribute("sitePriceList", rlv.getSitePriceList());
-		model.addAttribute("siteList", rlv.getSiteList());
-		model.addAttribute("memberList", rlv.getMemberList());
-		model.addAttribute("reserveList", rlv.getReserveList());
-		model.addAttribute("camp", c);
-		model.addAttribute("date", date);
-		return "reserve/reserveWriteFrm";
+	public String reserveWriteFrm(HttpSession session, @SessionAttribute(required = false) MemberVO m, Model model,
+			CampVO camp, String date) {
+		if (m == null) {
+			// 로그인이 안된상태에서 버튼을 누른경우
+			model.addAttribute("msg", "로그인 해주세요.");
+			model.addAttribute("loc", "/loginFrm.do");
+			return "common/msg";
+		} else {
+			// campNo로 모든 사이트 정보 구하기
+			ReserveListsVO rlv = service.selectAllLists(camp, date);
+			CampVO c = service.selectOneCamp(camp);
+			model.addAttribute("sitePriceList", rlv.getSitePriceList());
+			model.addAttribute("siteList", rlv.getSiteList());
+			model.addAttribute("memberList", rlv.getMemberList());
+			model.addAttribute("reserveList", rlv.getReserveList());
+			model.addAttribute("camp", c);
+			model.addAttribute("date", date);
+			return "reserve/reserveWriteFrm";
+		}
+
 	}
 
 	@RequestMapping("/insertReserve.do")
-	public String insertReserve(HttpSession session, @SessionAttribute(required = false) MemberVO m,Model model, ReserveVO reserve, String siteArr, int reserveTotal, String date,CampVO camp) {
-		if(m == null) {
-		//로그인이 안된경우
-			model.addAttribute("msg", "로그인이 안되어있습니다.");
-			model.addAttribute("loc", "/loginFrm.do");
+	public String insertReserve(Model model, ReserveVO reserve, String siteArr, int reserveTotal, String date,
+			CampVO camp) {
+		System.out.println("/insertReserve.do 호출");
+		System.out.println("reserve = "+reserve);
+		System.out.println("siteArr = "+siteArr);
+		System.out.println("reserveTotal = "+reserveTotal);
+		System.out.println("date = "+date);
+		System.out.println("camp = "+camp);
+		int result = 1;
+		result = service.insertReserve(reserve, siteArr);
+		/*
+		 * if (result > 0) { model.addAttribute("msg", "예약 되었습니다."); } else {
+		 * model.addAttribute("msg", "예약이 실패했습니다."); } model.addAttribute("loc",
+		 * "/reserveWriteFrm.do?campNo=" + reserve.getCampNo() + "&date=" +
+		 * reserve.getCheckInDate()); return "common/msg";
+		 */
+		if (result > 0) {
+			// 예약됨 결제페이지로 넘어감
+			ArrayList<ReserveVO> reserveList = service.selectReserveList(reserve);
+			CampVO c = service.selectOneCamp(camp);
+			System.out.println("reserveList.size = " + reserveList.size());
+			model.addAttribute("camp", c);
+			model.addAttribute("reserveList", reserveList);
+			model.addAttribute("date", date); // 결제페이지 나가면
+			model.addAttribute("total", reserveTotal);
+			return "reserve/reserveFlex";
+		} else {
+			model.addAttribute("msg", "예약이 실패했습니다.");
+			model.addAttribute("loc",
+					"/reserveWriteFrm.do?campNo=" + reserve.getCampNo() + "&date=" + reserve.getCheckInDate());
 			return "common/msg";
-		}else {
-		//로그인이 된경우
-			int result = service.insertReserve(reserve, siteArr);
-			/*
-			 * if (result > 0) { model.addAttribute("msg", "예약 되었습니다."); } else {
-			 * model.addAttribute("msg", "예약이 실패했습니다."); } model.addAttribute("loc",
-			 * "/reserveWriteFrm.do?campNo=" + reserve.getCampNo() + "&date=" +
-			 * reserve.getCheckInDate()); return "common/msg";		 */
-			if (result > 0) {
-				// 예약됨 결제페이지로 넘어감			
-				ArrayList<ReserveVO> reserveList = service.selectReserveList(reserve);
-				CampVO c = service.selectOneCamp(camp);
-				System.out.println("reserveList.size = "+reserveList.size());
-				model.addAttribute("camp", c);
-				model.addAttribute("reserveList", reserveList);
-				model.addAttribute("date", date); // 결제페이지 나가면
-				model.addAttribute("total", reserveTotal);
-				return "reserve/reserveFlex";
-			} else {
-				model.addAttribute("msg", "예약이 실패했습니다.");
-				model.addAttribute("loc",
-						"/reserveWriteFrm.do?campNo=" + reserve.getCampNo() + "&date=" + reserve.getCheckInDate());
-				return "common/msg";
 
-			}			
-		}		
+		}
+
 	}
 
 	@RequestMapping("/searchOneReserve.do")
@@ -141,9 +153,9 @@ public class ReserveController {
 	@RequestMapping("/flexAllRserve.do")
 	public String flexAllRserve(Model model, String numbers, String date, int campNo) {
 		numbers = numbers.replaceAll("'", "");
-		//date = date.replaceAll("'", "");
-		System.out.println("controller.numbers = "+numbers );
-		System.out.println("controller.date = "+date );
+		// date = date.replaceAll("'", "");
+		System.out.println("controller.numbers = " + numbers);
+		System.out.println("controller.date = " + date);
 		int result = service.flexAllReserve(numbers);
 		if (result > 0) {
 			model.addAttribute("msg", "예약(들)이 결제완료 처리 되었습니다.");

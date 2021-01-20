@@ -19,7 +19,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <style>
-    * {
+	* {
         font-family: 'Noto Sans KR';
     }
 
@@ -135,17 +135,32 @@
     
     .pageNaviBox {
     	width: 1200px;
-    	padding-top: 30px;
     	padding-bottom: 50px;
     	text-align: center;
     }
+    
+    /*부트스트랩 설정 바꾸기------------------*/
     
     .form-control:focus {
 		border-color: #ced4da !important;
         outline: 0 none !important;
         box-shadow: none !important;
     }
-
+    
+    .btn:focus {
+        outline: 0 none !important;
+        box-shadow: none !important;
+    }
+    
+    .table thead th {
+    	border-top: 2px solid #383a3f;
+    	border-bottom: 2px solid #383a3f !important;
+    }
+    
+    .table tbody {
+    	border-bottom: 2px solid #383a3f;
+    }
+   
 </style>
 </head>
 <body>
@@ -197,7 +212,7 @@
             	<c:if test="${empty list }">
             	<tr>
             		<td colspan="6" style="text-align:center;">
-            			검색하신 캠핑장에 대한 조회 결과가 존재하지 않습니다.
+            			검색하신 캠핑장에 대한 결과가 존재하지 않습니다.
             		</td>
             	</tr>	
             	</c:if>

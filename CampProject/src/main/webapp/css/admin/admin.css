@@ -102,9 +102,9 @@
     color : #5f7880;
     font-weight: bold;
 }
-#option{
-	font-size: 2em;
+.option{
+	font-size: 1.5em;
 }
 #okBtn{
-	font-size: 1.3em;
+	font-size: 1.1em;
 }

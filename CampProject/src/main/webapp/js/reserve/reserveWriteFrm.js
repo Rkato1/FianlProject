@@ -1,5 +1,13 @@
-		$(".modalbtn").click(function(){
-			var val = $(this).val();			
+		$("#reserveDates").change(
+				function() {
+					var reserveDate = $(this).val();
+					var campNo = $("#campNo").val();
+					location.href = "/reserveWriteFrm.do?campNo=" + campNo
+							+ "&date=" + reserveDate;
+
+				});
+		$(".modalbtn").click(function() {
+			var val = $(this).val();
 			var reserveNo = val;
 			$("#modalNo").val(reserveNo);
 		});
@@ -42,8 +50,6 @@
 			}
 			return bool;
 		}
-
-		
 
 		$('.usingNight').change(function() {
 			var idx = $('.usingNight').index($(this));
@@ -151,7 +157,6 @@
 			$("#total").html(don);//그리고 총계를 화면에 출력한다.
 		}
 
-		
 		$("#inputName").keyup(function() {
 			var val = $(this).val();
 			$("#memberName").val(val);
@@ -181,7 +186,7 @@
 				bool = false;
 			}
 			if (!bool) {
-				alert("사이트 체크 및 예약자 정보를 확인해주세요. cnt = " + cnt);
+				alert("사이트 체크 및 예약자 정보를 확인해주세요.");
 			}
 			return bool;
 		}
@@ -192,7 +197,6 @@
 			var cnt = 0;
 			var siteArr = new Array();
 			$(".siteChkbx").each(function(idx, item) {
-				//console.log("idx = "+idx);
 				if ($(item).is(':checked')) {
 					cnt++;
 					var site = new Array();
@@ -249,13 +253,102 @@
 					site.push(polarEndPay);
 
 					siteArr.push(site);
-
-					console.log("siteNo = " + siteNo);
-					console.log("site = " + site);
 				}
 			});
 
-			console.log("siteArr = " + siteArr);
-			console.log("cnt = " + cnt);
 			$("#siteArr").val(siteArr);
+		});
+
+		$('.siteChkbx').click(function() {
+			var idx = $('.siteChkbx').index($(this));
+			if ($(this).is(':checked')) {
+				var total = getSumTr(idx);
+				printSum(idx, total);
+				var usingNight = $(".usingNight").eq(idx).val();
+				$(".listUsingNight").eq(idx).val(usingNight);
+				var usingCnt = $(".usingCnt").eq(idx).val();
+				$(".listUsingCnt").eq(idx).val(usingCnt);
+				var date = $("#date").val();
+				$(".listReserveDate").eq(idx).val(date);
+				var memberNo = $("#memberNo");
+				if (memberNo == '') {
+					memberNo = 9999;
+				}
+				$(".listMemberNo").eq(idx).val(memberNo);
+
+			} else {
+				var zero = 0;
+				$(".sumTr").eq(idx).html(zero);
+				var date = '0000-00-00';
+				$(".listReserveDate").eq(idx).val(date);
+				$(".listMemberNo").eq(idx).val(zero);
+			}
+			printTotal();
+		});
+		$(function() {
+			var name = $("#inputName").val();
+			$("#memberName").val(name);
+			var check = [ false, false ];
+			//예약암호 체크
+			$("#inputPw").change(
+					function() {
+						var reg = /^[A-Za-z0-9_-]{6,18}$/;
+						if (reg.test($(this).val())) {
+							check[0] = true;
+							var comment = '&nbsp; 올바르게 입력하셨습니다';
+							$(".inputSpan").eq(1).children().first().html(
+									comment);
+							$(".inputSpan").eq(1).children().first().attr(
+									'color', 'green');
+							$("#inputPw").css('border', '2px solid green');
+						} else {
+							check[0] = false;
+							var comment = '&nbsp; 6~18자리 영어 대소문자/숫자 조합';
+							$(".inputSpan").eq(1).children().first().html(
+									comment);
+							$(".inputSpan").eq(1).children().first().attr(
+									'color', 'red');
+							$("#inputPw").css('border', '2px solid red');
+						}
+					});
+			//차량번호 체크
+			$("#inputCarNumber").change(function() {
+				var val = $('#inputCarNumber').val();
+	            var reg = /^[0-9]{2}[가-힣]{1}[\s]*[0-9]{4}$/;//신 : 11가 1234
+	            var reg2 = /^[가-힣]{2}[\s]*[0-9]{2}[가-힣]{1}[\s]*[0-9]{4}$/; //구 : 서울 11가 1234
+	            if(reg.test(val)){
+	                 check[1] = true;
+					    var comment = '&nbsp; 올바르게 입력하셨습니다';
+					    $(".inputSpan").eq(3).children().first().html(comment);
+					    $(".inputSpan").eq(3).children().first().attr('color','green');
+					    $("#inputCarNumber").css('border', '2px solid green');
+	            }else{
+	                if(reg2.test(val)){
+	                   check[1] = true;
+					    var comment = '&nbsp; 올바르게 입력하셨습니다';
+					    $(".inputSpan").eq(3).children().first().html(comment);
+					    $(".inputSpan").eq(3).children().first().attr('color','green');
+					    $("#inputCarNumber").css('border', '2px solid green');
+	                   
+	                }else{
+	                    check[1] = false;
+					    var comment = '&nbsp; ※ 예) 01가 1234, 서울 01가 1234';
+					    $(".inputSpan").eq(3).children().first().html(comment);
+					    $(".inputSpan").eq(3).children().first().attr('color','red');
+					    $("#inputCarNumber").css('border', '2px solid red');	                    
+	                }
+	            }
+			});
+		});
+		$("#reserveBtn").click(function(event){
+			var regChk = 0;
+			for(var i=0;i< check.length;i++){
+				if(check[i] == true){
+					regChk++;
+				}
+			}
+			if(regChk <2){
+				alert("입력한 정보를 확인해주세요.");
+                event.preventDefault();
+			}
 		});
