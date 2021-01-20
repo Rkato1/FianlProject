@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<script src="/js/main/main.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>Create A Camp</title>
@@ -123,7 +124,7 @@
             padding-top: 32px;
         }
 
-        .search-button>input {
+        .search-button>button {
             width: 100%;
             height: 32px;
             font-size: 15px;
@@ -156,7 +157,7 @@
             <div class="search-wrap">
                 <div class="search-where">
                     <span><span style="color: white">Where</span> Do You <span style="color: white">Want</span> To Go?</span>
-                    <input type="text">
+                    <input type="text" id="where">
                 </div>
                 <div class="search-check">
                     <span><span style="color: white">Check</span> In</span>
@@ -168,7 +169,8 @@
                     <input type="date" id="checkOut">
                 </div>
                 <div class="search-button">
-                    <input type="submit" value="Search">
+                    <!-- input type="submit" value="Search"-->
+                    <button type="button" onclick="Search()">Search</button>
                 </div>
             </div>
         </form>

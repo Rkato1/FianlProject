@@ -23,8 +23,9 @@
         <div class="admin-content">
             <div class="real-content">
                 <div class="members">
-                    <p class="title">관리자메인</p>                   
+                    <p class="title">관리자메인</p>
                 </div>
+                <a href="/noticeList.do?reqPage=1">공지사항</a>
             </div>
         </div>
 

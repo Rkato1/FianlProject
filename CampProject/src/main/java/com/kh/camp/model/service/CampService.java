@@ -244,4 +244,61 @@ public class CampService {
 		cpd.setPageNavi(pageNavi);
 		return cpd;
 	}
+	
+	public CampPageData campSearchList(int reqPage, String value, String startDate, String endDate) {
+		int numPerPage = 20;
+		int end = reqPage * numPerPage;
+		int start = end - numPerPage + 1;
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("value", value);
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("start", startDate);
+		map2.put("end", endDate);
+		ArrayList<CampVO> list = dao.campSearchListObject(map, map2);
+		
+		map.put("filegrade", 1);
+		for (CampVO c : list) {
+			map.put("campNo", c.getCampNo());
+			ArrayList<CampPictureVO> pictureList = dao.selectPictureListObject(map);
+			if(pictureList.size()>0) {
+				c.setPictureList(pictureList);
+			}
+			ArrayList<SiteVO> siteList = dao.selectSiteListMapObject(map);
+			if(siteList.size()>0) {
+				c.setSiteList(siteList);
+			}
+		}
+		int totalCount = dao.totalSearchCount(map,map2);
+		int totalPage = totalCount / numPerPage;
+		if (totalCount % numPerPage != 0) {
+			totalPage++;
+		}
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+		String pageNavi = "";
+		String repeatStr = "<a class='btn btn-outline-dark navi-btn' href='/searchCampList.do?value="+value+"&reqPage=";
+		if (pageNo != 1) {
+			pageNavi += repeatStr + (pageNo - 1) + "'>이전</a>";
+		}
+		for (int i = 0; i < pageNaviSize; i++) {
+			if (pageNo != reqPage) {
+				pageNavi += repeatStr + pageNo + "'>" + pageNo + "</a>";// <a href='/noticeList.do?reqPage=1'>1</a>
+			} else {
+				pageNavi += "<span class='btn btn-outline-dark navi-btn'>" + pageNo + "</span>";
+			}
+			pageNo++;
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		if (pageNo <= totalPage) {
+			pageNavi += repeatStr + (pageNo) + "'>다음</a>";
+		}
+		CampPageData cpd = new CampPageData();
+		cpd.setList(list);
+		cpd.setPageNavi(pageNavi);
+		return cpd;
+	}
 }
