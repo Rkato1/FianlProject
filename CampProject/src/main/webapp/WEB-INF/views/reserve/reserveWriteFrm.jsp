@@ -21,17 +21,13 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
 <title>예약상세보기</title>
-<style>
-#myModal {
-	top: 30%;
-	margin-top: -50px;
-}
-</style>
+<link href="/resources/css/reserve/reserveWriteFrm.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/reserve/reserveWriteFrm.css">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<link href="../css/reserve/reserveWriteFrm.css" type="text/css"
-		rel="stylesheet">
+
 	<div class="modal fade" id="myModal">
 		<div class="modal-dialog">
 			<div class="modal-content modal-dialog-centered">
@@ -58,7 +54,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="content">
 		<div class="items">
 			<div class="item">
 				<h4>이용안내</h4>
@@ -149,7 +145,22 @@
 				</div>
 				<div class="item">
 					<h4>자리선택</h4>
-					예약일자 : ${date }<br>
+					<c:if test="${sessionScope.reserveDates.size() > 0}">
+						예약일자 : <select id="reserveDates">
+							<c:forEach items="${sessionScope.reserveDates }" var="dates">
+								<c:choose>
+									<c:when test="${dates eq date }">
+										<option value="${dates }" selected="selected">${dates }</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${dates }">${dates }</option>
+									</c:otherwise>
+								</c:choose>
+
+							</c:forEach>
+						</select>
+						<br>
+					</c:if>
 					<table width="100%" cellpadding="0" cellspacing="1">
 						<colgroup width></colgroup>
 						<colgroup width="10%"></colgroup>
@@ -233,7 +244,8 @@
 											<input type="hidden" class="siteChkbx" value="1">
 											${memberList[mIdx].memberName }
 											<c:set var="mIdx" value="${mIdx+1 }" />
-											<button type="button" class="modalbtn btn btn-primary"
+											<button type="button"
+												class="modalbtn btn btn-outline-dark btn-sm"
 												value="${reserveList[rIdx].reserveNo }" data-toggle="modal"
 												data-target="#myModal" style="height: 30px;">확인</button>
 											<c:set var="rIdx" value="${rIdx+1 }" />
@@ -398,8 +410,8 @@
 				</div>
 			</div>
 			<div class="item">
-				<h4>예약자정보</h4>
-				<table class="infomation">
+				<h4>예약자 정보</h4>
+				<table class="infomation" width="100%">
 					<colgroup>
 						<col class="col01">
 						<col class="col02">
@@ -408,28 +420,39 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<td class="section" height="50">
-								이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</td>
-							<td><input type="text" id="inputName" name="inputName"
-								required class="text" value="${sessionScope.m.memberName }"></td>
-							<td class="section">비밀번호</td>
-							<td><input type="text" name="inputPw" id="inputPw"
-								class="text" required> &nbsp;<br> <font
-								color="#66A2C8">* 8자리 이상, 영문 + 숫자 + 특수문자 조합하여 입력</font></td>
+							<td colspan="6" class="line2" style="height: 1px;"></td>
 						</tr>
 						<tr>
-							<td class="section" height="50">핸드폰번호</td>
-							<td><input type="text" name="inputPhone" id="inputPhone"
-								value="${sessionScope.m.memberPhone }" class="text" required>
-								&nbsp; <font color="#66A2C8"> '-' 포함 입력.</font></td>
-							<td class="section">차량번호</td>
-							<td><input type="text" id="inputCarNumber"
-								name="inputCarNumber" class="text"> &nbsp; <font
-								color="#66A2C8">※ 예) 01가 1234 전체 입력.</font></td>
+							<td class="section ln_r" height="50">이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;름</td>
+							<td class="ln_r center">
+							<input type="text" id="inputName" name="inputName" required class="text" value="${sessionScope.m.memberName }" style="width: 70%; background-color: #a0a0a0;" readonly></td>
+							<td class="section ln_r">비밀번호</td>
+							<td class="center">
+								<input type="text" name="inputPw" id="inputPw"	class="text" required style="width: 70%"> &nbsp;<br> 
+								<font color="#66A2C8">* 8자리 이상, 영문 + 숫자 + 특수문자 조합하여 입력</font>
+							</td>
 						</tr>
 						<tr>
-							<td class="section" height="50">메모/닉네임</td>
-							<td colspan="3"><input type="text" id="inputMemo"
+							<td colspan="6" class="line3" style="height: 1px;"></td>
+						</tr>
+						<tr>
+							<td class="section ln_r" height="50">핸드폰번호</td>
+							<td class="ln_r center">
+								<input type="text" name="inputPhone" id="inputPhone" value="${sessionScope.m.memberPhone }" class="text" required style="width: 70%; background-color: #a0a0a0;" readonly>
+								&nbsp; <font color="#66A2C8"> '-' 포함 입력.</font>
+							</td>
+							<td class="section ln_r">차량번호</td>
+							<td class="center">
+								<input type="text" id="inputCarNumber" name="inputCarNumber" class="text" style="width: 70%"> &nbsp; 
+								<font color="#66A2C8">※ 예) 01가 1234 전체 입력.</font>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="6" class="line2" style="height: 1px;"></td>
+						</tr>
+						<tr>
+							<td class="section ln_r" height="50">메모/닉네임</td>
+							<td colspan="3" class="center"><input type="text" id="inputMemo"
 								name="inputMemo" style="width: 99%;" itemname="메모" class="text"></td>
 						</tr>
 					</tbody>
@@ -460,30 +483,41 @@
 								<!-- <input type="hidden" id="memberNo" name="memberNo" value="9999"> -->
 							</c:otherwise>
 						</c:choose>
-						<input type="hidden" id="memberName" name="memberName"> 
-						<input type="hidden" id="campNo" name="campNo" value="${camp.campNo }">
-						<input type="hidden" id="campName" name="campName" value="${camp.campName }">
-						<input type="hidden" id="reservePlace" name="reservePlace" value="${camp.campAddr }"> 
-						<input type="hidden" id="checkInDate" name="checkInDate" value="${date }"> 
-						<input type="hidden" id="reserveStatus" name="reserveStatus" value="결제대기"> 
-						<input type="hidden" id="reservePrice"	name="reservePrice"> 
-						<input type="hidden" id="reservePw"	name="reservePw"> 
-						<input type="hidden" id="carNumber" name="carNumber"> 
-						<input type="hidden" id="reserveMemo" name="reserveMemo">
-						<input type="hidden" id="reserveTotal" name="reserveTotal"> 
-						<input type="hidden" id="date" name="date" value="${date }">
-						<input id="reserveBtn" type="submit" style="width: 90%; height: 28px;" value="예약하기"> 
-						<input id="reserveBtn2" type="hidden" style="width: 90%; height: 28px;" value="예약하기2">
+						<input type="hidden" id="memberName" name="memberName"> <input
+							type="hidden" id="campNo" name="campNo" value="${camp.campNo }">
+						<input type="hidden" id="campName" name="campName"
+							value="${camp.campName }"> <input type="hidden"
+							id="reservePlace" name="reservePlace" value="${camp.campAddr }">
+						<input type="hidden" id="checkInDate" name="checkInDate"
+							value="${date }"> <input type="hidden" id="reserveStatus"
+							name="reserveStatus" value="결제대기"> <input type="hidden"
+							id="reservePrice" name="reservePrice"> <input
+							type="hidden" id="reservePw" name="reservePw"> <input
+							type="hidden" id="carNumber" name="carNumber"> <input
+							type="hidden" id="reserveMemo" name="reserveMemo"> <input
+							type="hidden" id="reserveTotal" name="reserveTotal"> <input
+							type="hidden" id="date" name="date" value="${date }"> <input
+							id="reserveBtn" type="submit" class="btn btn-outline-dark btn-sm"
+							style="width: 90%; height: 28px;" value="예약하기"> <input
+							id="reserveBtn2" type="hidden"
+							class="btn btn-outline-dark btn-sm"
+							style="width: 90%; height: 28px;" value="예약하기2">
 					</p>
 				</form>
 			</div>
 		</div>
 	</div>
-
 	<!-- js파일 호출 -->
-	<!-- <script src="../js/reserve/reserveWriteFrm.js"></script> -->
-
+	<!-- <script src="../js/reserve/reserveWriteFrm.js"></script>  -->
 	<script>
+		$("#reserveDates").change(
+				function() {
+					var reserveDate = $(this).val();
+					var campNo = $("#campNo").val();
+					location.href = "/reserveWriteFrm.do?campNo=" + campNo
+							+ "&date=" + reserveDate;
+
+				});
 		$(".modalbtn").click(function() {
 			var val = $(this).val();
 			var reserveNo = val;
@@ -746,9 +780,9 @@
 				$(".listUsingNight").eq(idx).val(usingNight);
 				var usingCnt = $(".usingCnt").eq(idx).val();
 				$(".listUsingCnt").eq(idx).val(usingCnt);
-				var date = '${date }';
+				var date = $("#date").val();
 				$(".listReserveDate").eq(idx).val(date);
-				var memberNo = '${sessionScope.m.memberNo}';
+				var memberNo = $("#memberNo");
 				if (memberNo == '') {
 					memberNo = 9999;
 				}
@@ -764,11 +798,10 @@
 			printTotal();
 		});
 		$(function() {
-			var name = '${sessionScope.m.memberName}';
+			var name = $("#inputName").val();
 			$("#memberName").val(name);
-		})
+		});
 	</script>
-
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

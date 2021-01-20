@@ -155,6 +155,57 @@
 		where
 			used_trade_no=#{usedNo}
 	</select>
+	<!-- 상세보기의 댓글달기 -->
+	<insert id="insertComment" parameterType="comment">
+		insert into used_trade_comment values
+			(com_seq.nextval,
+			#{commentLevel},
+			#{commentWriter},
+			#{commentContent},
+			#{usedNo},
+			#{commentRef},
+			to_char(sysdate,'yyyy-mm-dd'))
+	</insert>
+	<select id="selectOneUsed" resultType="used" parameterType="_int">
+		select
+			used_trade_no as usedNo,
+			used_trade_title as usedTitle,
+			used_trade_price as usedPrice,
+			category,
+			used_trade_writer as usedWriter,
+			used_trade_content as usedContent,
+			used_trade_date as usedDate,
+			used_trade_area as usedArea,
+			used_trade_state as usedState,
+			used_trade_change as usedChange
+		from used_trade
+			where used_trade_no = #{_parameter}
+	</select>
+	<select id="selecCommentCnt" parameterType="_int" resultType="_int">
+		select 
+			(count(*))cnt
+		from used_trade_comment where used_trade_no = #{_parameter}
+	</select>
+	<select id="selectComment" parameterType="_int" resultType="comment">
+		select
+			used_trade_comment_no as commentNo,
+			used_trade_comment_level as commentLevel,
+			used_trade_comment_writer as commentWriter,
+			used_trade_comment_content as commentContent,
+			used_trade_no as usedNo,
+			used_trade_comment_ref as commentRef,
+			used_trade_comment_date as commentDate
+		from used_trade_comment
+			where used_trade_no =#{_parameter} order by 1
+	</select>
+	<update id="updateComment" parameterType="comment">
+		update used_trade_comment set
+			used_trade_comment_content = #{commentContent}
+			where used_trade_no = #{usedNo}
+	</update>
+	<delete id="deleteComment" parameterType="comment">
+		delete from used_trade_comment where used_trade_no = #{usedNo}
+	</delete>
 	<!-- 업데이트 부분 -->
 	<select id="updateEnroll" resultType="used">
 		select
@@ -190,4 +241,6 @@
 	<delete id="deleteFile" parameterType="_int">
 		delete from used_trade_file where used_trade_no = #{usedNo}
 	</delete>
+	<!-- 댓글 -->
+	
 </mapper>

@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.admin.model.dao.AdminDao;
-import com.kh.admin.model.vo.CampVOPageData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
+import com.kh.camp.model.vo.CampPageData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
@@ -76,7 +76,7 @@ public class AdminService{
 		return mpd;
 	}
 
-	public CampVOPageData selectAllBusiness(int reqPage) {
+	public CampPageData selectAllBusiness(int reqPage) {
 		//게시물 구해오기
 		//한 페이지당 게시물 수
 		int numPerPage = 10;
@@ -124,7 +124,7 @@ public class AdminService{
 			pageNavi += "<a href='/admin/businessAdmin.do?reqPage="+pageNo+"'>[다음]</a>";;
 		}
 		//System.out.println(pageNavi);
-		CampVOPageData cpd = new CampVOPageData(list,pageNavi);
+		CampPageData cpd = new CampPageData(list,pageNavi);
 		return cpd;
 	}
 

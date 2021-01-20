@@ -11,11 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kh.admin.model.vo.CampVOPageData;
 import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
 import com.kh.admin.service.AdminService;
+import com.kh.camp.model.vo.CampPageData;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.review.model.vo.ReviewPageData;
 
@@ -68,7 +68,7 @@ public class AdminController {
 	public String businessAdmin(Model model, HttpSession session, int reqPage) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
-			CampVOPageData cpd = service.selectAllBusiness(reqPage);
+			CampPageData cpd = service.selectAllBusiness(reqPage);
 			model.addAttribute("list",cpd.getList());
 			model.addAttribute("pageNavi",cpd.getPageNavi());
 			return "admin/businessAdmin";

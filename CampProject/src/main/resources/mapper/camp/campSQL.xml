@@ -249,6 +249,7 @@
 		from site
 		where camp_no = ${campNo} and reserve_date = '0000-00-00'
 	</select>
+<<<<<<< HEAD
 	<delete id="deleteCamp" parameterType="_int">
 		delete from camp where camp_no=#{_parameter}
 	</delete>
@@ -285,4 +286,61 @@
 	<update id="updateMainImg" parameterType="campPicture">
 		update camp_picture set filename=#{filename},filepath=#{filepath} where camp_no=#{campNo} and filegrade = 1
 	</update>
+=======
+	<select id="campSearchListObject2" parameterType="String" resultType="_int">
+	select
+		camp_no as campNo
+	from camp where	camp_name like '%'||#{ parameter }||'%'
+                     or camp_addr like '%'||#{ parameter }||'%'
+	</select>
+	<select id="campSiteSearchListObject" parameterType="map" resultType="_int">
+		select
+			camp_no as campNo 
+		from site where
+		<if test="!list.isEmpty()"> camp_no in
+		<foreach collection="list" item="value" separator="," open="(" close=")">
+    		#{value}
+  		</foreach>
+		 and
+		</if> RESERVE_DATE = '0000-00-00'
+	</select>
+	
+	<select id="campSearchResultList" parameterType="map" resultType="camp">
+		select
+    		rnum,
+    		campNo,
+   			campName,
+    		campAddr,
+    		memberNo,
+    		campShow,
+    		campType,
+    		campPh,
+    		campPeriod,
+    		campDay,
+    		campFacility
+			from
+        		(select rownum as rnum, n.*
+		from
+		(select
+			camp_no as campNo,
+			camp_name as campName,
+			camp_addr as campAddr,
+			member_no as memberNo,
+			camp_show as campShow,
+			camp_type as campType,
+			camp_ph as campPh,
+			camp_period as campPeriod,
+			camp_day as campDay,
+			camp_facility as campFacility
+		from camp 
+           <if test="!reserveCanList.isEmpty()"> where camp_no in
+		<foreach collection="reserveCanList" item="value" separator="," open="(" close=")">
+    		#{value}
+  		</foreach>
+		</if>
+        order by 1 desc)
+		n)
+           where rnum between #{start} and #{end}
+	</select>	
+>>>>>>> main
 </mapper>
