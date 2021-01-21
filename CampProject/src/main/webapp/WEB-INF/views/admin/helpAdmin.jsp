@@ -104,6 +104,9 @@
             </div>
         </div>
 
-    </div> 
+    </div>
+    <script>
+    	$("#option").val('${option}').attr("selected","selected");
+    </script>
 </body>
 </html>

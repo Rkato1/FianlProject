@@ -306,9 +306,9 @@
 			${n.noticeContentBr }
 		</div>
       </div>
-      <div class="commnet-wrap">         
-         <div class="comment-list">         	
-
+      <div class="commnet-wrap">
+         <div class="comment-list" style="text-align:center;">
+				<button onclick="backList(${reqPage})">목록으로 돌아가기</button>
             </div><!-- comment-list  -->
        </div><!-- commnet-wrap -->
    </div><!-- content-wrap -->
@@ -317,11 +317,15 @@
 	
 	<script>
 	
-	//리뷰 삭제 버튼 클릭 했을 때
+	//공지사항 삭제 버튼 클릭 했을 때
 	function noticeDelete(noticeNo) {
 		if(confirm("삭제한 글은 복구되지 않습니다. 삭제하시겠습니까?")) {
 			location.href="/noticeDelete.do?noticeNo="+noticeNo;
 		}
+	}
+	
+	function backList(reqPage){
+		location.href="/noticeList.do?reqPage="+reqPage;
 	}
 	
 	</script>

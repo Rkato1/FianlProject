@@ -112,6 +112,14 @@
             </div>
         </div>
 
-    </div> 
+    </div>
+    <script>
+	    $("#campNoVal option").each(function(){	
+	        if($(this).html()=="${campName}"){
+	        	$(this).attr("selected","selected"); // attr적용안될경우 prop으로
+			}	
+	    });
+    	$("#yearVal").val('${year}').attr("selected","selected");
+    </script>
 </body>
 </html>

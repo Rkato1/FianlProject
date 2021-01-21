@@ -187,7 +187,7 @@
             	<tr>
                 	<td>${n.noticeNo }</td>
                 	<td>
-                		<a id="review-a" href="/noticeView.do?noticeNo=${n.noticeNo }">
+                		<a id="review-a" href="/noticeView.do?noticeNo=${n.noticeNo }&reqPage=${reqPage}">
                 			${n.noticeTitle }
                 		</a>
                 	</td>
