@@ -314,6 +314,7 @@ img {
 			<h1>캠핑장이 존재하지 않습니다.</h1>
 		</c:otherwise>
 	</c:choose>
+	<jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

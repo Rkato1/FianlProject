@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
     <!-- Font Awesome-->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
     <style>
         /* 스와이프 */
          html,
@@ -79,7 +83,7 @@
             color: white; 
             width: 100%; 
             height: 50px;
-            transition: background-color .5s;
+            transition: background-color .2s;
             cursor: pointer;
             border-radius: 5px;
         }
@@ -98,7 +102,7 @@
             color: #e0e0e0;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color .5s;
+            transition: background-color .2s;
         }
         #usedReviewBtn:hover{
             color:#1d0202;
@@ -223,7 +227,8 @@
          font-size: 25px;
          transform: rotate(180deg);
          float: left;
-      }
+       }
+      
     </style>
 </head>
 <body>
@@ -274,8 +279,12 @@
                         </div>
                     </div>
                     <hr>
+                    <c:if test="${sessionScopem.m != null }">
+                    <div style="font-size: 26px; text-align: center; font-weight: 800; color: #fa9b00; margin-top: 60px;">로그인 후 이용해 주세요.</div>
+                    <div style="font-size: 26px; text-align: center; font-weight: 800; color: #fa9b00; margin-top: 10px;">^_^</div>
+                    </c:if>
                     <c:if test="${sessionScope.m.memberId != u.usedWriter && sessionScope.m != null }">
-                    <button id="chatBtn" type="button" value="" onclick="javascript:chatPop('${sessionScope.m.memberId}','${u.usedWriter }')">채팅하기</button>
+                    <button id="chatBtn" type="button" value="" onclick="javascript:chatPop('${u.usedWriter }')">채팅하기</button>
                     </c:if>
                     <c:if test="${sessionScope.m.memberId == u.usedWriter }">
                     <a href="/updateEnroll.do?usedNo=${u.usedNo }"><input id="chatBtn" type="button" value="수정하기" style="margin-top: 7px; width: 49%;margin-right: 3px;"></a>
@@ -307,7 +316,7 @@
             	<input type="hidden" name="commentWriter" value="${sessionScope.m.memberId }">
             	<input type="hidden" name="usedNo" value="${u.usedNo }">
             	<input type="hidden" name="commentRef" value="0">	
-            	<textarea rows="3" cols="30" name="commentContent"></textarea>&nbsp;
+            	<textarea rows="3" cols="30" name="commentContent" style="height: 80px;"></textarea>&nbsp;
             	<input type="submit" value="등록" class="btn" id="usedWriteBtn">
             </form>
          </div>
@@ -352,7 +361,7 @@
               					<input type="hidden" name="commentWriter" value="${sessionScope.m.memberId }">
                					<input type="hidden" name="usedNo" value="${cl.usedNo }">
                					<input type="hidden" name="commentRef" value="${cl.commentNo }">	
-               					<textarea rows="3" cols="30" name="commentContent" style="resize: none;"></textarea>&nbsp;
+               					<textarea rows="3" cols="30" name="commentContent" style="resize: none; height: 80px;"></textarea>&nbsp;
                					<input type="submit" value="등록" class="btn" id="commentWriteBtn">
                					<input type="button" value="취소" class="btn recCancel" id="commentCancelBtn">
             				</form>
@@ -395,14 +404,24 @@
          </div>
         </section>
         <div style="height: 200px"></div>
+        
+    <jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     
     <!-- 스트립트부분 -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script>
-	    function chatPop(sender,receiver){
-	        var popup = window.open('/usedChat.do', '채팅하기', "top=1000, left=2000, width=480, height=800, scrollbars=no, resizable=no ,status=no ,toolbar=no");
-	    }
+    <script>  
+	    
+	    function chatPop(umReceiver){
+	    	if($("#container").css('display') == "none"){
+				$("#chat-icon").css('transition','all ease 0.5s');
+				$("#chat-icon").css('-webkit-transform',' rotate(45deg)');
+				$("#container").show();
+			}
+	 	}
+	    
+	    
+
     
         var swiper = new Swiper('.swiper-container', {
           pagination: {

@@ -165,5 +165,4 @@
 		set member_pw = #{memberPw}
 		where member_no = #{memberNo}	
 	</update>
-	
 </mapper>

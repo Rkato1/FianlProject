@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kh.camp.used.vo.UsedMessageChatVO;
+import com.kh.camp.used.vo.UsedMessageVO;
 import com.kh.camp.used.vo.UsedVO;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.MemberVO;
@@ -40,6 +42,7 @@ public class MemberController {
 		MemberVO member = service.selectOneMember(m);
 		if (member != null) {
 			session.setAttribute("m", member);
+			//방을 가져오는 곳 	
 			if(m.getMemberId().equals("admin")) {
 				model.addAttribute("msg", "관리자 로그인되었습니다.");
 				model.addAttribute("loc", "/admin/mainAdmin.do");
