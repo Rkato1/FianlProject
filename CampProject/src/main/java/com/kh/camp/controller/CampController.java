@@ -8,17 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.camp.model.service.CampService;
 import com.kh.camp.model.vo.CampEventData;
 import com.kh.camp.model.vo.CampPageData;
 import com.kh.camp.model.vo.CampVO;
+import com.kh.common.DateList;
 import com.kh.operator.model.vo.CampNoticePageData;
 
 @Controller
 public class CampController {
 	@Autowired
 	private CampService service;
+	@Autowired
+	private DateList dateList;
 
 	@RequestMapping("/campList.do")
 	public String campList(int reqPage, Model model) {
@@ -65,5 +69,11 @@ public class CampController {
 		//model.addAttribute("keyword", keyword);
 		model.addAttribute("value", value);
 		return "camp/campList";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/onload.do")
+	public String onload() {
+		return dateList.GetStr();
 	}
 }
