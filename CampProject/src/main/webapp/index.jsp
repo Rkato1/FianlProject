@@ -178,9 +178,8 @@ html, body {
 				</div>
 			</div>
 		</form>
-
 	</div>
-	<div id="result"></div>
+	<div id="result" style="display: none"></div>
 	<script>
 	function Search() {
 		var where = $("#where").val();
