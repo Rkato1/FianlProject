@@ -121,7 +121,7 @@ public class CampService {
 				events += "{id: '"+(++idx)+"', title: '예약가능("+(reserveTotalCount-reserveUnableCnt)+"/"+reserveTotalCount+")', start: '"+startDate+"', color : 'green', url:'/reserveWriteFrm.do?campNo="+c.getCampNo()+"&date="+startDate+"' },";
 			}else {
 				//예약 불가능
-				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo=\"+c.getCampNo()+\"&date=\"+startDate+\"' },";	
+				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo="+c.getCampNo()+"&date="+startDate+"' },";	
 			}			
 			dateList.add(startDate);
 			cal.add(Calendar.DATE, 1); // 1일 더해준다
