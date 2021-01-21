@@ -432,10 +432,10 @@ private boolean isOperator = false;
 	}
 	
 	@RequestMapping("/opMypage.do")
-	public String opUpdateMember(HttpSession session,int memberNo, String memberId, Model model) {
+	public String opUpdateMember(HttpSession session, Model model) {
 		MemberVO m = (MemberVO)session.getAttribute("m");
 		if(m!=null) {
-			MemberVO member = mService.mypageMember(memberNo);
+			MemberVO member = mService.mypageMember(m.getMemberNo());
 			model.addAttribute("m", member);
 			return "operator/member/opMypage";
 		}else {
