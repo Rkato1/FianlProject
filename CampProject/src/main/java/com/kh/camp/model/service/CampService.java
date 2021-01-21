@@ -33,7 +33,7 @@ public class CampService {
 		ArrayList<CampVO> list = dao.selectList(map);
 		for (CampVO c : list) {
 			map.put("campNo", c.getCampNo());
-			map.put("filegrade", 1);
+			map.put("fileGrade", 1);
 			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);			
 			c.setPictureList(pictureList);
 			
@@ -85,7 +85,7 @@ public class CampService {
 		CampVO camp = dao.campView(c);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("campNo", c.getCampNo());
-		map.put("filegrade", 2);
+		map.put("fileGrade", 2);
 		ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 		camp.setPictureList(pictureList);
 
@@ -121,7 +121,7 @@ public class CampService {
 				events += "{id: '"+(++idx)+"', title: '예약가능("+(reserveTotalCount-reserveUnableCnt)+"/"+reserveTotalCount+")', start: '"+startDate+"', color : 'green', url:'/reserveWriteFrm.do?campNo="+c.getCampNo()+"&date="+startDate+"' },";
 			}else {
 				//예약 불가능
-				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo=\"+c.getCampNo()+\"&date=\"+startDate+\"' },";	
+				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo="+c.getCampNo()+"&date="+startDate+"' },";	
 			}			
 			dateList.add(startDate);
 			cal.add(Calendar.DATE, 1); // 1일 더해준다
@@ -133,7 +133,7 @@ public class CampService {
 			events = events.substring(0, events.length()-1); //{}를 만들었다면 마지막 ',' 지우기
 		}	
 		
-		map.put("filegrade", 3);
+		map.put("fileGrade", 3);
 		ArrayList<CampPictureVO> layoutList = dao.selectPictureList(map);
 		camp.setLayoutList(layoutList);		
 		

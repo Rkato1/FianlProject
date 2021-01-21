@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>CAC : 사업자 페이지 리뷰</title>
 <link href="../css/operator/menu_content.css" type="text/css" rel="stylesheet">
 <link href="../css/operator/opReviewView.css" type="text/css" rel="stylesheet">
 </head>
