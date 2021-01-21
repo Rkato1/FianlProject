@@ -67,6 +67,39 @@
             </div>
         </div>
     </div>
-
+	<script>
+	$(document).ready(function() {
+        $.ajax({
+            url : "/selectRoom.do",
+            type : "POST",
+            success : function(data) {
+            	var session = '${sessionScope.m.memberId}';
+            	var room = "";
+            	console.log(session);
+            	console.log(data);
+               for(var i = 0; i<data.length; i++){
+            	   console.log("id<"+data[i].receiver);
+            	   if(session == data[i].sender){
+            	   /* room += "<ul style='padding: 0;' id='chatRoom'>"; */
+            	   room += "<li style='border-bottom: 1px solid white; padding-bottom: 20px; padding-bottom: 20px;' onclick='selectMessage(\""+data[i].receiver+"\")'>";
+            	   room += "<div style='margin-left: 20px; '>";
+            	   room += "<h2 style='line-height: 5px;'>"+data[i].receiver+"님과 대화방</h2></div>";
+            	   room += "</li>";
+            	   /* room += "</ul>"; */
+            	   }else{
+            		   /* room += "<ul style='padding: 0;' id='chatRoom'>"; */
+                	   room += "<li style='border-bottom: 1px solid white; padding-bottom: 20px; padding-bottom: 20px;' onclick='selectMessage(\""+data[i].sender+"\")'>";
+                	   room += "<div style='margin-left: 20px; '>";
+                	   room += "<h2 style='line-height: 5px;'>"+data[i].sender+"님과 대화방</h2></div>";
+                	   room += "</li>";
+                	   /* room += "</ul>"; */
+            	   }
+               }
+            	   $("#chatRoom").append(room);
+              	   console.log(room);
+            }
+        });
+    });
+	</script>
 </body>
 </html>

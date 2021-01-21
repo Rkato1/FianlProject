@@ -242,5 +242,68 @@
 		delete from used_trade_file where used_trade_no = #{usedNo}
 	</delete>
 	<!-- 댓글 -->
-	
+	<select id="selectUMList" parameterType="string" resultType="com.kh.camp.used.vo.UsedMessageVO">
+  	select
+  		um_no as umNo,
+  		um_sender as umSender,
+  		um_receiver as umReceiver,
+  		message,
+  		check_message as checkMessage,
+  		um_date as umDate
+  	from used_message where um_sender=#{_parameter} or um_receiver=#{_parameter}
+  </select>
+  <select id="selectChat" parameterType="map" resultType="room">
+  	select 
+  		member_id as sender,
+  		used_trade_writer as receiver
+  	from used_message_chat
+  	where (member_id =#{sender} and used_trade_writer =#{receiver}) or (used_trade_writer =#{sender} and member_id =#{receiver})
+  </select>
+  <select id="umCount" parameterType="string" resultType="_int">
+  	select count(*) from used_message where um_receiver = #{_parameter} and check_message='읽지않음'
+  </select>
+  <insert id="insertUm" parameterType="map">
+  	insert into used_message values(um_seq.nextval,#{sender},#{receiver},#{message},'읽지않음',to_char(sysdate,'yyyy-mm-dd'))
+  </insert>
+  <insert id="insertRoom" parameterType="map">
+  	insert into used_message_chat values(#{sender},#{receiver}) 
+  </insert>
+  <!-- 방 -->
+  <select id="selectMessageChatList" parameterType="String" resultType="room">
+		select 
+	  		member_id as sender,
+	  		used_trade_writer as receiver
+	  	from used_message_chat
+	  	where member_id =#{memberId}
+  </select>
+  <!-- 채팅 -->
+  <select id="selectMessageList" parameterType="map" resultType="msg">
+  	select
+  		um_no as unNo,
+  		um_sender as umSender,
+  		um_receiver as umReceiver,
+  		message,
+  		check_message as checkMessage,
+  		um_date as umDate
+  	from used_message
+  	where (um_sender =#{sender} and um_receiver =#{receiver}) or (um_sender =#{receiver} and um_receiver =#{sender}) 
+  </select>
+  
+  
+  
+  
+  <!-- 채팅 -->
+ <!--  <select id="selectOneRoom" parameterType="map" resultType="_int">
+  	select
+  		room_no as roomNo
+  	from used_message_chat 
+  	where (member_id =#{sender} and used_trade_writer =#{receiver}) or (used_trade_writer = #{receiver} and member_id =#{sender})
+  </select>
+  <insert id="insertRoom" parameterType="map">
+  	insert into used_message_chat values(umc_seq.nextval,#{sender},#{receiver})
+  </insert>
+  <insert id="insertMsg" parameterType="map">
+  	insert into used_message values(um_seq.nextval,#{sender),#{receiver},#{message},'읽지않음',to_char(sysdate,'yyyy-mm-dd'))
+  </insert> -->
+  
 </mapper>

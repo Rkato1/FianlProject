@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.camp.used.vo.UsedMessageChatVO;
+import com.kh.camp.used.vo.UsedMessageVO;
 import com.kh.camp.used.vo.UsedVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveCampVO;
@@ -80,5 +82,4 @@ public class MemberDao {
 	public int deleteMember(int memberNo) {
 		return sqlSession.delete("member.deleteMember", memberNo);
 	}
-
 }
