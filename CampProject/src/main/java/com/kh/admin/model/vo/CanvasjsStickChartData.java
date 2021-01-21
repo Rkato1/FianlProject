@@ -51,12 +51,13 @@ public class CanvasjsStickChartData {
 				}
 			}
 		}
-		
-		//1등과 2등의 순서를 바꿔서 2 1 3 순서로 출력되게 변환
-		map = new HashMap<Object,Object>();
-		map = dataPoints1.get(0);
-		dataPoints1.set(0, dataPoints1.get(1));
-		dataPoints1.set(1, map);
+		if(dataPoints1.size()>1) {
+			//1등과 2등의 순서를 바꿔서 2 1 3 순서로 출력되게 변환
+			map = new HashMap<Object,Object>();
+			map = dataPoints1.get(0);
+			dataPoints1.set(0, dataPoints1.get(1));
+			dataPoints1.set(1, map);
+		}
 		
 		list.add(dataPoints1);
 //		System.out.println("배열 = "+list);
@@ -103,13 +104,13 @@ public class CanvasjsStickChartData {
 				}
 			}
 		}		
-		
-		//1등과 2등의 순서를 바꿔서 2 1 3 순서로 출력되게 변환
-		map = new HashMap<Object,Object>();
-		map = dataPoints1.get(0);
-		dataPoints1.set(0, dataPoints1.get(1));
-		dataPoints1.set(1, map);
-		
+		if(dataPoints1.size()>1) {
+			//1등과 2등의 순서를 바꿔서 2 1 3 순서로 출력되게 변환
+			map = new HashMap<Object,Object>();
+			map = dataPoints1.get(0);
+			dataPoints1.set(0, dataPoints1.get(1));
+			dataPoints1.set(1, map);
+		}
 		list.add(dataPoints1);
 		//System.out.println("크기 = "+list.size());
 		//System.out.println("배열 = "+list);
