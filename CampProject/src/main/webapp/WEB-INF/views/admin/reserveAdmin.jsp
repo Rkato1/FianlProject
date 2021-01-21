@@ -51,7 +51,7 @@
 							<td>${r.reservePrice }</td>
 							<td>${r.reservePw }</td>
 							<td>${r.carNumber }</td>
-							<td>${r.reserveMemo }</td>
+							<td data-toggle="tooltip" data-placement="right" title="${r.reserveMemo }">${r.reserveMemo }</td>
                        	</tr>
                        	</c:forEach>
                     </table>

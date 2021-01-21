@@ -52,7 +52,7 @@ public class CampController {
 	public String calendar() {
 		return "calendar/calendar";
 	}
-	
+
 	@RequestMapping("/searchCampList.do")
 	public String searchCampList(Model model,int reqPage,String keyword,String value) {
 		CampPageData cpd = service.campSearchList(reqPage,keyword,value);

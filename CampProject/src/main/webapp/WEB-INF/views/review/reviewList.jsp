@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>캠핑후기</title>
 <!-- Font Awesome-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 <!-- Google Fonts-->
@@ -212,7 +212,7 @@
             	<c:if test="${empty list }">
             	<tr>
             		<td colspan="6" style="text-align:center;">
-            			검색하신 캠핑장에 대한 결과가 존재하지 않습니다.
+            			조회 결과가 존재하지 않습니다.
             		</td>
             	</tr>	
             	</c:if>

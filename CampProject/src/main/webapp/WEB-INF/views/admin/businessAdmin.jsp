@@ -42,14 +42,15 @@
 						<tr>
                         	<td>${c.campNo }</td>
                         	<td>${c.campName }</td>
-                        	<td>${c.campAddr }</td>
+                        	<td data-toggle="tooltip" data-placement="right" title="${c.campAddr }">${c.campAddr }</td>
                         	<td>${c.memberNo }</td>
-                        	<td>${c.campShow }</td>
+                        	<!-- td> <p data-tooltip-text="${c.campShow }">${c.campShow }</p></td-->
+                        	<td data-toggle="tooltip" data-placement="right" title="${c.campShow }">${c.campShow }</td>
                         	<td>${c.campType }</td>
                         	<td>${c.campPh }</td>
                         	<td>${c.campPeriod }</td>
                         	<td>${c.campDay }</td>
-                        	<td>${c.campFacility }</td>
+                        	<td data-toggle="tooltip" data-placement="right" title="${c.campFacility }">${c.campFacility }</td>
                        	</tr>
                        	</c:forEach>
                     </table>

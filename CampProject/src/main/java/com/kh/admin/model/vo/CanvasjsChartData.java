@@ -16,17 +16,18 @@ public class CanvasjsChartData {
 		map=null;
 		dataPoints1 = new ArrayList<Map<Object,Object>>();
 		list=new ArrayList<List<Map<Object,Object>>>();
-		
-		for(int i=0; i<monthArray.size(); i++) {
-			map = new HashMap<Object,Object>();
-			map.put("x", monthArray.get(i));
-			//System.out.println("x값 = "+monthArray.get(i));
-			map.put("y", monthSales.get(i));
-			//System.out.println("y값 = "+monthSales.get(i));
-			dataPoints1.add(map);
-//			System.out.println(i+"번째 반복");
+		if(monthArray.size()!=0) {
+			for(int i=0; i<monthArray.size(); i++) {
+				map = new HashMap<Object,Object>();
+				map.put("x", monthArray.get(i));
+				//System.out.println("x값 = "+monthArray.get(i));
+				map.put("y", monthSales.get(i));
+				//System.out.println("y값 = "+monthSales.get(i));
+				dataPoints1.add(map);
+				//System.out.println(i+"번째 반복");
+			}
+			list.add(dataPoints1);
 		}
-		list.add(dataPoints1);
 //		System.out.println("크기 = "+list.size());
 //		System.out.println("배열 = "+list);
 		return list;

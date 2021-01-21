@@ -16,7 +16,7 @@ public class SiteVO { //예약장소
 	private int maxNight;//max_night 최대박수
 	private int discountPay;//discount_pay 연박할인금액
 	private int addCntPay;//add_cnt_pay 추가인원금액
-	private int addCarPay;//add_car_pay 추가차량금액
+	private int addCarPay;//add_car_pay 
 	private int usingCnt;//using_cnt 이용자수
 	private int usingPay;//using_pay 이용금액
 	private int usingNight;//using_night 이용박수

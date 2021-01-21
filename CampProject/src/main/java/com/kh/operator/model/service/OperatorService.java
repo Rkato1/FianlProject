@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
+import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.dao.OperatorDao;
 import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.reserve.model.vo.ReserveVO;
 import com.kh.review.model.vo.ReviewCampVO;
-import com.kh.review.model.vo.ReviewCommentVO;
-import com.kh.review.model.vo.ReviewFileVO;
 import com.kh.review.model.vo.ReviewPageData;
-import com.kh.review.model.vo.ReviewVO;
-import com.kh.review.model.vo.ReviewViewData;
 
 @Service
 public class OperatorService {
@@ -28,7 +26,7 @@ public class OperatorService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		for(CampVO camp : list) {
 			map.put("campNo",camp.getCampNo());
-			map.put("filegrade", 1);
+			map.put("fileGrade", 1);
 			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 			camp.setPictureList(pictureList);		
 		}
@@ -39,7 +37,7 @@ public class OperatorService {
 		CampVO camp = dao.selectOneCamp(c);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("campNo", camp.getCampNo());
-		map.put("filegrade", 0);
+		map.put("fileGrade", 0);
 		ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 		camp.setPictureList(pictureList);
 		return camp;
@@ -202,9 +200,97 @@ public class OperatorService {
 	}
 
 	public int deleteCamp(int campNo) {
-		int result = dao.deleteCamp(campNo);
+		int result1 = dao.deleteCamp(campNo);
+		int result2 = 0;
+		if(result1>0) {
+			result2 = dao.deleteCampPicture(campNo);
+		}
+		return result1;
+	}
+
+	public int insertCamp(CampVO c) {
+		int result = dao.insertCamp(c);
+		if(result>0) {
+			int campNo = dao.selectLastCamp();
+			for(CampPictureVO cpv : c.getPictureList()) {
+				cpv.setCampNo(campNo);
+				result = dao.insertPicture(cpv);
+			}
+		}
 		return result;
 	}
 
-	
+	public int updateCamp(CampVO c) {
+		System.out.println("서비스 사진 배열 : "+c.getPictureList().size());
+		int result = dao.updateCamp(c);
+		int result2 =0;
+		if(result>0) {
+				if(c.getPictureList().size()==1) {
+					result2 +=updateMainImg(c.getPictureList().get(0));
+				}else if(c.getPictureList().size()>=3) {
+					result2 +=updatePicture(c.getPictureList());
+				}
+		}
+		return result;
+	}
+	public int updateMainImg(CampPictureVO cp) {
+		int result = dao.updateMainImg(cp);
+		return result;
+	}
+	public int updatePicture(ArrayList<CampPictureVO> cpList){
+		int result1 = dao.deleteCampPicture(cpList.get(0).getCampNo());
+		int result2 =0;
+		if(result1>0) {
+			for(CampPictureVO cpv : cpList) {
+				result2 += dao.insertPicture(cpv);
+			}
+		}
+		return result2;
+	}
+
+	public ArrayList<SiteVO> selectSiteList(CampVO c) {
+		ArrayList<SiteVO> sList = dao.selectSiteList(c);
+		return sList;
+	}
+	public ArrayList<String> selectCategorys(int campNo) {
+		ArrayList<String> categorys = dao.selectCategorys(campNo);
+		return categorys;
+	}
+	public int insertSite(SiteVO s) {
+		int result = dao.insertSite(s);
+		return result;
+	}
+
+	public int updateSite(SiteVO s) {
+		int result = dao.updateSite(s);
+		return result;
+	}
+
+	public int deleteSite(int siteNo) {
+		int result = dao.deleteSite(siteNo);
+		return result;
+	}
+
+	public SiteVO selectOneSite(int siteNo) {
+		SiteVO site = dao.selectOneSite(siteNo);
+		return site;
+	}
+
+	public int updateInfoImg(CampPictureVO f) {
+		return dao.updateInfoImg(f);
+	}
+
+	public int insertInfoImg(CampPictureVO f) {
+		return dao.insertInfoImg(f);
+	}
+	public ArrayList<ReserveVO> selectReservationList(ReserveVO r){
+		return dao.selectReserveList(r);
+	}
+	public ArrayList<CampPictureVO> selectCampPictureList(int campNo,int grade){
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("campNo", campNo);
+		map.put("fileGrade", grade); 
+		ArrayList<CampPictureVO> list = dao.selectPictureList(map);
+		return list;
+	}
 }

@@ -35,8 +35,9 @@ public class CampService {
 		ArrayList<CampVO> list = dao.selectList(map);
 		for (CampVO c : list) {
 			map.put("campNo", c.getCampNo());
-			map.put("filegrade", 1);
-			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
+			map.put("fileGrade", 1);
+			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);			
+
 			c.setPictureList(pictureList);
 
 			ArrayList<SiteVO> siteList = dao.selectSiteListMap(map);
@@ -89,8 +90,13 @@ public class CampService {
 
 		// Camp객체에 소개이미지 리스트 넣기 등급은 2번
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
+<<<<<<< HEAD
 		map.put("campNo", camp.getCampNo());
 		map.put("filegrade", 2);
+=======
+		map.put("campNo", c.getCampNo());
+		map.put("fileGrade", 2);
+>>>>>>> eb163b1772d21f1933b64812894507a22a91478d
 		ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 		// DB에서 검색해서 하나라도 있으면 셋팅
 		if (pictureList.size() > 0) {
@@ -157,10 +163,24 @@ public class CampService {
 			cal.add(Calendar.DATE, 1); // 1일 더해준다
 			startDate = sdf.format(cal.getTime());// 1일더한 값을 String으로 startDate저장한다.
 		}
+<<<<<<< HEAD
 		if (idx > 0) {
 			events = events.substring(0, events.length() - 1); // {}를 만들었다면 마지막 ',' 지우기
 		}
 		//마지막 출력전 셋팅
+=======
+		ReserveDatesVO rdv = new ReserveDatesVO();
+		rdv.setDateList(dateList);
+		if(idx != 0) {
+			events = events.substring(0, events.length()-1); //{}를 만들었다면 마지막 ',' 지우기
+		}	
+		
+		map.put("fileGrade", 3);
+		ArrayList<CampPictureVO> layoutList = dao.selectPictureList(map);
+		camp.setLayoutList(layoutList);		
+		
+		CampEventData ced = new CampEventData();
+>>>>>>> eb163b1772d21f1933b64812894507a22a91478d
 		ced.setCamp(camp);
 		ced.setEvents(events);
 		return ced;

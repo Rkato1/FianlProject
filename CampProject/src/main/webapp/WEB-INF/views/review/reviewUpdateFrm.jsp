@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>캠핑후기 | 수정하기</title>
 <!-- Google Fonts-->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <!-- BOOTETRAP -->
@@ -107,7 +107,7 @@
 	
 	<div class="content-wrap">
         <div class="review-title">
-            <h2 class="review-title-text">리뷰수정하기</h2>
+            <h2 class="review-title-text">후기수정하기</h2>
         </div>
         <div class="review-table">
             
@@ -154,7 +154,7 @@
 							<input type="hidden" id="status" name="status" value="stay">
 							<c:choose>
 								<c:when test="${!empty rev.fileList }"><!-- 첨부파일이 존재할 때 -->
-									<input type="file" name="files" multiple><br>
+									<input type="file" name="files" id="isFile" accept="image/*" multiple><br>
 									<c:forEach items="${rev.fileList }" var="f">
 										<div class="delFileDiv">
 											<span class="delFileSpan">${f.filename }</span>
@@ -164,7 +164,7 @@
 								</c:when>
 								
 								<c:otherwise><!-- 첨부파일이 존재하지 않을 때 -->
-									<input type="file" name="files" multiple>
+									<input type="file" name="files" id="isFile" accept="image/*" multiple>
 								</c:otherwise>
 							</c:choose>			
                         </td>
@@ -186,6 +186,31 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	
 	<script>
+		$(function() {
+	        //Submit 버튼
+	        $("#updateBtn").click(function(event) {	        	
+	        	var reviewTitle = $("#reviewTitle").val();
+	        	var reviewContent = $("#reviewContent").val();
+	        	var reviewContentCk = CKEDITOR.instances.reviewContent.getData();
+        	
+	        	if(reviewTitle == "" || reviewContentCk == "") {
+	                alert("*는 필수 입력 항목입니다.");
+	                event.preventDefault();
+	        	} else {
+		    		//이미지 파일만 등록가능하도록 유효성 검사
+		    		var imgFile = $('#isFile').val();
+		    		var fileForm = /(.*?)\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP)$/;
+		    		
+		    		if(imgFile != "") {
+		    		    if(!imgFile.match(fileForm)) {
+		    		    	alert("이미지 파일만 업로드 가능합니다.");
+		    		    	event.preventDefault();
+		    		    }
+		    		}
+	        	}
+	        })
+		 });
+		
 		//삭제된 파일 리스트를 담을 배열 생성
 		var delList = new Array();
 		
@@ -209,8 +234,7 @@
 				$("#status").val('delete');
 			};
 		});
-		
-		
+			
 		//별 클릭하면 채워진 별 이미지로 변경하는 이벤트
 		//한번만 클릭되고 다음부터는 안되는 문제가 있었음
 		//-> $(document).on 페이지가 로드 될때 계속 새로운 클래스로 생성
@@ -236,9 +260,8 @@
 		CKEDITOR.replace('reviewContent', {
 			height: 500
 		});
-		
+			
 	</script>
-
 
 </body>
 </html>
