@@ -57,7 +57,7 @@ private boolean isOperator = false;
 		if(member!=null) {
 			if(member.getMemberGrade()==2) {
 				CampVO c = new CampVO();
-				c.setMemberNo(member.getMemberGrade());
+				c.setMemberNo(member.getMemberNo());
 				ArrayList<CampVO> camplist = service.selectCampList(c); //camp 리스트 가져옴.
 				model.addAttribute("campList",camplist);
 				return "operator/operatorpage";
