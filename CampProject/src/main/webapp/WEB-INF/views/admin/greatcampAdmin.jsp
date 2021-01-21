@@ -17,6 +17,7 @@
 <script type="text/javascript" src="/js/admin/admin.js"></script>
 <script type="text/javascript">
 window.onload = function() {
+	
 	var f = new FontFace('jua', 'url(/css/admin/BMJUA_ttf.ttf)');
 	var dps = [[]];	
 	//이부분에서 거르기
@@ -111,7 +112,7 @@ window.onload = function() {
 		</c:forEach>	
 	</c:forEach> 
 	 
-	chart.render();
+	chart.render();	
 }
 	function setValues(){
 		var option = $("#option option:selected").val();
@@ -140,6 +141,9 @@ window.onload = function() {
             </div>
         </div>
 
-    </div> 
+    </div>
+    <script>
+    	$("#option").val('${option}').attr("selected","selected");
+    </script>
 </body>
 </html>

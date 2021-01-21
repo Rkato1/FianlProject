@@ -32,6 +32,7 @@ public class NoticeController {
 		NoticePageData npd = service.selectAllNotice(reqPage);
 		model.addAttribute("list", npd.getList());
 		model.addAttribute("pageNavi", npd.getPageNavi());
+		model.addAttribute("reqPage", reqPage);
 		return "notice/noticeList";
 	}
 	
@@ -93,10 +94,11 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/noticeView.do")
-	public String selectOnenotice(Notice n, Model model) {
+	public String selectOnenotice(Notice n, Model model, int reqPage) {
 		Notice notice = service.selectOneNotice(n.getNoticeNo());
 		//System.out.println(notice.getNoticeNo());
 		model.addAttribute("n", notice);
+		model.addAttribute("reqPage", reqPage);
 		return "notice/noticeView";
 	}
 

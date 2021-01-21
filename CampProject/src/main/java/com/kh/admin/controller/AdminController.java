@@ -164,13 +164,14 @@ public class AdminController {
 				rpd = service.adminAnswerList(reqPage);
 				model.addAttribute("list", rpd.getList());
 				model.addAttribute("pageNavi", rpd.getPageNavi());
-				model.addAttribute("title", "답변한 글들");
+				model.addAttribute("title", "답변한 글들");				
 			}else {
 				rpd = service.adminNotAnswerList(reqPage);
 				model.addAttribute("list", rpd.getList());
 				model.addAttribute("pageNavi", rpd.getPageNavi());
 				model.addAttribute("title", "답변하지 않은 글들");
 			}
+			model.addAttribute("option", option);
 			return "admin/helpAdmin";
 		}else {
 			model.addAttribute("msg", "관리자가 아닙니다.");
