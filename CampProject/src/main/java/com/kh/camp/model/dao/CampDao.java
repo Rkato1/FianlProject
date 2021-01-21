@@ -106,6 +106,10 @@ public class CampDao {
 		return reserveCanCampNolist.size();
 	}
 
+	public Object getPointAvg(int campNo) {
+		return sqlSession.selectOne("camp.pointAvg",campNo);
+	}
+
 
 
 	//public ArrayList<CampNoticeVO> selectNoticeList(CampVO camp) {

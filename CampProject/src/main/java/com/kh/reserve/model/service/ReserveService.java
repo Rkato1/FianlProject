@@ -38,12 +38,13 @@ public class ReserveService {
 		ArrayList<SiteVO> list = new ArrayList<SiteVO>();
 		// 1번째 해당 캠프번호해당 날짜 리스트 그외 캠프번호와 0000-00-00입력된 리스트확인
 		ArrayList<SiteVO> list1 = dao.selectSiteList(map);
+		
 		ArrayList<MemberVO> memberList = new ArrayList<MemberVO>();
 		ArrayList<ReserveVO> reserveList = new ArrayList<ReserveVO>();
 		for (SiteVO s : list1) {
 			SiteVO site = new SiteVO();
 			s.setCampNo(camp.getCampNo());
-			// 사이트에 리스트에 campNo가 있으면 reserveDate는 그대로 없으면 0000-00-00으로 설정
+			// 사이트에 리스트에 memberNo가 있으면 reserveDate는 그대로 없으면 0000-00-00으로 설정
 			if (s.getMemberNo() != 0) {
 				s.setReserveDate(date);
 			} else {
@@ -168,7 +169,6 @@ public class ReserveService {
 
 
 	public int insertReserve(ReserveVO reserve, String siteArr) {
-		System.out.println("insertReserve.service 호출");
 		String item[] = siteArr.split(",");
 		//0번부터 23번까지가 1개의 site객체입니다.
 		//총개수 96개면  4개의 사이트가 입력된거겠죠
@@ -204,7 +204,6 @@ public class ReserveService {
 			site.setPolarEndPay(Integer.parseInt(item[idx++]));
 			siteList.add(site);		
 		}
-		System.out.println("siteList.size = "+siteList.size());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		//siteList만큼 반복
@@ -221,7 +220,6 @@ public class ReserveService {
 				Date date = sdf.parse(startDate); //date형변환
 				//일단 한번 site insert				
 				result += dao.insertSite(s); 
-				System.out.println("1번 dao result = "+result);
 				//그담에 usingNight수만큼 추가 site insert
 				Calendar cal = Calendar.getInstance(); //날짜 초기화
 				for(int i =0;i<s.getUsingNight();i++) {					
@@ -230,7 +228,6 @@ public class ReserveService {
 					nextDate = sdf.format(cal.getTime());//다음날짜 설정					
 					s.setReserveDate(nextDate); //site객체에 설정
 					result += dao.insertSite(s); //다시 insert
-					System.out.println("2번 dao result = "+result);
 					date = sdf.parse(nextDate);//다음날짜 데이트형식 다시넣기	
 				}
 				//마지막 nextDate가 checkoutDate니까
@@ -239,7 +236,6 @@ public class ReserveService {
 				reserve.setReserveStatus("결제대기");
 				reserve.setCheckOutDate(nextDate);
 				result += dao.insertReserve(reserve);
-				System.out.println("3번 dao result = "+result);
 				
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block

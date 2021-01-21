@@ -63,9 +63,9 @@ img {
 	font-weight: bold;
 }
 
-.item-image:hover {
+/* .item-image:hover {
 	color: #FA9B00;
-}
+} */
 
 .item-image {
 	color: white;
@@ -146,11 +146,44 @@ img {
 	cursor: pointer;
 }
 .camp_addr{
-	font-size: 13px;
+    width: 100%;
+    height: 14px;
+	font-size: 12px;
 }
-.aLink * {
-	display: inline-block;
-}
+
+.camp_name,
+    .camp_name>div,
+    .item-price,
+    .item-price>div {
+        display: flex;
+
+    }
+
+    .item-left {
+        width: 80%;
+        justify-content: flex-start;
+    }
+
+    .item-right {
+        width: 20%;
+        justify-content: flex-end;
+
+    }
+
+    .item-right>i {
+        color: #ffffff;
+
+    }   
+    a {
+        color: white;
+        display: block;
+        
+    }
+
+    a:hover * {
+        color:  #FA9B00;      
+    }
+
 
 
 </style>
@@ -214,7 +247,7 @@ img {
 					<c:if test="${size % 5 > 0}">
 						<c:set var="end1" value="${end1+1 }" />
 					</c:if>
-					<c:set var="idx" value="0" />
+					<c:set var="idx" value="0" /> <!-- 초기화 -->
 
 					<c:forEach var="i" begin="1" end="${end1}">
 						<c:choose>
@@ -238,30 +271,41 @@ img {
 													src="resources/upload/camp/${c.pictureList[0].filepath }">
 												<c:choose>
 													<c:when test="${c.siteList[0].lowDayPay > 0 }">
-												<span>최저 	${c.siteList[0].lowDayPay } ~</span>
-											</c:when>
+														<div class="item-left"><span>최저 	${c.siteList[0].lowDayPay } ~</span></div>
+													</c:when>
 													<c:otherwise>
-												<span>미등록</span>
-											</c:otherwise>
+														<div class="item-left"><span>미등록</span></div>
+													</c:otherwise>
 												</c:choose>
-
+												<c:choose>
+													<c:when test="${pointList[idx]> 0 }">
+														<div class="item-right">
+															<i class="fas fa-star"></i>${pointList[idx]}"
+														  </div>
+													</c:when>
+													<c:otherwise>
+														<div class="item-right"></div>
+													</c:otherwise>
+												</c:choose>
 											</div>
 										</div>
 									</a>
 									<div class="item-bottom">
 										<div class="camp_name">${c.campName }</div>
-										<div class="camp_addr">${c.campAddr }</div>
-										<button class="btn btn-outline-dark btn-sm camp_button"
-											onclick="location.href='/campView.do?campNo=${c.campNo}&reqPage=1'">상세보기</button>
+										<div class="camp_addr">${c.campAddr }</div><br>
+										<button class="btn btn-outline-dark btn-sm camp_button" style="display: inline-block;"
+											onclick="location.href='/campView.do?campNo=${c.campNo}&reqPage=1'">상세보기</button>									
 									</div>
+									
 								</div>
-								<c:set var="idx" value="${idx+1 }" />
+								<c:set var="idx" value="${idx+1 }" /> <!-- idx증가 -->
 							</c:forEach>
 							<c:forEach var="j" begin="1" end="${end3}">
 								<div class="item"></div>
 							</c:forEach>
 						</div>
 					</c:forEach>
+					<br><br>
 					<div class="content">
 						<div class="items-navi">
 							<div class="btn-group">${pageNavi }</div>
