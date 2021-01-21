@@ -105,7 +105,7 @@ public class AdminController {
 				dataList.add(new ChartBasicData(numList.get(i), nameList.get(i)));
 			}
 			String campName="";
-			if(campNo==0) {
+			if(campNo==0 && dataList.size()!=0) {
 				campNo = dataList.get(0).getCampNo();
 				campName = dataList.get(0).getCampName();
 			}else {
