@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>캠핑후기 | 작성하기</title>
 <!-- Google Fonts-->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <!-- BOOTETRAP -->
@@ -101,7 +101,7 @@
 	
     <div class="content-wrap">
         <div class="review-title">
-            <h2 class="review-title-text">리뷰작성하기</h2>
+            <h2 class="review-title-text">후기작성하기</h2>
         </div>
         <div class="review-table">
             
@@ -143,7 +143,7 @@
                     </tr>
                     <tr>
                         <td>첨부파일</td>
-                        <td><input type="file" name="files" multiple></td>
+                        <td><input type="file" name="files" id="isFile" accept="image/*" multiple></td>
                     </tr>
                     <tr>
                         <td>내용<span id="required">*</span></td>
@@ -174,6 +174,17 @@
 	        	if(reviewTitle == "" || reserveNo == "" || reviewPoint == "" || reviewContentCk == "") {
 	                alert("*는 필수 입력 항목입니다.");
 	                event.preventDefault();
+	        	} else {
+		    		//이미지 파일만 등록가능하도록 유효성 검사
+		    		var imgFile = $('#isFile').val();
+		    		var fileForm = /(.*?)\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP)$/;
+		    		
+		    		if(imgFile != "") {
+		    		    if(!imgFile.match(fileForm)) {
+		    		    	alert("이미지 파일만 업로드 가능합니다.");
+		    		    	event.preventDefault();
+		    		    }
+		    		}
 	        	}
 	        })
 		 });
@@ -215,12 +226,13 @@
 			$(".point").val((idx + 1));
 			console.log($(".point").val());
 		});
-	
+
 		//id가 reviewContent인 태그에 ckeditor를 적용시킴
 		//이미지 업로드 불가
 		CKEDITOR.replace('reviewContent', {
 			height: 500
 		});
+		
     </script>
     
 </body>
