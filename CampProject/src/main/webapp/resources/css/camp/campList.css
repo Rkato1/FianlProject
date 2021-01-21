@@ -50,6 +50,7 @@ img {
 
 .item-image:hover {
 	color: #FA9B00;
+	text-decoration: none;
 }
 
 .item-image {

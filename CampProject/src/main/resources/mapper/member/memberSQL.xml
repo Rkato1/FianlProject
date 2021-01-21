@@ -11,7 +11,7 @@
 			member_pw as memberPw,
 			member_email as memberEmail,
 			member_reg_date as memberRegDate,
-			member_grade
+			member_grade as memberGrade
 		from member where member_id=#{memberId}
 		<if test="memberPw != null">
 			and member_pw=#{memberPw}

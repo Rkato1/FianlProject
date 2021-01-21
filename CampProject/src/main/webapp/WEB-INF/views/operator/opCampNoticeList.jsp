@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>CAC : 사업자 페이지 캠핑장 공지사항</title>
 <link href="../css/operator/menu_content.css" type="text/css"
 	rel="stylesheet">
 <link href="../css/operator/opNoticeList.css" type="text/css"
@@ -15,6 +15,8 @@
 	<jsp:include page="/WEB-INF/views/operator/opHeader.jsp" />
 	<section>
 		<div>
+			<div><a href="/operatorpage.do">목록으로</a></div>
+        	<hr>
 			<div>
 				<h2>${camp.campName }</h2>
 			</div>
@@ -26,9 +28,9 @@
 						<a href="/opCampView.do?campNo=${camp.campNo}">
 							<li>캠핑장소개</li>
 						</a>
-						<a href="/opCampSite"><li>구역 안내</li></a>
+						<a href="/opCampSite.do?campNo=${camp.campNo }"><li>구역 안내</li></a>
 					</ul>
-					<a href="/opReservation.do"><li>예약현황</li></a>
+					<a href="/opReservation.do?campNo=${camp.campNo }&reqPage=1"><li>예약현황</li></a>
 					<a href="opNoticeList.do?campNo=${camp.campNo}&reqPage=1"><li style="border-bottom: 4px solid rgb(250, 220, 0);">공지사항</li></a>
 					<a href="/opReviewList.do?campNo=${camp.campNo }&reqPage=1"><li>리뷰관리</li></a>
 				</ul>
@@ -76,6 +78,9 @@
 	</section>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	<script>
+	$(function(){
+		$('#menu>ul>li').next().hide();
+	});
 		$('#menu>ul>li').click(function(){
 	 		$(this).next().slideToggle();
 	 	});

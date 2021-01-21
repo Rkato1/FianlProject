@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
+import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.reserve.model.vo.ReserveVO;
 import com.kh.review.model.vo.ReviewCampVO;
 import com.kh.review.model.vo.ReviewVO;
 
@@ -27,6 +29,7 @@ public class OperatorDao {
 	}
 	public ArrayList<CampPictureVO> selectPictureList(HashMap<String, Integer> map) {
 		List<CampPictureVO> list = sqlSession.selectList("camp.selectPictureList",map);
+		System.out.println("dao : "+list.size());
 		return (ArrayList<CampPictureVO>)list;
 	}
 	public ArrayList<CampNoticeVO> selectCampNoticeList(HashMap<String, Integer> map) {
@@ -57,6 +60,54 @@ public class OperatorDao {
 	}
 	public int deleteCamp(int campNo) {
 		return sqlSession.delete("camp.deleteCamp", campNo);
+	}
+	public int insertCamp(CampVO c) {
+		return sqlSession.insert("camp.insertCamp", c);
+	}
+	public int selectLastCamp() {
+		return sqlSession.selectOne("camp.selectLastCamp");
+	}
+	public int insertPicture(CampPictureVO cpv) {
+		return sqlSession.insert("camp.insertCampPicture", cpv);
+	}
+	public int deleteCampPicture(int campNo) {
+		return sqlSession.delete("camp.deleteCampPicture", campNo);
+	}
+	public int updateCamp(CampVO c) {
+		return sqlSession.update("camp.updateCamp",c);
+	}
+	public int updateMainImg(CampPictureVO cp) {
+		return sqlSession.update("camp.updateMainImg",cp);
+	}
+	public ArrayList<SiteVO> selectSiteList(CampVO c) {
+		List<SiteVO> list = sqlSession.selectList("camp.selectSiteListNo", c.getCampNo());
+		return (ArrayList<SiteVO>)list;
+	}
+	public ArrayList<String> selectCategorys(int campNo) {
+		List<String> list = sqlSession.selectList("camp.selectCategorys", campNo);
+		return (ArrayList<String>)list;
+	}
+	public int insertSite(SiteVO s) {
+		return sqlSession.insert("camp.insertSite", s);
+	}
+	public int updateSite(SiteVO s) {
+		return sqlSession.update("camp.updateSite", s);
+	}
+	public int deleteSite(int siteNo) {
+		return sqlSession.delete("camp.deleteSite", siteNo);
+	}
+	public SiteVO selectOneSite(int siteNo) {
+		return sqlSession.selectOne("camp.selectOneSite", siteNo);
+	}
+	public int updateInfoImg(CampPictureVO f) {
+		return sqlSession.update("camp.updateInfoImg", f);
+	}
+	public int insertInfoImg(CampPictureVO f) {
+		return sqlSession.insert("camp.insertCampPicture", f);
+	}
+	public ArrayList<ReserveVO> selectReserveList(ReserveVO r) {
+		 List<ReserveVO> list = sqlSession.selectList("reserve.selectReserveList", r);
+		 return (ArrayList<ReserveVO>)list;
 	}
 
 }
