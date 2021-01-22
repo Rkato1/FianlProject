@@ -21,7 +21,7 @@
         }
 
         .content-wrap {
-            width: 600px;
+            width: 800px;
             margin: 0 auto;
             padding-top: 40px;
             padding-bottom: 80px;
@@ -30,7 +30,7 @@
         }
 
         .mypage-header {
-            width: 82%;
+            width: 60%;
             height: 100px;
             margin: 0 auto;
         }
@@ -58,7 +58,7 @@
         /*--------------------------------*/
 
         .mypage-menu {
-            width: 97%;
+            width: 72%;
             overflow: hidden;
             margin: 0 auto;
             margin-top: 10px;
@@ -353,10 +353,11 @@
                 		<c:forEach items="${listRes }" var="res">
                 		<tr>
                     		<td id="link">
-                    			<a href="/campView.do?campNo=${res.campNo}&reqPage=1">${res.campName }</a>
+                    			<a href="/reserveUpdateFrm.do?reserveNo=${res.reserveNo}">${res.campName }</a>
+                    			<!-- <a href="/campView.do?campNo=${res.campNo}&reqPage=1">${res.campName }</a> -->
                     		</td>
                         	<td>${res.checkInDate } - ${res.checkOutDate }</td>
-                        	<td><fmt:formatNumber value="${res.reservePrice }" pattern="#,###" /></td>
+                        	<td><fmt:formatNumber value="${res.reservePrice }" pattern="#,###" />원</td>
                         	<td id="state">${res.reserveStatus }</td>
                     	</tr>
                     	</c:forEach>
@@ -438,7 +439,7 @@
                     		<a href="/usedDatail.do?usedNo=${used.usedNo }">${used.usedTitle }</a>
                     	</td>
                         <td>${used.category }</td>
-                        <td>${used.usedPrice }</td>
+                        <td>${used.usedPrice }원</td>
                         <td>${used.usedDate }</td>
                     </tr>
                 </c:forEach>
