@@ -154,11 +154,6 @@ public class ReviewService {
 			pageNavi += "<a class='btn btn-outline-dark' href='reviewList.do?reqPage="+pageNo+"'>다음</a>";
 		}
 		
-		//검색 후에 조회된 결과가 없으면 페이지 네비 없애기
-		if(totalCount == 0) {
-			pageNavi = "";
-		}
-		
 		ReviewPageData rpd = new ReviewPageData(list, pageNavi);
 		return rpd;
 	}
