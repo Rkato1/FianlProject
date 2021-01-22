@@ -127,11 +127,11 @@
             <td><input class="inpText" type="text" value="${sessionScope.m.memberId }" name="usedWriter" readonly></td>
           </tr>
           <tr>
-            <td>상품명</td>
+            <td>상품명<span style="color:#fa9b00; font-size: 18px;">*</span></td>
             <td><input class="inpText" type="text" placeholder="상품명 입력" name="usedTitle" id="title" value="${u.usedTitle }"><span id="sp1"></span></td>
           </tr>
           <tr>
-            <td>상품종류</td>
+            <td>상품종류<span style="color:#fa9b00; font-size: 18px;">*</span></td>
             <td>
               <select name="category" class="inpText" id="category">
                 <option value="${u.category }" selected>${u.category }</option>
@@ -151,7 +151,7 @@
             </td>
           </tr>
           <tr>
-            <td>금액입력</td>
+            <td>금액입력<span style="color:#fa9b00; font-size: 18px;">*</span></td>
             <td><input type="text" class="inpText" placeholder="숫자만 입력해주세요." name="usedPrice" id="price" value="${u.usedPrice }"><span id="sp3"></span></td>
           </tr>
           <tr>
@@ -201,7 +201,7 @@
             </td>
           </tr>
           <tr>
-            <td style="line-height: 100px;">상품설명</td>
+            <td style="line-height: 100px;">상품설명<span style="color:#fa9b00; font-size: 18px;">*</span></td>
             <td>
               <textarea class="inpTextrea" name="usedContent" id="content" cols="80" rows="7" style="resize: none; line-height: 14px;" placeholder=" 상품에 대한 설명을 적어주세요." spellcheck="false">${u.usedContent }</textarea>
               <span id="sp4"></span>

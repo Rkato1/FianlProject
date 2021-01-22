@@ -247,22 +247,26 @@
                         <!-- Add Pagination -->
                         <div class="swiper-pagination"></div>
                         <!-- Add Arrows -->
-                        <div class="swiper-button-next" style="color: #1d0202;"></div>
-                        <div class="swiper-button-prev" style="color: #1d0202;"></div>
+                        <div class="swiper-button-next" style="color: #fa9b00;"></div>
+                        <div class="swiper-button-prev" style="color: #fa9b00;"></div>
                     </div>
                 </div>
                 <div class="col-md-6 one bootcol" style="width: 450px; margin-left: 50px;">
                     <div style="font-weight: bold; font-size: 24px; margin-bottom: 30px; padding-left:15px;">
-                        <pre>${u.usedTitle }</pre>
+                        <p>${u.usedTitle }</p>
                     </div>
                     <div>
                         <div class="col-md-3 one bootcol" style="font-size: 14px; font-weight: 600;">
+                            <p>작성자</p>
+                            <p>작성일자</p>
                             <p>제품종류</p>
                             <p>교환여부</p>
                             <p>제품상태</p>
                             <p>거래지역</p>
                         </div>
                         <div class="col-md-9 bootcol"style="font-size: 14px;">
+                            <p>${u.usedWriter }</p>
+                            <p>${u.usedDate }</p>
                             <p>${u.category }</p>
                             <p>${u.usedChange }</p>
                             <p>${u.usedState }</p>
@@ -284,7 +288,7 @@
                     <div style="font-size: 26px; text-align: center; font-weight: 800; color: #fa9b00; margin-top: 10px;">^_^</div>
                     </c:if>
                     <c:if test="${sessionScope.m.memberId != u.usedWriter && sessionScope.m != null }">
-                    <button id="chatBtn" type="button" value="" onclick="javascript:chatPop('${u.usedWriter }')">채팅하기</button>
+                    <button id="chatBtn" type="button" value="" onclick="javascript:chatPop('${u.usedWriter }')">메세지보내기</button>
                     </c:if>
                     <c:if test="${sessionScope.m.memberId == u.usedWriter }">
                     <a href="/updateEnroll.do?usedNo=${u.usedNo }"><input id="chatBtn" type="button" value="수정하기" style="margin-top: 7px; width: 49%;margin-right: 3px;"></a>
