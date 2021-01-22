@@ -10,7 +10,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 
@@ -215,8 +215,18 @@ public class ReserveService {
 		return rlv;
 	}
 
-	public CampVO selectOneCamp(CampVO camp) {
-		return dao.selectOneCamp(camp);
+	public CampVO selectOneCamp(CampVO camp) {		
+		CampVO c = new CampVO();
+		c = dao.selectOneCamp(camp);
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("campNo", c.getCampNo());
+		map.put("fileGrade", 3);
+		ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
+		if(pictureList.size()>0) {
+			c.setPictureList(pictureList);
+		}
+		return c;
 	}
 
 

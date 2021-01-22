@@ -42,9 +42,10 @@ public class CampDao {
 		return (ArrayList<SiteVO>)siteList;
 	}
 
-	public int reserveTotalCount(SiteVO site) {	
-		return sqlSession.selectOne("camp.reserveTotalCount",site);
-	}
+	/*
+	 * public int reserveTotalCount(SiteVO site) { return
+	 * sqlSession.selectOne("camp.reserveTotalCount",site); }
+	 */
 
 	public ArrayList<CampNoticeVO> campNoticeList(CampVO c) {
 		List<CampNoticeVO> noticeList = sqlSession.selectList("camp.selectCampNoticeList",c);
@@ -108,6 +109,14 @@ public class CampDao {
 
 	public Object getPointAvg(int campNo) {
 		return sqlSession.selectOne("camp.pointAvg",campNo);
+	}
+
+	public int canSiteTotal(SiteVO site) {
+		return sqlSession.selectOne("camp.canSiteTotal",site); 
+	}
+	
+	public int cantSiteCnt(SiteVO site) {
+		return sqlSession.selectOne("camp.cantSiteCnt",site); 
 	}
 
 
