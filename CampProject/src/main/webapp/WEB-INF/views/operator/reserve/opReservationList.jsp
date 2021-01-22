@@ -33,7 +33,7 @@
 			<div class="content">
 				<h4>예약 관리</h4>
 				<hr>
-				<div>입주일 기준 : <input type="date" name="checkInDate"></div>
+				<div>입주일 기준 : <input type="date" name="checkInDate" value="${checkInDate}"></div>
 				<br>
 				<table class="table table-striped">
                         <tr>
@@ -56,11 +56,11 @@
 							<td>${r.memberNo }</td>
 							<td>${r.checkInDate }</td>
 							<td>${r.checkOutDate }</td>
-							<td>${r.reserveStatus }</td>
 							<td>${r.reservePlace }</td>
 							<td>${r.reservePrice }</td>
 							<td>${r.carNumber }</td>
 							<td>${r.reserveMemo }</td>
+							<td>${r.reserveStatus }</td>
                        	</tr>
                        	</c:forEach>
                     </table>

@@ -29,7 +29,7 @@
                 		<tr>
                 			<th>메인이미지(썸네일)</th>
                 			<td>
-								  <input type="file" name="mainFile" accept="image/jpeg, image/jpg, image/png" onchange="setThumbnail(event);">  			
+								  <input type="file" name="mainFile" accept="image/jpeg, image/jpg, image/png">  			
                 			</td>
                 		</tr>
 	                     <tr>
@@ -114,15 +114,31 @@
      
      <script>
      $("[name=mainFile]").change(function(){
- 		chk_file_type($(this));
+ 		chk_file_type($("[name=mainFile]"));
  	});
      function chk_file_type(obj) {
- 		var ext = $(obj).val().split('.').pop().toLowerCase();
- 		if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
- 			alert('gif, png, jpg, jpeg 파일만 업로드 할수 있습니다.');
- 			$(obj).val("");
- 		    return  false;
- 		}
+    	 var bool = true;
+    	 console.log(obj.files);
+    	 var countFiles;
+    	 if(obj.files){
+    		 countFiles  = obj.files.length;
+	    	 for (var i = 0; i < countFiles; i++) {
+		 		var ext = obj.files[i].name.split('.').pop().toLowerCase();
+		 		if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+		 		    bool = false;
+		 		}
+	    	 }
+    	 }else{
+    		 countFiles = 1
+    		 var ext = obj.val().split('.').pop().toLowerCase();
+		 	 if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+		 		    bool = false;
+		 	 }
+    	 }
+    	 if(!bool){
+	 		alert('gif, png, jpg, jpeg 파일만 업로드 할수 있습니다.');
+	 		$(obj).val("");
+    	 }
  	}
      
      var phcheck = true;
