@@ -233,6 +233,7 @@
 			 filepath 
 		from review_file
 		where review_no = #{_parameter}
+		order by 1
 	</select>
 	
 	<update id="updateReview" parameterType="review">
