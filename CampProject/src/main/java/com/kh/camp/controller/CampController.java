@@ -1,8 +1,5 @@
 package com.kh.camp.controller;
 
-import java.util.ArrayList;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,17 +32,12 @@ public class CampController {
 	@RequestMapping("/campView.do")
 	public String campView(CampVO c, Model model,int reqPage) {
 		CampEventData ced = service.campView(c);
-		//ArrayList<CampNoticeVO> list = service.campNoticeList(c);
 		CampNoticePageData cnpd = service.selectCampNoticeList(c,reqPage);
 		model.addAttribute("camp", ced.getCamp());
 		model.addAttribute("events", ced.getEvents());
 		model.addAttribute("noticeList", cnpd.getList());
-		model.addAttribute("pageNavi", cnpd.getPageNavi());
-		
-		/*
-		 * if(ced.getReserveDates().getDateList().size()>0) {
-		 * session.setAttribute("rdv", ced.getReserveDates()); }
-		 */
+		model.addAttribute("pageNavi", cnpd.getPageNavi());		
+
 		return "camp/campView";
 	}
 	@RequestMapping("/calendar.do")

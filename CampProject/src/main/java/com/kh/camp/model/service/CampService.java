@@ -97,6 +97,7 @@ public class CampService {
 		if (pictureList.size() > 0) {
 			camp.setPictureList(pictureList);
 		}
+		
 		map.put("fileGrade", 3);// 레이아웃 3등급을 입력한다.
 		ArrayList<CampPictureVO> layoutList = dao.selectPictureList(map);
 		// DB에서 검색해서 하나라도 있으면 셋팅
@@ -110,8 +111,8 @@ public class CampService {
 		Calendar cal = Calendar.getInstance(); // 캘린더 선언 후 날짜 초기화
 		String today = sdf.format(cal.getTime()); // 오늘날짜 String으로 저장
 
-		String startDate = "2020-12-01"; // 시작날짜 임의로 지정
-		// String startDate = today ; //시작날짜 오늘로 설정
+		//String startDate = "2020-12-01"; // 시작날짜 임의로 지정
+		String startDate = today ; //시작날짜 오늘로 설정
 		cal.add(Calendar.MONTH, 2); // 오늘날짜 +2달로 설정
 		String endDate = sdf.format(cal.getTime()); // 종료 날짜 저장
 
@@ -133,11 +134,10 @@ public class CampService {
 			site.setCampNo(camp.getCampNo());
 			site.setReserveDate(startDate);
 			//해당 날짜의 해당 예약장소 리스트가져오기 (예약 되어져있는 수)
-			ArrayList<SiteVO> siteList = dao.selectSiteList(site);		
 			
 			//전체예약 가능 개수 구하기 (site_name들 겹치지 않은 리스트)
-			int canSiteTotal = dao.reserveTotalCount(site);			
-			int cantSiteCnt = siteList.size();
+			int canSiteTotal = dao.canSiteTotal(site);			
+			int cantSiteCnt = dao.cantSiteCnt(site);
 			int canSiteCnt = canSiteTotal - cantSiteCnt;
 			
 			if (canSiteCnt<0) {
@@ -148,11 +148,7 @@ public class CampService {
 				events += "{id: '"+(++idx)+"', title: '예약가능("+cantSiteCnt+"/"+canSiteTotal+")', start: '"+startDate+"', color : 'green', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";
 			}else {
 				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";					
-			}
-			
-			
-			
-			
+			}	
 					
 			cal.add(Calendar.DATE, 1); // 1일 더해준다
 			startDate = sdf.format(cal.getTime());// 1일더한 값을 String으로 startDate저장한다.
