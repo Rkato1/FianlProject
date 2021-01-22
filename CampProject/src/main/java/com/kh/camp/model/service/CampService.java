@@ -19,6 +19,7 @@ import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.review.model.vo.ReviewVO;
 
 @Service
 public class CampService {
@@ -32,16 +33,27 @@ public class CampService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
+		DecimalFormat df = new DecimalFormat(".#"); // 평점 소수점맞춤용
 		ArrayList<CampVO> list = dao.selectList(map);
 		for (CampVO c : list) {
 			map.put("campNo", c.getCampNo());
 			map.put("fileGrade", 1);
-			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);			
+			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 
 			c.setPictureList(pictureList);
 
 			ArrayList<SiteVO> siteList = dao.selectSiteListMap(map);
 			c.setSiteList(siteList);
+
+			ArrayList<ReviewVO> reviewList = dao.selectReivewList(c.getCampNo());
+
+			if (reviewList.size() > 0) {
+				Float result = dao.getPointAvg(c.getCampNo());
+				if (result > 0f) {
+					String point = df.format(result);
+					c.setCampPoint(point);
+				}
+			}
 
 		}
 		int totalCount = dao.totalCount();
@@ -97,7 +109,7 @@ public class CampService {
 		if (pictureList.size() > 0) {
 			camp.setPictureList(pictureList);
 		}
-		
+
 		map.put("fileGrade", 3);// 레이아웃 3등급을 입력한다.
 		ArrayList<CampPictureVO> layoutList = dao.selectPictureList(map);
 		// DB에서 검색해서 하나라도 있으면 셋팅
@@ -111,8 +123,8 @@ public class CampService {
 		Calendar cal = Calendar.getInstance(); // 캘린더 선언 후 날짜 초기화
 		String today = sdf.format(cal.getTime()); // 오늘날짜 String으로 저장
 
-		//String startDate = "2020-12-01"; // 시작날짜 임의로 지정
-		String startDate = today ; //시작날짜 오늘로 설정
+		// String startDate = "2020-12-01"; // 시작날짜 임의로 지정
+		String startDate = today; // 시작날짜 오늘로 설정
 		cal.add(Calendar.MONTH, 2); // 오늘날짜 +2달로 설정
 		String endDate = sdf.format(cal.getTime()); // 종료 날짜 저장
 
@@ -133,23 +145,27 @@ public class CampService {
 			SiteVO site = new SiteVO();
 			site.setCampNo(camp.getCampNo());
 			site.setReserveDate(startDate);
-			//해당 날짜의 해당 예약장소 리스트가져오기 (예약 되어져있는 수)
-			
-			//전체예약 가능 개수 구하기 (site_name들 겹치지 않은 리스트)
-			int canSiteTotal = dao.canSiteTotal(site);			
+			// 해당 날짜의 해당 예약장소 리스트가져오기 (예약 되어져있는 수)
+
+			// 전체예약 가능 개수 구하기 (site_name들 겹치지 않은 리스트)
+			int canSiteTotal = dao.canSiteTotal(site);
 			int cantSiteCnt = dao.cantSiteCnt(site);
 			int canSiteCnt = canSiteTotal - cantSiteCnt;
-			
-			if (canSiteCnt<0) {
+
+			if (canSiteCnt < 0) {
 				canSiteCnt = 0;
 			}
-			
-			if(canSiteCnt != 0) {
-				events += "{id: '"+(++idx)+"', title: '예약가능("+cantSiteCnt+"/"+canSiteTotal+")', start: '"+startDate+"', color : 'green', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";
-			}else {
-				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";					
-			}	
-					
+
+			if (canSiteCnt != 0) {
+				events += "{id: '" + (++idx) + "', title: '예약가능(" + cantSiteCnt + "/" + canSiteTotal + ")', start: '"
+						+ startDate + "', color : 'green', url:'/reserveWriteFrm.do?campNo=" + camp.getCampNo()
+						+ "&date=" + startDate + "' },";
+			} else {
+				events += "{ id: '" + (++idx) + "', title: '예약불가능', start: '" + startDate
+						+ "',color : 'red', url:'/reserveWriteFrm.do?campNo=" + camp.getCampNo() + "&date=" + startDate
+						+ "' },";
+			}
+
 			cal.add(Calendar.DATE, 1); // 1일 더해준다
 			startDate = sdf.format(cal.getTime());// 1일더한 값을 String으로 startDate저장한다.
 		}
@@ -157,7 +173,7 @@ public class CampService {
 		if (idx > 0) {
 			events = events.substring(0, events.length() - 1); // {}를 만들었다면 마지막 ',' 지우기
 		}
-		//마지막 출력전 셋팅
+		// 마지막 출력전 셋팅
 
 		ced.setCamp(camp);
 		ced.setEvents(events);
@@ -324,18 +340,14 @@ public class CampService {
 		return cpd;
 	}
 
-	public ArrayList<Object> getPointList(ArrayList<CampVO> list) {
-		ArrayList<Object> pointList = new ArrayList<Object>();
-		Object result = 0;
-		DecimalFormat df = new DecimalFormat(".#");
-
-		for (CampVO c : list) {
-			result = dao.getPointAvg(c.getCampNo());
-			String str = df.format(result);
-			System.out.println("result = " + result);
-			System.out.println("str = " + str);
-			pointList.add(str);
-		}
-		return pointList;
-	}
+	/*
+	 * public ArrayList<String> getPointList(ArrayList<CampVO> list) {
+	 * ArrayList<String> pointList = new ArrayList<String>(); Float result = 0f;
+	 * DecimalFormat df = new DecimalFormat(".#"); for (CampVO c : list) { result =
+	 * dao.getPointAvg(c.getCampNo()); String str = df.format(result);
+	 * System.out.println("Obj.result = " + result);
+	 * System.out.println("str.result = " + str); pointList.add(str); }
+	 * System.out.println("pointList.size() = "+pointList.size()); return pointList;
+	 * }
+	 */
 }

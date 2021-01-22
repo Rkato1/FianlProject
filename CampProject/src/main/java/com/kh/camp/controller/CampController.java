@@ -1,6 +1,8 @@
 package com.kh.camp.controller;
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,9 +50,7 @@ public class CampController {
 	@RequestMapping("/searchCampList.do")
 	public String searchCampList(Model model,int reqPage,String keyword,String value) {
 		CampPageData cpd = service.campSearchList(reqPage,keyword,value);
-		//ArrayList<Object> pointList = service.getPointList(cpd.getList());
 		model.addAttribute("list", cpd.getList());
-		//model.addAttribute("pointList", pointList);
 		model.addAttribute("pageNavi", cpd.getPageNavi());
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("value", value);

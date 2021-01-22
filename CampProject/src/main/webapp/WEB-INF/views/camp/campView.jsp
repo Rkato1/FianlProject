@@ -93,6 +93,7 @@
 	<div class="content">
 		<div class="items">
 			<div class="item">
+				<br>
 				<h4>캠핑장 배치도</h4>
 				<hr>
 				<c:choose>
@@ -111,6 +112,7 @@
 	<div class="content">
 		<div class="items">
 			<div class="item">
+				<br>
 				<h4>공지사항</h4>
 				<hr>
 				<div id="line-wrapper">

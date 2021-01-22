@@ -13,6 +13,7 @@ import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.review.model.vo.ReviewVO;
 
 @Repository
 public class CampDao {
@@ -107,7 +108,7 @@ public class CampDao {
 		return reserveCanCampNolist.size();
 	}
 
-	public Object getPointAvg(int campNo) {
+	public Float getPointAvg(int campNo) {
 		return sqlSession.selectOne("camp.pointAvg",campNo);
 	}
 
@@ -117,6 +118,15 @@ public class CampDao {
 	
 	public int cantSiteCnt(SiteVO site) {
 		return sqlSession.selectOne("camp.cantSiteCnt",site); 
+	}
+
+	public ReviewVO selectOneReivew(int campNo) {
+		return sqlSession.selectOne("camp.selectOneReivewCamp",campNo);
+	}
+
+	public ArrayList<ReviewVO> selectReivewList(int campNo) {
+		List<ReviewVO> list = sqlSession.selectList("camp.selectReivewList",campNo);
+		return (ArrayList<ReviewVO>)list;
 	}
 
 

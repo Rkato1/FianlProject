@@ -453,4 +453,14 @@
 		  	</if>
 		</trim>
 	</select>
+	
+	<select id="selectOneReivewCamp" parameterType="_int" resultType="review">
+		select	* from review where camp_no = #{_parameter}
+	</select>
+	<select id="selectReivewList" parameterType="_int" resultType="review">
+		select	* from review where camp_no = #{_parameter}
+	</select>
+	
+	
+	
 </mapper>
