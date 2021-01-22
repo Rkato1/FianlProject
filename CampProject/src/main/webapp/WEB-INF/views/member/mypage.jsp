@@ -21,7 +21,7 @@
         }
 
         .content-wrap {
-            width: 600px;
+            width: 800px;
             margin: 0 auto;
             padding-top: 40px;
             padding-bottom: 80px;
@@ -30,7 +30,7 @@
         }
 
         .mypage-header {
-            width: 82%;
+            width: 60%;
             height: 100px;
             margin: 0 auto;
         }
@@ -58,7 +58,7 @@
         /*--------------------------------*/
 
         .mypage-menu {
-            width: 97%;
+            width: 72%;
             overflow: hidden;
             margin: 0 auto;
             margin-top: 10px;
@@ -230,6 +230,23 @@
         .select {
         	display: none;
         }
+        
+        .btn-sm {
+        	line-height: 1 !important;
+        }
+        
+        .table td {
+        	padding: .85rem !important;
+        	vertical-align: middle !important;
+        }
+        
+        .btn-dark:focus {
+        	box-shadow: none !important;
+        }
+        
+        .close:focus {
+        	outline: none !important;
+        }
 
     </style>
 </head>
@@ -353,10 +370,15 @@
                 		<c:forEach items="${listRes }" var="res">
                 		<tr>
                     		<td id="link">
-                    			<a href="/campView.do?campNo=${res.campNo}&reqPage=1">${res.campName }</a>
+                    			<!-- <a href="/reserveUpdateFrm.do?reserveNo=${res.reserveNo}">${res.campName }</a> -->
+                    			<span>${res.campName }&nbsp;</span>
+								<button type="button" class="modalbtn btn btn-dark btn-sm"
+										value="${res.reserveNo }" data-toggle="modal"
+										data-target="#myModal" style="height: 28px; vertical-align: middel"
+										onclick="reserveModal(${res.reserveNo},${res.campNo},${res.checkInDate })">확인</button>
                     		</td>
                         	<td>${res.checkInDate } - ${res.checkOutDate }</td>
-                        	<td><fmt:formatNumber value="${res.reservePrice }" pattern="#,###" /></td>
+                        	<td><fmt:formatNumber value="${res.reservePrice }" pattern="#,###" />원</td>
                         	<td id="state">${res.reserveStatus }</td>
                     	</tr>
                     	</c:forEach>
@@ -438,7 +460,7 @@
                     		<a href="/usedDatail.do?usedNo=${used.usedNo }">${used.usedTitle }</a>
                     	</td>
                         <td>${used.category }</td>
-                        <td>${used.usedPrice }</td>
+                        <td>${used.usedPrice }원</td>
                         <td>${used.usedDate }</td>
                     </tr>
                 </c:forEach>
@@ -447,6 +469,34 @@
             </c:otherwise>
          </c:choose>
         </div>
+        
+        <!-- 예약 확인 모달창 -->
+        <div class="modal fade" id="myModal"
+		style="z-index: 10000; padding: 0; margin: 0; top: 0; background-color: rgba(0, 0, 0, 0.5);">
+			<div class="modal-dialog" style="top: 30%;">
+				<div class="modal-content modal-dialog-centered" style="width:400px;">
+					<form method="post" action="/searchOneReserve.do">
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title">예약 확인</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<!-- Modal body -->
+						<input type="hidden" id="reserveNo" name="reserveNo" value=""> 
+						<input type="hidden" id="campNo" name="campNo" value=""> 
+						<input type="hidden" id="date" name="date" value="">
+						<div class="modal-body">
+							예약 암호 : <input type="text" id="modalPw" name="reservePw" required>
+						</div>
+						<!-- Modal footer -->
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-dark">확인</button>
+							<button type="button" class="btn btn-outline-dark" data-dismiss="modal">취소</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
                
     </div>
   
@@ -536,6 +586,14 @@
             changePw.attr("action", url);
             changePw.submit();
         }
+        
+		//예약내역에서 확인버튼 클릭하면 모달창에 정보 넘겨주기
+    	function reserveModal(reserveNo, campNo, date) {
+			$("#reserveNo").val(reserveNo);
+			$("#campNo").val(campNo);
+			$("#date").val(date);		
+    	}
+		
     </script>
 
 </body>

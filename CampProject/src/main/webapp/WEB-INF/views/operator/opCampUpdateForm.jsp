@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>CAC : 사업자 캠핑장 수정</title>
 <link href="../css/operator/opCampForm.css" type="text/css" rel="stylesheet">
+<link href="../css/operator/btn.css" type="text/css" rel="stylesheet">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
@@ -29,7 +30,7 @@
                 		<tr>
                 			<th>메인이미지(썸네일)</th>
                 			<td>
-								  <input type="file" name="mainFile" accept="image/jpeg, image/jpg, image/png" onchange="setThumbnail(event);">  
+								  <input type="file" name="mainFile" accept="image/jpeg, image/jpg, image/png">  
                 			</td>
                 		</tr>
                 		</tr>
@@ -91,7 +92,7 @@
 		            <tr>
 	                	<th>소개 이미지(3개)</th>
 	                	<td>
-							<input type="file" name="files" onchange="changeImg(this)" multiple>  			
+							<input type="file" name="files" onchange="imgChk(this)" multiple>  			
 	                	</td>
 	                </tr>
                 	<tr>
@@ -104,7 +105,7 @@
                 <br>
                 <br>
                 <div style="text-align: center;">
-                	<input type="submit" class="updateBtn" value="수정하기">
+                	<input type="submit" class="btn-update" value="수정하기">
                 	<button type="button" class="btn-cancel" onclick="location.href='/opCampView.do?campNo=${camp.campNo}'">취소</button>
                 </div>
                 </form>
@@ -114,7 +115,9 @@
      <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
      
      <script>
-     
+     $("[name=mainFile]").change(function(){
+  		chk_file_type($("[name=mainFile]"));
+  	});
      //데이터 로드 후 해당 체크박스 체크함
      $(function(){
     	var campType ='${camp.campType}';
@@ -210,15 +213,39 @@
     		 }; 
     	reader.readAsDataURL(event.target.files[0]); 
     }*/
-
-     function changeImg(file){
-         var filess =  file.files.length;
-         if(filess!=3){
-            alert("소개이미지를 3개 등록해 주세요!");
-            for(var i=0;i<filess;i++){
-            	 file.value ="";
-           	 }
-         }
+    function imgChk(file){
+        var filess =  file.files.length;
+        if(filess!=3){
+           alert("소개이미지를 3개 등록해 주세요!");
+           for(var i=0;i<filess;i++){
+           	 file.value ="";
+          	 }
+        }
+        chk_file_type(file);
+	}
+    function chk_file_type(obj) {
+   	 var bool = true;
+   	 console.log(obj.files);
+   	 var countFiles;
+   	 if(obj.files){
+   		 countFiles  = obj.files.length;
+	    	 for (var i = 0; i < countFiles; i++) {
+		 		var ext = obj.files[i].name.split('.').pop().toLowerCase();
+		 		if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+		 		    bool = false;
+		 		}
+	    	 }
+   	 }else{
+   		 countFiles = 1
+   		 var ext = obj.val().split('.').pop().toLowerCase();
+		 	 if ($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+		 		    bool = false;
+		 	 }
+   	 }
+   	 if(!bool){
+	 		alert('gif, png, jpg, jpeg 파일만 업로드 할수 있습니다.');
+	 		$(obj).val("");
+   	 }
 	}
      
      function execDaumPostcode() {

@@ -44,7 +44,7 @@ private boolean isOperator = false;
 	
 	public boolean isOperator(HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("m");
-		if(member!=null&&member.getMemberGrade()==2) {
+		if(member!=null&&((member.getMemberGrade()==2)||(member.getMemberGrade()==3))) {
 			return true;
 		}else {
 			return false;
@@ -55,9 +55,9 @@ private boolean isOperator = false;
 	public String operatorPage(HttpSession session,Model model) { //세션을 가져와 멤버등급이 2가아닌경우 메인페이지로 돌려보냄.
 		MemberVO member = (MemberVO) session.getAttribute("m");
 		if(member!=null) {
-			if(member.getMemberGrade()==2) {
+			if(member.getMemberGrade()==2 || member.getMemberGrade()==3) {
 				CampVO c = new CampVO();
-				c.setMemberNo(member.getMemberGrade());
+				c.setMemberNo(member.getMemberNo());
 				ArrayList<CampVO> camplist = service.selectCampList(c); //camp 리스트 가져옴.
 				model.addAttribute("campList",camplist);
 				return "operator/operatorpage";
@@ -117,7 +117,7 @@ private boolean isOperator = false;
 	@RequestMapping("/insertCamp.do")
 	public String insertCamp(CampVO c,MultipartFile mainFile,MultipartFile[] files,Model model,HttpServletRequest request,HttpSession session) {
 		MemberVO member = (MemberVO)session.getAttribute("m");
-		if(member!=null&&member.getMemberGrade()==2) {
+		if(member!=null&&((member.getMemberGrade()==2)||(member.getMemberGrade()==3))) {
 			String root = request.getSession().getServletContext().getRealPath("/");
 			String path = root + "/resources/upload/camp/";
 			ArrayList<CampPictureVO> fileList = new ArrayList<CampPictureVO>();
@@ -164,7 +164,7 @@ private boolean isOperator = false;
 			c.setPictureList(fileList);
 			int result = service.insertCamp(c);
 			if(result>0) {
-				model.addAttribute("msg","탬핑장이 등록 되었습니다.");
+				model.addAttribute("msg","캠핑장이 등록 되었습니다.");
 			}else {
 				model.addAttribute("msg","등록실패");
 			}
@@ -190,7 +190,7 @@ private boolean isOperator = false;
 		System.out.println("컨트롤러 소개 : "+files.length);
 		MemberVO member = (MemberVO)session.getAttribute("m");
 		CampVO camp = service.selectOneCamp(c);
-		if(member!=null&&member.getMemberGrade()==2&&camp.getMemberNo()==member.getMemberNo()) {
+		if(member!=null&&((member.getMemberGrade()==2)||(member.getMemberGrade()==3))&&camp.getMemberNo()==member.getMemberNo()) {
 			c.setMemberNo(member.getMemberNo());
 			String root = request.getSession().getServletContext().getRealPath("/");
 			String path = root + "/resources/upload/camp/";
@@ -271,7 +271,7 @@ private boolean isOperator = false;
 			}else {
 				model.addAttribute("msg","수정실패");
 			}
-			model.addAttribute("loc","/operatorpage.do");
+			model.addAttribute("loc","/opCampView.do?campNo="+c.getCampNo());
 		}else {
 			model.addAttribute("msg","사업자가 아닙니다.");
 			model.addAttribute("loc","/");
@@ -533,7 +533,7 @@ private boolean isOperator = false;
 	public String insertInfoImg(CampVO c,HttpServletRequest request,MultipartFile file,HttpSession session,Model model) {
 		MemberVO member = (MemberVO)session.getAttribute("m");
 		CampVO camp = service.selectOneCamp(c);
-		if(member!=null&&member.getMemberGrade()==2&&camp.getMemberNo()==member.getMemberNo()) {
+		if(member!=null&&((member.getMemberGrade()==2)||(member.getMemberGrade()==3))&&camp.getMemberNo()==member.getMemberNo()) {
 			String root = request.getSession().getServletContext().getRealPath("/");
 			String path = root + "/resources/upload/camp/";
 			CampPictureVO f = new CampPictureVO();
@@ -571,7 +571,7 @@ private boolean isOperator = false;
 	public String updateInfoImg(CampVO c,HttpServletRequest request,MultipartFile file,HttpSession session,Model model) {
 		MemberVO member = (MemberVO)session.getAttribute("m");
 		CampVO camp = service.selectOneCamp(c);
-		if(member!=null&&member.getMemberGrade()==2&&camp.getMemberNo()==member.getMemberNo()) {
+		if(member!=null&&((member.getMemberGrade()==2)||(member.getMemberGrade()==3))&&camp.getMemberNo()==member.getMemberNo()) {
 			String root = request.getSession().getServletContext().getRealPath("/");
 			String path = root + "/resources/upload/camp/";
 			

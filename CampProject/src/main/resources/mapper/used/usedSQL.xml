@@ -257,7 +257,7 @@
   		member_id as sender,
   		used_trade_writer as receiver
   	from used_message_chat
-  	where (member_id =#{sender} and used_trade_writer =#{receiver}) or (used_trade_writer =#{sender} and member_id =#{receiver})
+  	where member_id =#{sender} and used_trade_writer =#{receiver}
   </select>
   <select id="umCount" parameterType="string" resultType="_int">
   	select count(*) from used_message where um_receiver = #{_parameter} and check_message='읽지않음'
@@ -268,13 +268,21 @@
   <insert id="insertRoom" parameterType="map">
   	insert into used_message_chat values(#{sender},#{receiver}) 
   </insert>
-  <!-- 방 -->
+  <!-- 방 Sender값이 없을경우 밑의 Sql문으로 들어감 -->
   <select id="selectMessageChatList" parameterType="String" resultType="room">
 		select 
 	  		member_id as sender,
 	  		used_trade_writer as receiver
 	  	from used_message_chat
-	  	where member_id =#{memberId}
+	  	where member_id =#{memberId} 
+  </select>
+  <!-- 방 Receiver값으로 검색-->
+  <select id="selectMessageChatListR" parameterType="String" resultType="room">
+		select 
+	  		member_id as sender,
+	  		used_trade_writer as receiver
+	  	from used_message_chat
+	  	where used_trade_writer =#{memberId} 
   </select>
   <!-- 채팅 -->
   <select id="selectMessageList" parameterType="map" resultType="msg">
@@ -288,22 +296,4 @@
   	from used_message
   	where (um_sender =#{sender} and um_receiver =#{receiver}) or (um_sender =#{receiver} and um_receiver =#{sender}) 
   </select>
-  
-  
-  
-  
-  <!-- 채팅 -->
- <!--  <select id="selectOneRoom" parameterType="map" resultType="_int">
-  	select
-  		room_no as roomNo
-  	from used_message_chat 
-  	where (member_id =#{sender} and used_trade_writer =#{receiver}) or (used_trade_writer = #{receiver} and member_id =#{sender})
-  </select>
-  <insert id="insertRoom" parameterType="map">
-  	insert into used_message_chat values(umc_seq.nextval,#{sender},#{receiver})
-  </insert>
-  <insert id="insertMsg" parameterType="map">
-  	insert into used_message values(um_seq.nextval,#{sender),#{receiver},#{message},'읽지않음',to_char(sysdate,'yyyy-mm-dd'))
-  </insert> -->
-  
 </mapper>

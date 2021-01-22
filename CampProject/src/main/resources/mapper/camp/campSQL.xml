@@ -315,7 +315,7 @@
 	</select>
 	<insert id="insertSite" parameterType="site">
 		insert into site values
-		(site_seq.nextval,#{campNo},#{siteTitle},#{siteName},#{minCnt},#{maxCnt},#{minNight},#{maxNight},#{discountPay},#{addCntPay},#{addCarPay},0,0,0,0,0,0,0,'0000-00-00',#{lowDayPay},#{lowEndPay},#{peakDayPay},#{peakEndPay},#{polarDayPay},#{polarEndPay})
+		(site_seq.nextval,#{campNo},#{siteTitle},#{siteName},#{minCnt},#{maxCnt},#{minNight},#{maxNight},#{discountPay},#{addCntPay},#{addCarPay},0,0,0,0,0,null,0,'0000-00-00',#{lowDayPay},#{lowEndPay},#{peakDayPay},#{peakEndPay},#{polarDayPay},#{polarEndPay})
 	</insert>
 	<update id="updateSite" parameterType="site">
 		update site set 

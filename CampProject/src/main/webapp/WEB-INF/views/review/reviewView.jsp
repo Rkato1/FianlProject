@@ -287,14 +287,14 @@
       </div>
       <div class="review-info">
       	 <c:if test="${sessionScope.m.memberId.equals(rev.memberId) }"><!-- 로그인 한 회원과 리뷰 작성자가 같을 때 -->
-         <div class="review-button">
-            <button type="button" class="btn btn-secondary">
-               <a id="updateBtn" href="/reviewUpdateFrm.do?reviewNo=${rev.reviewNo }">수정</a>
-            </button>
-            <button type="button" class="btn btn-secondary">
-               <a id="deleteBtn" href="javascript:void(0)" onclick="deleteReview('${rev.reviewNo }')">삭제</a>
-            </button>
-         </div>
+         	<div class="review-button">
+            	<button type="button" class="btn btn-secondary">
+               		<a id="updateBtn" href="/reviewUpdateFrm.do?reviewNo=${rev.reviewNo }">수정</a>
+            	</button>
+            	<button type="button" class="btn btn-secondary">
+               		<a id="deleteBtn" href="javascript:void(0)" onclick="deleteReview('${rev.reviewNo }')">삭제</a>
+            	</button>
+         	</div>
          </c:if><!-- 로그인 한 회원과 리뷰 작성자가 같을 때 -->
          <div class="review-user">
             <span>${rev.memberId }</span>
@@ -328,27 +328,26 @@
       			</div>
       		</c:forEach>
 		</div>
-		</c:if>
+		</c:if><!-- 첨부파일이 존재할 때 -->
 		<div class="review-content-text">
-			${rev.reviewContentBr }
+			${rev.reviewContent }
 		</div>
       </div>
       <div class="commnet-wrap">
          <span class="comment-cnt">댓글 <span>${comCnt }</span>개</span>
          
-         <!-- 로그인 안되어있으면, 댓글 등록창 안보이게 -->
-         <c:if test="${sessionScope.m != null }">
+         <c:if test="${sessionScope.m != null }"><!-- 로그인 안되어있으면, 댓글 등록창 안보이게 -->
          <div class="comment-write">
             <form action="/insertReviewComment.do" method="post">
             	<input type="hidden" name="reviewCommentLevel" value="1">
             	<input type="hidden" name="reviewCommentWriter" value="${sessionScope.m.memberId }">
             	<input type="hidden" name="reviewNo" value="${rev.reviewNo }">
             	<input type="hidden" name="reviewCommentRef" value="0">	
-            	<textarea rows="3" cols="30" name="reviewCommentContent"></textarea>&nbsp;
+            	<textarea rows="3" cols="30" name="reviewCommentContent" required></textarea>&nbsp;
             	<input type="submit" value="등록" class="btn" id="commentWriteBtn">
             </form>
          </div>
-         </c:if>
+         </c:if><!-- 로그인 안되어있으면, 댓글 등록창 안보이게 -->
          
          <div class="comment-list">
          	<c:forEach items="${comList }" var="rc"><!-- 댓글 -->
@@ -390,7 +389,7 @@
               					<input type="hidden" name="reviewCommentWriter" value="${sessionScope.m.memberId }">
                					<input type="hidden" name="reviewNo" value="${rev.reviewNo }">
                					<input type="hidden" name="reviewCommentRef" value="${rc.reviewCommentNo }">	
-               					<textarea rows="3" cols="30" name="reviewCommentContent"></textarea>&nbsp;
+               					<textarea rows="3" cols="30" name="reviewCommentContent" required></textarea>&nbsp;
                					<input type="submit" value="등록" class="btn" id="commentWriteBtn">
                					<input type="button" value="취소" class="btn recCancel" id="commentCancelBtn">
             				</form>
@@ -434,7 +433,7 @@
             </div><!-- comment-list  -->
        </div><!-- commnet-wrap -->
    </div><!-- content-wrap -->
-	
+	<jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	
 	<script>

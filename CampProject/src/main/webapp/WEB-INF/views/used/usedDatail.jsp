@@ -418,6 +418,7 @@
 				$("#chat-icon").css('-webkit-transform',' rotate(45deg)');
 				$("#container").show();
 			}
+	    	selectMessage(umReceiver);
 	 	}
 	    
 	    

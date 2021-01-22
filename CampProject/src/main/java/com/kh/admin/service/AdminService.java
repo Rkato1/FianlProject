@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -248,7 +249,14 @@ public class AdminService{
 		if(pageNo <= totalPage) {
 			pageNavi += "<a href='/admin/helpAdmin.do?option=answer&reqPage="+pageNo+"'>[다음]</a>";;
 		}
-		//System.out.println(pageNavi);
+		//html태그 거르기
+		for(ReviewCampVO rc : list) {
+			String pre = rc.getReviewContent();			
+			String result = pre.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+			//System.out.println("결과물 = "+result);
+			rc.setReviewContent(result);
+		}
+		//System.out.println("내용 = "+list.get(0).getReviewContent());
 		ReviewPageData rpd = new ReviewPageData(list,pageNavi);
 		return rpd;
 	}
@@ -302,6 +310,14 @@ public class AdminService{
 			pageNavi += "<a href='/admin/helpAdmin.do?option=notanswer&reqPage="+pageNo+"'>[다음]</a>";;
 		}
 		//System.out.println(pageNavi);
+		//html태그 거르기
+		for(ReviewCampVO rc : list) {
+			String pre = rc.getReviewContent();			
+			String result = pre.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+			//System.out.println("결과물 = "+result);
+			rc.setReviewContent(result);
+		}
+		//System.out.println("내용 = "+list.get(0).getReviewContent());
 		ReviewPageData rpd = new ReviewPageData(list,pageNavi);
 		return rpd;
 	}

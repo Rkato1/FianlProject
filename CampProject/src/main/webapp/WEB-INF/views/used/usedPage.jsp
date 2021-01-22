@@ -119,7 +119,7 @@
         <hr style="border: 2px solid #1d0202; margin-top: 10px; margin-bottom: 8px;">
         <div class="used-two" style="height: 28px; margin-bottom:20px;">
             <div class="col-md-10 bootcol one" style=" padding: 0;">
-            <select name="ware" id="ware-select" style="font-size: 10pt; height: 30px; vertical-align: middle;">
+            <!-- <select name="ware" id="ware-select" style="font-size: 10pt; height: 30px; vertical-align: middle;">
                 <option value="" selected>카테고리선택</option>
                 <option value="텐트/타프">텐트/타프</option>
                 <option value="의자/테이블">의자/테이블</option>
@@ -132,7 +132,7 @@
                 <option value="해먹/침대">해먹/침대</option>
                 <option value="캠핑소품">캠핑소품</option>
                 <option value="캠프차량용품">캠프차량용품</option>
-            </select>
+            </select> -->
              <form action="/usedSearch.do?keyword" method="post" style="display: inline;">
             	<input type="hidden" name="reqPage"  value="1" id="reqPage">
                 <input type="text" name="search" placeholder=" 상품명 검색" style="width:130px; height: 30px; font-size: 10pt; margin-left: 1px; padding: 0; vertical-align: middle;">
@@ -156,7 +156,14 @@
         <div class="prd-item">
             <div style="height: 250px; width: 250px; border: 1px solid #e0e0e0;">
                 <a href="/usedDatail.do?usedNo=${c.usedNo }">
+                <c:choose>
+                <c:when test="${c.file[0].filepath != null }">
                 <img src="resources/upload/used/${c.file[0].filepath }">
+                </c:when>
+                	<c:otherwise>
+                		<img src="resources/upload/common/imgNo.png">
+                	</c:otherwise>
+                </c:choose>
                 </a>
             </div>
             <div style="text-align: center; margin-top: 10px;"><a href="/usedDatail.do?usedNo=${c.usedNo }" id="prd-item-click">${c.usedTitle }</a></div>
@@ -174,19 +181,9 @@
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     
    	<script>
-   	
-   	
-   	/* $("#ware-select").change(function(){
+   /* 	$("#ware-select").change(function(){
    			var ware = $("#ware-select").val();
-   			console.log(ware);
-   			$.ajax({
-   				type:"GET", //전송 방법
-   				url : "/selectSearch.do?select",
-   				data : {ware : ware,
-   					   },
-   				datatype : "json"
-   				success: 
-   			});
+
    		}); */
    	</script>
 </body>
