@@ -175,7 +175,7 @@
         </div>
 
         <div class="inputBar">
-        	<c:if test="${sessionScope.m != null }">
+        	<c:if test="${sessionScope.m.memberGrade == 1 }">
             	<div class="writeBox">
                 	<button type="button" class="btn" id="writeBtn">
                     	<a href="/reviewWriteFrm.do">글쓰기</a>
