@@ -129,32 +129,31 @@ public class CampService {
 		}
 		int idx = 0; // str확인용 변수
 		while (!startDate.equals(endDate)) {// 다르면 반복,같으면 종료
-			//events값구하기
-			int reserveUnableCnt=0; //예약 불가능 개수 초기화
 			SiteVO site = new SiteVO();
 			site.setCampNo(camp.getCampNo());
 			site.setReserveDate(startDate);
-			//해당 날짜의 해당 예약장소 리스트가져오기
+			//해당 날짜의 해당 예약장소 리스트가져오기 (예약 되어져있는 수)
 			ArrayList<SiteVO> siteList = dao.selectSiteList(site);		
-			//SQL 검색결과 확인
-			if(siteList.size() > 0) { //리스트가 존재하면 해당날짜에 해당캠프에 예약이 있다				
-				reserveUnableCnt = siteList.size();//예약 장소가 채워진 수를 넣는다
-			}
-			//전체예약 가능 개수 구하기 (site_name들 겹치지 않은 리스트)
-			int reserveTotalCount = dao.reserveTotalCount(site);
 			
-			//전체 사이트 개수와 
-			if(reserveTotalCount != reserveUnableCnt) {
-				//예약가능
-				if (reserveTotalCount-reserveUnableCnt<0) {
-					events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";	
-				}else {
-					events += "{id: '"+(++idx)+"', title: '예약가능("+(reserveTotalCount-reserveUnableCnt)+"/"+reserveTotalCount+")', start: '"+startDate+"', color : 'green', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";
-				}				
+			//전체예약 가능 개수 구하기 (site_name들 겹치지 않은 리스트)
+			int canSiteTotal = dao.reserveTotalCount(site);			
+			int cantSiteCnt = siteList.size();
+			int canSiteCnt = canSiteTotal - cantSiteCnt;
+			
+			if (canSiteCnt<0) {
+				canSiteCnt = 0;
+			}
+			
+			if(canSiteCnt != 0) {
+				events += "{id: '"+(++idx)+"', title: '예약가능("+cantSiteCnt+"/"+canSiteTotal+")', start: '"+startDate+"', color : 'green', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";
 			}else {
-				//예약 불가능
-				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";	
-			}			
+				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";					
+			}
+			
+			
+			
+			
+					
 			cal.add(Calendar.DATE, 1); // 1일 더해준다
 			startDate = sdf.format(cal.getTime());// 1일더한 값을 String으로 startDate저장한다.
 		}
@@ -163,11 +162,6 @@ public class CampService {
 			events = events.substring(0, events.length() - 1); // {}를 만들었다면 마지막 ',' 지우기
 		}
 		//마지막 출력전 셋팅
-
-
-		if(idx != 0) {
-			events = events.substring(0, events.length()-1); //{}를 만들었다면 마지막 ',' 지우기
-		}
 
 		ced.setCamp(camp);
 		ced.setEvents(events);
