@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
+import com.kh.common.DateList;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.service.ReserveService;
-import com.kh.reserve.model.vo.ReserveDatesVO;
 import com.kh.reserve.model.vo.ReserveListsVO;
 import com.kh.reserve.model.vo.ReserveVO;
 
@@ -22,6 +22,8 @@ import com.kh.reserve.model.vo.ReserveVO;
 public class ReserveController {
 	@Autowired
 	private ReserveService service;
+	@Autowired
+	private DateList datelist;
 
 	@RequestMapping("/reserveWriteFrm.do")
 	public String reserveWriteFrm(HttpSession session, @SessionAttribute(required = false) MemberVO m, Model model,
@@ -35,12 +37,13 @@ public class ReserveController {
 			// campNo로 모든 사이트 정보 구하기
 			ReserveListsVO rlv = service.selectAllLists(camp, date);
 			CampVO c = service.selectOneCamp(camp);
-			model.addAttribute("sitePriceList", rlv.getSitePriceList());
-			model.addAttribute("siteList", rlv.getSiteList());
-			model.addAttribute("memberList", rlv.getMemberList());
-			model.addAttribute("reserveList", rlv.getReserveList());
-			model.addAttribute("camp", c);
-			model.addAttribute("date", date);
+			model.addAttribute("sitePriceList", rlv.getSitePriceList());//가격표리스트
+			model.addAttribute("siteList", rlv.getSiteList()); //출력되는 사이트 리스트
+			model.addAttribute("memberList", rlv.getMemberList()); //출력되는 맴버이름 리스트
+			model.addAttribute("reserveList", rlv.getReserveList()); //출력되는 예약리스트 (맴버이름+예약번호버튼)
+			model.addAttribute("dateList", datelist.GetDates()); //날짜리스트
+			model.addAttribute("camp", c); //camp정보
+			model.addAttribute("date", date); //선택한 날짜 정보
 			return "reserve/reserveWriteFrm";
 		}
 
@@ -49,12 +52,13 @@ public class ReserveController {
 	@RequestMapping("/insertReserve.do")
 	public String insertReserve(Model model, ReserveVO reserve, String siteArr, int reserveTotal, String date,
 			CampVO camp) {
-		System.out.println("/insertReserve.do 호출");
-		System.out.println("reserve = "+reserve);
-		System.out.println("siteArr = "+siteArr);
-		System.out.println("reserveTotal = "+reserveTotal);
-		System.out.println("date = "+date);
-		System.out.println("camp = "+camp);
+		/*
+		 * System.out.println("/insertReserve.do 호출");
+		 * System.out.println("reserve = "+reserve);
+		 * System.out.println("siteArr = "+siteArr);
+		 * System.out.println("reserveTotal = "+reserveTotal);
+		 * System.out.println("date = "+date); System.out.println("camp = "+camp);
+		 */
 		int result = 1;
 		result = service.insertReserve(reserve, siteArr);
 		/*

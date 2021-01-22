@@ -103,15 +103,16 @@ public class NoticeController {
 	}
 
 	@RequestMapping("/noticeUpdateForm.do")
-	public String noticeUpdateForm(Model model, int noticeNo) {		
+	public String noticeUpdateForm(Model model, int noticeNo, int reqPage) {		
 		Notice notice = service.selectOneNotice(noticeNo);
 		//System.out.println(notice.getNoticeNo());
 		model.addAttribute("n", notice);
+		model.addAttribute("reqPage", reqPage);
 		return "notice/noticeUpdateFrm";
 	}
 	
 	@RequestMapping("/noticeUpdate.do")
-	public String noticeUpdate(Model model, Notice n) {		
+	public String noticeUpdate(Model model, Notice n, int reqPage) {		
 		int result = service.updateNotice(n);
 		//System.out.println(notice.getNoticeNo());
 		if (result > 0) {
@@ -119,7 +120,7 @@ public class NoticeController {
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요");
 		}
-		model.addAttribute("loc", "/noticeView.do?noticeNo="+n.getNoticeNo());
+		model.addAttribute("loc", "/noticeView.do?noticeNo="+n.getNoticeNo()+"&reqPage="+reqPage);
 		return "common/msg";
 	}
 	

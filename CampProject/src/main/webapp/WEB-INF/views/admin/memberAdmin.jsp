@@ -38,12 +38,12 @@
 						<c:forEach items="${list }" var="m">
 						<tr>
                         	<td>${m.memberNo }</td>
-                        	<td>${m.memberName }</td>
-                        	<td>${m.memberPhone }</td>
-                        	<td>${m.memberId }</td>
-                        	<td>${m.memberPw }</td>
-                        	<td>${m.memberEmail }</td>
-                        	<td>${m.memberRegDate }</td>
+                        	<td data-toggle="tooltip" data-placement="right" title="${m.memberName }">${m.memberName }</td>
+                        	<td data-toggle="tooltip" data-placement="right" title="${m.memberPhone }">${m.memberPhone }</td>
+                        	<td data-toggle="tooltip" data-placement="right" title="${m.memberId }">${m.memberId }</td>
+                        	<td data-toggle="tooltip" data-placement="right" title="${m.memberPw }">${m.memberPw }</td>
+                        	<td data-toggle="tooltip" data-placement="right" title="${m.memberEmail }">${m.memberEmail }</td>
+                        	<td data-toggle="tooltip" data-placement="right" title="${m.memberRegDate }">${m.memberRegDate }</td>
                        	</tr>
                        	</c:forEach>
                     </table>

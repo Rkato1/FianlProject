@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.camp.used.vo.UsedMessageChatVO;
+import com.kh.camp.used.vo.UsedMessageVO;
 import com.kh.camp.used.vo.UsedVO;
 import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.MemberVO;

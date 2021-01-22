@@ -37,35 +37,88 @@ public class ReserveService {
 		// 최종리스트 초기화
 		ArrayList<SiteVO> list = new ArrayList<SiteVO>();
 		// 1번째 해당 캠프번호해당 날짜 리스트 그외 캠프번호와 0000-00-00입력된 리스트확인
+		// site_name + member_no 형태 배열만들어짐  (순서는 site_name순서로)
 		ArrayList<SiteVO> list1 = dao.selectSiteList(map);
-		ArrayList<MemberVO> memberList = new ArrayList<MemberVO>();
-		ArrayList<ReserveVO> reserveList = new ArrayList<ReserveVO>();
+		// site번호를 구해서 
+
 		for (SiteVO s : list1) {
 			SiteVO site = new SiteVO();
 			s.setCampNo(camp.getCampNo());
-			// 사이트에 리스트에 campNo가 있으면 reserveDate는 그대로 없으면 0000-00-00으로 설정
-			if (s.getMemberNo() != 0) {
+			// 사이트에 리스트에 memberNo가 있으면 reserveDate는 그대로 없으면 0000-00-00으로 설정
+			if (s.getMemberNo() > 0 ) {
 				s.setReserveDate(date);
-			} else {
+				site = dao.selectOneSiteOnly(s);
+			} else {				
 				s.setReserveDate("0000-00-00");
+				site = dao.selectOneSiteNullMember(s);				
 			}
-			// 해당 조건에 맞는 사이트값 하나가지고오기
-			site = dao.selectOneSite(s);
-			list.add(site);
 			
+			if(site !=null) {
+				list.add(site);
+			}
+		}
+		
+		ArrayList<MemberVO> memberList = new ArrayList<MemberVO>();
+		for(SiteVO s : list) {
+			//memberList생성
 			MemberVO m = new MemberVO();
-			m.setMemberNo(site.getMemberNo());
+			m.setMemberNo(s.getMemberNo());
 			MemberVO member = dao.selectOneMemberNo(m);
 			if(member != null) {
 				memberList.add(member);
 			}
-			map.put("siteName", site.getSiteName());
-			map.put("memberNo", site.getMemberNo());
-			ReserveVO r = dao.selectOneReserve(map);
-			if(r !=null) {
-				reserveList.add(r);
-			}			
+			//memberList생성완료
 		}
+		
+		ArrayList<ReserveVO> reserveList = new ArrayList<ReserveVO>();
+
+		for(SiteVO s : list) {
+			ReserveVO reserve = new ReserveVO();
+			reserve.setCampNo(s.getCampNo());
+			reserve.setReservePlace(s.getSiteName());
+			if(s.getMemberNo()>0) {
+				reserve.setMemberNo(s.getMemberNo());
+			}			
+			//해당 캠핑장 해당 장소명의 해당 맴버번호가 있는 예약리스트를 뽑는다
+			ArrayList<ReserveVO> resultList = dao.selectReserveList(reserve);
+			int searchIdx = 0;
+			if(resultList.size()>0) {
+				if(resultList.size() == 1) {
+					reserveList.add(resultList.get(0));
+				}else {
+					//찾기 시작					
+					searchIdx = -1;
+					for(ReserveVO r : resultList) {
+						String startDate = r.getCheckInDate();
+						String endDate = r.getCheckOutDate();
+						Calendar cal = Calendar.getInstance();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 형식 설정
+						Date Date;
+						try {
+							// 시작일자를 데이트타입으로 변환
+							Date = sdf.parse(startDate);
+							// 그값을 캘린더날짜로 설정
+							cal.setTime(Date);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						while(!startDate.equals(endDate)) {
+							if(startDate.equals(date)) {							
+								searchIdx = 1; //찾음
+								break; //반복문 돌 필요없음
+							}						
+							cal.add(Calendar.DATE, 1); // 1일 더해준다
+							startDate = sdf.format(cal.getTime());// 1일더한 값을 String으로 startDate저장한다.
+						}
+						if(searchIdx == 1 || endDate.equals(date)) {
+							reserveList.add(r);
+							break;
+						}						
+					}		
+				}
+			}
+		}		
 		// 여기서 날짜를 기준으로 비수기 성수기 극성수기 구분하고 요일도 같이 판단하여 usingPay 셋팅
 		// 요일부터 구해보자
 		String day = "";
@@ -168,7 +221,6 @@ public class ReserveService {
 
 
 	public int insertReserve(ReserveVO reserve, String siteArr) {
-		System.out.println("insertReserve.service 호출");
 		String item[] = siteArr.split(",");
 		//0번부터 23번까지가 1개의 site객체입니다.
 		//총개수 96개면  4개의 사이트가 입력된거겠죠
@@ -204,7 +256,6 @@ public class ReserveService {
 			site.setPolarEndPay(Integer.parseInt(item[idx++]));
 			siteList.add(site);		
 		}
-		System.out.println("siteList.size = "+siteList.size());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		//siteList만큼 반복
@@ -221,7 +272,6 @@ public class ReserveService {
 				Date date = sdf.parse(startDate); //date형변환
 				//일단 한번 site insert				
 				result += dao.insertSite(s); 
-				System.out.println("1번 dao result = "+result);
 				//그담에 usingNight수만큼 추가 site insert
 				Calendar cal = Calendar.getInstance(); //날짜 초기화
 				for(int i =0;i<s.getUsingNight();i++) {					
@@ -230,7 +280,6 @@ public class ReserveService {
 					nextDate = sdf.format(cal.getTime());//다음날짜 설정					
 					s.setReserveDate(nextDate); //site객체에 설정
 					result += dao.insertSite(s); //다시 insert
-					System.out.println("2번 dao result = "+result);
 					date = sdf.parse(nextDate);//다음날짜 데이트형식 다시넣기	
 				}
 				//마지막 nextDate가 checkoutDate니까
@@ -239,7 +288,6 @@ public class ReserveService {
 				reserve.setReserveStatus("결제대기");
 				reserve.setCheckOutDate(nextDate);
 				result += dao.insertReserve(reserve);
-				System.out.println("3번 dao result = "+result);
 				
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
@@ -303,7 +351,7 @@ public class ReserveService {
 					site.setSiteName(r.getReservePlace());
 					site.setReservePay(r.getReservePrice());
 					//사이트 찾기
-					SiteVO s = dao.selectOneSite(site);
+					SiteVO s = dao.selectOneSiteOnly(site);
 					if(s != null) {
 						//찾는데 성공하면 삭제실시
 						result += dao.deleteSite(s);
