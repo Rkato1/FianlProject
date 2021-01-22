@@ -5,13 +5,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.camp.used.vo.UsedCommentVO;
 import com.kh.camp.used.vo.UsedFileVO;
+import com.kh.camp.used.vo.UsedMessageChatVO;
+import com.kh.camp.used.vo.UsedMessageVO;
 import com.kh.camp.used.vo.UsedVO;
+import com.kh.member.model.vo.MemberVO;
 
 
 @Repository
@@ -114,7 +119,76 @@ public class UsedDao {
 		return sqlSession.delete("used.deleteComment",uc);
 	}
 
-	
+	public ArrayList<UsedMessageVO> selectUMList(String memberId) {
+		List<UsedMessageVO> list = sqlSession.selectList("used.selectUMList",memberId);
+		return (ArrayList<UsedMessageVO>)list;
+	}
+
+//	public int umInsert(UsedMessageVO msg) {
+//		//select 방이 존재하는지
+//		//존재하는 경우
+//		//존재하지 않는 경
+//		HashMap<String, String> map = new HashMap<String, String>();
+//		map.put("sender",msg.getUmSender());
+//		map.put("receiver",msg.getUmReceiver());
+//		map.put("message",msg.getMessage());
+//		return sqlSession.insert("used.insertMsg",map);
+//	}
+	//채팅방이 있는지 없는지 검색
+	public UsedMessageChatVO selectChat(UsedMessageVO msg, HttpSession session) {
+			MemberVO member = (MemberVO)session.getAttribute("m");
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("sender", member.getMemberId());
+			map.put("receiver", msg.getUmReceiver());
+			System.out.println("Dao:"+map);
+		return sqlSession.selectOne("used.selectChat",map);
+	}
+	public int insertUm(UsedMessageVO msg, HttpSession session) {
+		MemberVO member = (MemberVO)session.getAttribute("m");
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sender", member.getMemberId());
+		map.put("receiver", msg.getUmReceiver());
+		map.put("message", msg.getMessage());
+		return sqlSession.insert("used.insertUm",map);
+	}
+
+	public int umCount(String data) {
+		return sqlSession.selectOne("used.umCount",data);
+	}
+
+	public int insertRoom(UsedMessageVO msg, HttpSession session) {
+		MemberVO member = (MemberVO)session.getAttribute("m");
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sender", member.getMemberId());
+		map.put("receiver", msg.getUmReceiver());
+		return sqlSession.insert("used.insertRoom",map);
+	}
+
+	public ArrayList<UsedMessageChatVO> selectMessageChatList(String memberId) {
+		List<UsedMessageChatVO> list = sqlSession.selectList("used.selectMessageChatList",memberId);
+		System.out.println(list);
+		return (ArrayList<UsedMessageChatVO>)list;
+	}
+
+	public ArrayList<UsedMessageVO> selectMessageList(String memberId, UsedMessageVO msg) {
+		HashMap<String,String> map = new HashMap<String, String>();
+		System.out.println(msg);
+		map.put("sender", memberId);
+		map.put("receiver", msg.getUmReceiver());
+		List<UsedMessageVO> list = sqlSession.selectList("used.selectMessageList",map);
+		return (ArrayList<UsedMessageVO>)list;
+	}
+
+
+
+//	public int insertRoom(UsedMessageVO msg) {
+//		HashMap<String, String> map = new HashMap<String, String>();
+//		map.put("sender",msg.getUmSender());
+//		map.put("receiver",msg.getUmReceiver()); //판매자
+//		return sqlSession.insert("used.insertRoom",map);
+//	}
+
+	//sender
 
 
 

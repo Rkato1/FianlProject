@@ -6,7 +6,7 @@
 <!-- jQuery 호출 -->
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>결제페이지(예시)</title>
 </head>
 <body>
 	<input type="text" name="reserveNo" class="numbers" value="13"><br>

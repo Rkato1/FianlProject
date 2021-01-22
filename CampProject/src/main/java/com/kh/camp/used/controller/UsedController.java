@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.mortbay.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,11 @@ import com.kh.camp.used.vo.FileNameOver;
 import com.kh.camp.used.vo.UsedCommentData;
 import com.kh.camp.used.vo.UsedCommentVO;
 import com.kh.camp.used.vo.UsedFileVO;
+import com.kh.camp.used.vo.UsedMessageChatVO;
 import com.kh.camp.used.vo.UsedMessageVO;
 import com.kh.camp.used.vo.UsedPageNavi;
 import com.kh.camp.used.vo.UsedVO;
+import com.kh.member.model.vo.MemberVO;
 
 
 @Controller
@@ -215,10 +218,45 @@ public class UsedController {
 //		return new Gson().toJson(obj);
 //	}
 	
+//	@RequestMapping("/usedChat.do")
+//	public String usedChat(String usedWriter, HttpSession session, Model model) {
+//		ArrayList<UsedMessageVO> um = service.selectUMList(usedWriter,session);
+//		return "used/usedChat";
+//	}
 	
-	@RequestMapping("/usedChat.do")
-	public String chat() {
-		return "used/usedChat";
+	@ResponseBody
+	@RequestMapping("/insertUm.do")
+	public int insertUm(UsedMessageVO msg, HttpSession session) {
+		//1차 채팅방이 있는지 없는지 확인 memberId와 판매자 SQL AND로 판매자만 넘기면
+		System.out.println(msg.getUmReceiver());
+		UsedMessageChatVO chat = service.selectChat(msg,session);
+		int insertUM = 0;
+		if(chat != null) {
+			insertUM = service.insertUm(msg,session);
+		}else {
+			service.insertRoom(msg,session);
+			insertUM = service.insertUm(msg,session);
+		}
+		return insertUM;
+	}
+	@ResponseBody
+	@RequestMapping("/selectRoom.do")
+	public ArrayList<UsedMessageChatVO> selectRoom(HttpSession session) {
+		MemberVO m = (MemberVO) session.getAttribute("m");
+		ArrayList<UsedMessageChatVO> chatList = service.selectMessageChatList(m.getMemberId());
+		System.out.println();
+		return chatList;
+	}
+	
+	//방을 눌렀을때 
+	@ResponseBody
+	@RequestMapping("/selectMessage.do")
+	public ArrayList<UsedMessageVO> selectMessage(HttpSession session, UsedMessageVO msg){
+		MemberVO m = (MemberVO) session.getAttribute("m");
+		System.out.println(msg);
+		ArrayList<UsedMessageVO> msgList = service.selectMessageList(m.getMemberId(), msg);
+		System.out.println(msgList);
+		return msgList;
 	}
 	
 	
@@ -230,11 +268,6 @@ public class UsedController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 }
+
+

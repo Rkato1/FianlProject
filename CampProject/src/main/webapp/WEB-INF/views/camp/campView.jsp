@@ -11,7 +11,7 @@
 <!-- jQuery 호출 -->
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <meta charset="UTF-8">
-<title>camp 상세보기</title>
+<title>캠핑장 상세보기</title>
 <!-- campView CSS파일 호출 -->
 <link rel="stylesheet" type="text/css"
 	href="/resources/css/camp/campView.css">
@@ -25,7 +25,7 @@
 				<hr>
 				<div id="demo" class="carousel slide" data-ride="carousel">
 					<ul class="carousel-indicators">
-						<c:forEach var="i" begin="0" end="${camp.pictureList.size()-1}">
+						<%-- <c:forEach var="i" begin="0" end="${camp.pictureList.size()-1}">
 							<c:choose>
 								<c:when test="i==0">
 									<li data-target="#demo" data-slide-to="${i }" class="active"></li>
@@ -34,11 +34,11 @@
 									<li data-target="#demo" data-slide-to="${i }"></li>
 								</c:otherwise>
 							</c:choose>
-						</c:forEach>
+						</c:forEach> --%>
 					</ul>
 					<div class="carousel-inner">
 						<c:set var="idx" value="0" />
-						<c:forEach items="${camp.pictureList }" var="sub">
+						<%-- <c:forEach items="${camp.pictureList }" var="sub">
 							<c:choose>
 								<c:when test="idx==0">
 									<div class="carousel-item active">
@@ -51,7 +51,7 @@
 								style="height: 400px;">
 					</div>
 					<c:set var="idx" value="1" />
-					</c:forEach>
+					</c:forEach> --%>
 					<div class="carousel-item active">
 						<img src="resources/upload/camp/camping_1.jpg"
 							style="height: 400px;">

@@ -17,7 +17,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <style>
 	* {
         font-family: 'Noto Sans KR';
@@ -176,7 +175,7 @@
         </div>
 
         <div class="inputBar">
-        	<c:if test="${sessionScope.m != null }">
+        	<c:if test="${sessionScope.m.memberGrade == 1 }">
             	<div class="writeBox">
                 	<button type="button" class="btn" id="writeBtn">
                     	<a href="/reviewWriteFrm.do">글쓰기</a>
@@ -209,13 +208,15 @@
             	</tr>
             </thead>
             <tbody>
-            	<c:if test="${empty list }">
+            <c:choose>
+            	<c:when test="${empty list }">
             	<tr>
             		<td colspan="6" style="text-align:center;">
             			조회 결과가 존재하지 않습니다.
             		</td>
             	</tr>	
-            	</c:if>
+            	</c:when>
+            	<c:otherwise>
             	<c:forEach items="${list }" var="r">
             	<tr>
                 	<td>${r.reviewNo }</td>
@@ -241,14 +242,18 @@
                 	<td>${r.reviewDate }</td>
             	</tr>
             	</c:forEach>
+            	</c:otherwise>
+            </c:choose>	
             </tbody>
         </table>
 
 		<div class="pageNaviBox">
-        	<div class="pageNavi">${pageNavi }</div>
+			<c:if test="${pageNavi }.equals('')">
+        		<div class="pageNavi">${pageNavi }</div>
+        	</c:if>
         </div>
     </div>
-    
+    <jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	
 </body>
