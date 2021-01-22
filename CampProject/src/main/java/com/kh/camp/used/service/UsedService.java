@@ -219,7 +219,11 @@ public class UsedService {
 		System.out.println(chatList);
 		return chatList;
 	}
-
+	//채팅방의 리스트	
+	public ArrayList<UsedMessageChatVO> selectMessageChatListR(String memberId) {
+		ArrayList<UsedMessageChatVO> chatList = dao.selectMessageChatListR(memberId);
+		return chatList;
+	}
 	public ArrayList<UsedMessageVO> selectMessageList(String memberId, UsedMessageVO msg) {
 		ArrayList<UsedMessageVO> msgList = dao.selectMessageList(memberId, msg);
 		System.out.println(msg);

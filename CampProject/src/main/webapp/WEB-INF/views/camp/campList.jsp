@@ -319,6 +319,7 @@ img {
 		</div>
 	</div>
 	<br>
+	<jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

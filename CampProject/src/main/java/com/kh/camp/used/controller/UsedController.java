@@ -130,7 +130,7 @@ public class UsedController {
 				//올린 파일명을 저장하는 구문
 				String filename;
 				try {
-					filename = new String(file.getOriginalFilename().getBytes("UTF-8"), "8859_1");
+					filename = new String(file.getOriginalFilename().getBytes("8859_1"), "UTF-8");
 					//중복파일 처리
 					String filepath = new FileNameOver().rename(path, filename);
 					try {
@@ -142,6 +142,7 @@ public class UsedController {
 						System.out.println(bos);
 						bos.write(bytes);
 						bos.close();
+						
 						UsedFileVO f = new UsedFileVO();
 						f.setFilename(filename);
 						f.setFilepath(filepath);
@@ -207,22 +208,6 @@ public class UsedController {
 		return "common/msg";
 	}
 	
-//	@ResponseBody
-//	@RequestMapping(value = "/selectSearch.do", produces="application/json; charset=utf-8")
-//	public String selectSearch(String ware, int reqPage) {
-//		System.out.println(ware);
-//		UsedPageNavi cpn = service.selectSearch(ware,reqPage);
-//		JsonObject obj = new JsonObject();
-//		obj.addProperty("list", cpn.getList());
-//		
-//		return new Gson().toJson(obj);
-//	}
-	
-//	@RequestMapping("/usedChat.do")
-//	public String usedChat(String usedWriter, HttpSession session, Model model) {
-//		ArrayList<UsedMessageVO> um = service.selectUMList(usedWriter,session);
-//		return "used/usedChat";
-//	}
 	
 	@ResponseBody
 	@RequestMapping("/insertUm.do")
@@ -239,13 +224,19 @@ public class UsedController {
 		}
 		return insertUM;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/selectRoom.do")
 	public ArrayList<UsedMessageChatVO> selectRoom(HttpSession session) {
-		MemberVO m = (MemberVO) session.getAttribute("m");
-		ArrayList<UsedMessageChatVO> chatList = service.selectMessageChatList(m.getMemberId());
-		System.out.println();
-		return chatList;
+			MemberVO m = (MemberVO) session.getAttribute("m");
+			ArrayList<UsedMessageChatVO> chatList = null;
+			chatList = service.selectMessageChatList(m.getMemberId());
+			if(chatList.size() == 0 ) {
+				chatList = service.selectMessageChatListR(m.getMemberId());
+				return chatList;
+			}else {
+				return chatList;
+		}
 	}
 	
 	//방을 눌렀을때 
@@ -258,7 +249,28 @@ public class UsedController {
 		System.out.println(msgList);
 		return msgList;
 	}
+	//채팅방 클릭시
+	@ResponseBody
+	@RequestMapping("/insertMessage.do")
+	public int insertMessage(UsedMessageVO msg, HttpSession session) {
+		//1차 채팅방이 있는지 없는지 확인 memberId와 판매자 SQL AND로 판매자만 넘기면
+		System.out.println(msg.getUmReceiver());
+		UsedMessageChatVO chat = service.selectChat(msg,session);
+		int insertUM = 0;
+		if(chat != null) {
+			insertUM = service.insertUm(msg,session);
+		}else {
+			service.insertRoom(msg,session);
+			insertUM = service.insertUm(msg,session);
+		}
+		return insertUM;
+	}
 	
+//	@RequestMapping("/selectBox.do")
+//	public String select(String ware) {
+//		System.out.println(ware);
+//		return "used/usedPage";
+//	}
 	
 	
 	

@@ -434,7 +434,7 @@
             </div><!-- comment-list  -->
        </div><!-- commnet-wrap -->
    </div><!-- content-wrap -->
-	
+	<jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	
 	<script>
