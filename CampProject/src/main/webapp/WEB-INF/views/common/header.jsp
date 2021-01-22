@@ -67,7 +67,7 @@
             </div>
         </div>
     </div>
-	<script>
+	<!-- script>
 	$(document).ready(function() {
         $.ajax({
             url : "/selectRoom.do",
@@ -100,6 +100,6 @@
             }
         });
     });
-	</script>
+	</script-->
 </body>
 </html>

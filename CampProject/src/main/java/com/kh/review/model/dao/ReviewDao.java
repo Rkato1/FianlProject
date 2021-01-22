@@ -22,7 +22,7 @@ public class ReviewDao {
 	private SqlSessionTemplate sqlSession;
 
 	public ArrayList<ReviewCampVO> selectList(HashMap<String, Integer> map) {
-		List<ReviewCampVO> list = sqlSession.selectList("review.selectList",map);
+		List<ReviewCampVO> list = sqlSession.selectList("review.selectListAll",map);
 		return (ArrayList<ReviewCampVO>)list;
 	}
 	

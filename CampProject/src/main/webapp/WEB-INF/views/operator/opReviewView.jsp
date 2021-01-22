@@ -15,10 +15,14 @@
 	<section>
 		<div><a href="/opReviewList.do?campNo=${camp.campNo }&reqPage=1">목록으로</a></div>
 		<hr>
-		<div class="content-wrap" style="margin-top:10px;">
+		<div class="content" style="width : 100%;margin-top:10px;">
 	      <div class="review-title">
 	         <h2 style="border-bottom: 2px solid #ccc">${rev.reviewTitle } 
-	         <span style="font-size: 15px;">
+		     </h2>
+	      </div>
+	      <div class="review-info">
+	         <div class="review-user">
+	         	 <span style="font-size: 15px;float:right">
 		         <c:forEach var="i" begin="0" end="4">
 		         	<c:choose>
 						<c:when test="${rev.reviewPoint  > i }">
@@ -29,11 +33,7 @@
 						</c:otherwise>
 		            </c:choose>
 		          </c:forEach>  
-		         </span>
-		     </h2>
-	      </div>
-	      <div class="review-info">
-	         <div class="review-user">
+		         </span> 
 	            <span>${rev.memberId }</span>
 	            <span>&nbsp;｜&nbsp;</span>
 	            <span>${rev.reviewDate }</span>

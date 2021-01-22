@@ -281,7 +281,7 @@ img {
 													<c:when test="${pointList[idx]> 0 }">
 														<div class="item-right">
 															<i class="fas fa-star"></i>${pointList[idx]}"
-														  </div>
+										 `					  </div>
 													</c:when>
 													<c:otherwise>
 														<div class="item-right"></div>

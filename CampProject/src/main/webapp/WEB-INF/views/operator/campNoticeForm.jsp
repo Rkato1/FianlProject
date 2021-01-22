@@ -9,6 +9,7 @@
 <link href="../css/operator/opNoticeView.css" type="text/css" rel="stylesheet">
 <link href="../css/operator/opNoticeForm.css" type="text/css" rel="stylesheet">
 <link href="../css/operator/btn.css" type="text/css" rel="stylesheet">
+<script src = "/js/ckeditor/ckeditor.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/operator/opHeader.jsp" />
@@ -18,18 +19,19 @@
             <hr>
             <div><a href="/opNoticeList.do?campNo=${campNo}&reqPage=1" style="text-decoration: none;">목록으로</a></div>
             <hr>
-            <form action="/insertCampNotice.do" method="post">
+            <form action="/insertCampNotice.do" method="get" style="width: 100%;">
                 <table class="table">
-                	<input type="hidden" value="${ sessionScope.m.memberId}" name="campNoticeWriter">
+                	<input type="hidden" value="${sessionScope.m.memberId}" name="campNoticeWriter">
                 	<input type="hidden" value="${campNo}" name="campNo">
                     <tr>
                         <th>제목</th>
-                        <td style="width: 100%"><input type="text" name="campNoticeTitle" maxlength="30" style="height: 100%; width: 95%;"> </td>
+                        <td style="width: 100%"><input type="text" name="campNoticeTitle" maxlength="30" style="height: 100%; width: 95%;border : 1px solid #ccc;"> </td>
                     </tr>
                      <tr>
                     	<th>내용</th>
                     	<td colspan="3">
-                    		<div style="width:100% ;height:200px;"><textarea name="campNoticeContent" onKeyUp="javascript:fnChkByte(this,'2100')" style="resize:none"></textarea></div>
+                    		<div style="width:100% ;"><textarea name="campNoticeContent" id="ckeditor" style="resize:none" required="required" ></textarea></div>
+                    		<script>CKEDITOR.replace('ckeditor');</script>
                     	</td>
                     </tr>
                 </table>
@@ -40,48 +42,19 @@
             </form>
         </div>
     </section>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script>
     $("[type=submit]").click(function(){
     	if($("[name=campNoticeTitle]").val()==''){
     		alert("제목을 입력하세요!");
     		return false;
     	}
+    	$("[name=campNoticeContent]").html(CKEDITOR.instances.ckeditor.getData());
     	if($("[name=campNoticeContent]").val()==''){
     		alert("내용을 입력하세요!");
     		return false;
     	}
     });
-    
-    function fnChkByte(obj, maxByte){
-        var str = obj.value;
-        var str_len = str.length;
-        var rbyte = 0;
-        var rlen = 0;
-        var one_char = "";
-        var str2 = "";
-        for(var i=0; i<str_len; i++){
-            one_char = str.charAt(i);
-            if(escape(one_char).length > 4){
-                rbyte += 2;                                         //한글2Byte
-            }
-            else{
-                rbyte++;                                            //영문 등 나머지 1Byte
-            }
-            if(rbyte <= maxByte){
-                rlen = i+1;                                          //return할 문자열 갯수
-            }
-         }
-         if(rbyte > maxByte){
-		      // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-		      alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.")
-		      str2 = str.substr(0,rlen);                                  //문자열 자르기
-		      obj.value = str2;
-		      fnChkByte(obj, maxByte);
-         }
-         else{
-            document.getElementById('byteInfo').innerText = rbyte;
-         }
-    }
     </script>
 </body>
 </html>

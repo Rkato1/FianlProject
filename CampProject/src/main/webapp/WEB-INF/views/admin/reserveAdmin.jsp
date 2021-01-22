@@ -44,13 +44,13 @@
 							<td>${r.reserveNo }</td>
 							<td>${r.memberNo }</td>
 							<td>${r.campNo }</td>
-							<td>${r.checkInDate }</td>
-							<td>${r.checkOutDate }</td>
-							<td>${r.reserveStatus }</td>
-							<td>${r.reservePlace }</td>
-							<td>${r.reservePrice }</td>
-							<td>${r.reservePw }</td>
-							<td>${r.carNumber }</td>
+							<td data-toggle="tooltip" data-placement="right" title="${r.checkInDate }">${r.checkInDate }</td>
+							<td data-toggle="tooltip" data-placement="right" title="${r.checkOutDate }">${r.checkOutDate }</td>
+							<td data-toggle="tooltip" data-placement="right" title="${r.reserveStatus }">${r.reserveStatus }</td>
+							<td data-toggle="tooltip" data-placement="right" title="${r.reservePlace }">${r.reservePlace }</td>
+							<td data-toggle="tooltip" data-placement="right" title="${r.reservePrice }">${r.reservePrice }</td>
+							<td data-toggle="tooltip" data-placement="right" title="${r.reservePw }">${r.reservePw }</td>
+							<td data-toggle="tooltip" data-placement="right" title="${r.carNumber }">${r.carNumber }</td>
 							<td data-toggle="tooltip" data-placement="right" title="${r.reserveMemo }">${r.reserveMemo }</td>
                        	</tr>
                        	</c:forEach>
