@@ -83,6 +83,7 @@
         <div class="review-table">   
             <form action="/noticeUpdate.do" method="post" enctype="multipart/form-data">
             	<input type="hidden" name="noticeNo" value="${n.noticeNo }">
+            	<input type="hidden" name="reqPage" value="${reqPage }">
                 <table class="table table-bordered">                		
                     <tr>
                         <td>제목</td>
