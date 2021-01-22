@@ -1,5 +1,7 @@
 package com.kh.camp.used.vo;
 
+import java.util.ArrayList;
+
 import lombok.Data;
 
 @Data
@@ -10,6 +12,7 @@ public class UsedMessageVO {
 	private String message;
 	private String checkMessage;
 	private String umDate;
+	private ArrayList<UsedMessageChatVO> umList;
 	
 	//getter 추가
 		public String getMessageBr() {

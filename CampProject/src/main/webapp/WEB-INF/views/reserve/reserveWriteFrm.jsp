@@ -142,9 +142,9 @@
 				<div class="item">
 					<h4>자리선택</h4>
 					<c:choose>
-						<c:when test="${sessionScope.reserveDates.size() > 0}">
+						<c:when test="${dateList.size() > 0}">
 							예약일자 : <select id="reserveDates">
-								<c:forEach items="${sessionScope.reserveDates }" var="dates">
+								<c:forEach items="${dateList }" var="dates">
 									<c:choose>
 										<c:when test="${dates eq date }">
 											<option value="${dates }" selected="selected">${dates }</option>

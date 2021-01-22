@@ -33,7 +33,7 @@ public class CampController {
 	}
 
 	@RequestMapping("/campView.do")
-	public String campView(HttpSession session,CampVO c, Model model,int reqPage) {
+	public String campView(CampVO c, Model model,int reqPage) {
 		CampEventData ced = service.campView(c);
 		//ArrayList<CampNoticeVO> list = service.campNoticeList(c);
 		CampNoticePageData cnpd = service.selectCampNoticeList(c,reqPage);
@@ -41,9 +41,11 @@ public class CampController {
 		model.addAttribute("events", ced.getEvents());
 		model.addAttribute("noticeList", cnpd.getList());
 		model.addAttribute("pageNavi", cnpd.getPageNavi());
-		if(ced.getReserveDates().getDateList().size()>0) {
-			session.setAttribute("rdv", ced.getReserveDates());
-		}
+		
+		/*
+		 * if(ced.getReserveDates().getDateList().size()>0) {
+		 * session.setAttribute("rdv", ced.getReserveDates()); }
+		 */
 		return "camp/campView";
 	}
 	@RequestMapping("/calendar.do")
@@ -54,7 +56,9 @@ public class CampController {
 	@RequestMapping("/searchCampList.do")
 	public String searchCampList(Model model,int reqPage,String keyword,String value) {
 		CampPageData cpd = service.campSearchList(reqPage,keyword,value);
+		//ArrayList<Object> pointList = service.getPointList(cpd.getList());
 		model.addAttribute("list", cpd.getList());
+		//model.addAttribute("pointList", pointList);
 		model.addAttribute("pageNavi", cpd.getPageNavi());
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("value", value);

@@ -3,6 +3,8 @@ package com.kh.camp.used.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import com.kh.camp.used.dao.UsedDao;
 import com.kh.camp.used.vo.UsedCommentData;
 import com.kh.camp.used.vo.UsedCommentVO;
 import com.kh.camp.used.vo.UsedFileVO;
+import com.kh.camp.used.vo.UsedMessageChatVO;
+import com.kh.camp.used.vo.UsedMessageVO;
 import com.kh.camp.used.vo.UsedPageNavi;
 import com.kh.camp.used.vo.UsedVO;
 import com.kh.review.model.vo.ReviewCommentVO;
@@ -145,7 +149,6 @@ public class UsedService {
 		return u;
 	}
 	// 상세보기 댓글 
-
 	//상품 수정select과정
 	public UsedVO updateEnroll(UsedVO used) {
 		return dao.updateEnroll(used);
@@ -192,8 +195,38 @@ public class UsedService {
 	public int deleteComment(UsedCommentVO uc) {
 		return dao.deleteComment(uc);
 	}
-	
+
 	//채팅 service
+	public ArrayList<UsedMessageVO> selectUMList(String memberId, HttpSession session) {
+		return dao.selectUMList(memberId);
+	}
+	//채팅방이 있는지 없는지 검색
+	public UsedMessageChatVO selectChat(UsedMessageVO msg, HttpSession session) {
+		System.out.println("service:"+msg.getUmReceiver());
+		return dao.selectChat(msg,session);
+	}
+	//메세지를 보내는 서비스
+	public int insertUm(UsedMessageVO msg, HttpSession session) {
+		return dao.insertUm(msg,session);
+	}
+	//채팅방이 없다면 만들어줌
+	public int insertRoom(UsedMessageVO msg, HttpSession session) {
+		return dao.insertRoom(msg, session);
+	}
+	//채팅방의 리스트를 가져오는 것
+	public ArrayList<UsedMessageChatVO> selectMessageChatList(String memberId) {
+		ArrayList<UsedMessageChatVO> chatList = dao.selectMessageChatList(memberId);
+		System.out.println(chatList);
+		return chatList;
+	}
+
+	public ArrayList<UsedMessageVO> selectMessageList(String memberId, UsedMessageVO msg) {
+		ArrayList<UsedMessageVO> msgList = dao.selectMessageList(memberId, msg);
+		System.out.println(msg);
+		System.out.println(msgList);
+		return msgList;
+	}
+	
 	
 
 

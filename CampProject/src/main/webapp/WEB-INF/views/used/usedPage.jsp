@@ -12,9 +12,13 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
 <style>
+		body{
+			padding: 0;
+		}
         .section-size{
             width: 1200px;
             margin: 0 auto;
+            padding-top: 50px;
         }
         .section-mid-size{
         	width : 1300px;
@@ -52,7 +56,7 @@
             border: 0;
             border-radius: 3px;
             outline: 0;
-            transition: background-color .5s;
+            transition: background-color .2s;
             cursor: pointer;
             letter-spacing: 1px;
         }
@@ -68,7 +72,7 @@
             margin-bottom: 30px;
             margin-right: 67px;
             float: left;
-            transition: background-color .5s;
+            transition: background-color .2s;
         }
         .prd-item img{
             object-fit: cover;
@@ -89,7 +93,7 @@
     	background-color: #1d0202 !important;
         color: white !important;
         border-color: white !important;
-        transition: background-color .5s !important;
+        transition: background-color .2s !important;
 		}
 		.btn-outline-primary:hover {
     	background-color: #fa9b00 !important;
@@ -99,7 +103,6 @@
 		#prd-item-click{
 			text-decoration: none;
 			color: #1d0202;
-
 		}
     </style>
     
@@ -109,15 +112,15 @@
     <section class="section-size">
         <div class="used-one" style="height: 30px;" >
             <div class="col-md-9 one bootcol" style="padding: 0;">
-                <p style="font-size: 20px; font-weight: 700;">중고거래</p>
-                <p style="font-size: 14px;"> 정직한 중고거래를 실천합시다</p>
+                <p style="font-size: 26px; font-weight: 900;">중고거래</p>&nbsp;&nbsp;
+                <p style="font-size: 16px; color: #fa9b00">새로운 문화를 즐기는 Create A Camp 중고거래</p>
             </div>
         </div>
-        <hr style="border: 2px solid #1d0202; margin-top: 5px; margin-bottom: 8px;">
+        <hr style="border: 2px solid #1d0202; margin-top: 10px; margin-bottom: 8px;">
         <div class="used-two" style="height: 28px; margin-bottom:20px;">
             <div class="col-md-10 bootcol one" style=" padding: 0;">
             <select name="ware" id="ware-select" style="font-size: 10pt; height: 30px; vertical-align: middle;">
-                <option value="" selected>직접선택</option>
+                <option value="" selected>카테고리선택</option>
                 <option value="텐트/타프">텐트/타프</option>
                 <option value="의자/테이블">의자/테이블</option>
                 <option value="침낭/매트">침낭/매트</option>
@@ -130,10 +133,10 @@
                 <option value="캠핑소품">캠핑소품</option>
                 <option value="캠프차량용품">캠프차량용품</option>
             </select>
-            <form action="/usedSearch.do?keyword" method="post" style="display: inline;">
-            	<input type="hidden" name="reqPage" value="1" id="reqPage">
-                <input type="text" name="search" placeholder="상품명 검색" style="height: 30px; font-size: 10pt; margin-left: 1px; padding: 0; vertical-align: middle;">
-                <input type="submit" class="material-icons searchBtn" value="search" style="font-size: 16px; height: 30px; vertical-align: middle;">
+             <form action="/usedSearch.do?keyword" method="post" style="display: inline;">
+            	<input type="hidden" name="reqPage"  value="1" id="reqPage">
+                <input type="text" name="search" placeholder=" 상품명 검색" style="width:130px; height: 30px; font-size: 10pt; margin-left: 1px; padding: 0; vertical-align: middle;">
+                <input type="submit" class="material-icons searchBtn" value="search" style="font-size: 18px; height: 30px; vertical-align: middle;">
             </form>
             </div>
             <div class="col-md-2 bootcol one" style="vertical-align: middle;  padding: 0;">
@@ -145,7 +148,7 @@
     <section class="section-mid-size">
 				<c:if test="${empty list }">
 				<div style="height: 50px;"></div>
-				<div style="margin-left: 400px; margin-top: 20px;">
+				<div style="margin-left: 500px; margin-top: 20px;">
 					<h4>검색 결과가 없습니다.</h4>
 				</div>
             	</c:if>
@@ -167,18 +170,11 @@
 		</div>
     </section>
 </section>
+	<jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     
    	<script>
-   	$("#nameson").click(function(){	
-   	var $divs = $(".prd-item");
-   	$(function (){
-   	  var OrderedDivs = $divs.sort(function (a, b) {
-   	      return $(a).find("#prd-item-click").text() > $(b).find("#prd-item-click").text();
-   	  });
-   	  $(".prd-item").html(OrderedDivs);
-   	});
-   });
+   	
    	
    	/* $("#ware-select").change(function(){
    			var ware = $("#ware-select").val();

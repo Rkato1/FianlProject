@@ -76,9 +76,9 @@
 	<!-- 공지사항 탐색 추가 -->
 	<context:component-scan base-package="com.kh.notice" />	
 	
-	<!-- <websocket:handlers>
-		<websocket:mapping handler="allMemberChat" path="/allChat.kh"/>
-		<websocket:mapping handler="dmCount" path="/dmCount.kh"/>
-	</websocket:handlers> -->
+	<websocket:handlers>
+		<!-- <websocket:mapping handler="allMemberChat" path="/allChat.kh"/> -->
+		<websocket:mapping handler="umCount" path="/umCount.do"/>
+	</websocket:handlers>
 	
 </beans:beans>

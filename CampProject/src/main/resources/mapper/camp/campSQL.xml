@@ -424,4 +424,9 @@
 		n)
            where rnum between #{start} and #{end}
 	</select>	
+	
+	<select id="pointAvg" resultType="_float" parameterType="_int">
+		select avg(review_point) from review 
+			where camp_no = #{_parameter} group by camp_no 
+	</select>
 </mapper>
