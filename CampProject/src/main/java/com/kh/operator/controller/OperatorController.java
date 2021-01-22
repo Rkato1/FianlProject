@@ -57,7 +57,7 @@ private boolean isOperator = false;
 		if(member!=null) {
 			if(member.getMemberGrade()==2) {
 				CampVO c = new CampVO();
-				c.setMemberNo(member.getMemberGrade());
+				c.setMemberNo(member.getMemberNo());
 				ArrayList<CampVO> camplist = service.selectCampList(c); //camp 리스트 가져옴.
 				model.addAttribute("campList",camplist);
 				return "operator/operatorpage";
@@ -164,7 +164,7 @@ private boolean isOperator = false;
 			c.setPictureList(fileList);
 			int result = service.insertCamp(c);
 			if(result>0) {
-				model.addAttribute("msg","탬핑장이 등록 되었습니다.");
+				model.addAttribute("msg","캠핑장이 등록 되었습니다.");
 			}else {
 				model.addAttribute("msg","등록실패");
 			}
@@ -271,7 +271,7 @@ private boolean isOperator = false;
 			}else {
 				model.addAttribute("msg","수정실패");
 			}
-			model.addAttribute("loc","/operatorpage.do");
+			model.addAttribute("loc","/opCampView.do?campNo="+c.getCampNo());
 		}else {
 			model.addAttribute("msg","사업자가 아닙니다.");
 			model.addAttribute("loc","/");
