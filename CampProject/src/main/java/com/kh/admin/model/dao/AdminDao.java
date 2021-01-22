@@ -166,6 +166,8 @@ public class AdminDao {
 		map.put("list", list);
 		List<ReviewCampVO> resultList = sqlSession.selectList("selectAdminNotAnswerReviewList", map);
 		//System.out.println("총 결과 사이즈 = "+resultList.size());
+		//System.out.println("결과 리스트 = "+resultList.get(0).getCampNo());
+		//System.out.println("결과 리스트 = "+resultList.get(1).getCampNo());
 		return (ArrayList<ReviewCampVO>) resultList;
 	}
 

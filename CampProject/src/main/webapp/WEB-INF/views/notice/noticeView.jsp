@@ -280,7 +280,7 @@
       	 <c:if test="${sessionScope.m.memberId.equals(n.noticeWriter) }"><!-- 로그인 한 회원과 글 작성자가 같을 때 -->
          <div class="review-button">
             <button type="button" class="btn btn-secondary">
-               <a id="updateBtn" href="/noticeUpdateForm.do?noticeNo=${n.noticeNo }">수정</a>
+               <a id="updateBtn" href="/noticeUpdateForm.do?noticeNo=${n.noticeNo }&reqPage=${reqPage}">수정</a>
             </button>
             <button type="button" class="btn btn-secondary">
                <a id="deleteBtn" href="javascript:void(0)" onclick="noticeDelete('${n.noticeNo }')">삭제</a>

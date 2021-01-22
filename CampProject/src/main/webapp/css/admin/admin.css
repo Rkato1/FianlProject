@@ -111,6 +111,7 @@
 td{
 	white-space: nowrap;
 	overflow: hidden;
+	min-width:100px;
 	max-width:200px;
 	text-overflow: ellipsis;
 }
@@ -148,7 +149,6 @@ td:hover{
 	min-width: 50px;
 	max-width: 300px;
 	word-wrap: break-word;
-
 	z-index: 9999;
 
 	opacity: 0;

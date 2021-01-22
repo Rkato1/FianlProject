@@ -40,11 +40,35 @@
 				   	</select>
 				   	<button id="okBtn" onclick="setValues()">조회</button>
 				   	
-				   	<!-- 왜인지는 모르겠는데 p태그가 c:when에 안먹힘; -->
 				   	<p class="title">${title }</p>
-				   	<c:choose>
-				   		<c:when test="${option eq notanswer }">
-				   		
+				   	<table class="table table-hover">
+	                        <tr>
+	                            <th>글번호</th>
+	                            <th>글작성자</th>
+	                            <th>예약번호</th>
+	                            <th>글제목</th>
+	                            <th>내용</th>
+	                            <th>작성일자</th>
+	                            <th>평점</th>
+	                            <th>캠프번호</th>
+	                        </tr>
+	                        <c:forEach items="${list }" var="rc">
+							<tr>
+	                        	<td>${rc.reviewNo}</td>
+	                        	<td>${rc.memberId}</td>
+	                        	<td>${rc.reserveNo}</td>
+	                        	<td data-toggle="tooltip" data-placement="right" title="${rc.reviewTitle }"><a href="/reviewView.do?reviewNo=${rc.reviewNo }&campNo=${rc.campNo}">${rc.reviewTitle}</a></td>
+	                        	<td data-toggle="tooltip" data-placement="right" title="${rc.reviewContent }">${rc.reviewContent}</td>
+	                        	<td>${rc.reviewDate}</td>
+	                        	<td>${rc.reviewPoint}</td>
+	                        	<td>${rc.campNo}</td>
+	                       	</tr>
+	                       	</c:forEach>
+	                    </table>
+	                    <div id= "pageNavi">${pageNavi }</div>
+	                    <!-- 되면 여기부터 닫힐떄까지 지우기 -->
+				   	<%--<c:choose>
+				   		<c:when test="${option eq notanswer }">				   		
 	                    <table class="table table-hover">
 	                        <tr>
 	                            <th>글번호</th>
@@ -72,7 +96,7 @@
 	                    <div id= "pageNavi">${pageNavi }</div>
 	                    </c:when>
 	                    <c:when test="${option eq answer }">
-	                                                      
+
 	                    <table class="table table-hover">
 	                        <tr>
 	                            <th>글번호</th>
@@ -96,10 +120,10 @@
 	                        	<td>${rc.campNo}</td>
 	                       	</tr>
 	                       	</c:forEach>
-	                    </table>	                    
+	                    </table>
                     	<div id= "pageNavi">${pageNavi }</div>
                     	</c:when>
-                    </c:choose>
+                    </c:choose> --%>
                 </div>
             </div>
         </div>
