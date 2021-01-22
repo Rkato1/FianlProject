@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -248,7 +249,28 @@ public class AdminService{
 		if(pageNo <= totalPage) {
 			pageNavi += "<a href='/admin/helpAdmin.do?option=answer&reqPage="+pageNo+"'>[다음]</a>";;
 		}
-		//System.out.println(pageNavi);
+		//StringTokenizer사용
+				for(ReviewCampVO rc : list) {
+					String pre = rc.getReviewContent();
+					StringTokenizer st = new StringTokenizer(pre,"<p>");
+					String pre1 = "";
+					while(st.hasMoreTokens()){
+						pre1 += st.nextToken();
+					}
+					StringTokenizer st1 = new StringTokenizer(pre1,"</p>");
+					String pre2 = "";
+					while(st1.hasMoreTokens()){
+						pre2 += st1.nextToken();
+					}
+					StringTokenizer st2 = new StringTokenizer(pre2,"&nbsp;");
+					String result = "";
+					while(st2.hasMoreTokens()){
+						result += st2.nextToken();
+					}
+					System.out.println("결과물 = "+result);
+					rc.setReviewContent(result);
+				}
+				System.out.println("내용 = "+list.get(0).getReviewContent());
 		ReviewPageData rpd = new ReviewPageData(list,pageNavi);
 		return rpd;
 	}
@@ -302,6 +324,28 @@ public class AdminService{
 			pageNavi += "<a href='/admin/helpAdmin.do?option=notanswer&reqPage="+pageNo+"'>[다음]</a>";;
 		}
 		//System.out.println(pageNavi);
+		//StringTokenizer사용
+		for(ReviewCampVO rc : list) {
+			String pre = rc.getReviewContent();
+			StringTokenizer st = new StringTokenizer(pre,"<p>");
+			String pre1 = "";
+			while(st.hasMoreTokens()){
+				pre1 += st.nextToken();
+			}
+			StringTokenizer st1 = new StringTokenizer(pre1,"</p>");
+			String pre2 = "";
+			while(st1.hasMoreTokens()){
+				pre2 += st1.nextToken();
+			}
+			StringTokenizer st2 = new StringTokenizer(pre2,"&nbsp;");
+			String result = "";
+			while(st2.hasMoreTokens()){
+				result += st2.nextToken();
+			}
+			System.out.println("결과물 = "+result);
+			rc.setReviewContent(result);
+		}
+		System.out.println("내용 = "+list.get(0).getReviewContent());
 		ReviewPageData rpd = new ReviewPageData(list,pageNavi);
 		return rpd;
 	}
