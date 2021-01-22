@@ -36,11 +36,12 @@ public class ReserveDao {
 
 	public ArrayList<SiteVO> selectSiteList(HashMap<String, Object> map) {
 		List<SiteVO> list = sqlSession.selectList("reserve.selectSiteList",map);
+		
 		return (ArrayList<SiteVO>)list;
 	}
 
-	public SiteVO selectOneSite(SiteVO s) {
-		return sqlSession.selectOne("reserve.selectOneSite",s);
+	public SiteVO selectOneSiteOnly(SiteVO s) {
+		return sqlSession.selectOne("reserve.selectOneSiteOnly",s);
 	}
 
 	public MemberVO selectOneMemberNo(MemberVO m) {
@@ -88,5 +89,11 @@ public class ReserveDao {
 	public int flexOneRserve(ReserveVO reserve) {		
 		return sqlSession.update("reserve.flexOneRserve", reserve);
 	}
+
+	public SiteVO selectOneSiteNullMember(SiteVO s) {
+		return sqlSession.selectOne("reserve.selectOneSiteNullMember",s);
+	}
+
+
 	
 }
