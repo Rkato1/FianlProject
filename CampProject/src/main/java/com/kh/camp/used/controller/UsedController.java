@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -128,9 +129,9 @@ public class UsedController {
 			System.out.println(file);
 			if (!file.isEmpty()) {
 				//올린 파일명을 저장하는 구문
-				String filename;
 				try {
-					filename = new String(file.getOriginalFilename().getBytes("8859_1"), "UTF-8");
+					String filename = file.getOriginalFilename();
+					filename = Normalizer.normalize(filename, Normalizer.Form.NFC);
 					//중복파일 처리
 					String filepath = new FileNameOver().rename(path, filename);
 					try {
