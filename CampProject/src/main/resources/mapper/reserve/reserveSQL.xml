@@ -37,6 +37,9 @@
 			<if test="reserveStatus != null">
 				and reserve_status = #{reserveStatus}
 			</if>
+			<if test="reservePlace != null">
+				and reserve_place = #{reservePlace}
+			</if>
 		</trim>	        
 	</select>
 	<select id="selectSitePriceList" parameterType="camp"
@@ -68,6 +71,61 @@
 		and reserve_date = '0000-00-00')
 		GROUP BY site_name
 		order by site_name
+	</select>
+	<select id="selectOneSiteOnly" parameterType="site"
+		resultType="site">
+		select
+		site_no as siteNo,
+		camp_no as campNo,
+		site_title as
+		siteTitle,
+		site_name as siteName,
+		min_cnt as minCnt,
+		max_cnt as maxCnt,
+		min_night as minNight,
+		max_night as maxNight,
+		discount_pay as
+		discountPay,
+		add_cnt_pay as addCntPay,
+		add_car_pay as addCarPay,
+		using_cnt as usingCnt,
+		using_pay as usingPay,
+		using_night as usingNight,
+		add_car_day as addCarDay,
+		add_car_cnt as addCarCnt,
+		member_no as
+		memberNo,
+		reserve_pay as reservePay,
+		reserve_date as reserveDate,
+		low_day_pay as lowDayPay,
+		low_end_pay as lowEndPay,
+		peak_day_pay as
+		peakDayPay,
+		peak_end_pay as peakEndPay,
+		polar_day_pay as polarDayPay,
+		polar_end_pay as polarEndPay
+		from site
+		
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="siteNo != 0">
+				site_no = #{siteNo}
+			</if>
+			<if test="siteName != null">
+				and site_name = #{siteName}
+			</if>
+			<if test="campNo != 0">
+				and camp_no = #{campNo}
+			</if>
+			<if test="memberNo != 0">
+				and member_no = #{memberNo}
+			</if>
+			<if test="reserveDate != null">
+				and reserve_date = #{reserveDate}
+			</if>
+			<if test="reservePay != 0">
+				and reserve_pay = #{reservePay}
+			</if>
+		</trim>	
 	</select>
 	<select id="selectOneSite" parameterType="site"
 		resultType="site">
@@ -124,6 +182,66 @@
 			</if>
 		</trim>	
 	</select>
+	
+	<select id="selectOneSiteNullMember" parameterType="site"
+		resultType="site">
+		select
+		site_no as siteNo,
+		camp_no as campNo,
+		site_title as
+		siteTitle,
+		site_name as siteName,
+		min_cnt as minCnt,
+		max_cnt as maxCnt,
+		min_night as minNight,
+		max_night as maxNight,
+		discount_pay as
+		discountPay,
+		add_cnt_pay as addCntPay,
+		add_car_pay as addCarPay,
+		using_cnt as usingCnt,
+		using_pay as usingPay,
+		using_night as usingNight,
+		add_car_day as addCarDay,
+		add_car_cnt as addCarCnt,
+		member_no as
+		memberNo,
+		reserve_pay as reservePay,
+		reserve_date as reserveDate,
+		low_day_pay as lowDayPay,
+		low_end_pay as lowEndPay,
+		peak_day_pay as
+		peakDayPay,
+		peak_end_pay as peakEndPay,
+		polar_day_pay as polarDayPay,
+		polar_end_pay as polarEndPay
+		from site
+		
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="siteNo != 0">
+				site_no = #{siteNo}
+			</if>
+			<if test="siteName != null">
+				and site_name = #{siteName}
+			</if>
+			<if test="campNo != 0">
+				and camp_no = #{campNo}
+			</if>
+			<if test="memberNo == null">
+				and member_no = null
+			</if>
+			<if test="reserveDate != null">
+				and reserve_date = #{reserveDate}
+			</if>
+			<if test="reservePay != 0">
+				and reserve_pay = #{reservePay}
+			</if>
+		</trim>	
+	</select>
+	
+	
+	
+	
 	<select id="selectOneMemberNo" parameterType="member"
 		resultType="member">
 		select

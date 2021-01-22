@@ -37,13 +37,13 @@ public class ReserveController {
 			// campNo로 모든 사이트 정보 구하기
 			ReserveListsVO rlv = service.selectAllLists(camp, date);
 			CampVO c = service.selectOneCamp(camp);
-			model.addAttribute("sitePriceList", rlv.getSitePriceList());
-			model.addAttribute("siteList", rlv.getSiteList());
-			model.addAttribute("memberList", rlv.getMemberList());
-			model.addAttribute("reserveList", rlv.getReserveList());
-			model.addAttribute("dateList", datelist.GetDates());
-			model.addAttribute("camp", c);
-			model.addAttribute("date", date);
+			model.addAttribute("sitePriceList", rlv.getSitePriceList());//가격표리스트
+			model.addAttribute("siteList", rlv.getSiteList()); //출력되는 사이트 리스트
+			model.addAttribute("memberList", rlv.getMemberList()); //출력되는 맴버이름 리스트
+			model.addAttribute("reserveList", rlv.getReserveList()); //출력되는 예약리스트 (맴버이름+예약번호버튼)
+			model.addAttribute("dateList", datelist.GetDates()); //날짜리스트
+			model.addAttribute("camp", c); //camp정보
+			model.addAttribute("date", date); //선택한 날짜 정보
 			return "reserve/reserveWriteFrm";
 		}
 
