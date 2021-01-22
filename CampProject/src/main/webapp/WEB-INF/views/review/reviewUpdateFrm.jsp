@@ -172,7 +172,7 @@
                     <tr>
                         <td>내용</td>
                         <td>
-                        	<textarea rows="20" cols="50" name="reviewContent" id="reviewContent" class="form-control">${rev.reviewContentBr }</textarea>
+                        	<textarea rows="20" cols="50" name="reviewContent" id="reviewContent" class="form-control">${rev.reviewContent }</textarea>
                         </td>
                     </tr>
                 </table>
