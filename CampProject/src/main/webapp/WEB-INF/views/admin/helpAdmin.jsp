@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객센터 페이지</title>
+<title>후기관리 페이지</title>
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean" rel="stylesheet">
@@ -30,8 +30,7 @@
         <!--화면 좌측-->
         <jsp:include page="sideMenu.jsp"/>
         <!--화면 우측-->
-        <div class="admin-content">
-        <p class="title">고객센터</p>
+        <div class="admin-content">        
             <div class="real-content">
                 <div class="members">
                 	<select class="option" id="option">
@@ -42,93 +41,34 @@
 				   	
 				   	<p class="title">${title }</p>
 				   	<table class="table table-hover">
-	                        <tr>
-	                            <th>글번호</th>
-	                            <th>글작성자</th>
-	                            <th>예약번호</th>
-	                            <th>글제목</th>
-	                            <th>내용</th>
-	                            <th>작성일자</th>
-	                            <th>평점</th>
-	                            <th>캠프번호</th>
-	                        </tr>
-	                        <c:forEach items="${list }" var="rc">
-							<tr>
-	                        	<td>${rc.reviewNo}</td>
-	                        	<td>${rc.memberId}</td>
-	                        	<td>${rc.reserveNo}</td>
-	                        	<td data-toggle="tooltip" data-placement="right" title="${rc.reviewTitle }"><a href="/reviewView.do?reviewNo=${rc.reviewNo }&campNo=${rc.campNo}">${rc.reviewTitle}</a></td>
-	                        	<td data-toggle="tooltip" data-placement="right" title="${rc.reviewContent }">${rc.reviewContent}</td>
-	                        	<td>${rc.reviewDate}</td>
-	                        	<td>${rc.reviewPoint}</td>
-	                        	<td>${rc.campNo}</td>
-	                       	</tr>
-	                       	</c:forEach>
-	                    </table>
-	                    <div id= "pageNavi">${pageNavi }</div>
-	                    <!-- 되면 여기부터 닫힐떄까지 지우기 -->
-				   	<%--<c:choose>
-				   		<c:when test="${option eq notanswer }">				   		
-	                    <table class="table table-hover">
-	                        <tr>
-	                            <th>글번호</th>
-	                            <th>글작성자</th>
-	                            <th>예약번호</th>
-	                            <th>글제목</th>
-	                            <th>내용</th>
-	                            <th>작성일자</th>
-	                            <th>평점</th>
-	                            <th>캠프번호</th>
-	                        </tr>
-	                        <c:forEach items="${list }" var="rc">
-							<tr>
-	                        	<td>${rc.reviewNo}</td>
-	                        	<td>${rc.memberId}</td>
-	                        	<td>${rc.reserveNo}</td>
-	                        	<td><a href="/reviewView.do?reviewNo=${rc.reviewNo }&campNo=${rc.campNo}">${rc.reviewTitle}</a></td>
-	                        	<td>${rc.reviewContent}</td>
-	                        	<td>${rc.reviewDate}</td>
-	                        	<td>${rc.reviewPoint}</td>
-	                        	<td>${rc.campNo}</td>
-	                       	</tr>
-	                       	</c:forEach>
-	                    </table>
-	                    <div id= "pageNavi">${pageNavi }</div>
-	                    </c:when>
-	                    <c:when test="${option eq answer }">
-
-	                    <table class="table table-hover">
-	                        <tr>
-	                            <th>글번호</th>
-	                            <th>글작성자</th>
-	                            <th>예약번호</th>
-	                            <th>글제목</th>
-	                            <th>내용</th>
-	                            <th>작성일자</th>
-	                            <th>평점</th>
-	                            <th>캠프번호</th>
-	                        </tr>
-	                        <c:forEach items="${list }" var="rc">
-							<tr>
-	                        	<td>${rc.reviewNo}</td>
-	                        	<td>${rc.memberId}</td>
-	                        	<td>${rc.reserveNo}</td>
-	                        	<td><a href="/reviewView.do?reviewNo=${rc.reviewNo }&campNo=${rc.campNo}">${rc.reviewTitle}</a></td>
-	                        	<td>${rc.reviewContent}</td>
-	                        	<td>${rc.reviewDate}</td>
-	                        	<td>${rc.reviewPoint}</td>
-	                        	<td>${rc.campNo}</td>
-	                       	</tr>
-	                       	</c:forEach>
-	                    </table>
-                    	<div id= "pageNavi">${pageNavi }</div>
-                    	</c:when>
-                    </c:choose> --%>
+				   		<tr>
+	                    	<th>글번호</th>
+	                    	<th>글작성자</th>
+	                    	<th>예약번호</th>
+	                    	<th>글제목</th>
+	                    	<th>내용</th>
+	                    	<th>작성일자</th>
+	                    	<th>평점</th>
+	                    	<th>캠프번호</th>
+	                   </tr>
+	                   <c:forEach items="${list }" var="rc">
+	                   <tr>
+	                    	<td>${rc.reviewNo}</td>
+	                        <td>${rc.memberId}</td>
+	                        <td>${rc.reserveNo}</td>
+	                        <td data-toggle="tooltip" data-placement="right" title="${rc.reviewTitle }"><a href="/reviewView.do?reviewNo=${rc.reviewNo }&campNo=${rc.campNo}">${rc.reviewTitle}</a></td>
+	                        <td data-toggle="tooltip" data-placement="right" title="${rc.reviewContent }">${rc.reviewContent}</td>
+	                        <td>${rc.reviewDate}</td>
+	                        <td>${rc.reviewPoint}</td>
+	                        <td>${rc.campNo}</td>
+	                   </tr>
+	                   </c:forEach>
+	                </table>
+	                <div id= "pageNavi">${pageNavi }</div>
                 </div>
             </div>
         </div>
-
-    </div>
+    </div>    
     <script>
     	$("#option").val('${option}').attr("selected","selected");
     </script>

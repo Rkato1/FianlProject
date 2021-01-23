@@ -52,9 +52,10 @@ public class AdminController {
 	@RequestMapping("/memberAdmin.do")
 	public String memberAdmin(Model model, HttpSession session, int reqPage) {
 		isAdmin = isAdmin(session);
-		if(isAdmin) {			
+		if(isAdmin) {
 			MemberVOPageData mpd = service.selectAllMember(reqPage);
 			model.addAttribute("list",mpd.getList());
+			model.addAttribute("numList",mpd.getOriNum());
 			model.addAttribute("pageNavi",mpd.getPageNavi());
 			return "admin/memberAdmin";
 		}else {
@@ -179,5 +180,10 @@ public class AdminController {
 			model.addAttribute("loc","/");
 			return "common/msg";
 		}
-	}	
+	}
+	
+	@RequestMapping("/test.do")
+	public String test() {
+		return "admin/memberUpdateForm";
+	}
 }

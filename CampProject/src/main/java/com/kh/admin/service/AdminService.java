@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +34,14 @@ public class AdminService{
 		map.put("start", start);
 		map.put("end", end);
 		ArrayList<MemberVO> list = dao.selectMemberList(map);
+		ArrayList<Integer> oriNum = new ArrayList<Integer>(numPerPage);
+		//기존 멤버번호를 다 옮기기
+		for(int i=0; i<list.size(); i++) {
+			oriNum.add(list.get(i).getMemberNo());
+			System.out.println("멤버번호 = "+list.get(i).getMemberNo());
+			list.get(i).setMemberNo(i+1);
+			System.out.println("페이징번호 = "+list.get(i).getMemberNo());
+		}
 		//System.out.println("조회 거친후 크기 = "+list.size());
 		//pageNavi제작
 		//총 개수
@@ -73,7 +80,7 @@ public class AdminService{
 			pageNavi += "<a href='/admin/memberAdmin.do?reqPage="+pageNo+"'>[다음]</a>";;
 		}
 		//System.out.println(pageNavi);
-		MemberVOPageData mpd = new MemberVOPageData(list,pageNavi);
+		MemberVOPageData mpd = new MemberVOPageData(list,oriNum,pageNavi);
 		return mpd;
 	}
 
