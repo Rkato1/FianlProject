@@ -57,8 +57,8 @@ public class NoticeController {
 				String filename = file.getOriginalFilename();
 				//파일이름 중복 시 넘버링 해주는 FileNameOverlap활용 
 				String filepath = new ReviewFileName().rename(path, filename);
-				System.out.println("filename : " + filename);
-				System.out.println("filepath : " + filepath);
+				//System.out.println("filename : " + filename);
+				//System.out.println("filepath : " + filepath);
 				
 				try {
 					byte[] bytes = file.getBytes();

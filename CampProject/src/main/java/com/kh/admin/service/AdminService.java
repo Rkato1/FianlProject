@@ -36,12 +36,12 @@ public class AdminService{
 		ArrayList<MemberVO> list = dao.selectMemberList(map);
 		ArrayList<Integer> oriNum = new ArrayList<Integer>(numPerPage);
 		//기존 번호를 옮기기
-		System.out.println(list.size());
+		//System.out.println(list.size());
 		for(int i=0; i<list.size(); i++) {
 			oriNum.add(list.get(i).getMemberNo());
-			System.out.println("멤버번호 = "+list.get(i).getMemberNo());
+			//System.out.println("멤버번호 = "+list.get(i).getMemberNo());
 			list.get(i).setMemberNo(i+1);
-			System.out.println("페이징번호 = "+list.get(i).getMemberNo());
+			//System.out.println("페이징번호 = "+list.get(i).getMemberNo());
 		}
 		//System.out.println("조회 거친후 크기 = "+list.size());
 		//pageNavi제작
@@ -98,12 +98,12 @@ public class AdminService{
 		ArrayList<CampVO> list = dao.selectBusinessList(map);
 		ArrayList<Integer> oriNum = new ArrayList<Integer>(numPerPage);
 		//기존 번호를 옮기기
-		System.out.println(list.size());
+		//System.out.println(list.size());
 		for(int i=0; i<list.size(); i++) {
 			oriNum.add(list.get(i).getCampNo());
-			System.out.println("멤버번호 = "+list.get(i).getCampNo());
+			//System.out.println("멤버번호 = "+list.get(i).getCampNo());
 			list.get(i).setCampNo(i+1);
-			System.out.println("페이징번호 = "+list.get(i).getCampNo());
+			//System.out.println("페이징번호 = "+list.get(i).getCampNo());
 		}
 		//pageNavi제작
 		//총 개수
@@ -156,16 +156,16 @@ public class AdminService{
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
-		System.out.println(start+", "+end);
+		//System.out.println(start+", "+end);
 		ArrayList<ReserveVO> list = dao.selectReserveList(map);
 		ArrayList<Integer> oriNum = new ArrayList<Integer>(numPerPage);
 		//기존 번호를 옮기기
-		System.out.println(list.size());
+		//System.out.println(list.size());
 		for(int i=0; i<list.size(); i++) {
 			oriNum.add(list.get(i).getReserveNo());
-			System.out.println("멤버번호 = "+list.get(i).getReserveNo());
+			//System.out.println("멤버번호 = "+list.get(i).getReserveNo());
 			list.get(i).setReserveNo(i+1);
-			System.out.println("페이징번호 = "+list.get(i).getReserveNo());
+			//System.out.println("페이징번호 = "+list.get(i).getReserveNo());
 		}
 		//pageNavi제작
 		//총 개수

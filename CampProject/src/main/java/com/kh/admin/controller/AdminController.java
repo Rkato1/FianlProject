@@ -198,7 +198,7 @@ public class AdminController {
 	
 	@RequestMapping("/realUpdate.do")
 	public String memberUpdateAdmin(HttpSession session, MemberVO m, Model model) {
-		System.out.println(m.getMemberNo());
+		//System.out.println(m.getMemberNo());
 		int result = service.updateMember(m);
 		if(result>0) {
 			model.addAttribute("msg", "수정되었습니다.");
@@ -211,7 +211,7 @@ public class AdminController {
 	
 	@RequestMapping("/realDelete.do")
 	public String memberDeleteAdmin(HttpSession session, int memberNo, Model model) {
-		System.out.println(memberNo);
+		//System.out.println(memberNo);
 		int result = service.deleteMember(memberNo);
 		if(result>0) {
 			model.addAttribute("msg", "삭제되었습니다.");
@@ -224,7 +224,7 @@ public class AdminController {
 	
 	@RequestMapping("/realCampDelete.do")
 	public String campDeleteAdmin(HttpSession session, int campNo, Model model) {
-		System.out.println(campNo);
+		//System.out.println(campNo);
 		int result = service.deleteCamp(campNo);
 		if(result>0) {
 			model.addAttribute("msg", "삭제되었습니다.");
@@ -237,7 +237,7 @@ public class AdminController {
 	
 	@RequestMapping("/realReserveDelete.do")
 	public String reserveDeleteAdmin(HttpSession session, int reserveNo, Model model) {
-		System.out.println(reserveNo);
+		//System.out.println(reserveNo);
 		int result = service.deleteReserve(reserveNo);
 		if(result>0) {
 			model.addAttribute("msg", "삭제되었습니다.");
