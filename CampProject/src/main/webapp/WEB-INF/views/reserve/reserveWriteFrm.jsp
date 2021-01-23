@@ -529,10 +529,11 @@
 							type="hidden" id="reserveMemo" name="reserveMemo"> <input
 							type="hidden" id="reserveTotal" name="reserveTotal"> <input
 							type="hidden" id="date" name="date" value="${date }"> 
-							<c:if test="${sessionScope.m.memberGrade == 1 }">
-								<input
-							id="reserveBtn" type="submit" class="btn btn-outline-dark btn-sm"
+							<c:if test="${sessionScope.m.memberGrade == 1 }"> <!-- 캠퍼만 예약할 수 있다 -->
+								<c:if test ="${nonReserve != 1 }"><!-- 지정하지 않은 날짜에는 예약할 수 없다 -->								
+								<input	id="reserveBtn" type="submit" class="btn btn-outline-dark btn-sm"
 							style="width: 90%; height: 28px;" value="예약하기">
+								</c:if>
 							</c:if>						
 					</p>
 				</form>

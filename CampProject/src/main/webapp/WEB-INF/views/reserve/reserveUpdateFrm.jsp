@@ -120,7 +120,9 @@
 							</td>
 							<td class="ln_r ln_b">${site.usingCnt }명(추가인원:
 								${site.usingCnt - site.minCnt } 명)</td>
-							<td class="ln_r ln_b" style="color: #FF0000;">${site.reservePay}원
+							<td class="ln_r ln_b" style="color: #FF0000;">
+							<fmt:formatNumber value="${site.reservePay}" pattern="#,###" />
+							원
 								<input type="hidden" value="${site.reservePay}"
 								name="reservePrice" id="reservePrice">
 							</td>
