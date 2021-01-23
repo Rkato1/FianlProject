@@ -3,18 +3,22 @@ package com.kh.camp.controller;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import com.kh.camp.model.service.CampService;
 import com.kh.camp.model.vo.CampEventData;
 import com.kh.camp.model.vo.CampPageData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.common.DateList;
+import com.kh.common.RandomVal;
 import com.kh.operator.model.vo.CampNoticePageData;
+import com.kh.reserve.model.vo.RandomVO;
 
 @Controller
 public class CampController {
@@ -22,6 +26,8 @@ public class CampController {
 	private CampService service;
 	@Autowired
 	private DateList dateList;
+	@Autowired
+	private RandomVal rv;
 
 	@RequestMapping("/campList.do")
 	public String campList(int reqPage, Model model) {
@@ -46,7 +52,7 @@ public class CampController {
 	public String calendar() {
 		return "calendar/calendar";
 	}
-
+	//리스트에서 검색
 	@RequestMapping("/searchCampList.do")
 	public String searchCampList(Model model,int reqPage,String keyword,String value) {
 		CampPageData cpd = service.campSearchList(reqPage,keyword,value);
@@ -56,12 +62,12 @@ public class CampController {
 		model.addAttribute("value", value);
 		return "camp/campList";
 	}
-	
+	//메인페이지 검색
 	@RequestMapping("/searchCampListTest.do")
 	public String searchCampListTest(Model model,int reqPage,String value,String startDate,String endDate) {
-		CampPageData cpd = service.campSearchList(reqPage,value,startDate,endDate);
+		CampPageData cpd = service.mainSearchList(reqPage,value,startDate,endDate);
 		model.addAttribute("list", cpd.getList());
-		model.addAttribute("pageNavi", cpd.getPageNavi());
+		//model.addAttribute("pageNavi", cpd.getPageNavi());
 		//model.addAttribute("keyword", keyword);
 		model.addAttribute("value", value);
 		return "camp/campList";
@@ -71,5 +77,13 @@ public class CampController {
 	@RequestMapping("/onload.do")
 	public String onload() {
 		return dateList.GetStr();
+	}
+	
+	@ResponseBody
+	@RequestMapping("/randomStr.do")
+	public RandomVO randomStr() {
+		RandomVO r = new RandomVO();
+		r.setRandom(rv.getRandomStr());
+		return r;
 	}
 }

@@ -119,11 +119,11 @@ public class CampService {
 		// 캘린더안에 들어갈 event값 구하기
 		String events = ""; // 결과String선언
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 형식 설정
-
 		Calendar cal = Calendar.getInstance(); // 캘린더 선언 후 날짜 초기화
-		String today = sdf.format(cal.getTime()); // 오늘날짜 String으로 저장
-
-		// String startDate = "2020-12-01"; // 시작날짜 임의로 지정
+		
+		String today = sdf.format(cal.getTime()); //1. 오늘날짜 String으로 저장
+		//String today = "2020-12-01"; // 2. 시작날짜 임의로 지정
+		
 		String startDate = today; // 시작날짜 오늘로 설정
 		cal.add(Calendar.MONTH, 2); // 오늘날짜 +2달로 설정
 		String endDate = sdf.format(cal.getTime()); // 종료 날짜 저장
@@ -236,8 +236,8 @@ public class CampService {
 		map.put("keyword", keyword);
 		map.put("value", value);
 		ArrayList<CampVO> list = dao.campSearchListObject(map);
-
-		map.put("filegrade", 1);
+		DecimalFormat df = new DecimalFormat(".#");
+		map.put("fileGrade", 1);
 		for (CampVO c : list) {
 			map.put("campNo", c.getCampNo());
 			ArrayList<CampPictureVO> pictureList = dao.selectPictureListObject(map);
@@ -248,6 +248,19 @@ public class CampService {
 			if (siteList.size() > 0) {
 				c.setSiteList(siteList);
 			}
+			
+			ArrayList<ReviewVO> reviewList = dao.selectReivewList(c.getCampNo());
+
+			if (reviewList.size() > 0) {
+				Float result = dao.getPointAvg(c.getCampNo());
+				if (result > 0f) {
+					String point = df.format(result);
+					c.setCampPoint(point);
+				}
+			}
+			
+			
+			
 		}
 		int totalCount = dao.totalSearchCount(map);
 		int totalPage = totalCount / numPerPage;
@@ -282,7 +295,7 @@ public class CampService {
 		return cpd;
 	}
 
-	public CampPageData campSearchList(int reqPage, String value, String startDate, String endDate) {
+	public CampPageData mainSearchList(int reqPage, String value, String startDate, String endDate) {
 		int numPerPage = 20;
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
@@ -294,10 +307,12 @@ public class CampService {
 		map2.put("start", startDate);
 		map2.put("end", endDate);
 		ArrayList<CampVO> list = dao.campSearchListObject(map, map2);
+		DecimalFormat df = new DecimalFormat(".#"); // 평점 소수점맞춤용
+		
 
-		map.put("filegrade", 1);
 		for (CampVO c : list) {
 			map.put("campNo", c.getCampNo());
+			map.put("fileGrade", 1);
 			ArrayList<CampPictureVO> pictureList = dao.selectPictureListObject(map);
 			if (pictureList.size() > 0) {
 				c.setPictureList(pictureList);
@@ -306,37 +321,36 @@ public class CampService {
 			if (siteList.size() > 0) {
 				c.setSiteList(siteList);
 			}
-		}
-		int totalCount = dao.totalSearchCount(map, map2);
-		int totalPage = totalCount / numPerPage;
-		if (totalCount % numPerPage != 0) {
-			totalPage++;
-		}
-		int pageNaviSize = 5;
-		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
-		String pageNavi = "";
-		String repeatStr = "<a class='btn btn-outline-dark navi-btn' href='/searchCampList.do?value=" + value
-				+ "&reqPage=";
-		if (pageNo != 1) {
-			pageNavi += repeatStr + (pageNo - 1) + "'>이전</a>";
-		}
-		for (int i = 0; i < pageNaviSize; i++) {
-			if (pageNo != reqPage) {
-				pageNavi += repeatStr + pageNo + "'>" + pageNo + "</a>";// <a href='/noticeList.do?reqPage=1'>1</a>
-			} else {
-				pageNavi += "<span class='btn btn-outline-dark navi-btn'>" + pageNo + "</span>";
-			}
-			pageNo++;
-			if (pageNo > totalPage) {
-				break;
+			
+			ArrayList<ReviewVO> reviewList = dao.selectReivewList(c.getCampNo());
+
+			if (reviewList.size() > 0) {
+				Float result = dao.getPointAvg(c.getCampNo());
+				if (result > 0f) {
+					String point = df.format(result);
+					c.setCampPoint(point);
+				}
 			}
 		}
-		if (pageNo <= totalPage) {
-			pageNavi += repeatStr + (pageNo) + "'>다음</a>";
-		}
+		/*
+		 * int totalCount = dao.totalSearchCount(map, map2); int totalPage = totalCount
+		 * / numPerPage; if (totalCount % numPerPage != 0) { totalPage++; } int
+		 * pageNaviSize = 5; int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize
+		 * + 1; String pageNavi = ""; String repeatStr =
+		 * "<a class='btn btn-outline-dark navi-btn' href='/searchCampListTest.do?reqPage="
+		 * ; String repeatStr2 =
+		 * "&value="+value+"&startDate="+startDate+"&endDate="+endDate; if (pageNo != 1)
+		 * { pageNavi += repeatStr + (pageNo - 1) + repeatStr2 +"'>이전</a>"; } for (int i
+		 * = 0; i < pageNaviSize; i++) { if (pageNo != reqPage) { pageNavi += repeatStr
+		 * + pageNo + repeatStr2 + "'>" + pageNo + "</a>";// <a
+		 * href='/noticeList.do?reqPage=1'>1</a> } else { pageNavi +=
+		 * "<span class='btn btn-outline-dark navi-btn'>" + pageNo + "</span>"; }
+		 * pageNo++; if (pageNo > totalPage) { break; } } if (pageNo <= totalPage) {
+		 * pageNavi += repeatStr + (pageNo) + repeatStr2 + "'>다음</a>"; }
+		 */
 		CampPageData cpd = new CampPageData();
 		cpd.setList(list);
-		cpd.setPageNavi(pageNavi);
+		//cpd.setPageNavi(pageNavi);
 		return cpd;
 	}
 

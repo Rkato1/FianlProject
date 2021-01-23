@@ -12,7 +12,7 @@
 	<jsp:include page="/WEB-INF/views/operator/opHeader.jsp" />
 	 <section>
         <div>
-            <h2>캠핑장 관리</h2>
+            <h2>CAC : 사업자 페이지</h2>
             <hr>
             <div id="campList">
             <c:forEach items="${campList }" var="c">

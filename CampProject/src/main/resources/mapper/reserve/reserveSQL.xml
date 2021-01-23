@@ -465,4 +465,44 @@
 			reserve_status = '결제완료'
 		where reserve_no=#{reserveNo}
 	</update>	
+	
+	<select id="selectReserveListNoPlace" resultType="reserve" parameterType="reserve">
+		select
+		reserve_no as reserveNo,
+		member_no as memberNo,
+		camp_no as campNo,
+		check_in_date as checkInDate,
+		check_out_date as checkOutDate,
+		reserve_status as reserveStatus,
+		reserve_place as reservePlace,
+		reserve_price as reservePrice,
+		reserve_pw as reservePw,
+		car_number as carNumber,
+		reserve_memo as reserveMemo
+		from reservation         
+        <trim prefix="where" prefixOverrides="and|or">
+			<if test="memberNo != 0">
+				member_no = #{memberNo }
+			</if>
+			<if test="campNo != 0">
+				and camp_no = #{campNo }
+			</if>
+			<if test="checkInDate != null">
+				and check_in_date = #{checkInDate }
+			</if>
+			<if test="reservePw != null">
+				and reserve_pw = #{reservePw}
+			</if>
+			<if test="carNumber != null">
+				and car_Number = #{carNumber}
+			</if>
+			<if test="reserveMemo != null">
+				and reserve_memo = #{reserveMemo}
+			</if>
+			<if test="reserveStatus != null">
+				and reserve_status = #{reserveStatus}
+			</if>
+			<!-- 여긴 reserve_place없어야해요 -->
+		</trim>	        
+	</select>
 </mapper>

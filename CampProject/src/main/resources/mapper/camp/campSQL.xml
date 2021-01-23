@@ -124,7 +124,7 @@
 			camp_no as campNo,
 			filename ,
 			filepath ,
-			filegrade as fileGrade
+			filegrade
 		from camp_picture
 		<trim prefix="where" prefixOverrides="and|or">
 		  	<if test="campNo != 0">

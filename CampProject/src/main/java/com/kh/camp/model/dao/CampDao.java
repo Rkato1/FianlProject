@@ -88,13 +88,16 @@ public class CampDao {
 
 	public ArrayList<CampVO> campSearchListObject(HashMap<String, Object> map, HashMap<String, Object> map2) {
 		List<Integer> campNolist = sqlSession.selectList("camp.campSearchListObject2",map.get("value"));
+		List<CampVO> resultList = new ArrayList<CampVO>();
 		//이 리스트가 null값이면 value가 비었거나 일치하는게 없음
 		map2.put("list", campNolist);
-		List<Integer> reserveCanCampNolist = sqlSession.selectList("camp.campSiteSearchListObject",map2);
-		//사실은 날짜 비교를 통해서 해야하지만 현재 상황에선 이게 최선 같음 
-		//이 리스트가 null값이면 일치하는 캠핑장들은 예약이 꽉 찼거나 value가 비었거나 일치하는게 없음
-		map.put("reserveCanList", reserveCanCampNolist);
-		List<CampVO> resultList = sqlSession.selectList("camp.campSearchResultList",map);
+		if(campNolist.size()>0) {
+			List<Integer> reserveCanCampNolist = sqlSession.selectList("camp.campSiteSearchListObject",map2);
+			//사실은 날짜 비교를 통해서 해야하지만 현재 상황에선 이게 최선 같음 
+			//이 리스트가 null값이면 일치하는 캠핑장들은 예약이 꽉 찼거나 value가 비었거나 일치하는게 없음
+			map.put("reserveCanList", reserveCanCampNolist);
+			resultList = sqlSession.selectList("camp.campSearchResultList",map);
+		}		
 		return (ArrayList<CampVO>) resultList;
 	}
 	
