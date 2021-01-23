@@ -26,8 +26,8 @@ public class ReserveService {
 	@Autowired
 	private ReserveDao dao;
 
-	public ArrayList<ReserveVO> selectReserveList(ReserveVO reserve) {		
-		return dao.selectReserveList(reserve);
+	public ArrayList<ReserveVO> selectReserveListNoPlace(ReserveVO reserve) {		
+		return dao.selectReserveListNoPlace(reserve);
 	}
 
 	public ReserveListsVO selectAllLists(CampVO camp, String date) {

@@ -248,9 +248,7 @@
         </table>
 
 		<div class="pageNaviBox">
-			<c:if test="${pageNavi }.equals('')">
-        		<div class="pageNavi">${pageNavi }</div>
-        	</c:if>
+        	<div class="pageNavi">${pageNavi }</div>
         </div>
     </div>
     <jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>

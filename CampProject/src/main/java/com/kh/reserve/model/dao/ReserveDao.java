@@ -99,6 +99,11 @@ public class ReserveDao {
 		return (ArrayList<CampPictureVO>)pictureList;
 	}
 
+	public ArrayList<ReserveVO> selectReserveListNoPlace(ReserveVO reserve) {
+		List<ReserveVO> list = sqlSession.selectList("reserve.selectReserveListNoPlace",reserve);
+		return (ArrayList<ReserveVO>)list;
+	}
+
 
 	
 }

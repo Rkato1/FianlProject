@@ -107,7 +107,7 @@
 	
 	<div class="content-wrap">
         <div class="review-title">
-            <h2 class="review-title-text">후기수정하기</h2>
+            <h2 class="review-title-text">후기 수정하기</h2>
         </div>
         <div class="review-table">
             
