@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>CAC : 사업자 페이지 예약관리</title>
 <link href="../css/operator/menu_content.css" type="text/css" rel="stylesheet">
 </head>
 <body>
