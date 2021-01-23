@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.admin.model.dao.AdminDao;
+import com.kh.admin.model.vo.CampVOPageData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
-import com.kh.camp.model.vo.CampPageData;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.reserve.model.vo.ReserveVO;
@@ -35,7 +35,8 @@ public class AdminService{
 		map.put("end", end);
 		ArrayList<MemberVO> list = dao.selectMemberList(map);
 		ArrayList<Integer> oriNum = new ArrayList<Integer>(numPerPage);
-		//기존 멤버번호를 다 옮기기
+		//기존 번호를 옮기기
+		System.out.println(list.size());
 		for(int i=0; i<list.size(); i++) {
 			oriNum.add(list.get(i).getMemberNo());
 			System.out.println("멤버번호 = "+list.get(i).getMemberNo());
@@ -84,7 +85,7 @@ public class AdminService{
 		return mpd;
 	}
 
-	public CampPageData selectAllBusiness(int reqPage) {
+	public CampVOPageData selectAllBusiness(int reqPage) {
 		//게시물 구해오기
 		//한 페이지당 게시물 수
 		int numPerPage = 10;
@@ -95,6 +96,15 @@ public class AdminService{
 		map.put("start", start);
 		map.put("end", end);
 		ArrayList<CampVO> list = dao.selectBusinessList(map);
+		ArrayList<Integer> oriNum = new ArrayList<Integer>(numPerPage);
+		//기존 번호를 옮기기
+		System.out.println(list.size());
+		for(int i=0; i<list.size(); i++) {
+			oriNum.add(list.get(i).getCampNo());
+			System.out.println("멤버번호 = "+list.get(i).getCampNo());
+			list.get(i).setCampNo(i+1);
+			System.out.println("페이징번호 = "+list.get(i).getCampNo());
+		}
 		//pageNavi제작
 		//총 개수
 		int totalCount = dao.totalBusinessCount();
@@ -132,7 +142,7 @@ public class AdminService{
 			pageNavi += "<a href='/admin/businessAdmin.do?reqPage="+pageNo+"'>[다음]</a>";;
 		}
 		//System.out.println(pageNavi);
-		CampPageData cpd = new CampPageData(list,pageNavi);
+		CampVOPageData cpd = new CampVOPageData(list,oriNum,pageNavi);
 		return cpd;
 	}
 
@@ -146,7 +156,17 @@ public class AdminService{
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
+		System.out.println(start+", "+end);
 		ArrayList<ReserveVO> list = dao.selectReserveList(map);
+		ArrayList<Integer> oriNum = new ArrayList<Integer>(numPerPage);
+		//기존 번호를 옮기기
+		System.out.println(list.size());
+		for(int i=0; i<list.size(); i++) {
+			oriNum.add(list.get(i).getReserveNo());
+			System.out.println("멤버번호 = "+list.get(i).getReserveNo());
+			list.get(i).setReserveNo(i+1);
+			System.out.println("페이징번호 = "+list.get(i).getReserveNo());
+		}
 		//pageNavi제작
 		//총 개수
 		int totalCount = dao.totalReserveCount();
@@ -184,7 +204,7 @@ public class AdminService{
 			pageNavi += "<a href='/admin/reserveAdmin.do?reqPage="+pageNo+"'>[다음]</a>";;
 		}
 		//System.out.println(pageNavi);
-		ReserveVOPageData rpd = new ReserveVOPageData(list,pageNavi);
+		ReserveVOPageData rpd = new ReserveVOPageData(list,oriNum,pageNavi);
 		return rpd;
 	}
 	
@@ -327,5 +347,25 @@ public class AdminService{
 		//System.out.println("내용 = "+list.get(0).getReviewContent());
 		ReviewPageData rpd = new ReviewPageData(list,pageNavi);
 		return rpd;
+	}
+
+	public MemberVO selectOneMember(int memberNo) {		
+		return dao.selectOneMember(memberNo);
+	}
+
+	public int updateMember(MemberVO m) {		
+		return dao.updateMember(m);
+	}
+
+	public int deleteMember(int memberNo) {
+		return dao.deleteMember(memberNo);
+	}
+
+	public int deleteCamp(int campNo) {
+		return dao.deleteCamp(campNo);
+	}
+	
+	public int deleteReserve(int reserveNo) {
+		return dao.deleteReserve(reserveNo);
 	}
 }

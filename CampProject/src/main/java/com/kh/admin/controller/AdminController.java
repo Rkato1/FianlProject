@@ -11,11 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.admin.model.vo.CampVOPageData;
 import com.kh.admin.model.vo.ChartBasicData;
 import com.kh.admin.model.vo.MemberVOPageData;
 import com.kh.admin.model.vo.ReserveVOPageData;
 import com.kh.admin.service.AdminService;
-import com.kh.camp.model.vo.CampPageData;
 import com.kh.member.model.vo.MemberVO;
 import com.kh.review.model.vo.ReviewPageData;
 
@@ -69,8 +69,9 @@ public class AdminController {
 	public String businessAdmin(Model model, HttpSession session, int reqPage) {
 		isAdmin = isAdmin(session);
 		if(isAdmin) {
-			CampPageData cpd = service.selectAllBusiness(reqPage);
+			CampVOPageData cpd = service.selectAllBusiness(reqPage);
 			model.addAttribute("list",cpd.getList());
+			model.addAttribute("numList",cpd.getOriNum());
 			model.addAttribute("pageNavi",cpd.getPageNavi());
 			return "admin/businessAdmin";
 		}else {
@@ -86,6 +87,7 @@ public class AdminController {
 		if(isAdmin) {
 			ReserveVOPageData rpd = service.selectAllReserve(reqPage);
 			model.addAttribute("list",rpd.getList());
+			model.addAttribute("numList",rpd.getOriNum());
 			model.addAttribute("pageNavi",rpd.getPageNavi());
 			return "admin/reserveAdmin";
 		}else {
@@ -181,9 +183,68 @@ public class AdminController {
 			return "common/msg";
 		}
 	}
+		
+//	@ResponseBody
+//	@RequestMapping(value ="/memberUpdate.do", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+//	public String memberUpdateAdmin(HttpSession session,int memberNo) {		
+//		MemberVO m = service.selectOneMember(memberNo);
+//		JsonObject obj = new JsonObject();
+//		System.out.println(m.getMemberPhone());
+//		System.out.println(m.getMemberPw());
+//		obj.addProperty("msg", "성공");
+//		//return m;
+//		return new Gson().toJson(obj);
+//	}
 	
-	@RequestMapping("/test.do")
-	public String test() {
-		return "admin/memberUpdateForm";
+	@RequestMapping("/realUpdate.do")
+	public String memberUpdateAdmin(HttpSession session, MemberVO m, Model model) {
+		System.out.println(m.getMemberNo());
+		int result = service.updateMember(m);
+		if(result>0) {
+			model.addAttribute("msg", "수정되었습니다.");
+		}else {
+			model.addAttribute("msg", "수정실패");
+		}
+		model.addAttribute("loc","/admin/memberAdmin.do?reqPage=1");
+		return "common/msg";
+	}
+	
+	@RequestMapping("/realDelete.do")
+	public String memberDeleteAdmin(HttpSession session, int memberNo, Model model) {
+		System.out.println(memberNo);
+		int result = service.deleteMember(memberNo);
+		if(result>0) {
+			model.addAttribute("msg", "삭제되었습니다.");
+		}else {
+			model.addAttribute("msg", "삭제실패");
+		}
+		model.addAttribute("loc","/admin/memberAdmin.do?reqPage=1");
+		return "common/msg";
+	}
+	
+	@RequestMapping("/realCampDelete.do")
+	public String campDeleteAdmin(HttpSession session, int campNo, Model model) {
+		System.out.println(campNo);
+		int result = service.deleteCamp(campNo);
+		if(result>0) {
+			model.addAttribute("msg", "삭제되었습니다.");
+		}else {
+			model.addAttribute("msg", "삭제실패");
+		}
+		model.addAttribute("loc","/admin/businessAdmin.do?reqPage=1");
+		return "common/msg";
+	}
+	
+	@RequestMapping("/realReserveDelete.do")
+	public String reserveDeleteAdmin(HttpSession session, int reserveNo, Model model) {
+		System.out.println(reserveNo);
+		int result = service.deleteReserve(reserveNo);
+		if(result>0) {
+			model.addAttribute("msg", "삭제되었습니다.");
+		}else {
+			model.addAttribute("msg", "삭제실패");
+		}
+		model.addAttribute("loc","/admin/reserveAdmin.do?reqPage=1");
+		return "common/msg";
 	}
 }

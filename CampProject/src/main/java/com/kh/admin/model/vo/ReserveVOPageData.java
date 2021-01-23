@@ -8,10 +8,12 @@ import lombok.Data;
 @Data
 public class ReserveVOPageData {
 	ArrayList<ReserveVO> list;
+	ArrayList<Integer> oriNum;
 	String pageNavi;
-	public ReserveVOPageData(ArrayList<ReserveVO> list, String pageNavi) {
+	public ReserveVOPageData(ArrayList<ReserveVO> list, ArrayList<Integer> oriNum, String pageNavi) {
 		super();
 		this.list = list;
+		this.oriNum = oriNum;
 		this.pageNavi = pageNavi;
 	}
 }

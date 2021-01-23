@@ -27,6 +27,7 @@
                    
                     <table class="table table-hover">
                         <tr>
+                        	<th></th>
                             <th>번호</th>
                             <th>이름</th>
                             <th>주소</th>
@@ -40,6 +41,7 @@
                         </tr>
                         <c:forEach items="${list }" var="c">
 						<tr>
+							<td><input type="radio" name="temp" class="change"></td>
                         	<td>${c.campNo }</td>
                         	<td data-toggle="tooltip" data-placement="right" title="${c.campName }">${c.campName }</td>
                         	<td data-toggle="tooltip" data-placement="right" title="${c.campAddr }">${c.campAddr }</td>
@@ -53,12 +55,51 @@
                         	<td data-toggle="tooltip" data-placement="right" title="${c.campFacility }">${c.campFacility }</td>
                        	</tr>
                        	</c:forEach>
+                       	<c:forEach items="${numList }" var="n">
+                       		<input class="hiddenValue" type="hidden" value="${n}">
+                       	</c:forEach>
+                       	<tr>
+                       		<td colspan="5"><button onclick="update()">수정하기</button></td>
+                       		<td colspan="5"><button onclick="deleteMan()">삭제하기</button></td>
+                       	</tr>
                     </table>
                     <div id= "pageNavi">${pageNavi }</div>
                 </div>
             </div>
         </div>
 
-    </div> 
+    </div>
+</body>
+<script>
+	function deleteMan(){
+		var check = $("[type=radio]:checked");
+		if(check != null){
+			console.log(check);
+			var pagingNo = check.parent().next().html();
+			console.log(pagingNo);
+			var campNo = $(".hiddenValue");
+			console.log(campNo);
+			var campNo = campNo.eq(pagingNo-1);
+			console.log(campNo.val());
+			if(campNo.val() != null){
+				location.href="/admin/realCampDelete.do?campNo="+campNo.val();
+			}
+		}
+	}
+	function update(){
+		var check = $("[type=radio]:checked");
+		if(check != null){			
+			var pagingNo = check.parent().next().html();
+			console.log(pagingNo);
+			var campNo = $(".hiddenValue");
+			console.log(campNo);
+			var campNo = campNo.eq(pagingNo-1);
+			console.log(campNo.val());
+			if(campNo.val() != null){
+				location.href="/opCampUpdateForm.do?campNo="+campNo.val();
+			}
+		}
+	}
+</script>
 </body>
 </html>

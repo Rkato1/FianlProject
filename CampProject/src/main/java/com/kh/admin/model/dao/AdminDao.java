@@ -177,4 +177,23 @@ public class AdminDao {
 		return allCount-reviewNoList.size();
 	}
 
+	public MemberVO selectOneMember(int memberNo) {		
+		return sqlSession.selectOne("admin.selectOneMember",memberNo);
+	}
+
+	public int updateMember(MemberVO m) {		
+		return sqlSession.update("admin.updateOneMember", m);
+	}
+
+	public int deleteMember(int memberNo) {
+		return sqlSession.delete("admin.deleteOneMember",memberNo);
+	}
+
+	public int deleteCamp(int campNo) {
+		return sqlSession.delete("admin.deleteOneCamp",campNo);
+	}
+	
+	public int deleteReserve(int reserveNo) {
+		return sqlSession.delete("admin.deleteOneReserve",reserveNo);
+	}
 }

@@ -27,6 +27,7 @@
                    
                     <table class="table table-hover">
                         <tr>
+                        	<th></th>
                             <th>예약번호</th>
                             <th>회원번호</th>
                             <th>캠핑장번호</th>
@@ -41,6 +42,7 @@
                         </tr>
                         <c:forEach items="${list }" var="r">
 						<tr>
+							<td><input type="radio" name="temp" class="change"></td>
 							<td>${r.reserveNo }</td>
 							<td>${r.memberNo }</td>
 							<td>${r.campNo }</td>
@@ -54,6 +56,13 @@
 							<td data-toggle="tooltip" data-placement="right" title="${r.reserveMemo }">${r.reserveMemo }</td>
                        	</tr>
                        	</c:forEach>
+                       	<c:forEach items="${numList }" var="n">
+                       		<input class="hiddenValue" type="hidden" value="${n}">
+                       	</c:forEach>
+                       	<tr>
+                       		<td colspan="6"><button onclick="update()">수정하기</button></td>
+                       		<td colspan="6"><button onclick="deleteMan()">삭제하기</button></td>
+                       	</tr>
                     </table>
                     <div id= "pageNavi">${pageNavi }</div>
                 </div>
@@ -62,4 +71,35 @@
 
     </div> 
 </body>
+<script type="text/javascript">
+function deleteMan(){
+	var check = $("[type=radio]:checked");
+	if(check != null){
+		console.log(check);
+		var pagingNo = check.parent().next().html();
+		console.log(pagingNo);
+		var reserveNo = $(".hiddenValue");
+		console.log(reserveNo);
+		var reserveNo = reserveNo.eq(pagingNo-1);
+		console.log(reserveNo.val());
+		if(reserveNo.val() != null){
+			location.href="/admin/realReserveDelete.do?reserveNo="+reserveNo.val();
+		}
+	}
+}
+function update(){
+	var check = $("[type=radio]:checked");
+	if(check != null){
+		var pagingNo = check.parent().next().html();
+		console.log(pagingNo);
+		var reserveNo = $(".hiddenValue");
+		console.log(reserveNo);
+		var reserveNo = reserveNo.eq(pagingNo-1);
+		console.log(reserveNo.val());
+		if(reserveNo.val() != null){
+			location.href="/reserveUpdateFrm.do?reserveNo="+reserveNo.val();
+		}
+	}
+}
+</script>
 </html>

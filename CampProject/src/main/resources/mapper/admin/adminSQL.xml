@@ -142,4 +142,41 @@
   <select id="selectReviewCount" resultType="_int">
   	select count(*) from review
   </select>
+  
+  <select id="selectOneMember" parameterType="_int" resultType="member">
+  	select
+  		member_no as memberNo,
+  		member_name as memberName,
+  		member_phone as memberPhone,
+  		member_id as memberId,
+  		member_pw as memberPw,
+  		member_email as memberEmail,
+  		member_reg_date as memberRegDate,
+  		member_grade as memberGrade
+  	from member where member_no=#{parameter}
+  </select>
+  
+  <update id="updateOneMember" parameterType="member">
+  	update member set
+  		member_pw = #{memberPw},
+  		member_email = #{memberEmail},
+  		member_name = #{memberName},
+  		member_phone = #{memberPhone}
+  	where member_no = #{memberNo}
+  </update>
+  
+  <delete id="deleteOneMember" parameterType="_int">
+  	delete from member
+  	where member_no = #{parameter}
+  </delete>
+  
+  <delete id="deleteOneCamp" parameterType="_int">
+  	delete from camp
+  	where camp_no = #{parameter}
+  </delete>
+  
+  <delete id="deleteOneReserve" parameterType="_int">
+  	delete from reservation
+  	where reserve_no = #{parameter}
+  </delete>
 </mapper>
