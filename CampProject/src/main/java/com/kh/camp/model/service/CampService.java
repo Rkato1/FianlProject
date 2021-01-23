@@ -19,6 +19,7 @@ import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.vo.CampNoticePageData;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.review.model.vo.ReviewVO;
 
 @Service
 public class CampService {
@@ -32,16 +33,27 @@ public class CampService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
+		DecimalFormat df = new DecimalFormat(".#"); // 평점 소수점맞춤용
 		ArrayList<CampVO> list = dao.selectList(map);
 		for (CampVO c : list) {
 			map.put("campNo", c.getCampNo());
 			map.put("fileGrade", 1);
-			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);			
+			ArrayList<CampPictureVO> pictureList = dao.selectPictureList(map);
 
 			c.setPictureList(pictureList);
 
 			ArrayList<SiteVO> siteList = dao.selectSiteListMap(map);
 			c.setSiteList(siteList);
+
+			ArrayList<ReviewVO> reviewList = dao.selectReivewList(c.getCampNo());
+
+			if (reviewList.size() > 0) {
+				Float result = dao.getPointAvg(c.getCampNo());
+				if (result > 0f) {
+					String point = df.format(result);
+					c.setCampPoint(point);
+				}
+			}
 
 		}
 		int totalCount = dao.totalCount();
@@ -97,6 +109,7 @@ public class CampService {
 		if (pictureList.size() > 0) {
 			camp.setPictureList(pictureList);
 		}
+
 		map.put("fileGrade", 3);// 레이아웃 3등급을 입력한다.
 		ArrayList<CampPictureVO> layoutList = dao.selectPictureList(map);
 		// DB에서 검색해서 하나라도 있으면 셋팅
@@ -110,8 +123,8 @@ public class CampService {
 		Calendar cal = Calendar.getInstance(); // 캘린더 선언 후 날짜 초기화
 		String today = sdf.format(cal.getTime()); // 오늘날짜 String으로 저장
 
-		String startDate = "2020-12-01"; // 시작날짜 임의로 지정
-		// String startDate = today ; //시작날짜 오늘로 설정
+		// String startDate = "2020-12-01"; // 시작날짜 임의로 지정
+		String startDate = today; // 시작날짜 오늘로 설정
 		cal.add(Calendar.MONTH, 2); // 오늘날짜 +2달로 설정
 		String endDate = sdf.format(cal.getTime()); // 종료 날짜 저장
 
@@ -132,28 +145,27 @@ public class CampService {
 			SiteVO site = new SiteVO();
 			site.setCampNo(camp.getCampNo());
 			site.setReserveDate(startDate);
-			//해당 날짜의 해당 예약장소 리스트가져오기 (예약 되어져있는 수)
-			ArrayList<SiteVO> siteList = dao.selectSiteList(site);		
-			
-			//전체예약 가능 개수 구하기 (site_name들 겹치지 않은 리스트)
-			int canSiteTotal = dao.reserveTotalCount(site);			
-			int cantSiteCnt = siteList.size();
+			// 해당 날짜의 해당 예약장소 리스트가져오기 (예약 되어져있는 수)
+
+			// 전체예약 가능 개수 구하기 (site_name들 겹치지 않은 리스트)
+			int canSiteTotal = dao.canSiteTotal(site);
+			int cantSiteCnt = dao.cantSiteCnt(site);
 			int canSiteCnt = canSiteTotal - cantSiteCnt;
-			
-			if (canSiteCnt<0) {
+
+			if (canSiteCnt < 0) {
 				canSiteCnt = 0;
 			}
-			
-			if(canSiteCnt != 0) {
-				events += "{id: '"+(++idx)+"', title: '예약가능("+cantSiteCnt+"/"+canSiteTotal+")', start: '"+startDate+"', color : 'green', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";
-			}else {
-				events += "{ id: '"+(++idx)+"', title: '예약불가능', start: '"+startDate+"',color : 'red', url:'/reserveWriteFrm.do?campNo="+camp.getCampNo()+"&date="+startDate+"' },";					
+
+			if (canSiteCnt != 0) {
+				events += "{id: '" + (++idx) + "', title: '예약가능(" + cantSiteCnt + "/" + canSiteTotal + ")', start: '"
+						+ startDate + "', color : 'green', url:'/reserveWriteFrm.do?campNo=" + camp.getCampNo()
+						+ "&date=" + startDate + "' },";
+			} else {
+				events += "{ id: '" + (++idx) + "', title: '예약불가능', start: '" + startDate
+						+ "',color : 'red', url:'/reserveWriteFrm.do?campNo=" + camp.getCampNo() + "&date=" + startDate
+						+ "' },";
 			}
-			
-			
-			
-			
-					
+
 			cal.add(Calendar.DATE, 1); // 1일 더해준다
 			startDate = sdf.format(cal.getTime());// 1일더한 값을 String으로 startDate저장한다.
 		}
@@ -161,7 +173,7 @@ public class CampService {
 		if (idx > 0) {
 			events = events.substring(0, events.length() - 1); // {}를 만들었다면 마지막 ',' 지우기
 		}
-		//마지막 출력전 셋팅
+		// 마지막 출력전 셋팅
 
 		ced.setCamp(camp);
 		ced.setEvents(events);
@@ -224,8 +236,8 @@ public class CampService {
 		map.put("keyword", keyword);
 		map.put("value", value);
 		ArrayList<CampVO> list = dao.campSearchListObject(map);
-
-		map.put("filegrade", 1);
+		DecimalFormat df = new DecimalFormat(".#");
+		map.put("fileGrade", 1);
 		for (CampVO c : list) {
 			map.put("campNo", c.getCampNo());
 			ArrayList<CampPictureVO> pictureList = dao.selectPictureListObject(map);
@@ -236,6 +248,19 @@ public class CampService {
 			if (siteList.size() > 0) {
 				c.setSiteList(siteList);
 			}
+			
+			ArrayList<ReviewVO> reviewList = dao.selectReivewList(c.getCampNo());
+
+			if (reviewList.size() > 0) {
+				Float result = dao.getPointAvg(c.getCampNo());
+				if (result > 0f) {
+					String point = df.format(result);
+					c.setCampPoint(point);
+				}
+			}
+			
+			
+			
 		}
 		int totalCount = dao.totalSearchCount(map);
 		int totalPage = totalCount / numPerPage;
@@ -270,7 +295,7 @@ public class CampService {
 		return cpd;
 	}
 
-	public CampPageData campSearchList(int reqPage, String value, String startDate, String endDate) {
+	public CampPageData mainSearchList(int reqPage, String value, String startDate, String endDate) {
 		int numPerPage = 20;
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
@@ -282,10 +307,12 @@ public class CampService {
 		map2.put("start", startDate);
 		map2.put("end", endDate);
 		ArrayList<CampVO> list = dao.campSearchListObject(map, map2);
+		DecimalFormat df = new DecimalFormat(".#"); // 평점 소수점맞춤용
+		
 
-		map.put("filegrade", 1);
 		for (CampVO c : list) {
 			map.put("campNo", c.getCampNo());
+			map.put("fileGrade", 1);
 			ArrayList<CampPictureVO> pictureList = dao.selectPictureListObject(map);
 			if (pictureList.size() > 0) {
 				c.setPictureList(pictureList);
@@ -294,52 +321,47 @@ public class CampService {
 			if (siteList.size() > 0) {
 				c.setSiteList(siteList);
 			}
-		}
-		int totalCount = dao.totalSearchCount(map, map2);
-		int totalPage = totalCount / numPerPage;
-		if (totalCount % numPerPage != 0) {
-			totalPage++;
-		}
-		int pageNaviSize = 5;
-		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
-		String pageNavi = "";
-		String repeatStr = "<a class='btn btn-outline-dark navi-btn' href='/searchCampList.do?value=" + value
-				+ "&reqPage=";
-		if (pageNo != 1) {
-			pageNavi += repeatStr + (pageNo - 1) + "'>이전</a>";
-		}
-		for (int i = 0; i < pageNaviSize; i++) {
-			if (pageNo != reqPage) {
-				pageNavi += repeatStr + pageNo + "'>" + pageNo + "</a>";// <a href='/noticeList.do?reqPage=1'>1</a>
-			} else {
-				pageNavi += "<span class='btn btn-outline-dark navi-btn'>" + pageNo + "</span>";
-			}
-			pageNo++;
-			if (pageNo > totalPage) {
-				break;
+			
+			ArrayList<ReviewVO> reviewList = dao.selectReivewList(c.getCampNo());
+
+			if (reviewList.size() > 0) {
+				Float result = dao.getPointAvg(c.getCampNo());
+				if (result > 0f) {
+					String point = df.format(result);
+					c.setCampPoint(point);
+				}
 			}
 		}
-		if (pageNo <= totalPage) {
-			pageNavi += repeatStr + (pageNo) + "'>다음</a>";
-		}
+		/*
+		 * int totalCount = dao.totalSearchCount(map, map2); int totalPage = totalCount
+		 * / numPerPage; if (totalCount % numPerPage != 0) { totalPage++; } int
+		 * pageNaviSize = 5; int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize
+		 * + 1; String pageNavi = ""; String repeatStr =
+		 * "<a class='btn btn-outline-dark navi-btn' href='/searchCampListTest.do?reqPage="
+		 * ; String repeatStr2 =
+		 * "&value="+value+"&startDate="+startDate+"&endDate="+endDate; if (pageNo != 1)
+		 * { pageNavi += repeatStr + (pageNo - 1) + repeatStr2 +"'>이전</a>"; } for (int i
+		 * = 0; i < pageNaviSize; i++) { if (pageNo != reqPage) { pageNavi += repeatStr
+		 * + pageNo + repeatStr2 + "'>" + pageNo + "</a>";// <a
+		 * href='/noticeList.do?reqPage=1'>1</a> } else { pageNavi +=
+		 * "<span class='btn btn-outline-dark navi-btn'>" + pageNo + "</span>"; }
+		 * pageNo++; if (pageNo > totalPage) { break; } } if (pageNo <= totalPage) {
+		 * pageNavi += repeatStr + (pageNo) + repeatStr2 + "'>다음</a>"; }
+		 */
 		CampPageData cpd = new CampPageData();
 		cpd.setList(list);
-		cpd.setPageNavi(pageNavi);
+		//cpd.setPageNavi(pageNavi);
 		return cpd;
 	}
 
-	public ArrayList<Object> getPointList(ArrayList<CampVO> list) {
-		ArrayList<Object> pointList = new ArrayList<Object>();
-		Object result = 0;
-		DecimalFormat df = new DecimalFormat(".#");
-
-		for (CampVO c : list) {
-			result = dao.getPointAvg(c.getCampNo());
-			String str = df.format(result);
-			System.out.println("result = " + result);
-			System.out.println("str = " + str);
-			pointList.add(str);
-		}
-		return pointList;
-	}
+	/*
+	 * public ArrayList<String> getPointList(ArrayList<CampVO> list) {
+	 * ArrayList<String> pointList = new ArrayList<String>(); Float result = 0f;
+	 * DecimalFormat df = new DecimalFormat(".#"); for (CampVO c : list) { result =
+	 * dao.getPointAvg(c.getCampNo()); String str = df.format(result);
+	 * System.out.println("Obj.result = " + result);
+	 * System.out.println("str.result = " + str); pointList.add(str); }
+	 * System.out.println("pointList.size() = "+pointList.size()); return pointList;
+	 * }
+	 */
 }

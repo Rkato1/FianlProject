@@ -8,7 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
+import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 import com.kh.member.model.vo.MemberVO;
@@ -92,6 +92,11 @@ public class ReserveDao {
 
 	public SiteVO selectOneSiteNullMember(SiteVO s) {
 		return sqlSession.selectOne("reserve.selectOneSiteNullMember",s);
+	}
+
+	public ArrayList<CampPictureVO> selectPictureList(HashMap<String, Integer> map) {
+		List<CampPictureVO> pictureList = sqlSession.selectList("camp.selectPictureList",map);
+		return (ArrayList<CampPictureVO>)pictureList;
 	}
 
 

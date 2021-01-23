@@ -24,7 +24,7 @@ public class ReserveController {
 	private ReserveService service;
 	@Autowired
 	private DateList datelist;
-
+	
 	@RequestMapping("/reserveWriteFrm.do")
 	public String reserveWriteFrm(HttpSession session, @SessionAttribute(required = false) MemberVO m, Model model,
 			CampVO camp, String date) {
@@ -34,17 +34,31 @@ public class ReserveController {
 			model.addAttribute("loc", "/loginFrm.do");
 			return "common/msg";
 		} else {
-			// campNo로 모든 사이트 정보 구하기
 			ReserveListsVO rlv = service.selectAllLists(camp, date);
 			CampVO c = service.selectOneCamp(camp);
-			model.addAttribute("sitePriceList", rlv.getSitePriceList());//가격표리스트
-			model.addAttribute("siteList", rlv.getSiteList()); //출력되는 사이트 리스트
-			model.addAttribute("memberList", rlv.getMemberList()); //출력되는 맴버이름 리스트
-			model.addAttribute("reserveList", rlv.getReserveList()); //출력되는 예약리스트 (맴버이름+예약번호버튼)
-			model.addAttribute("dateList", datelist.GetDates()); //날짜리스트
-			model.addAttribute("camp", c); //camp정보
-			model.addAttribute("date", date); //선택한 날짜 정보
-			return "reserve/reserveWriteFrm";
+			ArrayList<String> dateList = datelist.GetDates();
+			//date = 2021-01-01
+			int search = -1;
+			for(String dates : dateList) {
+				if(dates.equals(date)) {
+					search =1;
+					break;
+				}
+			}
+			if(search == -1) {
+				model.addAttribute("msg", "이용할 수 없는 페이지를 호출하였습니다.");
+				model.addAttribute("loc", "/");
+				return "common/msg";
+			}else {
+				model.addAttribute("sitePriceList", rlv.getSitePriceList());//가격표리스트
+				model.addAttribute("siteList", rlv.getSiteList()); //출력되는 사이트 리스트
+				model.addAttribute("memberList", rlv.getMemberList()); //출력되는 맴버이름 리스트
+				model.addAttribute("reserveList", rlv.getReserveList()); //출력되는 예약리스트 (맴버이름+예약번호버튼)
+				model.addAttribute("dateList", dateList); //날짜리스트
+				model.addAttribute("camp", c); //camp정보
+				model.addAttribute("date", date); //선택한 날짜 정보
+				return "reserve/reserveWriteFrm";				
+			}			
 		}
 
 	}
