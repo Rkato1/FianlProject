@@ -11,6 +11,7 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
 
 	
@@ -280,41 +281,32 @@
 <div id="container" style="display: none;">
 		<div id="aside1">
 			<ul style="padding: 0; cursor: pointer;" id="chatRoom">
-				<%-- <li>
-					<div style="margin-left: 20px;">
-						<h2>${room.receiver }님과 대화방</h2>
-						<h3>
-							<span class="status green"></span>
-							
-						</h3>
-					</div>
-				</li> --%>
+			<!-- 채팅방 -->
 			</ul>
 		</div>
         <div id="main1" style="float: left;">
             <header id="headChat">
-                <!-- <div>
-                    <h3>alreadyㅁㄴㅇㅁㄴㅇ 1902 messages</h3>
-                </div> -->
+               <!-- 채팅 헤드 -->
             </header>
             <ul id="chat">
             </ul>
-            <footer>
-            	<input type="hidden" value="${u.usedWriter }" name="umReceiver" />
+            <footer id="um">
                 <textarea placeholder="메세지를 입력하세요!" name="message"></textarea>
                 <button style="margin-left: 295px; color: #fa9b00; border: none; background-color: none;" onclick="insertUm('${sessionScope.m.memberId}')">보내기</button>
             </footer>
         </div>
     </div>
         <a class="btn-floating btn-large waves-effect waves-light red" id="floatMenu">
+        <!-- <span id="dmCount"></span> -->
         <i class="material-icons" id="chat-icon"style="background-color: #fa9b00; width: 65px; height: 65px; border-radius: 50px; 
-        text-align: center; line-height: 65px; font-size: 40px; pointer-events: none; color: white;" onclick="">format_quote</i>
+        text-align: center; line-height: 65px; font-size: 40px; pointer-events: none; color: white;" onclick="">more</i>
         </a>
         </c:if>
 	<script>
 		//메세지 내용 검사
 		function selectMessage(umsc){
 			console.log(umsc);
+			$("#umH").remove();
 			$.ajax({
 				url : "/selectMessage.do",
 	            type : "POST",
@@ -324,6 +316,10 @@
 	            	$("#headChat").html("");
 	            	console.log(data);
 	            	var session = '${sessionScope.m.memberId}';
+	            	//메시지를 전달할 수신자 값을 input hidden에 넣는 작업
+	            	var um = "";
+	            	um += "<input type='hidden' value='"+umsc+"' name='umReceiver' id='umH'/>";
+	            	$("#um").append(um);
 	            	//채팅방 제목
 	            	var title = "";
 	            	title += "<div>";
@@ -357,8 +353,6 @@
 		});
 	};
 	
-	
-
 		//메세지 보내기
 		function insertUm(umSender){
 			var umReceiver = $("[name=umReceiver]").val();
@@ -372,9 +366,10 @@
 				type : "post",
 				success : function(data){
 					if(data == 1){
+						/* sendMsg(umReceiver); */
 						alert("쪽지보내기 성공");
-						sendMsg(umReceiver);
-						location.reload();
+						$("[name=message]").val('');
+						selectMessage(umReceiver);
 					}else{
 						alert("쪽지보내기 실패");
 					}
@@ -385,6 +380,7 @@
 		
 		
 		
+		/*
 		
 		var ws;
 		var memberId = '${sessionScope.m.memberId}';
@@ -424,7 +420,7 @@
 			connect();
 		});
 		
-		
+		 */
 		
 		
 	 $(function(){

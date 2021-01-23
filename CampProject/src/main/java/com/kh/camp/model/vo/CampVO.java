@@ -19,5 +19,5 @@ public class CampVO {
 	private ArrayList<CampPictureVO> pictureList; //캠프 사진 리스트
 	private ArrayList<SiteVO> siteList; //캠핑장소 리스트
 	private ArrayList<CampPictureVO> layoutList; //캠프 레이아웃리스트
-	
+	private String campPoint; //평점 (4.7)
 }

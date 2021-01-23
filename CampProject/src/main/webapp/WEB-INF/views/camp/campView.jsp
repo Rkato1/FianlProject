@@ -15,64 +15,70 @@
 <!-- campView CSS파일 호출 -->
 <link rel="stylesheet" type="text/css"
 	href="/resources/css/camp/campView.css">
+<style>
+.carousel-inner
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<div class="content">
 		<div class="items">
 			<div class="item">
-				<h4>캠핑장 이미지</h4>
+				<h4>${camp.campName }</h4>
 				<hr>
-				<div id="demo" class="carousel slide" data-ride="carousel">
-					<ul class="carousel-indicators">
-						<%-- <c:forEach var="i" begin="0" end="${camp.pictureList.size()-1}">
-							<c:choose>
-								<c:when test="i==0">
-									<li data-target="#demo" data-slide-to="${i }" class="active"></li>
-								</c:when>
-								<c:otherwise>
-									<li data-target="#demo" data-slide-to="${i }"></li>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach> --%>
-					</ul>
-					<div class="carousel-inner">
-						<c:set var="idx" value="0" />
-						<%-- <c:forEach items="${camp.pictureList }" var="sub">
-							<c:choose>
-								<c:when test="idx==0">
-									<div class="carousel-item active">
-								</c:when>
-								<c:otherwise>
-									<div class="carousel-item">
-								</c:otherwise>
-							</c:choose>
-							<img src="resources/upload/camp/${sub.filepath }"
-								style="height: 400px;">
-					</div>
-					<c:set var="idx" value="1" />
-					</c:forEach> --%>
-					<div class="carousel-item active">
-						<img src="resources/upload/camp/camping_1.jpg"
-							style="height: 400px;">
-					</div>
-					<div class="carousel-item">
-						<img src="resources/upload/camp/camping_2.jpg"
-							style="height: 400px;">
-					</div>
-					<div class="carousel-item">
-						<img src="resources/upload/camp/camping_3.jpg"
-							style="height: 400px;">
-					</div>
-				</div>
-				<a class="carousel-control-prev" href="#demo" data-slide="prev">
-					<span class="carousel-control-prev-icon"></span>
-				</a> <a class="carousel-control-next" href="#demo" data-slide="next">
-					<span class="carousel-control-next-icon"></span>
-				</a>
+				<c:choose>
+					<c:when test="${camp.pictureList.size() > 0 }">
+						<div id="demo" class="carousel slide" data-ride="carousel">
+							<ul class="carousel-indicators">
+								<c:set var="index" value="1" />
+								<c:forEach var="i" begin="1" end="${camp.pictureList.size()}">
+									<c:choose>
+										<c:when test="${index ==1 }">
+											<li data-target="#demo" data-slide-to="${i-1 }"
+												class="active"></li>
+											<c:set var="index" value="2" />
+										</c:when>
+										<c:otherwise>
+											<li data-target="#demo" data-slide-to="${i-1 }"></li>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</ul>
+							<c:set var="index" value="1" />
+							<div class="carousel-inner">
+								<c:forEach items="${camp.pictureList }" var="p">
+									<c:choose>
+										<c:when test="${index ==1 }">
+											<div class="carousel-item active">
+												<img src="/resources/upload/camp/${p.filepath }"
+													style="height: 400px;">
+											</div>
+											<c:set var="index" value="2" />
+										</c:when>
+										<c:otherwise>
+											<div class="carousel-item">
+												<img src="/resources/upload/camp/${p.filepath }"
+													style="height: 400px;">
+											</div>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</div>
+							<a class="carousel-control-prev" href="#demo" data-slide="prev">
+								<span class="carousel-control-prev-icon"></span>
+							</a> <a class="carousel-control-next" href="#demo" data-slide="next">
+								<span class="carousel-control-next-icon"></span>
+							</a>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<h5>등록된 상세 이미지가 없습니다.</h5>
+						<br>
+					</c:otherwise>
+				</c:choose>
+
 			</div>
 		</div>
-	</div>
 	</div>
 	<br>
 	<div class="content">
@@ -87,15 +93,16 @@
 	<div class="content">
 		<div class="items">
 			<div class="item">
+				<br>
 				<h4>캠핑장 배치도</h4>
 				<hr>
 				<c:choose>
 					<c:when test="${camp.layoutList.size() == 0 }">
-						<img src="resources/upload/camp/layout_01.jpg"
+						<img src="/resources/upload/camp/layout_01.jpg"
 							style="width: 100%; height: 400px;">
 					</c:when>
 					<c:otherwise>
-						<img src="resources/upload/camp/${camp.layoutList[0].filepath }"
+						<img src="/resources/upload/camp/${camp.layoutList[0].filepath }"
 							style="width: 100%; height: 400px;">
 					</c:otherwise>
 				</c:choose>
@@ -105,6 +112,7 @@
 	<div class="content">
 		<div class="items">
 			<div class="item">
+				<br>
 				<h4>공지사항</h4>
 				<hr>
 				<div id="line-wrapper">
@@ -226,6 +234,7 @@
     		}
 		});
 	</script>
+	<jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

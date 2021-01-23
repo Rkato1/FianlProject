@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Font Awesome-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 <!-- 부트스트랩 호출 -->
-<link rel='stylesheet'
-	href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
 <!-- 글자 호출 검색 아이콘 -->
-<link rel='stylesheet'
-	href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 <meta charset="UTF-8">
 <title>캠핑장 리스트</title>
 <!-- <link rel="stylesheet" href="/resources/css/camp/campList.css"> -->
@@ -269,6 +269,7 @@ img {
 											<div class="item-image">
 												<img
 													src="resources/upload/camp/${c.pictureList[0].filepath }">
+												<div class="item-price">
 												<c:choose>
 													<c:when test="${c.siteList[0].lowDayPay > 0 }">
 														<div class="item-left"><span>최저 	${c.siteList[0].lowDayPay } ~</span></div>
@@ -277,16 +278,12 @@ img {
 														<div class="item-left"><span>미등록</span></div>
 													</c:otherwise>
 												</c:choose>
-												<c:choose>
-													<c:when test="${pointList[idx]> 0 }">
-														<div class="item-right">
-															<i class="fas fa-star"></i>${pointList[idx]}"
-										 `					  </div>
-													</c:when>
-													<c:otherwise>
-														<div class="item-right"></div>
-													</c:otherwise>
-												</c:choose>
+												<div class="item-right">
+													<c:if test="${c.campPoint != null }">
+														<i class="fas fa-star" style="margin-top: 4px;"></i>${c.campPoint }
+													</c:if>
+												</div>
+												</div>
 											</div>
 										</div>
 									</a>
@@ -313,12 +310,13 @@ img {
 					</div>
 				</c:when>
 				<c:otherwise>
-					<h1>캠핑장이 존재하지 않습니다.</h1>
+					<h1>검색 결과가 존재하지 않습니다.</h1>
 				</c:otherwise>
 			</c:choose>
 		</div>
 	</div>
 	<br>
+	<jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

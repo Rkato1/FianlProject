@@ -132,14 +132,16 @@
 				</table>
 			</div>
 			<div class="item">
+				<br><br>
 				<h4>예약선택</h4>
 				<hr>
 				<div class="item">
 					<h4>캠핑장 배치도</h4>
-					<img src="resources/upload/camp/layout_01.jpg"
+					<img src="resources/upload/camp/${camp.pictureList.get(0).filepath }"
 						style="width: 100%; height: 400px;">
 				</div>
 				<div class="item">
+				<br>
 					<h4>자리선택</h4>
 					<c:choose>
 						<c:when test="${dateList.size() > 0}">
@@ -369,8 +371,11 @@
 										<option value="5">5대</option>
 								</select></td>
 								<td class="ln_r ln_b price"><span id="carSum">0</span>원</td>
-								<td class="ln_r ln_b"><input type="checkbox"
-									name="car_parking_check" value="1" class="carChkbx"></td>
+								<td class="ln_r ln_b">
+									<c:if test="${siteList.size() != reserveList.size() }">
+										<input type="checkbox"	name="car_parking_check" value="1" class="carChkbx">
+									</c:if>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -412,6 +417,7 @@
 			</div>
 			<br>
 			<div class="item">
+			<br>
 				<h4>예약자 정보</h4>
 				<table class="infomation" width="100%">
 					<colgroup>
@@ -522,9 +528,12 @@
 							type="hidden" id="carNumber" name="carNumber"> <input
 							type="hidden" id="reserveMemo" name="reserveMemo"> <input
 							type="hidden" id="reserveTotal" name="reserveTotal"> <input
-							type="hidden" id="date" name="date" value="${date }"> <input
+							type="hidden" id="date" name="date" value="${date }"> 
+							<c:if test="${sessionScope.m.memberGrade == 1 }">
+								<input
 							id="reserveBtn" type="submit" class="btn btn-outline-dark btn-sm"
 							style="width: 90%; height: 28px;" value="예약하기">
+							</c:if>						
 					</p>
 				</form>
 			</div>

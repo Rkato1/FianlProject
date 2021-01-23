@@ -13,7 +13,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kh.camp.used.dao.UsedDao;
 
-import jdk.nashorn.internal.parser.JSONParser;
 
 @Component("umCount")
 public class UmCount extends TextWebSocketHandler{

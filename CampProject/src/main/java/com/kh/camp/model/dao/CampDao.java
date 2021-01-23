@@ -13,6 +13,7 @@ import com.kh.camp.model.vo.CampPictureVO;
 import com.kh.camp.model.vo.CampVO;
 import com.kh.camp.model.vo.SiteVO;
 import com.kh.operator.model.vo.CampNoticeVO;
+import com.kh.review.model.vo.ReviewVO;
 
 @Repository
 public class CampDao {
@@ -42,9 +43,10 @@ public class CampDao {
 		return (ArrayList<SiteVO>)siteList;
 	}
 
-	public int reserveTotalCount(SiteVO site) {	
-		return sqlSession.selectOne("camp.reserveTotalCount",site);
-	}
+	/*
+	 * public int reserveTotalCount(SiteVO site) { return
+	 * sqlSession.selectOne("camp.reserveTotalCount",site); }
+	 */
 
 	public ArrayList<CampNoticeVO> campNoticeList(CampVO c) {
 		List<CampNoticeVO> noticeList = sqlSession.selectList("camp.selectCampNoticeList",c);
@@ -86,13 +88,16 @@ public class CampDao {
 
 	public ArrayList<CampVO> campSearchListObject(HashMap<String, Object> map, HashMap<String, Object> map2) {
 		List<Integer> campNolist = sqlSession.selectList("camp.campSearchListObject2",map.get("value"));
+		List<CampVO> resultList = new ArrayList<CampVO>();
 		//이 리스트가 null값이면 value가 비었거나 일치하는게 없음
 		map2.put("list", campNolist);
-		List<Integer> reserveCanCampNolist = sqlSession.selectList("camp.campSiteSearchListObject",map2);
-		//사실은 날짜 비교를 통해서 해야하지만 현재 상황에선 이게 최선 같음 
-		//이 리스트가 null값이면 일치하는 캠핑장들은 예약이 꽉 찼거나 value가 비었거나 일치하는게 없음
-		map.put("reserveCanList", reserveCanCampNolist);
-		List<CampVO> resultList = sqlSession.selectList("camp.campSearchResultList",map);
+		if(campNolist.size()>0) {
+			List<Integer> reserveCanCampNolist = sqlSession.selectList("camp.campSiteSearchListObject",map2);
+			//사실은 날짜 비교를 통해서 해야하지만 현재 상황에선 이게 최선 같음 
+			//이 리스트가 null값이면 일치하는 캠핑장들은 예약이 꽉 찼거나 value가 비었거나 일치하는게 없음
+			map.put("reserveCanList", reserveCanCampNolist);
+			resultList = sqlSession.selectList("camp.campSearchResultList",map);
+		}		
 		return (ArrayList<CampVO>) resultList;
 	}
 	
@@ -106,8 +111,25 @@ public class CampDao {
 		return reserveCanCampNolist.size();
 	}
 
-	public Object getPointAvg(int campNo) {
+	public Float getPointAvg(int campNo) {
 		return sqlSession.selectOne("camp.pointAvg",campNo);
+	}
+
+	public int canSiteTotal(SiteVO site) {
+		return sqlSession.selectOne("camp.canSiteTotal",site); 
+	}
+	
+	public int cantSiteCnt(SiteVO site) {
+		return sqlSession.selectOne("camp.cantSiteCnt",site); 
+	}
+
+	public ReviewVO selectOneReivew(int campNo) {
+		return sqlSession.selectOne("camp.selectOneReivewCamp",campNo);
+	}
+
+	public ArrayList<ReviewVO> selectReivewList(int campNo) {
+		List<ReviewVO> list = sqlSession.selectList("camp.selectReivewList",campNo);
+		return (ArrayList<ReviewVO>)list;
 	}
 
 

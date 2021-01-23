@@ -169,6 +169,12 @@ public class UsedDao {
 		System.out.println(list);
 		return (ArrayList<UsedMessageChatVO>)list;
 	}
+	
+	public ArrayList<UsedMessageChatVO> selectMessageChatListR(String memberId) {
+		List<UsedMessageChatVO> list = sqlSession.selectList("used.selectMessageChatListR",memberId);
+		System.out.println(list);
+		return (ArrayList<UsedMessageChatVO>)list;
+	}
 
 	public ArrayList<UsedMessageVO> selectMessageList(String memberId, UsedMessageVO msg) {
 		HashMap<String,String> map = new HashMap<String, String>();
@@ -179,16 +185,6 @@ public class UsedDao {
 		return (ArrayList<UsedMessageVO>)list;
 	}
 
-
-
-//	public int insertRoom(UsedMessageVO msg) {
-//		HashMap<String, String> map = new HashMap<String, String>();
-//		map.put("sender",msg.getUmSender());
-//		map.put("receiver",msg.getUmReceiver()); //판매자
-//		return sqlSession.insert("used.insertRoom",map);
-//	}
-
-	//sender
 
 
 

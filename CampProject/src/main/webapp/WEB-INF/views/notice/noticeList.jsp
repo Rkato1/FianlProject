@@ -202,7 +202,7 @@
         	<div class="pageNavi">${pageNavi }</div>
         </div>
     </div>
-    
+    <jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	
 </body>

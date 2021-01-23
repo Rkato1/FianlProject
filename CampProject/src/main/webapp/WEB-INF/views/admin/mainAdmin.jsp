@@ -25,9 +25,13 @@
                 <div class="members">
                     <p class="title">관리자메인</p>
                 </div>
-                <div style="width:100%;">
-                	<img src="/img/admin/noticeImage.jpg" style="width:60%; max-width:540px;"><br>
-                	<a href="/noticeList.do?reqPage=1" style="width:100%;font-size:4em;">공지사항 관리하러 가기</a>
+                <div style="display:inline-block; width:49%; box-sizing: border-box;">
+                	<img src="/img/admin/noticeImage.jpg" style="width:70%; max-width:540px;"><br>
+                	<a href="/noticeList.do?reqPage=1" style="width:100%;font-size:4em;">공지사항 관리</a>
+                </div>
+                <div style="display:inline-block; width:49%; box-sizing: border-box;">
+                	<img src="/img/admin/buisnessImage.jpg" style="width:100%; max-width:540px;"><br>
+                	<a href="/operatorpage.do" style="width:100%;font-size:4em;">사업자페이지</a>
                 </div>
             </div>
         </div>

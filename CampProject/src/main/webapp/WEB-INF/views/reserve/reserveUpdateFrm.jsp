@@ -77,8 +77,16 @@
 							</tr>
 
 							<tr>
-								<td colspan="6" style="text-align: center"><input class="btn btn-outline-dark btn-sm" id="updateBtn"
-									type="submit" style="width: 90%; height: 28px;" value="수정하기">
+								<td colspan="6" style="text-align: center">
+								<c:choose>
+									<c:when test="${sessionScope.m.memberNo == member.memberNo }">
+										<input class="btn btn-outline-dark btn-sm" id="updateBtn" type="submit" style="width: 45%; height: 28px;" value="수정하기">
+										<input class="btn btn-outline-dark btn-sm" id="mypageBtn" type="button" style="width: 45%; height: 28px;" value="마이페이지" onclick="location.href='/mypage.do?memberNo=${member.memberNo}&memberId=${member.memberId}'">	
+									</c:when>
+									<c:otherwise>
+										<input class="btn btn-outline-dark btn-sm" id="updateBtn" type="submit" style="width: 90%; height: 28px;" value="수정하기">
+									</c:otherwise>
+								</c:choose>
 								</td>
 							</tr>
 						</tbody>

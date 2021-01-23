@@ -67,7 +67,7 @@
             </div>
         </div>
     </div>
-	<!-- script>
+	<script>
 	$(document).ready(function() {
         $.ajax({
             url : "/selectRoom.do",
@@ -92,7 +92,7 @@
                 	   room += "<div style='margin-left: 20px; '>";
                 	   room += "<h2 style='line-height: 5px;'>"+data[i].sender+"님과 대화방</h2></div>";
                 	   room += "</li>";
-                	   /* room += "</ul>"; */
+                	   /* room += "</ul>"; */ 
             	   }
                }
             	   $("#chatRoom").append(room);
@@ -100,6 +100,6 @@
             }
         });
     });
-	</script-->
+	</script>
 </body>
 </html>
