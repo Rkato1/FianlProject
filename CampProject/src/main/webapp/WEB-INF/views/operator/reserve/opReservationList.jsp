@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +35,7 @@
 			<div class="content">
 				<h4>예약 관리</h4>
 				<hr>
-				<div>입주일 기준 : <input type="date" name="checkInDate" value="${checkInDate}"></div>
+				<div>체크인 기준 : <input type="date" name="checkInDate" value="${checkInDate }"></div>
 				<br>
 				<table class="table table-striped">
                         <tr>
@@ -71,8 +73,19 @@
 	<script>
 	$(function(){
 		$('#menu>ul>li').next().hide();
-		$("[name=checkInDate]").val('${checkInDate}');
+		console.log('${checkInDate}');
+		
 	});
+	
+	function parse(str) {
+	    var y = str.substr(0, 4);
+	    var m = str.substr(6, 2);
+	    var d = str.substr(9, 2);
+	    return new Date(y,m-1,d);
+	}
+	
+
+	출처: https://nine01223.tistory.com/336 [스프링연구소(spring-lab)]
 	
 	$('#menu>ul>li').click(function(){
  		$(this).next().slideToggle();
