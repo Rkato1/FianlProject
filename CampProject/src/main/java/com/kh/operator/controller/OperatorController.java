@@ -4,8 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -655,12 +656,9 @@ private boolean isOperator = false;
 		c.setCampNo(r.getCampNo());
 		CampVO camp = service.selectOneCamp(c);
 		if(today==null) {
-			Calendar cal = Calendar.getInstance();
-			int year = cal.get ( cal.YEAR );
-			int month = cal.get ( cal.MONTH ) + 1 ;
-			int date = cal.get ( cal.DATE ) ;
-			today = year+"-"+month+"-"+date;
-			r.setCheckInDate(today);
+			Date date= new Date();
+			String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+			r.setCheckInDate(currentDate);
 		}
 		ArrayList<ReserveVO> list = service.selectReservationList(r);
 		model.addAttribute("list",list);
