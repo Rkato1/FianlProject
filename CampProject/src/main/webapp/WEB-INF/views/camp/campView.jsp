@@ -16,7 +16,11 @@
 <link rel="stylesheet" type="text/css"
 	href="/resources/css/camp/campView.css">
 <style>
-.carousel-inner
+hr{
+	style="border: 2px solid #1d0202; 
+	margin-top: 10px; 
+	margin-bottom: 8px;"
+}
 </style>
 </head>
 <body>

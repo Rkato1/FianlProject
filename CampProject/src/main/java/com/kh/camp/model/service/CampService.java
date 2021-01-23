@@ -119,11 +119,11 @@ public class CampService {
 		// 캘린더안에 들어갈 event값 구하기
 		String events = ""; // 결과String선언
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 형식 설정
-
 		Calendar cal = Calendar.getInstance(); // 캘린더 선언 후 날짜 초기화
-		String today = sdf.format(cal.getTime()); // 오늘날짜 String으로 저장
-
-		// String startDate = "2020-12-01"; // 시작날짜 임의로 지정
+		
+		String today = sdf.format(cal.getTime()); //1. 오늘날짜 String으로 저장
+		//String today = "2020-12-01"; // 2. 시작날짜 임의로 지정
+		
 		String startDate = today; // 시작날짜 오늘로 설정
 		cal.add(Calendar.MONTH, 2); // 오늘날짜 +2달로 설정
 		String endDate = sdf.format(cal.getTime()); // 종료 날짜 저장
