@@ -45,6 +45,7 @@ public class ReserveController {
 					break;
 				}
 			}
+			//search = 1;// 막은거 막기 //막은거 막기에 다시 막기
 			if(search == -1) {
 				model.addAttribute("msg", "이용할 수 없는 페이지를 호출하였습니다.");
 				model.addAttribute("loc", "/");
@@ -85,7 +86,7 @@ public class ReserveController {
 			// 예약됨 결제페이지로 넘어감
 			ArrayList<ReserveVO> reserveList = service.selectReserveList(reserve);
 			CampVO c = service.selectOneCamp(camp);
-			System.out.println("reserveList.size = " + reserveList.size());
+			//System.out.println("reserveList.size = " + reserveList.size());
 			model.addAttribute("camp", c);
 			model.addAttribute("reserveList", reserveList);
 			model.addAttribute("date", date); // 결제페이지 나가면

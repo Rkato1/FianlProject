@@ -5,20 +5,24 @@
 <html>
 <head>
 <!-- Font Awesome-->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+	rel="stylesheet">
 <!-- 부트스트랩 호출 -->
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+<link rel='stylesheet'
+	href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
 <!-- 글자 호출 검색 아이콘 -->
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<link rel='stylesheet'
+	href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 <meta charset="UTF-8">
 <title>캠핑장 리스트</title>
 <!-- <link rel="stylesheet" href="/resources/css/camp/campList.css"> -->
 <style>
-
 .content {
 	display: flex;
 	justify-content: center;
 }
+
 .items-height {
 	display: flex;
 	flex-direction: column;
@@ -66,7 +70,6 @@ img {
 /* .item-image:hover {
 	color: #FA9B00;
 } */
-
 .item-image {
 	color: white;
 	font-weight: bold;
@@ -145,56 +148,72 @@ img {
 	border-radius: 2px;
 	cursor: pointer;
 }
-.camp_addr{
-    width: 100%;
-    height: 14px;
+
+.camp_addr {
+	width: 100%;
+	height: 14px;
 	font-size: 12px;
 }
 
-.camp_name,
-    .camp_name>div,
-    .item-price,
-    .item-price>div {
-        display: flex;
+.camp_name, .camp_name>div, .item-price, .item-price>div {
+	display: flex;
+}
 
-    }
+.item-left {
+	width: 80%;
+	justify-content: flex-start;
+}
 
-    .item-left {
-        width: 80%;
-        justify-content: flex-start;
-    }
+.item-right {
+	width: 20%;
+	justify-content: flex-end;
+}
 
-    .item-right {
-        width: 20%;
-        justify-content: flex-end;
+.item-right>i {
+	color: #ffffff;
+}
 
-    }
+a {
+	color: white;
+	display: block;
+}
 
-    .item-right>i {
-        color: #ffffff;
+a:hover * {
+	color: #FA9B00;
+}
 
-    }   
-    a {
-        color: white;
-        display: block;
-        
-    }
+.bootcol {
+	margin: 0;
+	padding: 0;
+}
 
-    a:hover * {
-        color:  #FA9B00;      
-    }
-
-
-
+.one {
+	float: left;
+}
+.searchBtn :hover *{
+	color: #FA9B00;
+}
 </style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<div class="content">
+	<div class="content" style="padding-top: 50px;">
 		<div class="items-height">
-			<form action="/searchCampList.do" method="post">
-				<div class="items-height">
-					<div class="items-width">
+			<div class="used-one">
+				<div class="col-md-12 one bootcol"
+					style="padding: 0;">
+					<p style="font-size: 26px; font-weight: 900;">
+						예약 Do it! &nbsp;&nbsp;<font
+							style="font-size: 16px; color: #fa9b00">기회가 있을 때 하십시오.
+							Just do it !</font>
+					</p>
+					<hr
+						style="border: 2px solid #1d0202; margin-top: 10px; margin-bottom: 8px;">
+				</div>
+			</div>
+			<div class="items-height">
+				<div class="items-width">
+					<form action="/searchCampList.do" method="post">
 						<div class="camp_search">
 							<div class="input-group">
 								<input type="hidden" name="reqPage" value="1"> <select
@@ -219,7 +238,7 @@ img {
 								</select>
 								<c:choose>
 									<c:when test="${value != null }">
-										<input type="text" name="value" style="width: 300px;"
+										 <input type="text" name="value" style="width: 300px;"
 											class="form-control" placeholder="입력해주세요..."
 											value="${value }">
 									</c:when>
@@ -228,17 +247,16 @@ img {
 											class="form-control" placeholder="입력해주세요...">
 									</c:otherwise>
 								</c:choose>
-								<div class="input-group-append">
-									<button class="btn" type="submit">
+								<div class="input-group-append searchBtn">
+									<button class="btn" type="submit" style="background-color: #1D0E0E ;color: #FFF">
 										<i class="fa fa-search"></i>
 									</button>
 								</div>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
-			</form>
-
+			</div>
 			<br>
 			<c:choose>
 				<c:when test="${list.size()>0 }">
@@ -247,7 +265,8 @@ img {
 					<c:if test="${size % 5 > 0}">
 						<c:set var="end1" value="${end1+1 }" />
 					</c:if>
-					<c:set var="idx" value="0" /> <!-- 초기화 -->
+					<c:set var="idx" value="0" />
+					<!-- 초기화 -->
 
 					<c:forEach var="i" begin="1" end="${end1}">
 						<c:choose>
@@ -264,45 +283,54 @@ img {
 							<c:forEach var="j" begin="1" end="${end2}">
 								<c:set var="c" value="${list[idx] }" />
 								<div class="item">
-									<a href="/campView.do?campNo=${c.campNo }&reqPage=1" class="aLink">
+									<a href="/campView.do?campNo=${c.campNo }&reqPage=1"
+										class="aLink">
 										<div class="item-top">
 											<div class="item-image">
 												<img
 													src="resources/upload/camp/${c.pictureList[0].filepath }">
 												<div class="item-price">
-												<c:choose>
-													<c:when test="${c.siteList[0].lowDayPay > 0 }">
-														<div class="item-left"><span>최저 	${c.siteList[0].lowDayPay } ~</span></div>
-													</c:when>
-													<c:otherwise>
-														<div class="item-left"><span>미등록</span></div>
-													</c:otherwise>
-												</c:choose>
-												<div class="item-right">
-													<c:if test="${c.campPoint != null }">
-														<i class="fas fa-star" style="margin-top: 4px;"></i>${c.campPoint }
+													<c:choose>
+														<c:when test="${c.siteList[0].lowDayPay > 0 }">
+															<div class="item-left">
+																<span>최저 ${c.siteList[0].lowDayPay } ~</span>
+															</div>
+														</c:when>
+														<c:otherwise>
+															<div class="item-left">
+																<span>미등록</span>
+															</div>
+														</c:otherwise>
+													</c:choose>
+													<div class="item-right">
+														<c:if test="${c.campPoint != null }">
+															<i class="fas fa-star" style="margin-top: 4px;"></i>${c.campPoint }
 													</c:if>
-												</div>
+													</div>
 												</div>
 											</div>
 										</div>
 									</a>
 									<div class="item-bottom">
 										<div class="camp_name">${c.campName }</div>
-										<div class="camp_addr">${c.campAddr }</div><br>
-										<button class="btn btn-outline-dark btn-sm camp_button" style="display: inline-block;"
-											onclick="location.href='/campView.do?campNo=${c.campNo}&reqPage=1'">상세보기</button>									
+										<div class="camp_addr">${c.campAddr }</div>
+										<br>
+										<button class="btn btn-outline-dark btn-sm camp_button"
+											style="display: inline-block;"
+											onclick="location.href='/campView.do?campNo=${c.campNo}&reqPage=1'">상세보기</button>
 									</div>
-									
+
 								</div>
-								<c:set var="idx" value="${idx+1 }" /> <!-- idx증가 -->
+								<c:set var="idx" value="${idx+1 }" />
+								<!-- idx증가 -->
 							</c:forEach>
 							<c:forEach var="j" begin="1" end="${end3}">
 								<div class="item"></div>
 							</c:forEach>
 						</div>
 					</c:forEach>
-					<br><br>
+					<br>
+					<br>
 					<div class="content">
 						<div class="items-navi">
 							<div class="btn-group">${pageNavi }</div>
@@ -316,7 +344,7 @@ img {
 		</div>
 	</div>
 	<br>
-	<jsp:include page="/WEB-INF/views/used/usedChat.jsp"/>
+	<jsp:include page="/WEB-INF/views/used/usedChat.jsp" />
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>
