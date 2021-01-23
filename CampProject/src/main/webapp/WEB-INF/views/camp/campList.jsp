@@ -310,7 +310,7 @@ img {
 					</div>
 				</c:when>
 				<c:otherwise>
-					<h1>캠핑장이 존재하지 않습니다.</h1>
+					<h1>검색 결과가 존재하지 않습니다.</h1>
 				</c:otherwise>
 			</c:choose>
 		</div>

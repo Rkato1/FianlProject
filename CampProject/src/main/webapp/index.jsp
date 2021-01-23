@@ -156,38 +156,64 @@ html, body {
 		</div>
 
 
-		<form method="get">
+		<form method="post" action="/searchCampListTest.do" onsubmit="return mainSearch();">
 			<div class="search-wrap">
 				<div class="search-where">
 					<span><span style="color: white">Where</span> Do You <span
 						style="color: white">Want</span> To Go?</span> <input type="text"
-						id="where">
+						id="where" name="where">
 				</div>
 				<div class="search-check">
 					<span><span style="color: white">Check</span> In</span> <input
-						type="date" id="checkIn">
+						type="date" name="startDate" id="checkIn">
 
 				</div>
 				<div class="search-check">
 					<span><span style="color: white">Check</span> Out</span> <input
-						type="date" id="checkOut">
+						type="date" name="endDate" id="checkOut">
 				</div>
 				<div class="search-button">
-					<!-- input type="submit" value="Search"-->
-					<button type="button" onclick="Search()">Search</button>
+					<input type="hidden" name="reqPage" value="1">
+					<!--  <input type="submit" value="Search"> -->
+					<button type="submit">Search</button> 
+					<!--  <button type="button" onclick="Search();">Search</button>  -->
 				</div>
+				<div id="result2"><h1 id="random"></h1></div>
 			</div>
 		</form>
 	</div>
+	
 	<div id="result" style="display: none"></div>
 	<script>
+	$(function(){
+		$("#result2").css("width","100%").hide();
+	});
 	function Search() {
 		var where = $("#where").val();
 		var checkIn = $("#checkIn").val();
 		var checkOut = $("#checkOut").val();
-		console.log(where);
+		/* console.log(where);
 		console.log(checkIn);
-		console.log(checkOut);
+		console.log(checkOut); */
+		/* alert("where ="+where);
+		alert("checkIn ="+checkIn);
+		alert("checkOut ="+checkOut); */
+		/* var length = $("#where").val().length;
+		if(length == 0){
+			$.ajax({
+				url : "/randomStr.do",
+				type : "GET",
+				success : function(data) {
+					//console.log("data = "+data.random);
+					$("#result2").css("display","flex");
+					$("#random").html(data.random);	
+				}
+			});
+		}else{
+			location.href = "/searchCampListTest.do?reqPage=1&value=" + where
+			+ "&startDate=" + checkIn + "&endDate=" + checkOut;
+		} */
+		
 		location.href = "/searchCampListTest.do?reqPage=1&value=" + where
 				+ "&startDate=" + checkIn + "&endDate=" + checkOut;
 	}
@@ -198,6 +224,23 @@ html, body {
 		checkOutTag.attr('min', checkIn + 1);
 		//console.log(checkOut);
 	}); */
+	function mainSearch() {
+		var length = $("#where").val().length;
+		if(length == 0){
+			$.ajax({
+				url : "/randomStr.do",
+				type : "GET",
+				success : function(data) {
+					//console.log("data = "+data.random);
+					$("#result2").css("display","flex");
+					$("#random").html(data.random);	
+				}
+			});
+			return false;
+		}		
+		return true;
+	}
+	
 
 	$(document).ready(function() {
 		$.ajax({
@@ -227,7 +270,7 @@ html, body {
 				oldChkOut = $("#checkOut").val();
 			}
 		});
-	});
+	}); 
 	$("#checkIn").change(function() {
 		 dateChk();
 	});
