@@ -263,6 +263,7 @@ public class UsedController {
 			insertUM = service.insertUm(msg,session);
 		}else {
 			service.insertRoom(msg,session);
+			service.insertRoom2(msg,session);
 			insertUM = service.insertUm(msg,session);
 		}
 		return insertUM;

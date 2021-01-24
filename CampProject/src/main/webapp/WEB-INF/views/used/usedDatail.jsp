@@ -298,9 +298,9 @@
             </div>
         </main>
         <!-- 상품설명  -->
-        <section class="section-size" style="height: 300px;">
+        <section class="section-size" style="height: 500px;">
             <div class="bootcol">
-                <p style="font-size: 20px; font-weight: 700; margin: 0;">상품설명</p>
+                <p style="font-size: 20px; font-weight: 900; margin: 0;">상품설명</p>
             </div>
             <hr style="border: 2px solid #1d0202; margin-bottom: 8px; margin-top: 5px;">
             <span>${u.usedContentBr }</span>
