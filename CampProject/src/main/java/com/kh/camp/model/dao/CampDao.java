@@ -88,6 +88,8 @@ public class CampDao {
 
 	public ArrayList<CampVO> campSearchListObject(HashMap<String, Object> map, HashMap<String, Object> map2) {
 		List<Integer> campNolist = sqlSession.selectList("camp.campSearchListObject2",map.get("value"));
+		System.out.println("map.get value = "+map.get("value"));
+		System.out.println("campNolist.size = "+campNolist.size());
 		List<CampVO> resultList = new ArrayList<CampVO>();
 		//이 리스트가 null값이면 value가 비었거나 일치하는게 없음
 		map2.put("list", campNolist);

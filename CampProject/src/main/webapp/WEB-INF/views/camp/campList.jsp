@@ -32,6 +32,7 @@
 	width: 1200px;
 	display: flex;
 	margin-bottom: 10px;
+	padding:10px;
 }
 
 .item {

@@ -66,6 +66,7 @@ public class CampController {
 	@RequestMapping("/searchCampListTest.do")
 	public String searchCampListTest(Model model,int reqPage,String value,String startDate,String endDate) {
 		CampPageData cpd = service.mainSearchList(reqPage,value,startDate,endDate);
+		System.out.println("cpd.getList()size() = "+cpd.getList().size());
 		model.addAttribute("list", cpd.getList());
 		//model.addAttribute("pageNavi", cpd.getPageNavi());
 		//model.addAttribute("keyword", keyword);

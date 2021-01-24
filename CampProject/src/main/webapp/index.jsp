@@ -161,7 +161,7 @@ html, body {
 				<div class="search-where">
 					<span><span style="color: white">Where</span> Do You <span
 						style="color: white">Want</span> To Go?</span> <input type="text"
-						id="where" name="where">
+						id="where" name="value">
 				</div>
 				<div class="search-check">
 					<span><span style="color: white">Check</span> In</span> <input
