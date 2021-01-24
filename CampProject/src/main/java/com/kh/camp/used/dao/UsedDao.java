@@ -163,6 +163,13 @@ public class UsedDao {
 		map.put("receiver", msg.getUmReceiver());
 		return sqlSession.insert("used.insertRoom",map);
 	}
+	public int insertRoom2(UsedMessageVO msg, HttpSession session) {
+		MemberVO member = (MemberVO)session.getAttribute("m");
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sender", member.getMemberId());
+		map.put("receiver", msg.getUmReceiver());
+		return sqlSession.insert("used.insertRoom2",map);
+	}
 
 	public ArrayList<UsedMessageChatVO> selectMessageChatList(String memberId) {
 		List<UsedMessageChatVO> list = sqlSession.selectList("used.selectMessageChatList",memberId);
@@ -184,6 +191,7 @@ public class UsedDao {
 		List<UsedMessageVO> list = sqlSession.selectList("used.selectMessageList",map);
 		return (ArrayList<UsedMessageVO>)list;
 	}
+
 
 
 

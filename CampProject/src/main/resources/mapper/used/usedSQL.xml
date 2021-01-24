@@ -268,6 +268,9 @@
   <insert id="insertRoom" parameterType="map">
   	insert into used_message_chat values(#{sender},#{receiver}) 
   </insert>
+  <insert id="insertRoom2" parameterType="map">
+  	insert into used_message_chat values(#{receiver},#{sender}) 
+  </insert>
   <!-- 방 Sender값이 없을경우 밑의 Sql문으로 들어감 -->
   <select id="selectMessageChatList" parameterType="String" resultType="room">
 		select 

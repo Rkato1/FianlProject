@@ -213,6 +213,11 @@ public class UsedService {
 	public int insertRoom(UsedMessageVO msg, HttpSession session) {
 		return dao.insertRoom(msg, session);
 	}
+	//상대편도 동시에 만듬
+	public int insertRoom2(UsedMessageVO msg, HttpSession session) {
+		return dao.insertRoom2(msg, session);
+		
+	}
 	//채팅방의 리스트를 가져오는 것
 	public ArrayList<UsedMessageChatVO> selectMessageChatList(String memberId) {
 		ArrayList<UsedMessageChatVO> chatList = dao.selectMessageChatList(memberId);
@@ -230,6 +235,7 @@ public class UsedService {
 		System.out.println(msgList);
 		return msgList;
 	}
+
 	
 	
 
