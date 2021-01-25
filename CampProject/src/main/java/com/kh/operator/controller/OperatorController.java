@@ -180,7 +180,7 @@ private boolean isOperator = false;
 	
 	@RequestMapping("/opCampUpdateForm.do")
 	public String campUpdateForm(CampVO c,Model model) {
-		CampVO camp = service.selectOneCamp(c);
+		CampVO camp = service.selectOneCamp(c);		
 		model.addAttribute("camp",camp);
 		return "operator/opCampUpdateForm";
 	}
@@ -191,7 +191,7 @@ private boolean isOperator = false;
 		System.out.println("컨트롤러 소개 : "+files.length);
 		MemberVO member = (MemberVO)session.getAttribute("m");
 		CampVO camp = service.selectOneCamp(c);
-		if(member!=null&&((member.getMemberGrade()==2)||(member.getMemberGrade()==3))&&camp.getMemberNo()==member.getMemberNo()) {
+		if(member!=null&&((member.getMemberGrade()==2)&&(camp.getMemberNo()==member.getMemberNo()) || (member.getMemberGrade()==3))) {
 			c.setMemberNo(member.getMemberNo());
 			String root = request.getSession().getServletContext().getRealPath("/");
 			String path = root + "/resources/upload/camp/";
@@ -272,10 +272,20 @@ private boolean isOperator = false;
 			}else {
 				model.addAttribute("msg","수정실패");
 			}
-			model.addAttribute("loc","/opCampView.do?campNo="+c.getCampNo());
+			MemberVO adminChk = (MemberVO) session.getAttribute("m");
+			if(adminChk.getMemberId().equals("admin")) {
+				model.addAttribute("loc", "/admin/businessAdmin.do?reqPage=1");
+			}else {
+				model.addAttribute("loc","/opCampView.do?campNo="+c.getCampNo());
+			}
 		}else {
-			model.addAttribute("msg","사업자가 아닙니다.");
-			model.addAttribute("loc","/");
+			MemberVO adminChk = (MemberVO) session.getAttribute("m");
+			if(adminChk.getMemberId().equals("admin")) {
+				model.addAttribute("loc", "/admin/businessAdmin.do?reqPage=1");
+			}else {
+				model.addAttribute("msg","사업자가 아닙니다.");
+				model.addAttribute("loc","/");
+			}
 		}
 		return "common/msg";
 	}

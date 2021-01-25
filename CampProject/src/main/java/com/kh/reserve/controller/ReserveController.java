@@ -140,14 +140,19 @@ public class ReserveController {
 	}
 
 	@RequestMapping("/updateReserve.do")
-	public String updateReserve(Model model, ReserveVO reserve) {
+	public String updateReserve(Model model, ReserveVO reserve, HttpSession session) {
 		int result = service.updateReserve(reserve);
 		if (result > 0) {
 			model.addAttribute("msg", "정보가 최신화 되었습니다.");
 		} else {
 			model.addAttribute("msg", "서버오류로인해 수정되지않았습니다 관리자에게 문의해주세요.");
 		}
-		model.addAttribute("loc", "/reserveUpdateFrm.do?reserveNo=" + reserve.getReserveNo());
+		MemberVO adminChk = (MemberVO) session.getAttribute("m");
+		if(adminChk.getMemberId().equals("admin")) {
+			model.addAttribute("loc", "/admin/reserveAdmin.do?reqPage=1");
+		}else {
+			model.addAttribute("loc", "/reserveUpdateFrm.do?reserveNo=" + reserve.getReserveNo());
+		}
 		return "common/msg";
 	}
 

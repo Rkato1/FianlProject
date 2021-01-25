@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.kh.camp.used.vo.UsedMessageChatVO;
-import com.kh.camp.used.vo.UsedMessageVO;
 import com.kh.camp.used.vo.UsedVO;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.MemberVO;
@@ -209,14 +207,19 @@ public class MemberController {
 	
 	//회원정보 수정
 	@RequestMapping("/updateMember.do")
-	public String updateMember(MemberVO m, Model model) {
-		int result = service.updateMember(m); 
+	public String updateMember(MemberVO m, Model model, HttpSession session) {
+		int result = service.updateMember(m);
 		if(result>0) {
 			model.addAttribute("msg", "회원정보가 수정되었습니다.");
 		} else {
 			model.addAttribute("msg", "※에러※ 관리자에게 문의해주세요"); 
-		} 
-		model.addAttribute("loc", "/campList.do?reqPage=1");
+		}
+		MemberVO adminChk = (MemberVO) session.getAttribute("m");
+		if(adminChk.getMemberId().equals("admin")) {
+			model.addAttribute("loc", "/admin/memberAdmin.do?reqPage=1");
+		}else {
+			model.addAttribute("loc", "/campList.do?reqPage=1");
+		}
 		return "common/msg";
 	}
 
@@ -234,6 +237,5 @@ public class MemberController {
 			model.addAttribute("loc", "/loginFrm.do");
 		}
 		return "common/msg";
-	}
-
+	}	
 }
