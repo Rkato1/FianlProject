@@ -69,7 +69,7 @@ public class UsedController {
 		model.addAttribute("cnt",ucd.getCnt());
 		return "used/usedDatail";
 	}
-	//댓글 달기
+	//댓글 등록
 	@RequestMapping("/usedComment.do")
 	public String usedComment(Model model, UsedCommentVO uc) {
 		int usedNo = uc.getUsedNo();
@@ -176,7 +176,6 @@ public class UsedController {
 			UsedVO usedVO = service.updateEnroll(used);
 			if(used != null) {
 				model.addAttribute("u",usedVO);
-				model.addAttribute("list",usedVO.getFile());
 				return "used/updateEnroll";
 			}else {
 				model.addAttribute("msg", "정보가 없습니다.");
@@ -209,30 +208,32 @@ public class UsedController {
 		return "common/msg";
 	}
 	
-	
+	//채팅방 개설 및 메세지 전송 시 등록
 	@ResponseBody
 	@RequestMapping("/insertUm.do")
 	public int insertUm(UsedMessageVO msg, HttpSession session) {
-		//1차 채팅방이 있는지 없는지 확인 memberId와 판매자 SQL AND로 판매자만 넘기면
+		//1차 채팅방이 있는지 없는지 확인
 		System.out.println(msg.getUmReceiver());
 		UsedMessageChatVO chat = service.selectChat(msg,session);
 		int insertUM = 0;
 		if(chat != null) {
 			insertUM = service.insertUm(msg,session);
 		}else {
+			//채팅방이 개설될 때 상대방과 동시에 개설이 가능하도록 함.
 			service.insertRoom(msg,session);
 			service.insertRoom2(msg,session);
 			insertUM = service.insertUm(msg,session);
 		}
 		return insertUM;
 	}
-	
+	//채팅의 상시 유지를 위한 조회
 	@ResponseBody
 	@RequestMapping("/selectRoom.do")
 	public ArrayList<UsedMessageChatVO> selectRoom(HttpSession session) {
 			MemberVO m = (MemberVO) session.getAttribute("m");
 			ArrayList<UsedMessageChatVO> chatList = null;
 			chatList = service.selectMessageChatList(m.getMemberId());
+			//검색한 결과값이 없다면 수신자 입장에서의 조회
 			if(chatList.size() == 0 ) {
 				chatList = service.selectMessageChatListR(m.getMemberId());
 				return chatList;

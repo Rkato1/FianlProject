@@ -109,7 +109,7 @@
     	order by 1 desc)
 	</select>
 	
-	<!-- 등록부분임 -->
+	<!-- 등록부분 -->
 	<insert id="fileInsert" parameterType="file">
 		insert into used_trade_file values (file_seq.nextval,#{usedNo},#{filename},#{filepath})
 	</insert>
@@ -271,7 +271,7 @@
   <insert id="insertRoom2" parameterType="map">
   	insert into used_message_chat values(#{receiver},#{sender}) 
   </insert>
-  <!-- 방 Sender값이 없을경우 밑의 Sql문으로 들어감 -->
+  <!-- 방 상시 유지를 위한 쿼리 -->
   <select id="selectMessageChatList" parameterType="String" resultType="room">
 		select 
 	  		member_id as sender,
@@ -287,7 +287,7 @@
 	  	from used_message_chat
 	  	where used_trade_writer =#{memberId} 
   </select>
-  <!-- 채팅 -->
+  <!-- 대화방 클릭 시 -->
   <select id="selectMessageList" parameterType="map" resultType="msg">
   	select
   		um_no as unNo,

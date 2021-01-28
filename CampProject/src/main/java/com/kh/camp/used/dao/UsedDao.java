@@ -93,28 +93,29 @@ public class UsedDao {
 	public int deleteFile(int usedNo) {
 		return sqlSession.delete("used.deleteFile", usedNo);
 	}
-
+	//댓글등록
 	public int insertComment(UsedCommentVO uc) {
 		System.out.println(uc);
 		return sqlSession.insert("used.insertComment", uc);
 	}
-
+	//
 	public UsedVO selectOneUsed(int usedNo) {
 		return sqlSession.selectOne("used.selectOneUsed",usedNo);
 	}
-
+	//상세페이지 댓글 개수
 	public int selectCommentCnt(int usedNo) {
 		return sqlSession.selectOne("used.selecCommentCnt", usedNo);
 	}
+	//상세페이지 댓글 리스트
 	public ArrayList<UsedCommentVO> selectComment(int usedNo) {
 		List<UsedCommentVO> list = sqlSession.selectList("used.selectComment",usedNo);
 		return (ArrayList<UsedCommentVO>)list;
 	}
-
+	//상세페이지 댓글 수정
 	public int updateComment(UsedCommentVO uc) {
 		return sqlSession.update("used.updateComment",uc);
 	}
-
+	//상세페이지 댓글 삭제
 	public int deleteComment(UsedCommentVO uc) {
 		return sqlSession.delete("used.deleteComment",uc);
 	}
@@ -143,6 +144,7 @@ public class UsedDao {
 			System.out.println("Dao:"+map);
 		return sqlSession.selectOne("used.selectChat",map);
 	}
+	//메세지 전송값 저장
 	public int insertUm(UsedMessageVO msg, HttpSession session) {
 		MemberVO member = (MemberVO)session.getAttribute("m");
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -151,18 +153,19 @@ public class UsedDao {
 		map.put("message", msg.getMessage());
 		return sqlSession.insert("used.insertUm",map);
 	}
-
+	//메세지의 총 개수 
 	public int umCount(String data) {
 		return sqlSession.selectOne("used.umCount",data);
 	}
-
-	public int insertRoom(UsedMessageVO msg, HttpSession session) {
+	//메세지 전송 시 방을 개설
+		public int insertRoom(UsedMessageVO msg, HttpSession session) {
 		MemberVO member = (MemberVO)session.getAttribute("m");
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("sender", member.getMemberId());
 		map.put("receiver", msg.getUmReceiver());
 		return sqlSession.insert("used.insertRoom",map);
 	}
+	//메세지 전송 시 방을 개설
 	public int insertRoom2(UsedMessageVO msg, HttpSession session) {
 		MemberVO member = (MemberVO)session.getAttribute("m");
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -170,19 +173,19 @@ public class UsedDao {
 		map.put("receiver", msg.getUmReceiver());
 		return sqlSession.insert("used.insertRoom2",map);
 	}
-
+	//채팅 상시유지를 위한 조회
 	public ArrayList<UsedMessageChatVO> selectMessageChatList(String memberId) {
 		List<UsedMessageChatVO> list = sqlSession.selectList("used.selectMessageChatList",memberId);
 		System.out.println(list);
 		return (ArrayList<UsedMessageChatVO>)list;
 	}
-	
+	//채팅방 상시 유지를 위한 조회
 	public ArrayList<UsedMessageChatVO> selectMessageChatListR(String memberId) {
 		List<UsedMessageChatVO> list = sqlSession.selectList("used.selectMessageChatListR",memberId);
 		System.out.println(list);
 		return (ArrayList<UsedMessageChatVO>)list;
 	}
-
+	//채팅방 클릭시 조회
 	public ArrayList<UsedMessageVO> selectMessageList(String memberId, UsedMessageVO msg) {
 		HashMap<String,String> map = new HashMap<String, String>();
 		System.out.println(msg);

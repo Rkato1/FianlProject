@@ -32,17 +32,20 @@ public class UsedService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("start", start);
 		map.put("end", end);
+		//첨부되었던 파일을 검색
 		ArrayList<UsedVO> list = dao.usedPage(map);
 		for (UsedVO u : list) {
 			map.put("usedNo", u.getUsedNo());
 			ArrayList<UsedFileVO> fileList = dao.UsedFileList(map);
 			u.setFile(fileList);
 		}
+		//총 게시물 개수를 구해옴
 		int totalCount = dao.totalCount();
 		int totalPage = totalCount / numPerPage;
 		if (totalCount % numPerPage != 0) {
 			totalPage++;
 		}
+		//페이지번호가 총 5개로 고정
 		int pageNaviSize = 5;
 		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
 		String pageNavi = "";
@@ -130,6 +133,7 @@ public class UsedService {
 		cpn.setPageNavi(pageNavi);
 		return cpn;
 	}
+	//물품 등록 Service
 	public int usedEnrollOk(UsedVO usedVO) {
 		int result = dao.usedEnrollOk(usedVO);
 		if (result > 0) {
@@ -148,7 +152,7 @@ public class UsedService {
 		u.setFile(fileList);
 		return u;
 	}
-	// 상세보기 댓글 
+
 	//상품 수정select과정
 	public UsedVO updateEnroll(UsedVO used) {
 		return dao.updateEnroll(used);
@@ -166,15 +170,12 @@ public class UsedService {
 		return result;
 	}
 	//댓글 부분 service
-	//댓글 인서트
+	//댓글 등록
 	public int insertComment(UsedCommentVO uc) {
 		System.out.println(uc);
 		return dao.insertComment(uc);
 	}
 	public UsedCommentData selectUcd(int usedNo) {
-		//중고거래를 받아옴
-		//UsedVO usv = dao.selectOneUsed(usedNo);
-		
 		//중고거래의 댓글 갯수를 가져옴
 		int cnt = dao.selectCommentCnt(usedNo);
 		
@@ -224,11 +225,12 @@ public class UsedService {
 		System.out.println(chatList);
 		return chatList;
 	}
-	//채팅방의 리스트	
+	//채팅방의 리스트 상시 유지
 	public ArrayList<UsedMessageChatVO> selectMessageChatListR(String memberId) {
 		ArrayList<UsedMessageChatVO> chatList = dao.selectMessageChatListR(memberId);
 		return chatList;
 	}
+	//방을 클릭했을때
 	public ArrayList<UsedMessageVO> selectMessageList(String memberId, UsedMessageVO msg) {
 		ArrayList<UsedMessageVO> msgList = dao.selectMessageList(memberId, msg);
 		System.out.println(msg);
